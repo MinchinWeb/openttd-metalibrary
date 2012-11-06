@@ -1,50 +1,105 @@
-﻿/*	Extra functions v.1 r.109 [2011-04-23],
- *	part of Minchinweb's MetaLibrary v1, r109, [2011-04-23],
- *	originally part of WmDOT v.6
- *	Copyright © 2011 by W. Minchin. For more info,
+﻿/*	Extra functions v.2 r.195 [2011-01-06],
+ *		part of Minchinweb's MetaLibrary v.2,
+ *		originally part of WmDOT v.7
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
+ 
+// TO-DO:	Break this into Constants, Math, Geometry, and Extras
  
 /*	These are 'random' functions that didn't seem to fit well elsewhere.
  *
  *	Functions provided:
- *		MetaLib.Extras.DistanceShip(TileA, TileB)
- *					  .SignLocation(text)
- *					  .MidPoint(TileA, TileB)
- *					  .Perpendicular(SlopeIn)
- *					  .Slope(TileA, TileB)
- *					  .Within(Bound1, Bound2, Value)
- *					  .WithinFloat(Bound1, Bound2, Value)
- *					  .MinAbsFloat(Value1, Value2)
- *					  .MaxAbsFloat(Value1, Value2)
- *					  .AbsFloat(Value)
- *					  .Sign(Value)
- *					  .MinFloat(Value1, Value2)
- *					  .MaxFloat(Value1, Value2)
- *					  .MinAbsFloatKeepSign(Value1, Value2)
- *					  .MaxAbsFloatKeepSign(Value1, Value2)
+ *		MinchinWeb.Constants.Infinity() - returns 10,000
+ *							.FloatOffset() - returns 1/2000
+ *							.Pi() - returns 3.1415...
+ *							.e() - returns 2.7182...
+ *							.IndustrySize() - returns 4
+ *							.InvalidIndustry() - returns 0xFFFF (65535)
+ *							.InvalidTile() - returns 0xFFFFFF
+ *							.MaxStationSpread() - returns the maximum station spread
+ *							.BuoyOffset() - returns 3
+ *							.WaterDepotOffset() - return 4
+ *						
+ *		MinchinWeb.Extras.SignLocation(text)
+ *						.MidPoint(TileA, TileB)
+ *						.Perpendicular(SlopeIn)
+ *						.Slope(TileA, TileB)
+ *						.Within(Bound1, Bound2, Value)
+ *						.WithinFloat(Bound1, Bound2, Value)
+ *						.MinAbsFloat(Value1, Value2)
+ *						.MaxAbsFloat(Value1, Value2)
+ *						.AbsFloat(Value)
+ *						.Sign(Value)
+ *						.MinFloat(Value1, Value2)
+ *						.MaxFloat(Value1, Value2)
+ *						.MinAbsFloatKeepSign(Value1, Value2)
+ *						.MaxAbsFloatKeepSign(Value1, Value2)
+ *						.NextCardinalTile(StartTile, TowardsTile)
+ *							- Given a StartTile and a TowardsTile, will given
+ *								the tile immediately next(Manhattan Distance == 1)
+ *								to StartTile that is closests to TowardsTile
+ *
  *	//	Comparision functions will return the first value if the two are equal
+ *
+ *		MinchinWeb.Industry.GetIndustryID(Tile)
+ *								- AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )
+ *									sometimes fails because GetLocation() returns the northmost
+ *									tile of the industry which may be a dock, heliport, or not
+ *									part of the industry at all.
+ *								- This function starts at the tile, and then searchs a square out
+ *									(up to Constants.StationSize) until it finds a tile with a
+ *									valid TileID.
+ *
+ *		MinchinWeb.Station.IsCargoAccepted(StationID, CargoID)
+ *								- Checks whether a certain Station accepts a given cargo
+ *								- Returns null if the StationID or CargoID are invalid
+ *								- Returns true or false, depending on if the cargo is accepted
  */
+
+class _MinchinWeb_C_ {
+	//	These are constants called by the various sublibraries
+	function Infinity() 	{ return 10000; }	//	close enough to infinity :P
+												//	Slopes are capped at 10,000 and 1/10,000
+	function FloatOffset()	{ return 0.0005; }	//	= 1/2000
+	
+	function Pi() { return 3.1415926535897932384626433832795; }
+	function e() { return 2.7182818284590452353602874713527; }
+	
+	function IndustrySize() { return 4; }	//	Industries are assumed to fit 
+											//		within a 4x4 box
+	function InvalidIndustry() { return 0xFFFF; }	//	number returned by OpenTTD for an invalid industry (65535)
+	function InvalidTile() { return 0xFFFFFF; } 	//	a number beyond the a valid TileIndex
+													//	valid (or invalid, if you prefer) for at least up to 2048x2048 maps
+	function BuoyOffset() { return 3; }				//	this is the assumed minimum desired spacing between bouys
+	function WaterDepotOffset() { return 4; }		//	this is the maximum desired spacing between docks and depots
+	
+	function MaxStationSpread() {
+	//	returns the OpenTTD setting for maximum station spread
+		if(AIGameSettings.IsValid("station_spread")) {
+			return AIGameSettings.GetValue("station_spread");
+		} else {
+			try {
+			AILog.Error("'station_spread' is no longer valid! (MinchinWeb.Constants.MaxStationSpread(), v." + this.GetVersion() + " r." + this.GetRevision() + ")");
+			AILog.Error("Please report this problem to http://www.tt-forums.net/viewtopic.php?f=65&t=57903");
+			} catch (idx) {
+			}
+			return 16;
+		}
+	}
+}
  
-class _MetaLib_Extras_ {
+class _MinchinWeb_Extras_ {
 	_infinity = null;
 	
 	constructor()
 	{
-		this._infinity = 10000;	//	close enough to infinity :P
-								//	Slopes are capped at 10,000 and 1/10,000
+		this._infinity = _MinchinWeb_C_.Infinity();	
 	}
 	
 }
 
-function _MetaLib_Extras_::DistanceShip(TileA, TileB)
-{
-//	Assuming open ocean, ship in OpenTTD will travel 45° angle where possible,
-//		and then finish up the trip by going along a cardinal direction
-	return ((AIMap.DistanceManhattan(TileA, TileB) - AIMap.DistanceMax(TileA, TileB)) * 0.4 + AIMap.DistanceMax(TileA, TileB))
-}
-
-function _MetaLib_Extras_::SignLocation(text)
+function _MinchinWeb_Extras_::SignLocation(text)
 {
 //	Returns the tile of the first instance where the sign matches the given text
     local sign_list = AISignList();
@@ -57,7 +112,7 @@ function _MetaLib_Extras_::SignLocation(text)
     return null;
 }
 
-function _MetaLib_Extras_::MidPoint(TileA, TileB)
+function _MinchinWeb_Extras_::MidPoint(TileA, TileB)
 {
 //	Returns the tile that is halfway between the given tiles
 	local X = (AIMap.GetTileX(TileA) + AIMap.GetTileX(TileB)) / 2 + 0.5;
@@ -68,7 +123,7 @@ function _MetaLib_Extras_::MidPoint(TileA, TileB)
 	return AIMap.GetTileIndex(X, Y);
 }
 
-function _MetaLib_Extras_::Perpendicular(SlopeIn)
+function _MinchinWeb_Extras_::Perpendicular(SlopeIn)
 {
 //	Returns the Perdicular slope, which is the inverse of the given slope
 	if (SlopeIn == 0) {
@@ -79,28 +134,28 @@ function _MetaLib_Extras_::Perpendicular(SlopeIn)
 	}
 }
 
-function _MetaLib_Extras_::Slope(TileA, TileB, Infinity = _MetaLib_Extras_._infinity)
+function _MinchinWeb_Extras_::Slope(TileA, TileB)
 {
 //	Returns the slope between two tiles
 	local dx = AIMap.GetTileX(TileB) - AIMap.GetTileX(TileA);
 	local dy = AIMap.GetTileY(TileB) - AIMap.GetTileY(TileA);
-	local Inftest = _MetaLib_Extras_._infinity;
-//	AILog.Info(_MetaLib_Extras_._infinity);
+//	local Inftest = _MinchinWeb_Extras_._infinity;
+//	AILog.Info(_MinchinWeb_Extras_._infinity);
 	
 	//	Zero check
 	if (dx == 0) {
-		return Infinity * _MetaLib_Extras_.Sign(dy);
+		return _MinchinWeb_C_.Infinity() * _MinchinWeb_Extras_.Sign(dy);
 	} else if (dy == 0) {
-		return (1.0 / Infinity) * _MetaLib_Extras_.Sign(dx);
+		return (1.0 / _MinchinWeb_C_.Infinity()) * _MinchinWeb_Extras_.Sign(dx);
 	} else {
 		dx = dx.tofloat();
 		dy = dy.tofloat();
 
-		return (dx / dy);	
+		return (dy / dx);	
 	}
 }
 
-function _MetaLib_Extras_::Within(Bound1, Bound2, Value)
+function _MinchinWeb_Extras_::Within(Bound1, Bound2, Value)
 {
 	local UpperBound = max(Bound1, Bound2);
 	local LowerBound = min(Bound1, Bound2);
@@ -108,18 +163,18 @@ function _MetaLib_Extras_::Within(Bound1, Bound2, Value)
 	return ((Value <= UpperBound) && (Value >= LowerBound));
 }
 
-function _MetaLib_Extras_::WithinFloat(Bound1, Bound2, Value)
+function _MinchinWeb_Extras_::WithinFloat(Bound1, Bound2, Value)
 {
-	local UpperBound = _MetaLib_Extras_.MaxFloat(Bound1, Bound2);
-	local LowerBound = _MetaLib_Extras_.MinFloat(Bound1, Bound2);
+	local UpperBound = _MinchinWeb_Extras_.MaxFloat(Bound1, Bound2) + _MinchinWeb_C_.FloatOffset();
+	local LowerBound = _MinchinWeb_Extras_.MinFloat(Bound1, Bound2) - _MinchinWeb_C_.FloatOffset();
 //	local Value = Value.tofloat();
 	
-//	AILog.Info("          Extras.WithinFloat: Val=" + Value + " B1=" + Bound1 + " B2=" + Bound2 + " : UB=" + UpperBound + " LB=" + LowerBound + " is " + (Value <= UpperBound) + " " + (Value >= LowerBound) + " : " + ((Value <= UpperBound) && (Value >= LowerBound)))
+//	AILog.Info("          Extras.WithinFloat: Val=" + Value + " B1=" + Bound1 + " B2=" + Bound2 + " : UB=" + UpperBound + " LB=" + LowerBound + " is " + (Value <= UpperBound) + " " + (Value >= LowerBound) + " : " + ((Value <= UpperBound) && (Value >= LowerBound)) + " : above " + (Value - UpperBound) + " below " + (LowerBound - Value) + " : " + _MinchinWeb_C_.FloatOffset() );
 
 	return ((Value <= UpperBound) && (Value >= LowerBound));
 }
 
-function _MetaLib_Extras_::MinAbsFloat(Value1, Value2)
+function _MinchinWeb_Extras_::MinAbsFloat(Value1, Value2)
 {
 //	Takes the absolute value of both numbers and then returns the smaller of the two
 	if (Value1 < 0) { Value1 *= -1.0; }
@@ -131,7 +186,7 @@ function _MetaLib_Extras_::MinAbsFloat(Value1, Value2)
 	}
 }
 
-function _MetaLib_Extras_::MaxAbsFloat(Value1, Value2)
+function _MinchinWeb_Extras_::MaxAbsFloat(Value1, Value2)
 {
 //	Takes the absolute value of both numbers and then returns the larger of the two
 	if (Value1 < 0) { Value1 *= -1.0; }
@@ -143,7 +198,7 @@ function _MetaLib_Extras_::MaxAbsFloat(Value1, Value2)
 	}
 }
 
-function _MetaLib_Extras_::AbsFloat(Value)
+function _MinchinWeb_Extras_::AbsFloat(Value)
 {
 //	Returns the absolute Value as a floating number if one is provided
 	if (Value >= 0) {
@@ -153,7 +208,7 @@ function _MetaLib_Extras_::AbsFloat(Value)
 	}
 }
 
-function _MetaLib_Extras_::Sign(Value)
+function _MinchinWeb_Extras_::Sign(Value)
 {
 //	Returns +1 if the Value >= 0, -1 Value < 0
 	if (Value >= 0) {
@@ -163,7 +218,7 @@ function _MetaLib_Extras_::Sign(Value)
 	}
 }
 
-function _MetaLib_Extras_::MinFloat(Value1, Value2)
+function _MinchinWeb_Extras_::MinFloat(Value1, Value2)
 {
 //	Returns the smaller of the two
 	if (Value1 <= Value2) {
@@ -173,7 +228,7 @@ function _MetaLib_Extras_::MinFloat(Value1, Value2)
 	}
 }
 
-function _MetaLib_Extras_::MaxFloat(Value1, Value2)
+function _MinchinWeb_Extras_::MaxFloat(Value1, Value2)
 {
 //	Returns the larger of the two
 	if (Value1 >= Value2) {
@@ -183,12 +238,12 @@ function _MetaLib_Extras_::MaxFloat(Value1, Value2)
 	}
 }
 
-function _MetaLib_Extras_::MinAbsFloatKeepSign(Value1, Value2)
+function _MinchinWeb_Extras_::MinAbsFloatKeepSign(Value1, Value2)
 {
 //	Takes the absolute value of both numbers and then returns the smaller of the two
 //	This keeps the sign when returning the value
-	local Sign1 = _MetaLib_Extras_.Sign(Value1);
-	local Sign2 = _MetaLib_Extras_.Sign(Value2);
+	local Sign1 = _MinchinWeb_Extras_.Sign(Value1);
+	local Sign2 = _MinchinWeb_Extras_.Sign(Value2);
 	if (Value1 < 0) { Value1 *= -1.0; }
 	if (Value2 < 0) { Value2 *= -1.0; }
 	if (Value1 <= Value2) {
@@ -198,12 +253,12 @@ function _MetaLib_Extras_::MinAbsFloatKeepSign(Value1, Value2)
 	}
 }
 
-function _MetaLib_Extras_::MaxAbsFloatKeepSign(Value1, Value2)
+function _MinchinWeb_Extras_::MaxAbsFloatKeepSign(Value1, Value2)
 {
 //	Takes the absolute value of both numbers and then returns the larger of the two
 //	This keeps the sign when returning the value
-	local Sign1 = _MetaLib_Extras_.Sign(Value1);
-	local Sign2 = _MetaLib_Extras_.Sign(Value2);
+	local Sign1 = _MinchinWeb_Extras_.Sign(Value1);
+	local Sign2 = _MinchinWeb_Extras_.Sign(Value2);
 	if (Value1 < 0) { Value1 *= -1.0; }
 	if (Value2 < 0) { Value2 *= -1.0; }
 	if (Value1 >= Value2) {
@@ -212,3 +267,77 @@ function _MetaLib_Extras_::MaxAbsFloatKeepSign(Value1, Value2)
 		return (Value2 * Sign2).tofloat();
 	}
 }
+
+function _MinchinWeb_Extras_::NextCardinalTile(StartTile, TowardsTile)
+{
+//	Given a StartTile and a TowardsTile, will given the tile immediately next
+//		(Manhattan Distance == 1) to StartTile that is closests to TowardsTile
+	local Tiles = AITileList();
+	local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
+						AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
+				 
+	foreach (offset in offsets) {
+		Tiles.AddItem(StartTile + offset, AIMap.DistanceSquare(StartTile + offset, TowardsTile));
+	}
+	
+	Tiles.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+	
+	return Tiles.Begin();
+}
+
+
+// =============  INDUSTRY class  =============
+class _MinchinWeb_Industry_ {
+	main = null;
+}
+
+function _MinchinWeb_Industry_::GetIndustryID(Tile) {
+//	AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )  sometiles
+//		fails because GetLocation() returns the northmost tile of the industry
+//		which may be a dock, heliport, or not part of the industry at all.
+//	This function starts at the tile, and then searchs a square out (up to
+//		Constants.StationSize) until it finds a tile with a valid TileID.
+
+	local StartX = AIMap.GetTileX(Tile);
+	local StartY = AIMap.GetTileY(Tile);
+	local EndX = AIMap.GetTileX(Tile) + _MinchinWeb_C_.IndustrySize();
+	local EndY = AIMap.GetTileY(Tile) + _MinchinWeb_C_.IndustrySize();
+	
+	for (local i = StartX; i < EndX; i++) {
+		for (local j = StartY; j < EndY; j++) {
+			if (AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j)) != _MinchinWeb_C_.InvalidIndustry()) {
+				return AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j));
+			}
+		}
+	}
+	
+	//	if no valid industry is found...
+	return _MinchinWeb_C_.InvalidIndustry();
+}
+
+
+// =============  STATION class  =============
+class _MinchinWeb_Station_ {
+	main = null;
+}
+
+function _MinchinWeb_Station_::IsCargoAccepted(StationID, CargoID)
+{
+//	Checks whether a certain Station accepts a given cargo
+//	Returns null if the StationID or CargoID are invalid
+//	Returns true or false, depending on if the cargo is accepted
+
+	if (!AIStation.IsValidStation(StationID) || !AICargo.IsValidCargo(CargoID)) {
+		AILog.Warning("MinchinWeb.Station.IsCargoAccepted() was provided with invalid input. Was provided " + StationID + " and " + CargoID + ".");
+		return null;
+	} else {
+		local AllCargos = AICargoList_StationAccepting(StationID);
+//		AILog.Info("MinchinWeb.Station.IsCargoAccepted() was provided with " + StationID + " and " + CargoID + ". AllCargos: " + AllCargos.Count());
+		if (AllCargos.HasItem(CargoID)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+

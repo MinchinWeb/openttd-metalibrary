@@ -1,7 +1,7 @@
-/*	SpiralWalker class v.2 r.112 [2011-04-26],
- *	part of Minchinweb's MetaLibrary v.1, r.112, [2011-04-26],
- *	originally part of WmDOT v.5
- *	Copyright � 2011 by W. Minchin. For more info,
+﻿/*	SpiralWalker class v.2 r.112 [2011-04-26],
+ *		part of Minchinweb's MetaLibrary v.1, r.112, [2011-04-26],
+ *		originally part of WmDOT v.5
+ *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -26,7 +26,7 @@
  *	- SpiralWalker skips the tile [+1,0] relative to ths starting tile
  */
  
-class _MetaLib_SW_ {
+class _MinchinWeb_SW_ {
 	_start = null;
 	_startx = null;
 	_starty = null;
@@ -51,7 +51,7 @@ class _MetaLib_SW_ {
 	}
 }
 
-function _MetaLib_SW_::Start(Tile)
+function _MinchinWeb_SW_::Start(Tile)
 {
 //	Sets the starting tile for SpiralWalker
 	this._start = Tile;
@@ -70,7 +70,7 @@ function _MetaLib_SW_::Start(Tile)
 	this._StageSteps = 0;
 }
 
-function _MetaLib_SW_::Reset()
+function _MinchinWeb_SW_::Reset()
 {
 	this._start = null;
 	this._startx = null;
@@ -80,7 +80,7 @@ function _MetaLib_SW_::Reset()
 	this._current_tile = null;
 }
 
-function _MetaLib_SW_::Restart()
+function _MinchinWeb_SW_::Restart()
 {
 	this._x = this._startx;
 	this._y = this._starty;
@@ -94,7 +94,7 @@ function _MetaLib_SW_::Restart()
 	this._StageSteps = 0;
 }
 
-function _MetaLib_SW_::Walk()
+function _MinchinWeb_SW_::Walk()
 {
 	this._x += this._dx;
 	this._y += this._dy;
@@ -139,26 +139,26 @@ function _MetaLib_SW_::Walk()
 	return this._current_tile;
 }
 
-function _MetaLib_SW_::GetStart()
+function _MinchinWeb_SW_::GetStart()
 {
 //	Returns the tile the SpiralWalker is starting on
 	return this._start;
 }
 
-function _MetaLib_SW_::GetStage()
+function _MinchinWeb_SW_::GetStage()
 {
 //	Returns the Stage ths SpiralWalker is on (basically, the line segments its
 //		completed plus one; it takes four to complete a revolution)
 	return this._Stage;
 }
 
-function _MetaLib_SW_::GetTile()
+function _MinchinWeb_SW_::GetTile()
 {
 //	Returns the Tile ths SpiralWalker is on
 	return this._current_tile;
 }
 
-function _MetaLib_SW_::GetStep()
+function _MinchinWeb_SW_::GetStep()
 {
 //	Returns the number of steps ths SpiralWalker has done
 	return this._Steps;
