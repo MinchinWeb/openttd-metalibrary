@@ -1,5 +1,5 @@
-﻿/*	Extra functions v.4 r.238 [2011-06-21],
- *		part of Minchinweb's MetaLibrary v.5,
+﻿/*	Extra functions v.5 r.253 [2011-07-01],
+ *		part of Minchinweb's MetaLibrary v.6,
  *		originally part of WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -57,9 +57,12 @@
  *								- Checks whether a certain Station accepts a given cargo
  *								- Returns null if the StationID or CargoID are invalid
  *								- Returns true or false, depending on if the cargo is accepted
- *		MinchinWeb.Station.IsNextToDock(TileID)
+ *						  .IsNextToDock(TileID)
  *								- Checks whether a given tile is next to a dock. Returns true if
  *									this is the case
+ *						  .DistanceFromStation(VehicleID, StationID)
+ *								- Returns the distance between a given vehicle and a given station
+ *								- Designed to be useable as a Valuator on a list of vehicles
  */
 
 class _MinchinWeb_C_ {
@@ -374,3 +377,15 @@ function _MinchinWeb_Station_::IsNextToDock(TileID)
 	return false;
 }
 
+function _MinchinWeb_Station_::DistanceFromStation(VehicleID, StationID)
+{
+//	Returns the distance between a given vehicle and a given station
+//	Designed to be useable as a Valuator on a list of vehicles
+
+//	To-DO:  Add check that supplied VehicleID and StationID are valid
+
+	local VehicleTile = AIVehicle.GetLocation(VehicleID);
+	local StationTile = AIBaseStation.GetLocation(StationID);
+	
+	return AITile.GetDistanceManhattanToTile(VehicleTile, StationTile);
+}

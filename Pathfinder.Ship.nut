@@ -1,4 +1,4 @@
-﻿/*	ShipPathfinder v.4, r.246, [2012-06-27],
+﻿/*	ShipPathfinder v.4, r.240, [2012-06-22],
  *		part of Minchinweb's MetaLibrary v.5,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -38,7 +38,7 @@
  
 class _MinchinWeb_ShipPathfinder_
 {
-	_heap_class = import("queue.fibonacci_heap", "", 3);
+	_heap_class = import("queue.fibonacci_heap", "", 2);
 	_WBC_class = _MinchinWeb_WBC_;		///< Class used to check if the two points are within the same waterbody
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
