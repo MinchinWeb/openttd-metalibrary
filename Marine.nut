@@ -1,12 +1,12 @@
-﻿/*	Ship and Marine functions v.2 r.224 [2012-01-28],
- *		part of Minchinweb's MetaLibrary v.4,
- *		originally part of WmDOT v.7
+﻿/*	Ship and Marine functions v.3 r.242 [2012-06-23],
+ *		part of Minchinweb's MetaLibrary v.5,
+ *		originally part of WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
 /* 
- *		MinchinWeb.Ship.DistanceShip(TileA, TileB)
+ *		MinchinWeb.Marine.DistanceShip(TileA, TileB)
  *							- Assuming open ocean, ship in OpenTTD will travel
  *								45° angle where possible, and then finish up the
  *								trip by going along a cardinal direction
@@ -43,6 +43,15 @@
  *							- Returns the location of the existing or built depot.
  *							- This will fail if the DockTile given is a dock (or 
  *								any tile that is not a water tile)
+ *						.RateShips(EngineID, Life, Cargo)
+ *							- Designed to Run as a validator
+ *							- Given the EngineID, it will score them; higher is better
+ *							- Life is assumed to be in years
+ *							- Note: Cargo doesn't work yet. Capacity is measured in
+ *								the default cargo.
+ *						.NearestDepot(TileID)
+ *							- Returns the tile of the Ship Depot nearest to the
+ *								given TileID
  *
  *		See also MinchinWeb.ShipPathfinder
  */
@@ -211,7 +220,7 @@ function _MinchinWeb_Marine_::BuildBuoy(Tile)
 	}
 }
 
-function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
+function _MinchinWeb_Marine_::BuildDepot(DockTile, Front, NotNextToDock=true)
 {
 //	Attempts to build a (water) depot, but first checks the box within
 //		MinchinWeb.Constants.WaterDepotOffset() for an existing depot, and makes
@@ -220,6 +229,9 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
 
 //	Returns the location of the existing or built depot.
 //	This will fail if the DockTile given is a dock (or any tile that is not a water tile)
+
+//	'NotNextToDock,' when set, will keep the dock from being built next to an
+//		exisiting dock
 
 	local StartX = AIMap.GetTileX(DockTile) - _MinchinWeb_C_.WaterDepotOffset();
 	local StartY = AIMap.GetTileY(DockTile) - _MinchinWeb_C_.WaterDepotOffset();
@@ -271,7 +283,7 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
 			Existing.Clear();
 			for (local i = StartX; i < EndX; i++) {
 				for (local j = StartY; j < EndY; j++) {
-					if (AITile.IsWaterTile(AIMap.GetTileIndex(i,j))) {
+					if (AITile.IsWaterTile(AIMap.GetTileIndex(i,j)) && (_MinchinWeb_Station_.IsNextToDock(AIMap.GetTileIndex(i,j)) == false) ) {
 						Existing.AddItem(AIMap.GetTileIndex(i,j), AIBase.Rand());
 						_MinchinWeb_Log_.Note("BuildDepot() : Insert WaterTile at" + _MinchinWeb_Array_.ToStringTiles1D([AIMap.GetTileIndex(i,j)]), 7);
 					}
@@ -313,6 +325,44 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front)
 		
 		}
 	}
-	
+
 	return UseExistingAt;
+}
+
+function _MinchinWeb_Marine_::RateShips(EngineID, Life, Cargo)
+{
+//	Designed to Run as a validator
+//	Given the EngineID, it will score them; higher is better
+//	   Score = [(Capacity in Cargo)*Reliability*Speed] / 
+//                      [ (Purchase Price over Life) + (Running Costs)*Life ]
+//
+//	Life is assumed to be in years
+//  Note: Cargo doesn't work yet. Capacity is measured in the default cargo.
+
+	local Score = 0;
+	local Age = AIEngine.GetMaxAge(EngineID);
+	local BuyTimes = (Life / Age/366).tointeger() + 1;;
+		// GetMaxAge is given in days
+	local Cost = (BuyTimes * AIEngine.GetPrice(EngineID)) + (Life * AIEngine.GetRunningCost(EngineID)) + 0.001;
+	local Return = (AIEngine.GetCapacity(EngineID) * AIEngine.GetReliability(EngineID) * AIEngine.GetMaxSpeed(EngineID)) + 0.001;
+	if (Return == 0) {
+		Score = 0;
+	} else {
+		Score = (Return * 1000 / Cost).tointeger();
+	}
+	
+	_MinchinWeb_Log_.Note("Rate Ship : " + Score + " : " +AIEngine.GetName(EngineID) + " : " + AIEngine.GetCapacity(EngineID) + " * " + AIEngine.GetReliability(EngineID) + " * " + AIEngine.GetMaxSpeed(EngineID) + " / " + BuyTimes + " * " + AIEngine.GetPrice(EngineID) + " + " + Life + " * " + AIEngine.GetRunningCost(EngineID), 7);
+	return Score;
+}
+
+function _MinchinWeb_Marine_::NearestDepot(TileID)
+{
+//	Returns the tile of the Ship Depot nearest to the given TileID
+
+//	To-Do:	Add check that depot is connected to tile
+//	To-Do:	Check that there is a depot to return
+	local AllDepots = AIDepotList(AITile.TRANSPORT_WATER);
+	AllDepots.Valuate(AITile.GetDistanceManhattanToTile, TileID);
+	AllDepots.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+	return AllDepots.Begin();
 }

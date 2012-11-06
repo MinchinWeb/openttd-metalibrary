@@ -1,6 +1,6 @@
-﻿/*	Extra functions v.3 r.221 [2011-01-28],
- *		part of Minchinweb's MetaLibrary v.4,
- *		originally part of WmDOT v.9
+﻿/*	Extra functions v.4 r.238 [2011-06-21],
+ *		part of Minchinweb's MetaLibrary v.5,
+ *		originally part of WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -57,6 +57,9 @@
  *								- Checks whether a certain Station accepts a given cargo
  *								- Returns null if the StationID or CargoID are invalid
  *								- Returns true or false, depending on if the cargo is accepted
+ *		MinchinWeb.Station.IsNextToDock(TileID)
+ *								- Checks whether a given tile is next to a dock. Returns true if
+ *									this is the case
  */
 
 class _MinchinWeb_C_ {
@@ -353,5 +356,21 @@ function _MinchinWeb_Station_::IsCargoAccepted(StationID, CargoID)
 			return false;
 		}
 	}
+}
+
+function _MinchinWeb_Station_::IsNextToDock(TileID)
+{
+//	Checks whether a given tile is next to a dock. Returns true if this is the case
+	
+	local offsets = [0, AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
+						AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
+				 
+	foreach (offset in offsets) {
+		if (AIMarine.IsDockTile(TileID + offset)) {
+			return true;
+		}
+	}
+	
+	return false;
 }
 

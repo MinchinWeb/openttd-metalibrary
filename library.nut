@@ -1,4 +1,5 @@
-﻿/*	Minchinweb's MetaLibrary v.4 r.227 [2012-01-30],  
+﻿/*	Minchinweb's MetaLibrary v.5 r.245 [2012-06-27],  
+ *		originally part of WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -7,13 +8,13 @@ class MinchinWeb extends AILibrary {
 	function GetAuthor()      { return "W. Minchin"; }
 	function GetName()        { return "MinchinWeb"; }
 	function GetShortName()   { return "LMmW"; }	//	William's MetaLibrary
-	function GetDescription() { return "Minchinweb's MetaLibrary for AI development. See the README for included functions. (v.4, r.227) [2012-01-30]"; }
-	function GetVersion()     { return 4; }
-	function GetDate()        { return "2012-01-30"; }
+	function GetDescription() { return "Minchinweb's MetaLibrary for AI development. See the README for included functions. (v.5, r.245)"; }
+	function GetVersion()     { return 5; }
+	function GetDate()        { return "2012-06-27"; }
 	function CreateInstance() { return "MinchinWeb"; }
 	function GetCategory()    { return "Util"; }
 //	function GetURL()		  { return "http://www.tt-forums.net/viewtopic.php?f=65&t=57903"; }
-//	function GetAPIVersion()  { return "1.1"; }
+//	function GetAPIVersion()  { return "1.2"; }
 	function MinVersionToLoad() { return 1; }
 }
 
