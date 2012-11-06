@@ -1,5 +1,5 @@
 ﻿MinchinWeb's MetaLibrary Read-me
-v.2, r.200, 2012-01-11
+v.3, r.210, 2012-01-14
 Copyright © 2011-12 by W. Minchin. For more info, please visit
     http://openttd-noai-wmdot.googlecode.com/
 
@@ -24,24 +24,30 @@ The easiest (and recommended) way to install MetaLibrary is use OpenTTD's
     to download them at the same time. This also makes it very easy for me to
     provide updates.
 Manual installation can be accomplished by putting the
-    'MinchinWebs_MetaLibrary-2.tar' file you downloaded in the
+    'MinchinWebs_MetaLibrary-3.tar' file you downloaded in the
     '..\OpenTTD\ai\library'  folder. If you are manually installing,
     the libraries mentioned above need to be in the same folder. 
 
 To make use of the library in your AIs, add the line:
-        import("util.MinchinWeb", "MetaLib", 2);
+        import("util.MinchinWeb", "MetaLib", 3);
     which will make the library available as the "MetaLib" class (or whatever
     you change that to).
     
--- Noteable Changes in Version 2 ----------------------------------------------
- * addition of the Ship Pathfinder, the Line Walker class, and Atlas class
- * added Marine class functions
- * added Constants, Station, and Industry classes fucntions to Extra.nut
- * some additions to the Array and Extra classes
- * RoadPathfinder.GetPath() will return the path as stored by the pathfinder
- * DistanceShip() moved to Marine class
+-- Noteable Changes in Version 3 ----------------------------------------------
+ * ShipPathfinder.BuildBuoys() will update the internally stored path if
+      existing buoys are (re-)used
+ * ShipPathfinder can now selectively skip its preliminary WaterBody Check
+ * RoadPathfinder can now assign extra pathfinding costs to level crossings and
+      drive thru road stations
+ * RoadPathfinder can now bridge over canals, rivers, and railroad tracks!
+       (thanks Zuu)
  
 -- Version History ------------------------------------------------------------
+Version 3 [2012-01-14]
+    Minor update; released to coincide with the release of WmDOT v8
+	Bug fixes and improvements to the Ship and Road Pathfinder
+	Road Pathfinder can now bridge over canals, rivers, and railroads
+
 Version 2 [2012-01-11]
     Major update; released to coincide with the release of WmDOT v7
     Added the Ship Pathfinder (v2), Line Walker (v1), and Atlas (v1) classes
@@ -56,9 +62,11 @@ Version 1 [2011-04-28]
 -- Roadmap --------------------------------------------------------------------
 These are features I hope to add to MetaLibrary shortly. However, this is 
     subject to change without notice. However, I am open to suggestions!
-v3      Road Pathfinder improvements (prebuild bridges and tunnels, upgrade
-            bridges, bridge over rivers and railroad tracks)
+v4      Road Pathfinder improvements (prebuild bridges and tunnels, upgrade
+            bridges)
         Switch buoy and water depot building to Spiral Walker
+		Import Logging interface from WmDOT
+		Spiral Walker bug fixes
             
 -- Known Issues ---------------------------------------------------------------
 Pathfinding can take an exceptionally long time if there is no possible path.
@@ -97,7 +105,7 @@ MetaLibrary (unless otherwise noted) is licenced under a
 Detailed descirptions of each of the function is given within the code files.
     See them for further details of each function.
 
-[Arrays.nut] v.3 - Updated
+[Arrays.nut] v.3
     Array.Create1D(length)
          .Create2D(length, width)
          .Create3D(length, width, height)
@@ -126,7 +134,7 @@ Detailed descirptions of each of the function is given within the code files.
                 SearchValue1 and SearchValue2 is listed as one of the pairs
          .Compare1D(InArray1D, TestArray1D)
 
-[Atlas.nut] v.1 - New
+[Atlas.nut] v.1
 The Atlas takes sources (departs) and attractions (destinations) and then
     generates a heap of pairs sorted by rating. Ratings can be generated based
     on distance alone or can be altered by user defined ratings (e.g. industry
@@ -192,7 +200,7 @@ The Atlas takes sources (departs) and attractions (destinations) and then
                 instead.
             - ONE_OVER_T_SQUARED is invalid.
          
-[Extras.nut] v.2 - Updated
+[Extras.nut] v.2
     Constants.Infinity() - returns 10,000
              .FloatOffset() - returns 1/2000
              .Pi() - returns 3.1415...
@@ -242,7 +250,7 @@ The Atlas takes sources (departs) and attractions (destinations) and then
             - Returns null if the StationID or CargoID are invalid
             - Returns true or false, depending on if the cargo is accepted
   
-[Line.Walker.nut] - New
+[Line.Walker.nut] v.1
 The LineWalker class allows you to define a starting and endpoint, and then
     'walk' all the tiles between the two. Alternately, you can give a starting
     point and a slope.
@@ -272,7 +280,7 @@ The LineWalker class allows you to define a starting and endpoint, and then
         .GetEnd()
             - Returns the tile set as the LineWalker end
  
-[Marine.nut] v.1 - New
+[Marine.nut] v.1
     Ship.DistanceShip(TileA, TileB)
             - Assuming open ocean, ship in OpenTTD will travel 45° angle where
                 possible, and then finish up the trip by going along a
@@ -306,7 +314,7 @@ The LineWalker class allows you to define a starting and endpoint, and then
             - This will fail if the DockTile given is a dock (or any tile that
                 is not a water tile)
  
-[Pathfinder.Road.nut] v.7
+[Pathfinder.Road.nut] v.8 - Updated
 This file is licenced under the originl licnese - LGPL v2.1
     and is based on the NoAI Team's Road Pathfinder v3
 The pathfinder uses the A* search pattern and includes functions to find the
@@ -351,7 +359,7 @@ The pathfinder uses the A* search pattern and includes functions to find the
             - Similar to PathToTilePairs(), but only returns those pairs where
                 there isn't a current road connection
 
-[Pathfinder.Ship.nut] v.2 - New
+[Pathfinder.Ship.nut] v.3 - Updated
 The ship pathfinder takes two water tiles, checks that they are in the same
     waterbody, adn then returns an array of tiles that a ship would have to
     travel via to travel from one to the other.

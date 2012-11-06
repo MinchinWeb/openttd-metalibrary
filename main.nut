@@ -1,5 +1,5 @@
-﻿/*	Minchinweb's MetaLibrary v.2 r.200 [2012-01-08],  
- *		originally part of, WmDOT v.7
+﻿/*	Minchinweb's MetaLibrary v.3 r.207 [2012-01-14],  
+ *		originally part of, WmDOT v.8
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -17,7 +17,7 @@
  *	A:	Import the main library, and then create global points to the
  *			sublibaries you want to use. Eg:
  *		
- *			Import("util.MinchinWeb", "MinchinWeb", 2);
+ *			Import("util.MinchinWeb", "MinchinWeb", 3);
  *			Arrays <- MinchinWeb.Arrays;
  *
  *	Info:	See the sub-library files for the functions available and their
@@ -66,9 +66,9 @@ require("Atlas.nut");
 require("Marine.nut");
 
 class MinchinWeb {
-	function GetVersion()       { return 2; }
-	function GetRevision()		{ return 200; }
-	function GetDate()          { return "2012-01-08"; }
+	function GetVersion()       { return 3; }
+	function GetRevision()		{ return 207; }
+	function GetDate()          { return "2012-01-14"; }
 	function GetName()          { return "MinchinWeb's MetaLibrary"; }
 
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;

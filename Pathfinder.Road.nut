@@ -1,4 +1,4 @@
-﻿/*	RoadPathfinder v.7 r.183 [2012-01-01],
+﻿/*	RoadPathfinder v.8 r.209 [2012-01-14],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -24,51 +24,48 @@
  
 //	Requires Graph.AyStar v6 library
 
-//	This file provides functions:
-//		MinchinWeb.RoadPathfinder.InitializePath(sources, goals)
-			//	Set up the pathfinder
-//		MinchinWeb.RoadPathfinder.FindPath(iterations)	
-			//	Run the pathfinder; returns false if it isn't finished the path
-			//		 if it has finished, and null if it can't find a path
-//		MinchinWeb.RoadPathfinder.cost.[xx]
-			//	Allows you to set or find out the pathfinder costs directly.
-//			//		 See the function below for valid entries
-//		MinchinWeb.RoadPathfinder.Info.GetVersion()
-//									.GetMinorVersion()
-//									.GetRevision()
-//									.GetDate()
-//									.GetName()
-			//	Useful for check provided version or debugging screen output
-//		MinchinWeb.RoadPathfinder.PresetOriginal()
-//							  .PresetPerfectPath()
-//							  .PresetQuickAndDirty()
-//							  .PresetCheckExisting()
-//							  .PresetMode6()
-//							  .PresetStreetcar() 
-			//	Presets for the pathfinder parameters
-//		MinchinWeb.RoadPathfinder.GetBuildCost()					//	How much would it be to build the path?
-//		MinchinWeb.RoadPathfinder.BuildPath()						//	Build the path
-//		MinchinWeb.RoadPathfinder.GetPathLength()					//	How long is the path?
-//		MinchinWeb.RoadPathfinder.LoadPath(Path)					//	Provide your own path
-//		MinchinWeb.RoadPathfinder.GetPath()							//	Returns the path as stored by the pathfinder
-//		MinchinWeb.RoadPathfinder.InitializePathOnTowns(StartTown, EndTown)
-//			//	Initializes the pathfinder using the seed tiles to the given towns	
-//		MinchinWeb.RoadPathfinder.PathToTilePairs()
-//			//	Returns a 2D array that has each pair of tiles that path joins
-//		MinchinWeb.RoadPathfinder.TilesPairsToBuild()
-//			//	Similiar to PathToTilePairs(), but only returns those pairs 
-//			//	where there isn't a current road connection
+/*	This file provides functions:
+		MinchinWeb.RoadPathfinder.InitializePath(sources, goals)
+				Set up the pathfinder
+		MinchinWeb.RoadPathfinder.FindPath(iterations)	
+				Run the pathfinder; returns false if it isn't finished the path
+					 if it has finished, and null if it can't find a path
+		MinchinWeb.RoadPathfinder.cost.[xx]
+				Allows you to set or find out the pathfinder costs directly.
+					 See the function below for valid entries
+		MinchinWeb.RoadPathfinder.Info.GetVersion()
+									.GetMinorVersion()
+									.GetRevision()
+									.GetDate()
+									.GetName()
+				Useful for check provided version or debugging screen output
+		MinchinWeb.RoadPathfinder.PresetOriginal()
+							  .PresetPerfectPath()
+							  .PresetQuickAndDirty()
+							  .PresetCheckExisting()
+							  .PresetMode6()
+							  .PresetStreetcar() 
+				Presets for the pathfinder parameters
+		MinchinWeb.RoadPathfinder.GetBuildCost()					//	How much would it be to build the path?
+		MinchinWeb.RoadPathfinder.BuildPath()						//	Build the path
+		MinchinWeb.RoadPathfinder.GetPathLength()					//	How long is the path?
+		MinchinWeb.RoadPathfinder.LoadPath(Path)					//	Provide your own path
+		MinchinWeb.RoadPathfinder.GetPath()							//	Returns the path as stored by the pathfinder
+		MinchinWeb.RoadPathfinder.InitializePathOnTowns(StartTown, EndTown)
+				Initializes the pathfinder using the seed tiles to the given towns	
+		MinchinWeb.RoadPathfinder.PathToTilePairs()
+				Returns a 2D array that has each pair of tiles that path joins
+		MinchinWeb.RoadPathfinder.TilesPairsToBuild()
+				Similiar to PathToTilePairs(), but only returns those pairs 
+				where there isn't a current road connection
 
-//	TO-DO
-//		- upgrade slow bridges along path
-//		- convert level crossings (road/rail) to road bridge
-//		- deal with diagonal rails (bridge over..)
-//		- bridge over rivers (they start and end on flat tiles)
-//			- the two above are done via a test in neighbours
-//		- add pathfinder penalty for level crossings [ if(AITile.HasTransportType(new_tile, AITile.TRANSPORT_RAIL)) cost += 800; ]
-//		- add penalty for on-road stations [ if(AIRoad.IsDriveThroughRoadStationTile(new_tile)) cost += 1000; ]
-//		- do something about one-way roads - build a pair? route around? [ if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) && !AIRoad.AreRoadTilesConnected(prev_tile, new_tile)) ]
-//		- allow pre-building of tunnels and bridges
+	TO-DO
+		- upgrade slow bridges along path
+		- convert level crossings (road/rail) to road bridge
+		- do something about one-way roads - build a pair? route around? [ if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) && !AIRoad.AreRoadTilesConnected(prev_tile, new_tile)) ]
+		- allow pre-building of tunnels and bridges
+*/
+
 
 class _MinchinWeb_RoadPathfinder_
 {
@@ -81,6 +78,8 @@ class _MinchinWeb_RoadPathfinder_
 	_cost_bridge_per_tile = null;  ///< The cost per tile of a new bridge, this is added to _cost_tile.
 	_cost_tunnel_per_tile = null;  ///< The cost per tile of a new tunnel, this is added to _cost_tile.
 	_cost_coast = null;            ///< The extra cost for a coast tile.
+	_cost_level_crossing = null;   ///< the extra cost for rail/road level crossings.
+	_cost_drivethru_station = null;   ///< The extra cost for drive-thru road stations.
 	_pathfinder = null;            ///< A reference to the used AyStar object.
 	_max_bridge_length = null;     ///< The maximum length of a bridge that will be build.
 	_max_tunnel_length = null;     ///< The maximum length of a tunnel that will be build.
@@ -103,6 +102,8 @@ class _MinchinWeb_RoadPathfinder_
 		this._cost_bridge_per_tile = 150;
 		this._cost_tunnel_per_tile = 120;
 		this._cost_coast = 20;
+		this._cost_level_crossing = 0;
+		this._cost_drivethru_station = 0;
 		this._max_bridge_length = 10;
 		this._max_tunnel_length = 20;
 		this._cost_only_existing_roads = false;
@@ -165,9 +166,11 @@ class _MinchinWeb_RoadPathfinder_.Cost
 			case "bridge_per_tile":   this._main._cost_bridge_per_tile = val; break;
 			case "tunnel_per_tile":   this._main._cost_tunnel_per_tile = val; break;
 			case "coast":             this._main._cost_coast = val; break;
+			case "level_crossing":	  this._main._cost_level_crossing = val; break;
 			case "max_bridge_length": this._main._max_bridge_length = val; break;
 			case "max_tunnel_length": this._main._max_tunnel_length = val; break;
 			case "only_existing_roads":	this._main._cost_only_existing_roads = val; break;
+			case "drivethru_station":  this._main._cost_drivethru_station = val; break;
 			case "distance_penalty":	this._main._distance_penalty = val; break;
 			default: throw("the index '" + idx + "' does not exist");
 		}
@@ -186,9 +189,11 @@ class _MinchinWeb_RoadPathfinder_.Cost
 			case "bridge_per_tile":   return this._main._cost_bridge_per_tile;
 			case "tunnel_per_tile":   return this._main._cost_tunnel_per_tile;
 			case "coast":             return this._main._cost_coast;
+			case "level_crossing":    return this._main._cost_level_crossing;
 			case "max_bridge_length": return this._main._max_bridge_length;
 			case "max_tunnel_length": return this._main._max_tunnel_length;
 			case "only_existing_roads":	return this._main._cost_only_existing_roads;
+			case "drivethru_station": return this._main._cost_drivethru_station;
 			case "distance_penalty":	return this._main._distance_penalty;
 			default: throw("the index '" + idx + "' does not exist");
 		}
@@ -237,19 +242,24 @@ function _MinchinWeb_RoadPathfinder_::_Cost(self, path, new_tile, new_direction)
 
 	local prev_tile = path.GetTile();
 
-	/* If the new tile is a bridge / tunnel tile, check whether we came from the other
-	 * end of the bridge / tunnel or if we just entered the bridge / tunnel. */
+	/* If the new tile is (already) a bridge / tunnel tile, check whether we 
+	 * came from the other end of the bridge / tunnel or if we just entered the
+	 * bridge / tunnel. */
 	if (AIBridge.IsBridgeTile(new_tile)) {
-		if (AIBridge.GetOtherBridgeEnd(new_tile) != prev_tile) return path.GetCost() + self._cost_tile;
-		return path.GetCost() + AIMap.DistanceManhattan(new_tile, prev_tile) * self._cost_tile + self._GetBridgeNumSlopes(new_tile, prev_tile) * self._cost_slope;
+		if (AIBridge.GetOtherBridgeEnd(new_tile) != prev_tile) {
+			return path.GetCost() + self._cost_tile;
+		} else {
+			return path.GetCost() + AIMap.DistanceManhattan(new_tile, prev_tile) * self._cost_tile + self._GetBridgeNumSlopes(new_tile, prev_tile) * self._cost_slope;
+		}
 	}
 	if (AITunnel.IsTunnelTile(new_tile)) {
 		if (AITunnel.GetOtherTunnelEnd(new_tile) != prev_tile) return path.GetCost() + self._cost_tile;
 		return path.GetCost() + AIMap.DistanceManhattan(new_tile, prev_tile) * self._cost_tile;
 	}
 
-	/* If the two tiles are more then 1 tile apart, the pathfinder wants a bridge or tunnel
-	 * to be build. It isn't an existing bridge / tunnel, as that case is already handled. */
+	/* If the two tiles are more then 1 tile apart, the pathfinder wants a 
+	 * bridge or tunnel to be build. It isn't an existing bridge / tunnel, as
+	 * that case is already handled. */
 	if (AIMap.DistanceManhattan(new_tile, prev_tile) > 1) {
 		/* Check if we should build a bridge or a tunnel. */
 		if (AITunnel.GetOtherTunnelEnd(new_tile) == prev_tile) {
@@ -279,11 +289,22 @@ function _MinchinWeb_RoadPathfinder_::_Cost(self, path, new_tile, new_direction)
 		cost += self._cost_slope;
 	}
 
-
+	/* Add a cost to "outcost" all paths that aren't using already existing
+	 * roads, if that's what we're after */
 	if (!AIRoad.AreRoadTilesConnected(prev_tile, new_tile)) {
 		cost += self._cost_no_existing_road;
 	}
-
+	
+	/* Add a penalty for road/rail level crossings.  */
+	if(AITile.HasTransportType(new_tile, AITile.TRANSPORT_RAIL)) {
+		cost += self._cost_level_crossing;
+	}
+	
+	/* Add a penalty for exisiting drive thru road stations  */
+	if(AIRoad.IsDriveThroughRoadStationTile(new_tile)) {
+		cost += self._cost_drivethru_station; 
+	}
+	
 	return path.GetCost() + cost;
 }
 
@@ -340,6 +361,27 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 			} else if ((self._cost_only_existing_roads != true) && self._CheckTunnelBridge(cur_node, next_tile)) {
 				tiles.push([next_tile, self._GetDirection(cur_node, next_tile, false)]);
 			}
+			
+			//	Test for water (i.e. rivers or canals or rails to bridge over them
+			local iTile = cur_node + offset;
+			local BridgeLength = 2;
+			while (AITile.HasTransportType(iTile, AITile.TRANSPORT_RAIL) || AITile.IsWaterTile(iTile)) {
+				iTile += offset;
+				BridgeLength++;
+			}
+			
+			//	test to see if we could actaully build said bridge
+			//	TO-DO: Check to see if this test is done elsewhere...
+			
+			if (BridgeLength > 2) {
+			//	TO-DO: test for map wraparound... _SuperLib_Tile::IsStraight(tile1, tile2)
+				local BridgeList = AIBridgeList_Length(BridgeLength);
+				if ((BridgeList.Count()) > 0 && (AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), cur_node, iTile))) {
+//					AILog.Info("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4));
+					tiles.push([iTile, self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4]);
+				}
+			}
+			
 		}
 		if (path.GetParent() != null) {
 			local bridges = self._GetTunnelsBridges(path.GetParent().GetTile(), cur_node, self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4);
@@ -373,6 +415,7 @@ function _MinchinWeb_RoadPathfinder_::_GetDirection(from, to, is_bridge)
  */
 function _MinchinWeb_RoadPathfinder_::_GetTunnelsBridges(last_node, cur_node, bridge_dir)
 {
+//	By rights, adding bridge over railroads and water should be added here
 	local slope = AITile.GetSlope(cur_node);
 	if (slope == AITile.SLOPE_FLAT) return [];
 	local tiles = [];
@@ -499,6 +542,8 @@ function _MinchinWeb_RoadPathfinder_::PresetOriginal() {
 	this._cost_only_existing_roads = false;
 	this._distance_penalty = 1;
 	this._road_type = AIRoad.ROADTYPE_ROAD;
+	this._cost_level_crossing = 0;
+	this._cost_drivethru_station = 0;
 	return;
 }
 
@@ -518,6 +563,8 @@ function _MinchinWeb_RoadPathfinder_::PresetPerfectPath() {
 	this._cost_only_existing_roads = false;
 	this._distance_penalty = 1;
 	this._road_type = AIRoad.ROADTYPE_ROAD;
+	this._cost_level_crossing = 0;
+	this._cost_drivethru_station = 0;
 	return;
 }
 
@@ -554,6 +601,9 @@ function _MinchinWeb_RoadPathfinder_::PresetQuickAndDirty() {
 	this._cost_only_existing_roads = false;
 	this._distance_penalty = 5;
 	this._road_type = AIRoad.ROADTYPE_ROAD;
+	//	new for WmDOT v8
+	this._cost_level_crossing = 700;
+	this._cost_drivethru_station = 100;
 	return;	
 }
 
@@ -573,6 +623,8 @@ function _MinchinWeb_RoadPathfinder_::PresetCheckExisting() {
 	this._cost_only_existing_roads = true;
 	this._distance_penalty = 3;
 	this._road_type = AIRoad.ROADTYPE_ROAD;
+	this._cost_level_crossing = 0;
+	this._cost_drivethru_station = 0;
 	return;
 }
 
@@ -641,7 +693,7 @@ function _MinchinWeb_RoadPathfinder_::GetBuildCost()
 					//	if not a tunnel, we assume we're buildng a bridge
 						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
 						BridgeList.Valuate(AIBridge.GetMaxSpeed);
-						BridgeList.Sort(AIAbstractList.SORT_BY_VALUE, false);
+						BridgeList.Sort(AIList.SORT_BY_VALUE, false);
 						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
 						//	At this point, an error has occured while building the bridge.
 						//	Fail the pathfiner
@@ -721,7 +773,7 @@ function _MinchinWeb_RoadPathfinder_::BuildPath()
 					//	if not a tunnel, we assume we're buildng a bridge
 						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
 						BridgeList.Valuate(AIBridge.GetMaxSpeed);
-						BridgeList.Sort(AIAbstractList.SORT_BY_VALUE, false);
+						BridgeList.Sort(AIList.SORT_BY_VALUE, false);
 						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
 						//	At this point, an error has occured while building the bridge.
 						//	Fail the pathfiner

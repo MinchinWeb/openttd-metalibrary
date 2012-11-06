@@ -1,5 +1,5 @@
-﻿/*	ShipPathfinder v.2, r.198, [2012-01-07],
- *		part of Minchinweb's MetaLibrary v.2,
+﻿/*	ShipPathfinder v.3, r.207, [2012-01-14],
+ *		part of Minchinweb's MetaLibrary v.3,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -108,10 +108,10 @@ class _MinchinWeb_ShipPathfinder_.Info
 {
 	_main = null;
 	
-	function GetVersion()       { return 2; }
+	function GetVersion()       { return 3; }
 //	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 198; }
-	function GetDate()          { return "2012-01-07"; }
+	function GetRevision()		{ return 207; }
+	function GetDate()          { return "2012-01-14"; }
 	function GetName()          { return "Ship Pathfinder (Wm)"; }
 	
 	constructor(main)
@@ -489,9 +489,9 @@ function _MinchinWeb_ShipPathfinder_::BuildPathBuoys()
 		for (local i = 0; i < this._mypath.len(); i++) {
 			//	skip first and last points
 			if ((i != 0) && (i != (this._mypath.len() - 1))) {
-				//	Build a bouy at each junction
+				//	Build a bouy at each junction, and update the path if an existing buoy is used
 				AILog.Info("Build Buoy " + i + " :" + _MinchinWeb_Array_.ToStringTiles1D([this._mypath[i]]));
-				_MinchinWeb_Marine_.BuildBuoy(this._mypath[i]);
+				this._mypath[i] = _MinchinWeb_Marine_.BuildBuoy(this._mypath[i]);
 			}
 		}
 		
@@ -520,5 +520,16 @@ function _MinchinWeb_ShipPathfinder_::GetPath()
 		return this._mypath;
 	}
 }
-	
+
+function _MinchinWeb_ShipPathfinder_::OverrideWBC()	
+{
+//	This function skips the Waterbody Check at the beginning of the Ship Pathfinder run
+//	This is intended for if you have already run Waterbody Check or otherwise know
+//		that the two points are in the same waterbody.
+//	Be warned that Ship Pathfinder's behaviour without this check in place is not
+//		tested, as the Ship Pathfinder assumes the two points are in the same
+//		waterbody...
+
+	this._first_run == false;
+}
 	
