@@ -1,9 +1,12 @@
-﻿/*	Extra functions v.1 r.109 [2011-04-23],
- *	part of Minchinweb's MetaLibrary v1, r109, [2011-04-23],
- *	originally part of WmDOT v.6
+﻿/*	Extra functions v.1-GS r.140 [2011-12-03],
+ *		part of MinchinWeb's MetaLibrary v.2-GS, r.140 [2011-12-03],
+ *		adapted from Minchinweb's MetaLibrary v2, r131, [2011-04-30],
+ *		and originally part of WmDOT v.7
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
+ 
+// TO-DO:	Break this into Constants, Math, Geometry, and Extras
  
 /*	These are 'random' functions that didn't seem to fit well elsewhere.
  *
@@ -25,50 +28,56 @@
  *					  .MaxAbsFloatKeepSign(Value1, Value2)
  *	//	Comparision functions will return the first value if the two are equal
  */
+
+class _MinchinWeb_C_ {
+	//	These are constants called by the various sublibraries
+	function Infinity() 	{ return 10000; }	//	close enough to infinity :P
+												//	Slopes are capped at 10,000 and 1/10,000
+	function FloatOffset()	{ return 0.0005; }
+}
  
-class _MetaLib_Extras_ {
+class _MinchinWeb_Extras_ {
 	_infinity = null;
 	
 	constructor()
 	{
-		this._infinity = 10000;	//	close enough to infinity :P
-								//	Slopes are capped at 10,000 and 1/10,000
+		this._infinity = _MinchinWeb_C_.Infinity();	
 	}
 	
 }
 
-function _MetaLib_Extras_::DistanceShip(TileA, TileB)
+function _MinchinWeb_Extras_::DistanceShip(TileA, TileB)
 {
 //	Assuming open ocean, ship in OpenTTD will travel 45° angle where possible,
 //		and then finish up the trip by going along a cardinal direction
-	return ((AIMap.DistanceManhattan(TileA, TileB) - AIMap.DistanceMax(TileA, TileB)) * 0.4 + AIMap.DistanceMax(TileA, TileB))
+	return ((GSMap.DistanceManhattan(TileA, TileB) - GSMap.DistanceMax(TileA, TileB)) * 0.4 + GSMap.DistanceMax(TileA, TileB))
 }
 
-function _MetaLib_Extras_::SignLocation(text)
+function _MinchinWeb_Extras_::SignLocation(text)
 {
 //	Returns the tile of the first instance where the sign matches the given text
-    local sign_list = AISignList();
+    local sign_list = GSSignList();
     for (local i = sign_list.Begin(); !sign_list.IsEnd(); i = sign_list.Next()) {
-        if(AISign.GetName(i) == text)
+        if(GSSign.GetName(i) == text)
         {
-            return AISign.GetLocation(i);
+            return GSSign.GetLocation(i);
         }
     }
     return null;
 }
 
-function _MetaLib_Extras_::MidPoint(TileA, TileB)
+function _MinchinWeb_Extras_::MidPoint(TileA, TileB)
 {
 //	Returns the tile that is halfway between the given tiles
-	local X = (AIMap.GetTileX(TileA) + AIMap.GetTileX(TileB)) / 2 + 0.5;
-	local Y = (AIMap.GetTileY(TileA) + AIMap.GetTileY(TileB)) / 2 + 0.5;
+	local X = (GSMap.GetTileX(TileA) + GSMap.GetTileX(TileB)) / 2 + 0.5;
+	local Y = (GSMap.GetTileY(TileA) + GSMap.GetTileY(TileB)) / 2 + 0.5;
 		//	the 0.5 is to make rounding work
 	X = X.tointeger();
 	Y = Y.tointeger();
-	return AIMap.GetTileIndex(X, Y);
+	return GSMap.GetTileIndex(X, Y);
 }
 
-function _MetaLib_Extras_::Perpendicular(SlopeIn)
+function _MinchinWeb_Extras_::Perpendicular(SlopeIn)
 {
 //	Returns the Perdicular slope, which is the inverse of the given slope
 	if (SlopeIn == 0) {
@@ -79,28 +88,28 @@ function _MetaLib_Extras_::Perpendicular(SlopeIn)
 	}
 }
 
-function _MetaLib_Extras_::Slope(TileA, TileB, Infinity = _MetaLib_Extras_._infinity)
+function _MinchinWeb_Extras_::Slope(TileA, TileB)
 {
 //	Returns the slope between two tiles
-	local dx = AIMap.GetTileX(TileB) - AIMap.GetTileX(TileA);
-	local dy = AIMap.GetTileY(TileB) - AIMap.GetTileY(TileA);
-	local Inftest = _MetaLib_Extras_._infinity;
-//	AILog.Info(_MetaLib_Extras_._infinity);
+	local dx = GSMap.GetTileX(TileB) - GSMap.GetTileX(TileA);
+	local dy = GSMap.GetTileY(TileB) - GSMap.GetTileY(TileA);
+//	local Inftest = _MinchinWeb_Extras_._infinity;
+//	GSLog.Info(_MinchinWeb_Extras_._infinity);
 	
 	//	Zero check
 	if (dx == 0) {
-		return Infinity * _MetaLib_Extras_.Sign(dy);
+		return _MinchinWeb_C_.Infinity() * _MinchinWeb_Extras_.Sign(dy);
 	} else if (dy == 0) {
-		return (1.0 / Infinity) * _MetaLib_Extras_.Sign(dx);
+		return (1.0 / _MinchinWeb_C_.Infinity()) * _MinchinWeb_Extras_.Sign(dx);
 	} else {
 		dx = dx.tofloat();
 		dy = dy.tofloat();
 
-		return (dx / dy);	
+		return (dy / dx);	
 	}
 }
 
-function _MetaLib_Extras_::Within(Bound1, Bound2, Value)
+function _MinchinWeb_Extras_::Within(Bound1, Bound2, Value)
 {
 	local UpperBound = max(Bound1, Bound2);
 	local LowerBound = min(Bound1, Bound2);
@@ -108,18 +117,18 @@ function _MetaLib_Extras_::Within(Bound1, Bound2, Value)
 	return ((Value <= UpperBound) && (Value >= LowerBound));
 }
 
-function _MetaLib_Extras_::WithinFloat(Bound1, Bound2, Value)
+function _MinchinWeb_Extras_::WithinFloat(Bound1, Bound2, Value)
 {
-	local UpperBound = _MetaLib_Extras_.MaxFloat(Bound1, Bound2);
-	local LowerBound = _MetaLib_Extras_.MinFloat(Bound1, Bound2);
+	local UpperBound = _MinchinWeb_Extras_.MaxFloat(Bound1, Bound2) + _MinchinWeb_C_.FloatOffset();
+	local LowerBound = _MinchinWeb_Extras_.MinFloat(Bound1, Bound2) - _MinchinWeb_C_.FloatOffset();
 //	local Value = Value.tofloat();
 	
-//	AILog.Info("          Extras.WithinFloat: Val=" + Value + " B1=" + Bound1 + " B2=" + Bound2 + " : UB=" + UpperBound + " LB=" + LowerBound + " is " + (Value <= UpperBound) + " " + (Value >= LowerBound) + " : " + ((Value <= UpperBound) && (Value >= LowerBound)))
+//	GSLog.Info("          Extras.WithinFloat: Val=" + Value + " B1=" + Bound1 + " B2=" + Bound2 + " : UB=" + UpperBound + " LB=" + LowerBound + " is " + (Value <= UpperBound) + " " + (Value >= LowerBound) + " : " + ((Value <= UpperBound) && (Value >= LowerBound)) + " : above " + (Value - UpperBound) + " below " + (LowerBound - Value) + " : " + _MinchinWeb_C_.FloatOffset() );
 
 	return ((Value <= UpperBound) && (Value >= LowerBound));
 }
 
-function _MetaLib_Extras_::MinAbsFloat(Value1, Value2)
+function _MinchinWeb_Extras_::MinAbsFloat(Value1, Value2)
 {
 //	Takes the absolute value of both numbers and then returns the smaller of the two
 	if (Value1 < 0) { Value1 *= -1.0; }
@@ -131,7 +140,7 @@ function _MetaLib_Extras_::MinAbsFloat(Value1, Value2)
 	}
 }
 
-function _MetaLib_Extras_::MaxAbsFloat(Value1, Value2)
+function _MinchinWeb_Extras_::MaxAbsFloat(Value1, Value2)
 {
 //	Takes the absolute value of both numbers and then returns the larger of the two
 	if (Value1 < 0) { Value1 *= -1.0; }
@@ -143,7 +152,7 @@ function _MetaLib_Extras_::MaxAbsFloat(Value1, Value2)
 	}
 }
 
-function _MetaLib_Extras_::AbsFloat(Value)
+function _MinchinWeb_Extras_::AbsFloat(Value)
 {
 //	Returns the absolute Value as a floating number if one is provided
 	if (Value >= 0) {
@@ -153,7 +162,7 @@ function _MetaLib_Extras_::AbsFloat(Value)
 	}
 }
 
-function _MetaLib_Extras_::Sign(Value)
+function _MinchinWeb_Extras_::Sign(Value)
 {
 //	Returns +1 if the Value >= 0, -1 Value < 0
 	if (Value >= 0) {
@@ -163,7 +172,7 @@ function _MetaLib_Extras_::Sign(Value)
 	}
 }
 
-function _MetaLib_Extras_::MinFloat(Value1, Value2)
+function _MinchinWeb_Extras_::MinFloat(Value1, Value2)
 {
 //	Returns the smaller of the two
 	if (Value1 <= Value2) {
@@ -173,7 +182,7 @@ function _MetaLib_Extras_::MinFloat(Value1, Value2)
 	}
 }
 
-function _MetaLib_Extras_::MaxFloat(Value1, Value2)
+function _MinchinWeb_Extras_::MaxFloat(Value1, Value2)
 {
 //	Returns the larger of the two
 	if (Value1 >= Value2) {
@@ -183,12 +192,12 @@ function _MetaLib_Extras_::MaxFloat(Value1, Value2)
 	}
 }
 
-function _MetaLib_Extras_::MinAbsFloatKeepSign(Value1, Value2)
+function _MinchinWeb_Extras_::MinAbsFloatKeepSign(Value1, Value2)
 {
 //	Takes the absolute value of both numbers and then returns the smaller of the two
 //	This keeps the sign when returning the value
-	local Sign1 = _MetaLib_Extras_.Sign(Value1);
-	local Sign2 = _MetaLib_Extras_.Sign(Value2);
+	local Sign1 = _MinchinWeb_Extras_.Sign(Value1);
+	local Sign2 = _MinchinWeb_Extras_.Sign(Value2);
 	if (Value1 < 0) { Value1 *= -1.0; }
 	if (Value2 < 0) { Value2 *= -1.0; }
 	if (Value1 <= Value2) {
@@ -198,12 +207,12 @@ function _MetaLib_Extras_::MinAbsFloatKeepSign(Value1, Value2)
 	}
 }
 
-function _MetaLib_Extras_::MaxAbsFloatKeepSign(Value1, Value2)
+function _MinchinWeb_Extras_::MaxAbsFloatKeepSign(Value1, Value2)
 {
 //	Takes the absolute value of both numbers and then returns the larger of the two
 //	This keeps the sign when returning the value
-	local Sign1 = _MetaLib_Extras_.Sign(Value1);
-	local Sign2 = _MetaLib_Extras_.Sign(Value2);
+	local Sign1 = _MinchinWeb_Extras_.Sign(Value1);
+	local Sign2 = _MinchinWeb_Extras_.Sign(Value2);
 	if (Value1 < 0) { Value1 *= -1.0; }
 	if (Value2 < 0) { Value2 *= -1.0; }
 	if (Value1 >= Value2) {

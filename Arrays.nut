@@ -1,7 +1,8 @@
-﻿/*	Array SubLibrary, v.2 r.119 [2011-04-28],
- *	part of Minchinweb's MetaLibrary v1, r119, [2011-04-28],
- *	originally part of WmDOT v.5  r.53d	[2011-04-09]
- *		and WmArray library v.1  r.1 [2011-02-13].
+﻿/*	Array SubLibrary, v.3-GS r.140 [2011-12-03],
+ *	part of Minchinweb's MetaLibrary-GS v2-GS, r140, [2011-12-03],
+ *		adapted from Minchinweb's MetaLibrary v2, r133, [2011-05-02],
+ *		originally part of WmDOT v.5  r.53d	[2011-04-09]
+ *			and WmArray library v.1  r.1 [2011-02-13].
  *	Copyright © 2011 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -15,6 +16,7 @@
  *					 .ContainedIn1D(InArray, SearchValue)
  *					 .ContainedIn2D(InArray, SearchValue)
  *					 .ContainedIn3D(InArray, SearchValue)
+ *					 .ContainedIn1DIn2D(InArray2D, SearchArray1D)
  *					 .Find1D(InArray, SearchValue)
  *					 .Find2D(InArray, SearchValue)
  *					 .Find3D(InArray, SearchValue)
@@ -23,18 +25,19 @@
  *					 .ToStringTiles1D(InArrayOfTiles)
  *					 .FindPairs(InArray2D, SearchValue1, SearchValue2)
  *					 .ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
+ *					 .Compare1D(InArray1D, TestArray1D)
  */
  
-class _MetaLib_Array_ {
+class _MinchinWeb_Array_ {
 	main = null;
 }
 
-function _MetaLib_Array_::Create1D(length)
+function _MinchinWeb_Array_::Create1D(length)
 {
     return array[length];
 }
 
-function _MetaLib_Array_::Create2D(length, width)
+function _MinchinWeb_Array_::Create2D(length, width)
 {
     local ReturnArray = [length];
     local tempArray = [width];
@@ -45,7 +48,7 @@ function _MetaLib_Array_::Create2D(length, width)
     return ReturnArray;
 }
 
-function _MetaLib_Array_::Create3D(length, width, height)
+function _MinchinWeb_Array_::Create3D(length, width, height)
 {
     local ReturnArray = [length];
     local tempArray = [width];
@@ -62,7 +65,7 @@ function _MetaLib_Array_::Create3D(length, width, height)
     return ReturnArray;
 }
 
-function _MetaLib_Array_::ToString1D(InArray)
+function _MinchinWeb_Array_::ToString1D(InArray)
 {
 	//	Add error check that an array is provided
 	
@@ -80,7 +83,7 @@ function _MetaLib_Array_::ToString1D(InArray)
 	}
 }
 
-function _MetaLib_Array_::ToString2D(InArray)
+function _MinchinWeb_Array_::ToString2D(InArray)
 {
 	//	Add error check that a 2D array is provided
 
@@ -106,7 +109,7 @@ function _MetaLib_Array_::ToString2D(InArray)
 	}
 }
 
-function _MetaLib_Array_::ContainedIn1D(InArray, SearchValue)
+function _MinchinWeb_Array_::ContainedIn1D(InArray, SearchValue)
 {
 //	Searches the array for the given value. Returns 'TRUE' if found and
 //		'FALSE' if not.
@@ -124,7 +127,7 @@ function _MetaLib_Array_::ContainedIn1D(InArray, SearchValue)
 	}
 }
 
-function _MetaLib_Array_::ContainedIn2D(InArray, SearchValue)
+function _MinchinWeb_Array_::ContainedIn2D(InArray, SearchValue)
 {
 //	Searches the array for the given value. Returns 'TRUE' if found and
 //		'FALSE' if not.
@@ -147,7 +150,7 @@ function _MetaLib_Array_::ContainedIn2D(InArray, SearchValue)
 	}
 }
 
-function _MetaLib_Array_::ContainedIn3D(InArray, SearchValue)
+function _MinchinWeb_Array_::ContainedIn3D(InArray, SearchValue)
 {
 //	Searches the array for the given value. Returns 'TRUE' if found and
 //		'FALSE' if not.
@@ -168,7 +171,25 @@ function _MetaLib_Array_::ContainedIn3D(InArray, SearchValue)
 	}
 }
 
-function _MetaLib_Array_::Find1D(InArray, SearchValue)
+function _MinchinWeb_Array_::ContainedIn1DIn2D(InArray2D, SearchArray1D)
+{
+//	Searches the array for the given array. Returns 'TRUE' if found and
+//		'FALSE' if not.
+//	Accepts 2D Arrays for InArray and 1D Array for SearchArray
+
+	if (InArray2D == null) {
+		return null;
+	} else {
+		for (local i = 0; i < InArray2D.len(); i++ ) {
+			if (_MinchinWeb_Array_.Compare1D(InArray2D[i], SearchArray1D) == true) {
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::Find1D(InArray, SearchValue)
 {
 //	Searches the array for the given value. Returns the index of the value if 
 //		found and 'FALSE' if not. Will only return the index of the
@@ -190,7 +211,7 @@ function _MetaLib_Array_::Find1D(InArray, SearchValue)
 	}
 }
 
-function _MetaLib_Array_::Find2D(InArray, SearchValue)
+function _MinchinWeb_Array_::Find2D(InArray, SearchValue)
 {
 //	Searches the array for the given value. Returns a 2-item array with the 
 //		indexes if found and 'FALSE' if not. Will only return the index of the
@@ -211,7 +232,7 @@ function _MetaLib_Array_::Find2D(InArray, SearchValue)
 	}
 }
 
-function _MetaLib_Array_::Find3D(InArray, SearchValue)
+function _MinchinWeb_Array_::Find3D(InArray, SearchValue)
 {
 //	Searches the array for the given value. Returns a 3-item array with the 
 //		indexes if found and 'FALSE' if not. Will only return the index of the
@@ -233,7 +254,7 @@ function _MetaLib_Array_::Find3D(InArray, SearchValue)
 	}
 }
 
-function _MetaLib_Array_::RemoveValueAt(InArray, Index)
+function _MinchinWeb_Array_::RemoveValueAt(InArray, Index)
 {
 //	Removes the value at the index, and shifts the rest of the array to the
 //		left. The returned array is thus 1 shorter than the supplied array.
@@ -250,7 +271,7 @@ function _MetaLib_Array_::RemoveValueAt(InArray, Index)
 	return Return;	
 }
 
-function _MetaLib_Array_::InsertValueAt(InArray, Index, Value)
+function _MinchinWeb_Array_::InsertValueAt(InArray, Index, Value)
 {
 //	Adds 'Value' to the 'InArray' at the given 'Index'. The rest of the array
 //		is shift one place to the right. The returned array is thus 1 longer
@@ -268,7 +289,7 @@ function _MetaLib_Array_::InsertValueAt(InArray, Index, Value)
 	return Return;	
 }
 
-function _MetaLib_Array_::ToStringTiles1D(InArrayOfTiles)
+function _MinchinWeb_Array_::ToStringTiles1D(InArrayOfTiles)
 {
 	//	Add error check that an array is provided
 	
@@ -279,14 +300,14 @@ function _MetaLib_Array_::ToStringTiles1D(InArrayOfTiles)
 		local i = 0;
 		local Temp = "";
 		while (i < InArrayOfTiles.len() ) {
-			Temp = Temp + "  " + AIMap.GetTileX(InArrayOfTiles[i]) + "," + AIMap.GetTileY(InArrayOfTiles[i]);
+			Temp = Temp + "  " + GSMap.GetTileX(InArrayOfTiles[i]) + "," + GSMap.GetTileY(InArrayOfTiles[i]);
 			i++;
 		}
 		return ("The array is " + Length + " long.  " + Temp + " ");
 	}
 }
 
-function _MetaLib_Array_::FindPairs(InArray2D, SearchValue1, SearchValue2)
+function _MinchinWeb_Array_::FindPairs(InArray2D, SearchValue1, SearchValue2)
 {
 //	Searches the array for the given pair of value. Returns a the index  
 //		if found and 'FALSE' if not. Will only return the index of the
@@ -319,7 +340,7 @@ function _MetaLib_Array_::FindPairs(InArray2D, SearchValue1, SearchValue2)
 	}
 }
 
-function _MetaLib_Array_::ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
+function _MinchinWeb_Array_::ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
 {
 //	Searches the array for the given pair of value. Returns a the index  
 //		if found and 'FALSE' if not. Will only return the index of the
@@ -350,4 +371,22 @@ function _MetaLib_Array_::ContainedInPairs(InArray2D, SearchValue1, SearchValue2
 		}
 		return false;
 	}
+}
+
+function _MinchinWeb_Array_::Compare1D(InArray1D, TestArray1D)
+{
+//	Compares the two arrays item for item. Returns true if every item pair
+//		matches.
+//	I wrote this because I don't trust (InArray == TestArray) to work this
+//		way...
+	if (InArray1D.len() != TestArray1D.len() ) {
+		return false;	
+	}
+	for (local i = 0; i < InArray1D.len(); i++) {
+		if (InArray1D[i] != TestArray1D[i]) {
+			return false;
+		}
+	}
+	
+	return true;
 }
