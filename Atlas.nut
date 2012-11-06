@@ -1,5 +1,5 @@
-﻿/*	Atlas v.1 r.187 [2012-01-04],
- *		part of Minchinweb's MetaLibrary v.2,
+﻿/*	Atlas v.1 r.221 [2012-01-28],
+ *		part of Minchinweb's MetaLibrary v.4,
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
@@ -145,11 +145,10 @@ function _MinchinWeb_Atlas_::RunModel()
 {
 //	Takes the provided sources and destinations and runs the selected traffic model, populating the 'pairs' heap
 	this._pairs = this._heap_class();
-	
 	for (local i = 0; i < this._sources.len(); i++) {
-//	AILog.Info("          i = " + i);
+		_MinchinWeb_Log_.Note("          i = " + i, 7);
 		for (local j = 0; j < this._attractions.len(); j++) {
-//		AILog.Info("               j = " + j + "     " + (_MinchinWeb_Array_.ContainedIn1D([this._sources[i][0], this._attractions[j][0]], this._ignorepairs) == false) + "; " + _MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], 1, this._attractions[j][0], 0, this._maxdistancemodel) + " < " +	this._maxdistance + " = " + ((_MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], 1, this._attractions[j][0], 0, this._maxdistancemodel) < this._maxdistance)	|| (this._maxdistance < 0)) + " ;; " + _MinchinWeb_Array_.ToStringTiles1D([this._sources[i][0]]) + " - " + this._sources[i][1] + "  " + _MinchinWeb_Array_.ToStringTiles1D([this._attractions[j][0]]) + " - " + this._attractions[j][1] + " -- " + this._model + " :: " + AIMap.DistanceManhattan(this._sources[i][0], this._attractions[j][0]) + " / (" + this._sources[i][1] + " + " + this._attractions[j][1] + ") = " + (AIMap.DistanceManhattan(this._sources[i][0], this._attractions[j][0]) / (this._sources[i][1].tofloat() + this._sources[j][1].tofloat())) + " : " + _MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], this._sources[i][1], this._attractions[j][0], this._attractions[j][1], this._model));
+			_MinchinWeb_Log_.Note("               j = " + j + "     " + (_MinchinWeb_Array_.ContainedIn1D([this._sources[i][0], this._attractions[j][0]], this._ignorepairs) == false) + "; " + _MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], 1, this._attractions[j][0], 0, this._maxdistancemodel) + " < " +	this._maxdistance + " = " + ((_MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], 1, this._attractions[j][0], 0, this._maxdistancemodel) < this._maxdistance)	|| (this._maxdistance < 0)) + " ;; " + _MinchinWeb_Array_.ToStringTiles1D([this._sources[i][0]]) + " - " + this._sources[i][1] + "  " + _MinchinWeb_Array_.ToStringTiles1D([this._attractions[j][0]]) + " - " + this._attractions[j][1] + " -- " + this._model + " :: " + AIMap.DistanceManhattan(this._sources[i][0], this._attractions[j][0]) + " / (" + this._sources[i][1] + " + " + this._attractions[j][1] + ") = " + (AIMap.DistanceManhattan(this._sources[i][0], this._attractions[j][0]) / (this._sources[i][1].tofloat() + this._attractions[j][1].tofloat())) + " : " + _MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], this._sources[i][1], this._attractions[j][0], this._attractions[j][1], this._model), 7);
 			if ((_MinchinWeb_Array_.ContainedIn1D([this._sources[i][0], this._attractions[j][0]], this._ignorepairs) == false)
 					&& ((_MinchinWeb_Atlas_.ApplyTrafficModel(this._sources[i][0], 1, this._attractions[j][0], 0, this._maxdistancemodel) < this._maxdistance)
 					|| (this._maxdistance < 0))) {

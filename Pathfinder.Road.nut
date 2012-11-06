@@ -1,5 +1,5 @@
-﻿/*	RoadPathfinder v.8 r.209 [2012-01-14],
- *		part of Minchinweb's MetaLibrary v.2,
+﻿/*	RoadPathfinder v.8 r.221 [2012-01-28],
+ *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
@@ -61,7 +61,7 @@
 
 	TO-DO
 		- upgrade slow bridges along path
-		- convert level crossings (road/rail) to road bridge
+		- convert exisiting level crossings (road/rail) to road bridge
 		- do something about one-way roads - build a pair? route around? [ if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) && !AIRoad.AreRoadTilesConnected(prev_tile, new_tile)) ]
 		- allow pre-building of tunnels and bridges
 */
@@ -377,7 +377,7 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 			//	TO-DO: test for map wraparound... _SuperLib_Tile::IsStraight(tile1, tile2)
 				local BridgeList = AIBridgeList_Length(BridgeLength);
 				if ((BridgeList.Count()) > 0 && (AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), cur_node, iTile))) {
-//					AILog.Info("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4));
+//					_MinchinWeb_Log_.Note("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4), 7);
 					tiles.push([iTile, self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4]);
 				}
 			}

@@ -1,7 +1,7 @@
-﻿/*	SpiralWalker class v.2 r.112 [2011-04-26],
- *		part of Minchinweb's MetaLibrary v.1, r.112, [2011-04-26],
+﻿/*	SpiralWalker class v.3 r.223 [2012-01-28],
+ *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.5
- *	Copyright © 2011 by W. Minchin. For more info,
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
@@ -20,10 +20,6 @@
  *							.GetStart()
  *							.GetStage()
  *							.GetStep() 
- */
- 
-/*	Known Issues:
- *	- SpiralWalker skips the tile [+1,0] relative to ths starting tile
  */
  
 class _MinchinWeb_SW_ {
@@ -96,46 +92,51 @@ function _MinchinWeb_SW_::Restart()
 
 function _MinchinWeb_SW_::Walk()
 {
-	this._x += this._dx;
-	this._y += this._dy;
-	this._StageSteps ++;
-	this._Steps ++;
+	if (this._Steps == 0) {
+		this._Steps++;
+	} else {
 	
-	// Check if it's time to turn
-	if (this._StageSteps == this._StageMax) {
-		this._StageSteps = 0;
-		if (this._Stage % 2 == 0) {
-			this._StageMax++;
-		}
-		this._Stage ++;
+		this._x += this._dx;
+		this._y += this._dy;
+		this._StageSteps ++;
+		this._Steps ++;
 		
-		// Turn Clockwise
-		switch (this._dx) {
-			case 0:
-				switch (this._dy) {
-					case -1:
-						this._dx = -1;
-						this._dy =  0;
-						break;
-					case 1:
-						this._dx = 1;
-						this._dy = 0;
-						break;
-				}
-				break;
-			case -1:
-				this._dx = 0;
-				this._dy = 1;
-				break;
-			case 1:
-				this._dx =  0;
-				this._dy = -1;
-				break;
+		// Check if it's time to turn
+		if (this._StageSteps == this._StageMax) {
+			this._StageSteps = 0;
+			if (this._Stage % 2 == 0) {
+				this._StageMax++;
+			}
+			this._Stage ++;
+			
+			// Turn Clockwise
+			switch (this._dx) {
+				case 0:
+					switch (this._dy) {
+						case -1:
+							this._dx = -1;
+							this._dy =  0;
+							break;
+						case 1:
+							this._dx = 1;
+							this._dy = 0;
+							break;
+					}
+					break;
+				case -1:
+					this._dx = 0;
+					this._dy = 1;
+					break;
+				case 1:
+					this._dx =  0;
+					this._dy = -1;
+					break;
+			}
 		}
 	}
-
-//	AILog.Info("     SpiralWalker.Walk: " + this._dx + " " + this._dy + " : " + this._Steps + " " + this._Stage + " " + this._StageSteps + " " + this._StageMax);
+	_MinchinWeb_Log_.Note("     SpiralWalker.Walk: " + this._dx + " " + this._dy + " : " + this._Steps + " " + this._Stage + " " + this._StageSteps + " " + this._StageMax + " :: " + this._x + ", " + this._y, 7);
 	this._current_tile = AIMap.GetTileIndex(this._x, this._y);
+//	AISign.BuildSign(this._current_tile, "" + this._Steps);
 	return this._current_tile;
 }
 

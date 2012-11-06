@@ -1,5 +1,5 @@
 ﻿MinchinWeb's MetaLibrary Read-me
-v.3, r.210, 2012-01-14
+v.4, r.227, 2012-01-30
 Copyright © 2011-12 by W. Minchin. For more info, please visit
     http://openttd-noai-wmdot.googlecode.com/
 
@@ -24,25 +24,25 @@ The easiest (and recommended) way to install MetaLibrary is use OpenTTD's
     to download them at the same time. This also makes it very easy for me to
     provide updates.
 Manual installation can be accomplished by putting the
-    'MinchinWebs_MetaLibrary-3.tar' file you downloaded in the
+    'MinchinWebs_MetaLibrary-4.tar' file you downloaded in the
     '..\OpenTTD\ai\library'  folder. If you are manually installing,
     the libraries mentioned above need to be in the same folder. 
 
 To make use of the library in your AIs, add the line:
-        import("util.MinchinWeb", "MetaLib", 3);
+        import("util.MinchinWeb", "MetaLib", 4);
     which will make the library available as the "MetaLib" class (or whatever
     you change that to).
     
 -- Noteable Changes in Version 3 ----------------------------------------------
- * ShipPathfinder.BuildBuoys() will update the internally stored path if
-      existing buoys are (re-)used
- * ShipPathfinder can now selectively skip its preliminary WaterBody Check
- * RoadPathfinder can now assign extra pathfinding costs to level crossings and
-      drive thru road stations
- * RoadPathfinder can now bridge over canals, rivers, and railroad tracks!
-       (thanks Zuu)
+ * Log added, some logging support for the rest of the library
+ * bug fixes to Spiral Walker
+ * added  Extra.GetOpenTTDRevision()  function
  
 -- Version History ------------------------------------------------------------
+Version 4 [2012-01-30]
+    Added Log
+	Bug fix to Spiral Walker
+
 Version 3 [2012-01-14]
     Minor update; released to coincide with the release of WmDOT v8
 	Bug fixes and improvements to the Ship and Road Pathfinder
@@ -62,17 +62,15 @@ Version 1 [2011-04-28]
 -- Roadmap --------------------------------------------------------------------
 These are features I hope to add to MetaLibrary shortly. However, this is 
     subject to change without notice. However, I am open to suggestions!
-v4      Road Pathfinder improvements (prebuild bridges and tunnels, upgrade
+v5      Road Pathfinder improvements (prebuild bridges and tunnels, upgrade
             bridges)
-        Switch buoy and water depot building to Spiral Walker
-		Import Logging interface from WmDOT
-		Spiral Walker bug fixes
+		Ship Pathfinder improvements
+        Switch water depot building to Spiral Walker
             
 -- Known Issues ---------------------------------------------------------------
 Pathfinding can take an exceptionally long time if there is no possible path.
     This is most often an issue when the two towns in question are on different
     islands.
-SpiralWalker skips the tile [+1,0] relative to ths starting tile.
 
 -- Help! It broke! (Bug Report) -----------------------------------------------
 If MetaLibrary cause crashes, please help me fix it! Save a screenshot (under
@@ -87,7 +85,7 @@ TT-Forums - all things Transport Tycoon related               www.tt-forums.net
 MetaLibrary's thread on TT-Forums: release announcements, bug reports,
     suggetions, and general commentary
                             http://www.tt-forums.net/viewtopic.php?f=65&t=57903
-WmDOT on Google Code: source code, and WmDOT: Bleeding Edge edition
+MetaLibrary and WmDOT on Google Code (source code, and Bleeding Edge edition)
                                     http://code.google.com/p/openttd-noai-wmdot
 To report issues:            http://code.google.com/p/openttd-noai-wmdot/issues
 
@@ -200,7 +198,7 @@ The Atlas takes sources (departs) and attractions (destinations) and then
                 instead.
             - ONE_OVER_T_SQUARED is invalid.
          
-[Extras.nut] v.2
+[Extras.nut] v.3
     Constants.Infinity() - returns 10,000
              .FloatOffset() - returns 1/2000
              .Pi() - returns 3.1415...
@@ -235,7 +233,9 @@ The Atlas takes sources (departs) and attractions (destinations) and then
             - Given a StartTile and a TowardsTile, will given the tile
                 immediately next(Manhattan Distance == 1) to StartTile that is
                 closests to TowardsTile
-                
+		  .GetOpenTTDRevision()
+		    - Returns the revision number of the current build of OpenTTD
+
     Industry.GetIndustryID(Tile)
             - AIIndustty.GetIndustryID( AIIndustry.GetLocation(IndustryID) )
                 sometimes fails because GetLocation() returns the northmost
@@ -280,7 +280,27 @@ The LineWalker class allows you to define a starting and endpoint, and then
         .GetEnd()
             - Returns the tile set as the LineWalker end
  
-[Marine.nut] v.1
+[Log.nut] v.3
+To get this to fully work, you will need to add a setting to your AI (in your
+    info.nut )
+
+	function GetSettings() {
+		AddSetting({name = "Debug_Level", description = "Debug Level ",
+			min_value = 0, max_value = 7, easy_value = 3, medium_value = 3,
+			hard_value = 3, custom_value = 3, flags = CONFIG_INGAME});
+	}
+	
+Log reads the setting each time it is called and so the Debug Level can be set
+    in-game dynamically, if wished. If no setting is found, a Debug Level of 3
+	is assumed.
+	
+	Log.Note(Message, Level=3)
+	   .Warning(Message)
+	   .Error(Message)
+	   .Sign(Tile, Message, Level = 5)
+	   .PrintDebugLevel()
+
+[Marine.nut] v.2
     Ship.DistanceShip(TileA, TileB)
             - Assuming open ocean, ship in OpenTTD will travel 45° angle where
                 possible, and then finish up the trip by going along a
@@ -314,7 +334,7 @@ The LineWalker class allows you to define a starting and endpoint, and then
             - This will fail if the DockTile given is a dock (or any tile that
                 is not a water tile)
  
-[Pathfinder.Road.nut] v.8 - Updated
+[Pathfinder.Road.nut] v.8
 This file is licenced under the originl licnese - LGPL v2.1
     and is based on the NoAI Team's Road Pathfinder v3
 The pathfinder uses the A* search pattern and includes functions to find the
@@ -359,7 +379,7 @@ The pathfinder uses the A* search pattern and includes functions to find the
             - Similar to PathToTilePairs(), but only returns those pairs where
                 there isn't a current road connection
 
-[Pathfinder.Ship.nut] v.3 - Updated
+[Pathfinder.Ship.nut] v.3
 The ship pathfinder takes two water tiles, checks that they are in the same
     waterbody, adn then returns an array of tiles that a ship would have to
     travel via to travel from one to the other.
@@ -399,7 +419,7 @@ The ship pathfinder takes two water tiles, checks that they are in the same
         .GetPath()
             - Returns the path, as currently held by the pathfinder		
                 
-[Spiral.Walker.nut] v.2
+[Spiral.Walker.nut] v.3 - Updated
 The SpiralWalker class allows you to define a starting point, and then 'walk'
     all the tiles in a spiral outward. It was originally used to find a
     buildable spot for my HQ in WmDOT, but is useful for many other things as
