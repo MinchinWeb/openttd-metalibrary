@@ -1,9 +1,8 @@
-﻿/*	Array SubLibrary, v.3-GS r.140 [2011-12-03],
- *	part of Minchinweb's MetaLibrary-GS v2-GS, r140, [2011-12-03],
- *		adapted from Minchinweb's MetaLibrary v2, r133, [2011-05-02],
+﻿/*	Array SubLibrary, v.3 r.189 [2012-01-05],
+ *		part of Minchinweb's MetaLibrary v2,
  *		originally part of WmDOT v.5  r.53d	[2011-04-09]
  *			and WmArray library v.1  r.1 [2011-02-13].
- *	Copyright © 2011 by W. Minchin. For more info,
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
 
@@ -22,11 +21,14 @@
  *					 .Find3D(InArray, SearchValue)
  *					 .RemoveValueAt(InArray, Index)
  *					 .InsertValueAt(InArray, Index, Value)
- *					 .ToStringTiles1D(InArrayOfTiles)
+ *					 .ToStringTiles1D(InArrayOfTiles, ArrayLength = false)
  *					 .FindPairs(InArray2D, SearchValue1, SearchValue2)
  *					 .ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
  *					 .Compare1D(InArray1D, TestArray1D)
  */
+ 
+//	To-DO
+//		- add safety if an array is not provided
  
 class _MinchinWeb_Array_ {
 	main = null;
@@ -289,7 +291,7 @@ function _MinchinWeb_Array_::InsertValueAt(InArray, Index, Value)
 	return Return;	
 }
 
-function _MinchinWeb_Array_::ToStringTiles1D(InArrayOfTiles)
+function _MinchinWeb_Array_::ToStringTiles1D(InArrayOfTiles, ArrayLength = false)
 {
 	//	Add error check that an array is provided
 	
@@ -303,7 +305,11 @@ function _MinchinWeb_Array_::ToStringTiles1D(InArrayOfTiles)
 			Temp = Temp + "  " + GSMap.GetTileX(InArrayOfTiles[i]) + "," + GSMap.GetTileY(InArrayOfTiles[i]);
 			i++;
 		}
-		return ("The array is " + Length + " long.  " + Temp + " ");
+		if (ArrayLength == true) {
+			return ("The array is " + Length + " long.  " + Temp + " ");
+		} else {
+			return Temp;
+		}
 	}
 }
 

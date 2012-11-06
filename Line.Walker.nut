@@ -1,13 +1,13 @@
-﻿/*	LineWalker class v.1-GS r.140 [2011-12-03],
- *		part of MinchinWeb's MetaLibrary v.2-GS, r.130 [2011-12-03],
- *		adapted from MinchinWeb's MetaLibrary v2, r131, [2011-04-30],
+﻿/*	LineWalker class v.1 r.221 [2012-01-28],
+ *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.7
- *	Copyright © 2011 by W. Minchin. For more info,
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
  
 /*	The LineWalker class allows you to define a starting and endpoint, and then
- *		'walk' all the tiles between the two. It was originally part of my Ship
+ *		'walk' all the tiles between the two. Alternately, you can give a
+ *		starting point and a slope. It was originally part of my Ship
  *		Pathfinder, also part of Minchinweb's MetaLibrary.
  */
  
@@ -24,8 +24,8 @@
  *						  .GetEnd()
  */
  
-//	Plane geometry gets funky things when you don't have an infinity, or by
-//		extention, zero (the inverse of infinity) for slopes. To get by the
+//	Plane geometry does funky things when you don't have an infinity, or by
+//		extention, zero (the inverse of infinity) for slopes. To get around the
 //		fact integer conversions drop everything past the decimal point
 //		(effectively rounding down), slopes are set so that there is a slight
 //		inflection point at the 'origin' so that as you move out from the start
@@ -92,7 +92,7 @@ function _MinchinWeb_LW_::Start(Tile)
 		}
 	}
 	
-//	GSLog.Info("    LineWalker.Start out: " + this._startx + " " + this._starty + " m" + this._slope + " ± " + this._dirx);
+//	_MinchinWeb_Log_.Note("    LineWalker.Start out: " + this._startx + " " + this._starty + " m" + this._slope + " ± " + this._dirx, 6);
 }
 
 function _MinchinWeb_LW_::End(Tile)
@@ -128,13 +128,13 @@ function _MinchinWeb_LW_::End(Tile)
 		}
 	}
 	
-//	GSLog.Info("    LineWalker.End out: " + this._endx + " " + this._endy + " m" + this._slope + " ± " + this._dirx + " mult=" + _MinchinWeb_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) ));
+//	_MinchinWeb_Log_.Note("    LineWalker.End out: " + this._endx + " " + this._endy + " m" + this._slope + " ± " + this._dirx + " mult=" + _MinchinWeb_Extras_.MinAbsFloat(1.0, (1.0 / this._slope) ), 6);
 }
 
 function _MinchinWeb_LW_::Slope(Slope, ThirdQuadrant = false)
 {
 //	Sets the slope for LineWalker
-//	Assumes that the slope is in the first or second quadrant until ThirdQuadrant == true
+//	Assumes that the slope is in the first or second quadrant unless ThirdQuadrant == true
 
 	if (_MinchinWeb_Extras_.AbsFloat(Slope) > _MinchinWeb_C_.Infinity()) {
 		GSLog.Warning("Slope is capped at " + _MinchinWeb_C_.Infinity() + ", you provided " + Slope + ".");
@@ -172,12 +172,12 @@ function _MinchinWeb_LW_::Slope(Slope, ThirdQuadrant = false)
 		}
 	}
 	
-//	GSLog.Info("   LineWalker.Slope out: " + Slope + " " + ThirdQuadrant + " : " + this._endx + " " + this._endy + " " + this._slope + " ± " + this._dirx );
+//	_MinchinWeb_Log_.Note("   LineWalker.Slope out: " + Slope + " " + ThirdQuadrant + " : " + this._endx + " " + this._endy + " " + this._slope + " ± " + this._dirx, 6);
 }
 
 function _MinchinWeb_LW_::Reset()
 {
-//	resets the variables for the Linewalker
+//	Resets the variables for the LineWalker
 	this._start = null;
 	this._end = null;
 	this._slope = null;
@@ -214,7 +214,7 @@ function _MinchinWeb_LW_::Walk()
 	
 	if ((GSMap.DistanceManhattan(this._current_tile, GSMap.GetTileIndex(this._x.tointeger(), this._y.tointeger())) == 1 ) && _MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x.tointeger()) &&_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y.tointeger())) {
 		this._current_tile = GSMap.GetTileIndex(this._x.tointeger(), this._y.tointeger());
-//		GSLog.Info("Linewalker output " + GSMap.GetTileX(this._current_tile) + "," + GSMap.GetTileY(this._current_tile) + " from " + this._x + "," + this._y );
+//		_MinchinWeb_Log_.Note("Linewalker output " + GSMap.GetTileX(this._current_tile) + "," + GSMap.GetTileY(this._current_tile) + " from " + this._x + "," + this._y, 7);
 		return this._current_tile;
 	}
 	
@@ -229,7 +229,7 @@ function _MinchinWeb_LW_::Walk()
 	local NewY = 0.0;
 	NewX = this._x + multiplier * this._dirx;
 	NewY = this._y + this._slope * multiplier * this._dirx;
-//	GSLog.Info("Linewalker new : " + NewX + "," + NewY);
+//	_MinchinWeb_Log_.Note("Linewalker new : " + NewX + "," + NewY, 7);
 	
 	if (GSMap.DistanceManhattan(this._current_tile, GSMap.GetTileIndex(NewX.tointeger(), NewY.tointeger())) == 1 ) {
 		this._current_tile = GSMap.GetTileIndex(NewX.tointeger(), NewY.tointeger());
@@ -241,14 +241,14 @@ function _MinchinWeb_LW_::Walk()
 	this._y = NewY;
 	
 	//	Check that we're still within our bounding box
-//	GSLog.Info("    " + this._startx + " , " + this._endx + " , " + this._x.tointeger() + " , " + this._starty + " , " + this._endy + " , " + this._y.tointeger());
+//	_MinchinWeb_Log_.Note("    " + this._startx + " , " + this._endx + " , " + this._x.tointeger() + " , " + this._starty + " , " + this._endy + " , " + this._y.tointeger(), 7);
 	
 	if (!_MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) || !_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)) {
-//		GSLog.Info("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)));
+//		_MinchinWeb_Log_.Note("Linewalker outside box " + this._startx + " " + this._endx + " " + this._x + " " + _MinchinWeb_Extras_.WithinFloat(this._startx.tofloat(), this._endx.tofloat(), this._x) + " : " + this._starty + " " + this._endy + " " + this._y + " " + (_MinchinWeb_Extras_.WithinFloat(this._starty.tofloat(), this._endy.tofloat(), this._y)), 6);
 		this._past_end = true;
 		return this._current_tile;
 	} else {
-//		GSLog.Info("Linewalker output " + GSMap.GetTileX(this._current_tile) + "," + GSMap.GetTileY(this._current_tile) );
+//		_MinchinWeb_Log_.Note("Linewalker output " + GSMap.GetTileX(this._current_tile) + "," + GSMap.GetTileY(this._current_tile), 6);
 		return this._current_tile;
 	}
 }
@@ -267,6 +267,6 @@ function _MinchinWeb_LW_::GetStart()
 
 function _MinchinWeb_LW_::GetEnd()
 {
-//	Returns the tile the LineWalker is starting on
+//	Returns the tile the LineWalker is ending on
 	return this._end;
 }

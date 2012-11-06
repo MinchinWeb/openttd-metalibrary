@@ -1,41 +1,11 @@
-﻿/*	MinchinWeb's MetaLibrary v.2-GS, r.144 [2011-12-03],
- *		adapted from Minchinweb's MetaLibrary v.2 r.134 [2011-06-02],  
- *		originally part of, WmDOT v.7
- *	Copyright © 2011 by W. Minchin. For more info,
+﻿/*	Minchinweb's MetaLibrary v.5 r.245 [2012-06-27],  
+ *		originally part of, WmDOT v.10
+ *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit http://openttd-noai-wmdot.googlecode.com/
  */
-
-require("Binary.Heap.nut");
-require("AyStar.WM.nut"); 
-require("Pathfinder.Road.nut");
-require("Arrays.nut");
-require("Fibonacci.Heap.WM.nut");
-require("Fibonacci.Heap.WM.Min.nut");
-require("Extras.nut");
-require("Waterbody.Check.nut");
-require("Pathfinder.Ship.nut");
-require("Line.Walker.nut");
-require("Spiral.Walker.nut");
-require("Atlas.nut");
-
-
-class MinchinWeb {
-	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
-	static ShipPathfinder = _MinchinWeb_ShipPathfinder_;	
-	static Array = _MinchinWeb_Array_;
-	static Extras = _MinchinWeb_Extras_;
-	static WaterbodyCheck = _MinchinWeb_WBC_;
-	static LineWalker = _MinchinWeb_LW_;
-	static SpiralWalker = _MinchinWeb_SW_;
-	static Constants = _MinchinWeb_C_;
-	static Atlas = _MinchinWeb_Atlas_;
-	static Fibonacci_Heap = _MinchinWeb_Fibonacci_Heap_;
-	static Fibonacci_Heap_Min = _MinchinWeb_Fibonacci_Heap_Min_;
-	static AyStar = _MinchinWeb_AyStar_;
-	static Binary_Heap = _MinchinWeb_Binary_Heap_;
-}
-
-
+ 
+/*	See the README for a list of the functions included in this library.
+ */
  
 /*	Q:	What is MinchinWeb's MetaLibrary?
  *	A:	MetaLib is the collection of code I've written for WmDOT, my AI for
@@ -47,7 +17,7 @@ class MinchinWeb {
  *	A:	Import the main library, and then create global points to the
  *			sublibaries you want to use. Eg:
  *		
- *			Import("util.MinchinWeb", "MinchinWeb", 2);
+ *			Import("util.MinchinWeb", "MinchinWeb", 5);
  *			Arrays <- MinchinWeb.Arrays;
  *
  *	Info:	See the sub-library files for the functions available and their
@@ -81,3 +51,41 @@ class MinchinWeb {
  *		model, to all the NoAI team to their work on making the AI system work,
  *		and to everyone that has brought us the amazing game of OpenTTD.
  */
+ 
+require("Pathfinder.Road.nut");
+	//	Requires Graph.AyStar v6 library
+// require("AyStar.WM.nut");
+require("Arrays.nut");
+// require("Fibonacci.Heap.WM.nut");
+require("Extras.nut");
+require("Waterbody.Check.nut");
+require("Pathfinder.Ship.nut");
+require("Line.Walker.nut");
+require("Spiral.Walker.nut");
+require("Atlas.nut");
+require("Marine.nut");
+require("Log.nut");
+
+class MinchinWeb {
+	function GetVersion()       { return 5; }
+	function GetRevision()		{ return 245; }
+	function GetDate()          { return "2012-06-27"; }
+	function GetName()          { return "MinchinWeb's MetaLibrary"; }
+
+	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
+	static ShipPathfinder = _MinchinWeb_ShipPathfinder_;	
+	static Array = _MinchinWeb_Array_;
+	static Extras = _MinchinWeb_Extras_;
+	static WaterbodyCheck = _MinchinWeb_WBC_;
+	static LineWalker = _MinchinWeb_LW_;
+	static SpiralWalker = _MinchinWeb_SW_;
+	static Constants = _MinchinWeb_C_;			// in Extras.nut
+	static Atlas = _MinchinWeb_Atlas_;
+	static Marine = _MinchinWeb_Marine_;
+	static Industry = _MinchinWeb_Industry_;	// in Extras.nut
+	static Station = _MinchinWeb_Station_;		// in Extras.nut
+	static Log = _MinchinWeb_Log_;
+}
+
+//	TO-DO: Add license statement...
+ 
