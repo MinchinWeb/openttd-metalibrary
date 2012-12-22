@@ -1,4 +1,4 @@
-﻿/*	Minchinweb's MetaLibrary v.5 r.245 [2012-06-27],  
+﻿/*	Minchinweb's MetaLibrary v.6 [2012-12-21],  
  *		originally part of, WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -75,11 +75,12 @@ require("Spiral.Walker.nut");
 require("Atlas.nut");
 require("Marine.nut");
 require("Log.nut");
+require("Dominion.Roads.nut")
 
 class MinchinWeb {
-	function GetVersion()       { return 5; }
-	function GetRevision()		{ return 245; }
-	function GetDate()          { return "2012-06-27"; }
+	function GetVersion()       { return 6; }
+	function GetRevision()		{ return 0; }
+	function GetDate()          { return "2012-12-21"; }
 	function GetName()          { return "MinchinWeb's MetaLibrary"; }
 
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
@@ -95,7 +96,6 @@ class MinchinWeb {
 	static Industry = _MinchinWeb_Industry_;	// in Extras.nut
 	static Station = _MinchinWeb_Station_;		// in Extras.nut
 	static Log = _MinchinWeb_Log_;
+	static DLS = _MinchinWeb_DLS_;				// in Dominion.Roads.nut
 }
-
-//	TO-DO: Add license statement...
  
