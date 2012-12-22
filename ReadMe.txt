@@ -1,7 +1,7 @@
 ﻿MinchinWeb's MetaLibrary Read-me
 v.5, r.245, 2012-06-27
 Copyright © 2011-12 by W. Minchin. For more info, please visit
-    http://openttd-noai-wmdot.googlecode.com/
+    https://github.com/MinchinWeb/openttd-metalibrary
 
 -- About MetaLibrary ----------------------------------------------------------
 MetaLibrary started as a collection of functions from my AI, WmDOT. The hope is
@@ -41,6 +41,10 @@ To make use of the library in your AIs, add the line:
  * Ship depot builder no longer will build the depot next to a dock
  
 -- Version History ------------------------------------------------------------
+Version 6 [ date ]
+    Update license statement
+	Moved source code to GitHub and updated URL's
+
 Version 5 [2012-06-27]
     Added several ship related functions
     
@@ -90,19 +94,27 @@ TT-Forums - all things Transport Tycoon related               www.tt-forums.net
 MetaLibrary's thread on TT-Forums: release announcements, bug reports,
     suggetions, and general commentary
                             http://www.tt-forums.net/viewtopic.php?f=65&t=57903
-MetaLibrary and WmDOT on Google Code (source code, and Bleeding Edge edition)
-                                    http://code.google.com/p/openttd-noai-wmdot
-To report issues:            http://code.google.com/p/openttd-noai-wmdot/issues
+MetaLibrary and WmDOT on GitHub (source code, and Bleeding Edge edition)
+                              https://github.com/MinchinWeb/openttd-metalibrary
+To report issues:      https://github.com/MinchinWeb/openttd-metalibrary/issues
 
 My other projects (for OpenTTD):
     WmDOT (an AI)           http://www.tt-forums.net/viewtopic.php?f=65&t=53698
     Alberta Town Names      http://www.tt-forums.net/viewtopic.php?f=67&t=53313
     MinchinWeb's Random Town Name Generator
                             http://www.tt-forums.net/viewtopic.php?f=67&t=53579
+    Progressive Rail Set    http://www.tt-forums.net/viewtopic.php?f=67&t=63182
 
 -- Licence -------------------------------------------------------------------
-MetaLibrary (unless otherwise noted) is licenced under a
-    Creative Commons-Attribution 3.0 licence.
+Permission is granted to you to use, copy, modify, merge, publish, distribute,
+sublincense, and/or sell this software, and provide these rights to others,
+provided:
+    + The above copyright notice and this permission notice shall be included
+        in all copies or substantial portions of the software.
+    + Attribution is provided in the normal place for recognition of 3rd party
+        contributions.
+    + You accept that this software is provided to you "as is", without
+	    warranty.
 
 -- Included Functions ---------------------------------------------------------
 Detailed descirptions of each of the function is given within the code files.
