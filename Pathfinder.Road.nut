@@ -1,4 +1,4 @@
-﻿/*	RoadPathfinder v.8 r.221 [2012-01-28],
+﻿/*	RoadPathfinder v.9 [2012-12-25],
  *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -524,10 +524,10 @@ class _MinchinWeb_RoadPathfinder_.Info
 {
 	_main = null;
 	
-	function GetVersion()       { return 7; }
+	function GetVersion()       { return 9; }
 //	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 183; }
-	function GetDate()          { return "2012-01-01"; }
+	function GetRevision()		{ return 0; }
+	function GetDate()          { return "2012-12-25"; }
 	function GetName()          { return "Road Pathfinder (Wm)"; }
 	
 	constructor(main)
@@ -745,7 +745,7 @@ function _MinchinWeb_RoadPathfinder_::BuildPath()
 				if (!AIRoad.BuildRoad(Path.GetTile(), SubPath.GetTile())) {
 				//	If we get here, then the road building has failed
 				//	Possible that the road already exists
-				//	TO-DOz
+				//	TO-DO:
 				//	- fail the road builder if the road cannot be built and
 				//		does not already exist
 				//	return null;
@@ -758,7 +758,7 @@ function _MinchinWeb_RoadPathfinder_::BuildPath()
 					//		tile to get around expanded roadbits.
 					//	I don't like this approach as it could destroy Railway
 					//		tracks/tram tracks/station
-					//	TO-DO
+					//	TO-DO:
 					//	- figure out a way to do this while keeping the other
 					//		things I've built on the tile
 					//	(can I just remove the road?)
@@ -834,7 +834,7 @@ function _MinchinWeb_RoadPathfinder_::GetPathLength()
 		return false;
 	}
 	
-	return _mypath.GetLength();
+	return this._mypath.GetLength();
 }
 
 function _MinchinWeb_RoadPathfinder_::InitializePathOnTowns(StartTown, EndTown)
@@ -872,6 +872,29 @@ function _MinchinWeb_RoadPathfinder_::PathToTilePairs()
 	//	End build sequence
 	return TilePairs;
 }
+
+function _MinchinWeb_RoadPathfinder_::PathToTiles()
+{
+//	Returns a 1D array that has each pair of tiles that path covers
+	if (this._running) {
+		AILog.Warning("You can't convert a path while there's a running pathfinder.");
+		return false;
+	}
+	if (this._mypath == null) {
+		AILog.Warning("You have tried to convert a 'null' path.");
+		return false;
+	}
+	
+	local Path = this._mypath;
+	local Tiles = [];
+
+	while (Path != null) {
+		Tiles.push(Path.GetTile());
+		Path = Path.GetParent();
+	}
+	return Tiles;
+}
+
 
 function _MinchinWeb_RoadPathfinder_::TilesPairsToBuild()
 {

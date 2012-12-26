@@ -1,5 +1,5 @@
-﻿/*	Array SubLibrary, v.3 r.189 [2012-01-05],
- *		part of Minchinweb's MetaLibrary v2,
+﻿/*	Array SubLibrary, v.4 [2012-12-24],
+ *		part of Minchinweb's MetaLibrary v.6,
  *		originally part of WmDOT v.5  r.53d	[2011-04-09]
  *			and WmArray library v.1  r.1 [2011-02-13].
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -17,24 +17,25 @@
  */
 
 /*	Provided functions:
- *		MetaLib.Array.Create1D(length)
- *					 .Create2D(length, width)
- *					 .Create3D(length, width, height)
- *					 .ToString1D(InArray)
- *					 .ToString2D(InArray)
- *					 .ContainedIn1D(InArray, SearchValue)
- *					 .ContainedIn2D(InArray, SearchValue)
- *					 .ContainedIn3D(InArray, SearchValue)
- *					 .ContainedIn1DIn2D(InArray2D, SearchArray1D)
- *					 .Find1D(InArray, SearchValue)
- *					 .Find2D(InArray, SearchValue)
- *					 .Find3D(InArray, SearchValue)
- *					 .RemoveValueAt(InArray, Index)
- *					 .InsertValueAt(InArray, Index, Value)
- *					 .ToStringTiles1D(InArrayOfTiles, ArrayLength = false)
- *					 .FindPairs(InArray2D, SearchValue1, SearchValue2)
- *					 .ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
- *					 .Compare1D(InArray1D, TestArray1D)
+ *		MinchinWeb.Array.Create1D(length)
+ *						.Create2D(length, width)
+ *						.Create3D(length, width, height)
+ *						.ToString1D(InArray)
+ *						.ToString2D(InArray)
+ *						.ContainedIn1D(InArray, SearchValue)
+ *						.ContainedIn2D(InArray, SearchValue)
+ *						.ContainedIn3D(InArray, SearchValue)
+ *					 	.ContainedIn1DIn2D(InArray2D, SearchArray1D)
+ *						.Find1D(InArray, SearchValue)
+ *					 	.Find2D(InArray, SearchValue)
+ *						.Find3D(InArray, SearchValue)
+ *						.RemoveValueAt(InArray, Index)
+ *						.InsertValueAt(InArray, Index, Value)
+ *						.ToStringTiles1D(InArrayOfTiles, ArrayLength = false)
+ *						.FindPairs(InArray2D, SearchValue1, SearchValue2)
+ *						.ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
+ *						.Compare1D(InArray1D, TestArray1D)
+ *						.Append(Array1, Array2)
  */
  
 //	To-DO
@@ -405,4 +406,17 @@ function _MinchinWeb_Array_::Compare1D(InArray1D, TestArray1D)
 	}
 	
 	return true;
+}
+
+function _MinchinWeb_Array_::Append(Array1, Array2) {
+//	returns an array that has Array2 appended to the end of Array1
+	local ReturnArray = [];
+	for (local i=0; i < Array1.len() - 1; i++) {
+		ReturnArray.push(Array1[i]);
+	}
+	for (local i=0; i < Array2.len() - 1; i++) {
+		ReturnArray.push(Array2[i]);
+	}
+
+	return ReturnArray;
 }
