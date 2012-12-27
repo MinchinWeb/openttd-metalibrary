@@ -147,7 +147,7 @@ function _MinchinWeb_DLS_::FindPath(cycles = 10000) {
 //	if the pathfinder ends on an intermediate point, make that the new start point and run the pathfinder again
 	local AllTiles = [];		// we use this to return an array of tiles
 	local LastTile = this._starttile;
-	local LastTile;
+//	local LastTile;
 	local StartTile;
 	cycles = 10000;
 
@@ -168,10 +168,9 @@ function _MinchinWeb_DLS_::FindPath(cycles = 10000) {
 		_MinchinWeb_Log_.Note("Path to Tiles: " + _MinchinWeb_Array_.ToString1D(this._pathfinder.PathToTiles()), 7);
 		AllTiles.extend(this._pathfinder.PathToTiles());
 		_MinchinWeb_Log_.Note("AllTiles (1D): " + _MinchinWeb_Array_.ToString1D(AllTiles), 6);
-		_MinchinWeb_Log_.Note("AllTiles (top): " + AllTiles.top() + " of type " + typeof AllTiles.top() + "; LastTile of type " + typeof LastTile, 7);
-		LastTile = AllTiles.top().tointeger();
-		local SomethingElse = LastTile = AllTiles.top();
-	} while ((LastTile != this._endtile) & (this._running == true));
+		LastTile = AllTiles.top();
+		_MinchinWeb_Log_.Note("while loop: " + (LastTile != this._endtile) + " && " + (this._running == true) + " = " + ((LastTile != this._endtile) && (this._running == true)) + "  ; LastTile " + LastTile, 7);
+	} while ((LastTile != this._endtile) && (this._running == true));
 
 	if (LastTile == this._endtile) {
 		this._path = AllTiles;
