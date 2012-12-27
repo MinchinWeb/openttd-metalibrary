@@ -87,6 +87,8 @@ function _MinchinWeb_DLS_::GridPoints(End1, End2) {
 //	Returns an array of TileIndexs that are 'grid points' or where roads will
 //	have intersections.  
 //	*End1* and *End2* are expected to be TileIndex'es
+//	End1 and End2 will not be included in the return array
+
 	local x1 = AIMap.GetTileX(End1);
 	local y1 = AIMap.GetTileY(End1);
 	local x2 = AIMap.GetTileX(End2);
@@ -123,8 +125,11 @@ function _MinchinWeb_DLS_::GridPoints(End1, End2) {
 	local starty = workingy;
 	do {
 		do {
-			MyArray.push(AIMap.GetTileIndex(workingx, workingy));
-			_MinchinWeb_Log_.Note("Add grid point at " + workingx + ", " + workingy, 7)
+			local Holding = AIMap.GetTileIndex(workingx, workingy);
+			if ((Holding != End1) && (Holding != End2)) {
+				MyArray.push(Holding);
+				_MinchinWeb_Log_.Note("Add grid point at " + workingx + ", " + workingy, 7)
+			}
 			workingy = workingy + this._gridy;
 		} while (workingy < y2);
 		workingx = workingx + this._gridx;
@@ -133,7 +138,6 @@ function _MinchinWeb_DLS_::GridPoints(End1, End2) {
 
 	_MinchinWeb_Log_.Note("Generated " + MyArray.len() + " grid points.", 5);
 	return MyArray;
-
 }
 
 function _MinchinWeb_DLS_::AllGridPoints() {
@@ -147,30 +151,36 @@ function _MinchinWeb_DLS_::FindPath(cycles = 10000) {
 //	if the pathfinder ends on an intermediate point, make that the new start point and run the pathfinder again
 	local AllTiles = [];		// we use this to return an array of tiles
 	local LastTile = this._starttile;
-//	local LastTile;
-	local StartTile;
+//	local StartTile = LastTile;
 	cycles = 10000;
+	local StartArray = [];
+	local EndArray = [];
 
+	_MinchinWeb_Log_.Note("+ while loop before: LastTile " + _MinchinWeb_Array_.ToStringTiles1D([LastTile]), 7); 
 	do {
-		StartTile = LastTile;
-		local StartArray = [StartTile];
-		local EndArray = _MinchinWeb_DLS_.GridPoints(StartTile, this._endtile);
+//		StartTile = LastTile;
+		_MinchinWeb_Log_.Note("++ while loop start: LastTile " + _MinchinWeb_Array_.ToStringTiles1D([LastTile]), 7); 
+		StartArray = [LastTile];
+		EndArray = _MinchinWeb_DLS_.GridPoints(LastTile, this._endtile);
 		EndArray.push(this._endtile);
-		_MinchinWeb_Log_.Note("StartArray: " + _MinchinWeb_Array_.ToString1D(StartArray), 7);
-		_MinchinWeb_Log_.Note("EndArray: " + _MinchinWeb_Array_.ToString1D(EndArray), 7);
+		_MinchinWeb_Log_.Note("StartArray: " + _MinchinWeb_Array_.ToStringTiles1D(StartArray), 7);
+		_MinchinWeb_Log_.Note("EndArray: " + _MinchinWeb_Array_.ToStringTiles1D(EndArray), 7);
 
 		this._pathfinder.InitializePath(EndArray, StartArray);
 		local Ret = this._pathfinder.FindPath(cycles);
 		this._running = (Ret == false) ? true : false;
 
 
-		_MinchinWeb_Log_.Note("AllTiles (before) : " + _MinchinWeb_Array_.ToString1D(AllTiles), 7);
-		_MinchinWeb_Log_.Note("Path to Tiles: " + _MinchinWeb_Array_.ToString1D(this._pathfinder.PathToTiles()), 7);
+		_MinchinWeb_Log_.Note("AllTiles (before) : " + _MinchinWeb_Array_.ToStringTiles1D(AllTiles, true), 7);
+		_MinchinWeb_Log_.Note("Path to Tiles: " + _MinchinWeb_Array_.ToStringTiles1D(this._pathfinder.PathToTiles(), true), 7);
 		AllTiles.extend(this._pathfinder.PathToTiles());
-		_MinchinWeb_Log_.Note("AllTiles (1D): " + _MinchinWeb_Array_.ToString1D(AllTiles), 6);
+		_MinchinWeb_Log_.Note("AllTiles (1D): " + _MinchinWeb_Array_.ToStringTiles1D(AllTiles, true), 6);
 		LastTile = AllTiles.top();
-		_MinchinWeb_Log_.Note("while loop: " + (LastTile != this._endtile) + " && " + (this._running == true) + " = " + ((LastTile != this._endtile) && (this._running == true)) + "  ; LastTile " + LastTile, 7);
-	} while ((LastTile != this._endtile) && (this._running == true));
+//		StartTile = LastTile;
+		_MinchinWeb_Log_.Note("+++ while loop: " + (LastTile != this._endtile) + " && " + (this._running == true) + " = " + ((LastTile != this._endtile) && (this._running == true)) + "  ; LastTile " + _MinchinWeb_Array_.ToStringTiles1D([LastTile]), 7);
+		_MinchinWeb_Log_.Note("++ while loop end: LastTile " + _MinchinWeb_Array_.ToStringTiles1D([LastTile]), 7); 
+//	} while ((LastTile != this._endtile) && (this._running == true));
+	} while (LastTile != this._endtile)
 
 	if (LastTile == this._endtile) {
 		this._path = AllTiles;
