@@ -79,7 +79,7 @@
 
 class _MinchinWeb_RoadPathfinder_
 {
-	_aystar_class = import("graph.aystar", "", 6);
+	_aystar_class = import("graph.aystar", "", 7);
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
 	_cost_no_existing_road = null; ///< The cost that is added to _cost_tile if no road exists yet.
@@ -387,7 +387,9 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 			//	TO-DO: test for map wraparound... _SuperLib_Tile::IsStraight(tile1, tile2)
 				local BridgeList = AIBridgeList_Length(BridgeLength);
 				if ((BridgeList.Count()) > 0 && (AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), cur_node, iTile))) {
-//					_MinchinWeb_Log_.Note("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4), 7);
+					local PathCheck = path;
+					local PathParent = path.GetParent();
+					_MinchinWeb_Log_.Note("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4), 7);
 					tiles.push([iTile, self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4]);
 				}
 			}
@@ -410,6 +412,7 @@ function _MinchinWeb_RoadPathfinder_::_CheckDirection(self, tile, existing_direc
 
 function _MinchinWeb_RoadPathfinder_::_GetDirection(from, to, is_bridge)
 {
+	if (typeof this == null) return null;	//	Try this to fix issues with bridges with no parents
 	if (!is_bridge && AITile.GetSlope(to) == AITile.SLOPE_FLAT) return 0xFF;
 	if (from - to == 1) return 1;
 	if (from - to == -1) return 2;
@@ -718,7 +721,7 @@ function _MinchinWeb_RoadPathfinder_::GetBuildCost()
 	}
 	
 	//	End build sequence
-		return BeanCounter.GetCosts();
+	return BeanCounter.GetCosts();
 }
 
 function _MinchinWeb_RoadPathfinder_::BuildPath()
@@ -896,7 +899,7 @@ function _MinchinWeb_RoadPathfinder_::PathToTiles()
 }
 
 
-function _MinchinWeb_RoadPathfinder_::TilesPairsToBuild()
+function _MinchinWeb_RoadPathfinder_::TilePairsToBuild()
 {
 //	Similiar to PathToTilePairs(), but only returns those pairs where there
 //		isn't a current road connection
@@ -934,4 +937,3 @@ function _MinchinWeb_RoadPathfinder_::TilesPairsToBuild()
 	//	End build sequence
 	return TilePairs;
 }
-
