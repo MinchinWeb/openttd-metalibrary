@@ -1,5 +1,5 @@
 ﻿MinchinWeb's MetaLibrary Read-me
-v.5, r.245, 2012-06-27
+v.6, 2012-12-28
 Copyright © 2011-12 by W. Minchin. For more info, please visit
     https://github.com/MinchinWeb/openttd-metalibrary
 
@@ -34,19 +34,21 @@ To make use of the library in your AIs, add the line:
     which will make the library available as the "MetaLib" class (or whatever
     you change that to).
     
--- Noteable Changes in Version 5 ----------------------------------------------
- * add MinchinWeb.Station.IsNextToDock(TileID)
- * add MinchinWeb.Marine.RankShips(EngineID, Life, Cargo)
- * add MinchinWeb.Marine.NearestDepot(TileID)
- * Ship depot builder no longer will build the depot next to a dock
+-- Noteable Changes in Version 6 ----------------------------------------------
+ * Road Pathfinder no longer chockes if a bridge doesn't have a parent path
+ * moved source to GitHub
  
 -- Version History ------------------------------------------------------------
 Version 6 [ date ]
     Update license statement
 	Moved source code to GitHub and updated URL's
+    Road Pathfinder no longer chockes if a bridge doesn't have a parent path
 
 Version 5 [2012-06-27]
-    Added several ship related functions
+    Added MinchinWeb.Station.IsNextToDock(TileID)
+    Added MinchinWeb.Marine.RankShips(EngineID, Life, Cargo)
+    Added MinchinWeb.Marine.NearestDepot(TileID)
+    Ship depot builder no longer will build the depot next to a dock
     
 Version 4 [2012-01-30]
     Added Log

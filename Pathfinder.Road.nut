@@ -1,5 +1,5 @@
-﻿/*	RoadPathfinder v.9 [2012-12-25],
- *		part of Minchinweb's MetaLibrary v.4,
+﻿/*	RoadPathfinder v.9 [2012-12-28],
+ *		part of Minchinweb's MetaLibrary v.5,
  *		originally part of WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -79,7 +79,7 @@
 
 class _MinchinWeb_RoadPathfinder_
 {
-	_aystar_class = import("graph.aystar", "", 7);
+	_aystar_class = import("graph.aystar", "", 6);
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
 	_cost_no_existing_road = null; ///< The cost that is added to _cost_tile if no road exists yet.
@@ -389,8 +389,8 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 				if ((BridgeList.Count()) > 0 && (AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), cur_node, iTile))) {
 					local PathCheck = path;
 					local PathParent = path.GetParent();
-					_MinchinWeb_Log_.Note("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4), 7);
-					tiles.push([iTile, self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4]);
+					// _MinchinWeb_Log_.Note("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(iTile, cur_node, true) << 4), 7);
+					tiles.push([iTile, self._GetDirection(iTile, cur_node, true) << 4]);
 				}
 			}
 			
@@ -412,12 +412,22 @@ function _MinchinWeb_RoadPathfinder_::_CheckDirection(self, tile, existing_direc
 
 function _MinchinWeb_RoadPathfinder_::_GetDirection(from, to, is_bridge)
 {
-	if (typeof this == null) return null;	//	Try this to fix issues with bridges with no parents
 	if (!is_bridge && AITile.GetSlope(to) == AITile.SLOPE_FLAT) return 0xFF;
 	if (from - to == 1) return 1;
 	if (from - to == -1) return 2;
 	if (from - to == AIMap.GetMapSizeX()) return 4;
 	if (from - to == -AIMap.GetMapSizeX()) return 8;
+
+	//	for bridges that don't have a parent tile
+	local direction = from - to;
+	if (direction > 0) {
+		//	so direction is positive
+		if (direction < (AIMap.GetMapSizeX() / 2 - 1)) return 1;
+		else return 4;
+	} else {
+		if ((direction * -1) < (AIMap.GetMapSizeX() / 2 - 1)) return 2;
+		else return 8;
+	}
 }
 
 /**
@@ -530,7 +540,7 @@ class _MinchinWeb_RoadPathfinder_.Info
 	function GetVersion()       { return 9; }
 //	function GetMinorVersion()	{ return 0; }
 	function GetRevision()		{ return 0; }
-	function GetDate()          { return "2012-12-25"; }
+	function GetDate()          { return "2012-12-28"; }
 	function GetName()          { return "Road Pathfinder (Wm)"; }
 	
 	constructor(main)
