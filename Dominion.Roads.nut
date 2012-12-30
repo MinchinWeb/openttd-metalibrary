@@ -1,4 +1,4 @@
-﻿/*	Dominion Land System Roads v.1 [2012-12-27],
+﻿/*	Dominion Land System Roads v.1 [2012-12-28],
  *		part of Minchinweb's MetaLibrary v.6,
  *	Copyright © 2012 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -53,7 +53,7 @@ class _MinchinWeb_DLS_.Info
 	function GetVersion()       { return 1; }
 //	function GetMinorVersion()	{ return 0; }
 	function GetRevision()		{ return 0; }
-	function GetDate()          { return "2012-12-27"; }
+	function GetDate()          { return "2012-12-28"; }
 	function GetName()          { return "Dominion Land System Road"; }
 	
 	constructor(main)
@@ -80,6 +80,15 @@ function _MinchinWeb_DLS_::SetDatum(NewDatum) {
 function _MinchinWeb_DLS_::GetDatum() {
 //	returns the currently set Datum
 	return this._datum;
+}
+
+function _MinchinWeb_DLS_::IsGridPoint(Point) {
+	//	Returns 'true' iff Point is a grid point
+	if (((AIMap.GetTileX(Point) - AIMap.GetTileX(this._datum)) % this._gridx == 0) && ((AIMap.GetTileY(Point) - AIMap.GetTileY(this._datum)) % this._gridy == 0)) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function _MinchinWeb_DLS_::GridPoints(End1, End2) {
@@ -340,6 +349,11 @@ function _MinchinWeb_DLS_::PathToTilePairs()
 	
 	//	End build sequence
 	return TilePairs;
+}
+
+function _MinchinWeb_DLS_::PathToTiles() {
+	//	Returns a 1D array of the tiles in the path
+	return this._path;
 }
 
 function _MinchinWeb_DLS_::TilePairsToBuild()
