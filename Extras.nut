@@ -32,24 +32,24 @@
  *							.WaterDepotOffset() - return 4
  *						
  *		MinchinWeb.Extras.SignLocation(text)
- *						.MidPoint(TileA, TileB)
- *						.Perpendicular(SlopeIn)
- *						.Slope(TileA, TileB)
- *						.Within(Bound1, Bound2, Value)
- *						.WithinFloat(Bound1, Bound2, Value)
- *						.MinAbsFloat(Value1, Value2)
- *						.MaxAbsFloat(Value1, Value2)
- *						.AbsFloat(Value)
- *						.Sign(Value)
- *						.MinFloat(Value1, Value2)
- *						.MaxFloat(Value1, Value2)
- *						.MinAbsFloatKeepSign(Value1, Value2)
- *						.MaxAbsFloatKeepSign(Value1, Value2)
- *						.NextCardinalTile(StartTile, TowardsTile)
+ *						 .MidPoint(TileA, TileB)
+ *						 .Perpendicular(SlopeIn)
+ *						 .Slope(TileA, TileB)
+ *						 .Within(Bound1, Bound2, Value)
+ *						 .WithinFloat(Bound1, Bound2, Value)
+ *						 .MinAbsFloat(Value1, Value2)
+ *						 .MaxAbsFloat(Value1, Value2)
+ *						 .AbsFloat(Value)
+ *						 .Sign(Value)
+ *						 .MinFloat(Value1, Value2)
+ *						 .MaxFloat(Value1, Value2)
+ *						 .MinAbsFloatKeepSign(Value1, Value2)
+ *						 .MaxAbsFloatKeepSign(Value1, Value2)
+ *						 .NextCardinalTile(StartTile, TowardsTile)
  *							- Given a StartTile and a TowardsTile, will given
  *								the tile immediately next(Manhattan Distance == 1)
  *								to StartTile that is closests to TowardsTile
- *						.GetOpenTTDRevision()
+ *						 .GetOpenTTDRevision()
  *							-Returns the revision number of the current build of OpenTTD
  *
  *	//	Comparision functions will return the first value if the two are equal
