@@ -539,7 +539,7 @@ class _MinchinWeb_RoadPathfinder_.Info
 	
 	function GetVersion()       { return 9; }
 //	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 0; }
+	function GetRevision()		{ return 121228; }
 	function GetDate()          { return "2012-12-28"; }
 	function GetName()          { return "Road Pathfinder (Wm)"; }
 	

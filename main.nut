@@ -1,4 +1,4 @@
-﻿/*	Minchinweb's MetaLibrary v.6 [2012-12-21],  
+﻿/*	Minchinweb's MetaLibrary v.6 [2012-12-31],  
  *		originally part of, WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -79,8 +79,8 @@ require("Dominion.Roads.nut")
 
 class MinchinWeb {
 	function GetVersion()       { return 6; }
-	function GetRevision()		{ return 0; }
-	function GetDate()          { return "2012-12-21"; }
+	function GetRevision()		{ return 121231; }
+	function GetDate()          { return "2012-12-31"; }
 	function GetName()          { return "MinchinWeb's MetaLibrary"; }
 
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;

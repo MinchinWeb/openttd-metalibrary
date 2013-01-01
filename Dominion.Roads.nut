@@ -1,4 +1,4 @@
-﻿/*	Dominion Land System Roads v.1 [2012-12-28],
+﻿/*	Dominion Land System Roads v.1 [2012-12-31],
  *		part of Minchinweb's MetaLibrary v.6,
  *	Copyright © 2012 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -14,14 +14,43 @@
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
  
-//	*Domian Land System* refers to the system of survey in Western Canada. Land
-//	was surveyed into 1/2 mile x 1/2 mile "quarter sections" that would be sold
-//	to settlers. Roads were placed on a 1 mile x 2 mile grid along the edges of
-//	these quarter sections.
-//
-//	Here, we follow the same idea, although on a square grid. The default grid
-//	is 8x8 tiles. This is designed to run as a wrapper on the main road
-//	pathfinder.
+/*	*Domian Land System* refers to the system of survey in Western Canada. Land
+ *	was surveyed into 1/2 mile x 1/2 mile "quarter sections" that would be sold
+ *	to settlers. Roads were placed on a 1 mile x 2 mile grid along the edges of
+ *	these quarter sections.
+ *
+ *	Here, we follow the same idea, although on a square grid. The default grid
+ *	is 8x8 tiles. This is designed to run as a wrapper on the main road
+ *	pathfinder.
+ */
+
+/*	This file provides the following functions
+		MinchinWeb.DLS()
+				  .DLS.Info.GetVersion()
+				  		   .GetRevision()
+				  		   .GetDate()
+				  		   .GetName()
+				  .DLS.SetDatum()
+				  	  .GetDatum()
+				  	  .IsGridPoint(Point)
+				  	  .GridPoints(End1, End2)
+				  	  .AllGridPoints()
+				  	  .FindPath(cycles=10000)
+				  	  .InitializePath(StartArray, EndArray)
+				  	  .BuildPath()
+				  	  .InitializePathOnTowns(StartTown, EndTown)
+				  	  .GetPath()
+				  	  .GetPathLength()
+				  	  .PathToTilePairs()
+				  	  .PathToTiles()
+				  	  .TilePairsToBuild()
+				  	  .GetBuildCost()
+				  	  .PresetOriginal()
+				  	  .PresetPerfectPath()
+				  	  .PresetQuickAndDirty()
+				  	  .PresetMode6()
+				  	  .PresetStreetcar()
+*/
 
 //	Requires *Pathfinder.Road.nut*
 
@@ -52,8 +81,8 @@ class _MinchinWeb_DLS_.Info
 	
 	function GetVersion()       { return 1; }
 //	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 0; }
-	function GetDate()          { return "2012-12-28"; }
+	function GetRevision()		{ return 121231; }
+	function GetDate()          { return "2012-12-21"; }
 	function GetName()          { return "Dominion Land System Road"; }
 	
 	constructor(main)

@@ -1,124 +1,126 @@
-﻿MinchinWeb's MetaLibrary Read-me
-v.6, 2012-12-28
-Copyright © 2011-12 by W. Minchin. For more info, please visit
-    https://github.com/MinchinWeb/openttd-metalibrary
+﻿MinchinWeb's MetaLibrary Read-me  
+v.6, 2012-12-31  
+Copyright © 2011-12 by W. Minchin. For more info, please visit  
+    https://github.com/MinchinWeb/openttd-metalibrary  
 
--- About MetaLibrary ----------------------------------------------------------
+-- About MetaLibrary ----------------------------------------------------------  
 MetaLibrary started as a collection of functions from my AI, WmDOT. The hope is
     to provide a collection of classes and functions that will be useful to
     other AI writers. Your comments, suggestions, and bug reports are welcomed
     and encouraged!
-
--- Requirements ---------------------------------------------------------------
+  
+-- Requirements ---------------------------------------------------------------  
 MetaLibrary requires OpenTTD version 1.2 or newer. This is available as a free
     download from OpenTTD.org. It is not particularly useful on its own, but
-    will hopefully be helpful if you would like to write your own AI.
-As dependencies, MetaLib also requires:
-    - Binary Heap, v.1      ('Queue.BinaryHeap-1.tar')
-    - Fibonacci Heap, v.2   ('Queue.FibonacciHeap-2.tar')
-    - Graph.AyStar, v.6     ('Graph.AyStar-6.tar')
-
--- Installation ---------------------------------------------------------------
+    will hopefully be helpful if you would like to write your own AI.  
+As dependencies, MetaLib also requires:  
+    - Binary Heap, v.1      ('Queue.BinaryHeap-1.tar')  
+    - Fibonacci Heap, v.2   ('Queue.FibonacciHeap-2.tar')  
+    - Graph.AyStar, v.6     ('Graph.AyStar-6.tar')  
+  
+-- Installation ---------------------------------------------------------------  
 The easiest (and recommended) way to install MetaLibrary is use OpenTTD's
     'Check Online Content' inferface. Search for 'MetaLibrary.' If you have not
     already installed the required dependant libraries, OpenTTD will prompt you
     to download them at the same time. This also makes it very easy for me to
-    provide updates.
+    provide updates.  
 Manual installation can be accomplished by putting the
     'MinchinWebs_MetaLibrary-5.tar' file you downloaded in the
     '..\OpenTTD\ai\library'  folder. If you are manually installing,
-    the libraries mentioned above need to be in the same folder. 
+    the libraries mentioned above need to be in the same folder.   
 
 To make use of the library in your AIs, add the line:
         import("util.MinchinWeb", "MetaLib", 5);
     which will make the library available as the "MetaLib" class (or whatever
-    you change that to).
+    you change that to).  
+      
+-- Noteable Changes in Version 6 ----------------------------------------------  
+ * Added Dominion Land System (DLS) which allows for grid based pathfinding  
+ * Road Pathfinder no longer chockes if a bridge doesn't have a parent path  
+ * moved source to GitHub  
+   
+-- Version History ------------------------------------------------------------  
+Version 6 [2012-12-31]  
+    Added Dominion Land System (DLS) which allows for grid based pathfinding  
+    Update license statement  
+	Moved source code to GitHub and updated URL's  
+    Road Pathfinder no longer chockes if a bridge doesn't have a parent path  
+  
+Version 5 [2012-06-27]  
+    Added MinchinWeb.Station.IsNextToDock(TileID  )
+    Added MinchinWeb.Marine.RankShips(EngineID, Life, Cargo)  
+    Added MinchinWeb.Marine.NearestDepot(TileID)  
+    Ship depot builder no longer will build the depot next to a dock  
     
--- Noteable Changes in Version 6 ----------------------------------------------
- * Road Pathfinder no longer chockes if a bridge doesn't have a parent path
- * moved source to GitHub
- 
--- Version History ------------------------------------------------------------
-Version 6 [ date ]
-    Update license statement
-	Moved source code to GitHub and updated URL's
-    Road Pathfinder no longer chockes if a bridge doesn't have a parent path
-
-Version 5 [2012-06-27]
-    Added MinchinWeb.Station.IsNextToDock(TileID)
-    Added MinchinWeb.Marine.RankShips(EngineID, Life, Cargo)
-    Added MinchinWeb.Marine.NearestDepot(TileID)
-    Ship depot builder no longer will build the depot next to a dock
+Version 4 [2012-01-30]  
+    Added Log  
+	Bug fix to Spiral Walker  
+  
+Version 3 [2012-01-14]  
+    Minor update; released to coincide with the release of WmDOT v8  
+	Bug fixes and improvements to the Ship and Road Pathfinder  
+	Road Pathfinder can now bridge over canals, rivers, and railroads  
+  
+Version 2 [2012-01-11]  
+    Major update; released to coincide with the release of WmDOT v7  
+    Added the Ship Pathfinder (v2), Line Walker (v1), and Atlas (v1) classes  
+    Added Constants, Station, Industry, and Marine (v1) class functions  
+    Updated Extras (v.2) and Arrays (v.3)  
     
-Version 4 [2012-01-30]
-    Added Log
-	Bug fix to Spiral Walker
-
-Version 3 [2012-01-14]
-    Minor update; released to coincide with the release of WmDOT v8
-	Bug fixes and improvements to the Ship and Road Pathfinder
-	Road Pathfinder can now bridge over canals, rivers, and railroads
-
-Version 2 [2012-01-11]
-    Major update; released to coincide with the release of WmDOT v7
-    Added the Ship Pathfinder (v2), Line Walker (v1), and Atlas (v1) classes
-    Added Constants, Station, Industry, and Marine (v1) class functions
-    Updated Extras (v.2) and Arrays (v.3)
-    
-Version 1 [2011-04-28]
-    Initial public release; released to coincide with the release of WmDOT v6
+Version 1 [2011-04-28]  
+    Initial public release; released to coincide with the release of WmDOT v6  
     Included Arrays v2, Extras v1, Road Pathfinder v7, Spiral Walker v2,
-        and Waterbody Check v1
-
--- Roadmap --------------------------------------------------------------------
+        and Waterbody Check v1  
+  
+-- Roadmap --------------------------------------------------------------------  
 These are features I hope to add to MetaLibrary shortly. However, this is 
-    subject to change without notice. However, I am open to suggestions!
+    subject to change without notice. However, I am open to suggestions!  
         Road Pathfinder improvements (prebuild bridges and tunnels, upgrade
-            bridges)
-		Ship Pathfinder improvements
-		Replace Waterbody Check
+            bridges)  
+		Ship Pathfinder improvements  
+		Replace Waterbody Check  
             
--- Known Issues ---------------------------------------------------------------
+-- Known Issues ---------------------------------------------------------------  
 Pathfinding can take an exceptionally long time if there is no possible path.
     This is most often an issue when the two towns in question are on different
-    islands.
-
--- Help! It broke! (Bug Report) -----------------------------------------------
+    islands.  
+  
+-- Help! It broke! (Bug Report) -----------------------------------------------  
 If MetaLibrary cause crashes, please help me fix it! Save a screenshot (under
     the ? on the far right of the in-game toolbar) and, if possible, the
-    offending AI, and report the bug to either:
+    offending AI, and report the bug to either:  
                             http://www.tt-forums.net/viewtopic.php?f=65&t=57903
                             http://code.google.com/p/openttd-noai-wmdot/issues/
 
--- Helpful Links --------------------------------------------------------------
-Get OpenTTD!                                                    www.openttd.org
-TT-Forums - all things Transport Tycoon related               www.tt-forums.net
+-- Helpful Links --------------------------------------------------------------  
+Get OpenTTD!                                                    www.openttd.org  
+TT-Forums - all things Transport Tycoon related               www.tt-forums.net  
 MetaLibrary's thread on TT-Forums: release announcements, bug reports,
     suggetions, and general commentary
-                            http://www.tt-forums.net/viewtopic.php?f=65&t=57903
+                            http://www.tt-forums.net/viewtopic.php?f=65&t=57903  
 MetaLibrary and WmDOT on GitHub (source code, and Bleeding Edge edition)
-                              https://github.com/MinchinWeb/openttd-metalibrary
-To report issues:      https://github.com/MinchinWeb/openttd-metalibrary/issues
-
-My other projects (for OpenTTD):
-    WmDOT (an AI)           http://www.tt-forums.net/viewtopic.php?f=65&t=53698
-    Alberta Town Names      http://www.tt-forums.net/viewtopic.php?f=67&t=53313
+                              https://github.com/MinchinWeb/openttd-metalibrary  
+To report issues:      https://github.com/MinchinWeb/openttd-metalibrary/issues  
+  
+My other projects (for OpenTTD):  
+    WmDOT (an AI)           http://www.tt-forums.net/viewtopic.php?f=65&t=53698  
+    Alberta Town Names      http://www.tt-forums.net/viewtopic.php?f=67&t=53313  
     MinchinWeb's Random Town Name Generator
-                            http://www.tt-forums.net/viewtopic.php?f=67&t=53579
-    Progressive Rail Set    http://www.tt-forums.net/viewtopic.php?f=67&t=63182
-
--- Licence -------------------------------------------------------------------
+                            http://www.tt-forums.net/viewtopic.php?f=67&t=53579  
+    Progressive Rail Set    http://www.tt-forums.net/viewtopic.php?f=67&t=63182  
+  
+-- Licence -------------------------------------------------------------------  
 Permission is granted to you to use, copy, modify, merge, publish, distribute,
 sublincense, and/or sell this software, and provide these rights to others,
-provided:
+provided:  
     + The above copyright notice and this permission notice shall be included
-        in all copies or substantial portions of the software.
+        in all copies or substantial portions of the software.  
     + Attribution is provided in the normal place for recognition of 3rd party
-        contributions.
+        contributions.  
     + You accept that this software is provided to you "as is", without
-	    warranty.
-
--- Included Functions ---------------------------------------------------------
+	    warranty.  
+  
+-- Included Functions ---------------------------------------------------------  
 Detailed descirptions of each of the function is given within the code files.
     See them for further details of each function.
 
