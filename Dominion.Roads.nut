@@ -1,6 +1,6 @@
-﻿/*	Dominion Land System Roads v.1 [2012-12-31],
+﻿/*	Dominion Land System Roads v.1.1 [2013-01-01],
  *		part of Minchinweb's MetaLibrary v.6,
- *	Copyright © 2012 by W. Minchin. For more info,
+ *	Copyright © 2012-13 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -81,9 +81,9 @@ class _MinchinWeb_DLS_.Info
 	
 	function GetVersion()       { return 1; }
 //	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 121231; }
-	function GetDate()          { return "2012-12-21"; }
-	function GetName()          { return "Dominion Land System Road"; }
+	function GetRevision()		{ return 130101; }
+	function GetDate()          { return "2013-01-01"; }
+	function GetName()          { return "Dominion Land System Roads"; }
 	
 	constructor(main)
 	{
@@ -215,9 +215,11 @@ function _MinchinWeb_DLS_::FindPath(cycles = 10000) {
 
 		_MinchinWeb_Log_.Note("AllTiles (before) : " + _MinchinWeb_Array_.ToStringTiles1D(AllTiles, true), 7);
 		local TilestoAdd = this._pathfinder.PathToTiles();
-		TilestoAdd.remove(0);	//	remove the first tile so we don't get duplicates
-		_MinchinWeb_Log_.Note("Path to Tiles: " + _MinchinWeb_Array_.ToStringTiles1D(TilestoAdd, true), 7);
-		AllTiles.extend(TilestoAdd);
+		if ((typeof (TilestoAdd) == "array") && (TilestoAdd.len() > 0)) {
+			TilestoAdd.remove(0);	//	remove the first tile so we don't get duplicates
+			_MinchinWeb_Log_.Note("Path to Tiles: " + _MinchinWeb_Array_.ToStringTiles1D(TilestoAdd, true), 7);
+			AllTiles.extend(TilestoAdd);
+		}
 		_MinchinWeb_Log_.Note("AllTiles (1D): " + _MinchinWeb_Array_.ToStringTiles1D(AllTiles, true), 6);
 		LastTile = AllTiles.top();
 		_MinchinWeb_Log_.Note("+++ while loop: " + (LastTile != this._endtile) + " && " + (this._running == true) + " = " + ((LastTile != this._endtile) && (this._running == true)) + "  ; LastTile " + _MinchinWeb_Array_.ToStringTiles1D([LastTile]), 7);

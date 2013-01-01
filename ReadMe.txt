@@ -1,4 +1,4 @@
-﻿MinchinWeb's MetaLibrary Read-me  
+MinchinWeb's MetaLibrary Read-me  
 v.6, 2012-12-31  
 Copyright © 2011-12 by W. Minchin. For more info, please visit  
     https://github.com/MinchinWeb/openttd-metalibrary  
@@ -109,7 +109,7 @@ My other projects (for OpenTTD):
                             http://www.tt-forums.net/viewtopic.php?f=67&t=53579  
     Progressive Rail Set    http://www.tt-forums.net/viewtopic.php?f=67&t=63182  
   
--- Licence -------------------------------------------------------------------  
+-- License -------------------------------------------------------------------  
 Permission is granted to you to use, copy, modify, merge, publish, distribute,
 sublincense, and/or sell this software, and provide these rights to others,
 provided:  
