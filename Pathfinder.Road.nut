@@ -1,5 +1,5 @@
-﻿/*	RoadPathfinder v.9 [2012-12-28],
- *		part of Minchinweb's MetaLibrary v.5,
+﻿/*	RoadPathfinder v.10 [2013-01-01],
+ *		part of Minchinweb's MetaLibrary v.7,
  *		originally part of WmDOT v.4  r.50 [2011-04-06]
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -35,7 +35,7 @@
 //	Requires Graph.AyStar v6 library
 
 /*	This file provides functions:
-		MinchinWeb.RoadPathfinder.InitializePath(sources, goals)
+		MinchinWeb.RoadPathfinder.InitializePath(sources, goals, ignored_tiles = [])
 				Set up the pathfinder
 		MinchinWeb.RoadPathfinder.FindPath(iterations)	
 				Run the pathfinder; returns false if it isn't finished the path
@@ -135,13 +135,13 @@ class _MinchinWeb_RoadPathfinder_
 	 * @param goals The target tiles.
 	 * @see AyStar::InitializePath()
 	 */
-	function InitializePath(sources, goals) {
+	function InitializePath(sources, goals, ignored_tiles = []) {
 		local nsources = [];
 
 		foreach (node in sources) {
 			nsources.push([node, 0xFF]);
 		}
-		this._pathfinder.InitializePath(nsources, goals);
+		this._pathfinder.InitializePath(nsources, goals, ignored_tiles);
 		this._mypath = null;
 	}
 
@@ -537,10 +537,10 @@ class _MinchinWeb_RoadPathfinder_.Info
 {
 	_main = null;
 	
-	function GetVersion()       { return 9; }
+	function GetVersion()       { return 10; }
 //	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 121228; }
-	function GetDate()          { return "2012-12-28"; }
+	function GetRevision()		{ return 130101; }
+	function GetDate()          { return "2013-01-01"; }
 	function GetName()          { return "Road Pathfinder (Wm)"; }
 	
 	constructor(main)
@@ -653,6 +653,7 @@ function _MinchinWeb_RoadPathfinder_::PresetCheckExisting() {
 
 function _MinchinWeb_RoadPathfinder_::PresetStreetcar () {
 //	reserved for future use for intraurban tram lines
+	this._road_type = AIRoad.ROADTYPE_TRAM;
 	return;
 }
 
