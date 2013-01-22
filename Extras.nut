@@ -1,5 +1,5 @@
-﻿/*	Extra functions v.5 r.253 [2011-07-01],
- *		part of Minchinweb's MetaLibrary v.6,
+﻿/*	Extra functions v.6 [2013-01-16],
+ *		part of Minchinweb's MetaLibrary v.7,
  *		originally part of WmDOT v.10
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -62,17 +62,6 @@
  *								- This function starts at the tile, and then searchs a square out
  *									(up to Constants.StationSize) until it finds a tile with a
  *									valid TileID.
- *
- *		MinchinWeb.Station.IsCargoAccepted(StationID, CargoID)
- *								- Checks whether a certain Station accepts a given cargo
- *								- Returns null if the StationID or CargoID are invalid
- *								- Returns true or false, depending on if the cargo is accepted
- *						  .IsNextToDock(TileID)
- *								- Checks whether a given tile is next to a dock. Returns true if
- *									this is the case
- *						  .DistanceFromStation(VehicleID, StationID)
- *								- Returns the distance between a given vehicle and a given station
- *								- Designed to be useable as a Valuator on a list of vehicles
  */
 
 class _MinchinWeb_C_ {
@@ -345,110 +334,8 @@ function _MinchinWeb_Industry_::GetIndustryID(Tile) {
 	return _MinchinWeb_C_.InvalidIndustry();
 }
 
-
-// =============  STATION class  =============
-class _MinchinWeb_Station_ {
+// =============  ROAD class  =============
+class _MinchinWeb_Road_ {
 	main = null;
 }
 
-function _MinchinWeb_Station_::IsCargoAccepted(StationID, CargoID)
-{
-//	Checks whether a certain Station accepts a given cargo
-//	Returns null if the StationID or CargoID are invalid
-//	Returns true or false, depending on if the cargo is accepted
-
-	if (!AIStation.IsValidStation(StationID) || !AICargo.IsValidCargo(CargoID)) {
-		AILog.Warning("MinchinWeb.Station.IsCargoAccepted() was provided with invalid input. Was provided " + StationID + " and " + CargoID + ".");
-		return null;
-	} else {
-		local AllCargos = AICargoList_StationAccepting(StationID);
-		_MinchinWeb_Log_.Note("MinchinWeb.Station.IsCargoAccepted() was provided with " + StationID + " and " + CargoID + ". AllCargos: " + AllCargos.Count(), 6);
-		if (AllCargos.HasItem(CargoID)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
-
-function _MinchinWeb_Station_::IsNextToDock(TileID)
-{
-//	Checks whether a given tile is next to a dock. Returns true if this is the case
-	
-	local offsets = [0, AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
-						AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
-				 
-	foreach (offset in offsets) {
-		if (AIMarine.IsDockTile(TileID + offset)) {
-			return true;
-		}
-	}
-	
-	return false;
-}
-
-function _MinchinWeb_Station_::DistanceFromStation(VehicleID, StationID)
-{
-//	Returns the distance between a given vehicle and a given station
-//	Designed to be useable as a Valuator on a list of vehicles
-
-//	To-DO:  Add check that supplied VehicleID and StationID are valid
-
-	local VehicleTile = AIVehicle.GetLocation(VehicleID);
-	local StationTile = AIBaseStation.GetLocation(StationID);
-	
-	return AITile.GetDistanceManhattanToTile(VehicleTile, StationTile);
-}
-
-function _MinchinWeb_Station_::BuildStreetcarStation(Tile, Loop = true)
-{
-	//	first tries to build a streetcar station with a half-tile loop on each end
-	//	if it works, actually build it
-	//
-	//	if Loop == true, build a loop connecting the two ends
-
-	local TestMode = AITestMode();
-	AIRoad.SetCurrentRoadType(AIRoad.ROADTYPE_TRAM);
-	local FrontTile;
-	local BackTile;
-	local MyDirection;
-
-	if (AIRoad.BuildDriveThroughRoadStation(Tile, _MinchinWeb_SuperLib_.Direction.GetAdjacentTileInDirection(Tile, _MinchinWeb_SuperLib_.Direction.DIR_NE), AIRoad.ROADVEHTYPE_BUS, AIStation.STATION_NEW)) {
-		MyDirection = _MinchinWeb_SuperLib_.Direction.DIR_NE;
-	} else if (AIRoad.BuildDriveThroughRoadStation(Tile, _MinchinWeb_SuperLib_.Direction.GetAdjacentTileInDirection(Tile, _MinchinWeb_SuperLib_.Direction.DIR_SE), AIRoad.ROADVEHTYPE_BUS, AIStation.STATION_NEW)) {
-		MyDirection = _MinchinWeb_SuperLib_.Direction.DIR_SE;		
-	} else {
-		return false;
-	}
-
-	FrontTile = _MinchinWeb_SuperLib_.Direction.GetAdjacentTileInDirection(Tile, MyDirection);
-	BackTile = _MinchinWeb_SuperLib_.Direction.GetAdjacentTileInDirection(Tile, _MinchinWeb_SuperLib_.Direction.OppositeDir(MyDirection));
-
-	if (AIRoad.BuildRoad(FrontTile, BuildRoad)) {
-		//	we keep doing stuff
-	} else {
-		return false;
-	}
-
-	local ExecMode = AIExecMode();
-	switch (MyDirection) {
-		case _MinchinWeb_SuperLib_.Direction.DIR_NE :
-		case _MinchinWeb_SuperLib_.Direction.DIR_SE :
-			AIRoad.BuildDriveThroughRoadStation(Tile, _MinchinWeb_SuperLib_.Direction.GetAdjacentTileInDirection(Tile, MyDirection), AIRoad.ROADVEHTYPE_BUS, AIStation.STATION_NEW);
-			break;
-		default:
-			// didn't work, should never get here
-	}
-	AIRoad.BuildRoad(FrontTile, BuildRoad);
-
-	if (Loop) {
-		local Pathfinder = _MinchinWeb_RoadPathfinder_();
-		Pathfinder.InitializePath([FrontTile], [BackTile], [Tile]);
-		Pathfinder.PresetStreetcar();
-		Pathfinder.FindPath();
-		_MinchinWeb_SuperLib_.Money.MakeSureToHaveAmount(Pathfinder.GetBuildCost());
-		Pathfinder.BuildPath();
-	}
-
-	return true;
-}

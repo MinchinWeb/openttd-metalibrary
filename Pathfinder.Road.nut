@@ -96,7 +96,7 @@ class _MinchinWeb_RoadPathfinder_
 	_cost_only_existing_roads = null;	   ///< Choose whether to only search through exisitng connected roads
 	_distance_penalty = null;		///< Penalty to use to speed up pathfinder, 1 is no penalty
 	_road_type = null;
-	cost = null;                   ///< Used to change the costs.
+	cost = null;                    ///< Used to change the costs.
 	_mypath = null;					///< Used to store the path after it's been found for Building functions
 	_running = null;
 	info = null;

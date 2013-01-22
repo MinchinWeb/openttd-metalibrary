@@ -1,4 +1,4 @@
-﻿/*	Minchinweb's MetaLibrary v.7 [2012-01-01],  
+﻿/*	Minchinweb's MetaLibrary v.7 [2013-01-16],  
  *		originally part of, WmDOT v.10
  *	Copyright © 2011-13 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -68,6 +68,7 @@ require("Pathfinder.Road.nut");
 require("Arrays.nut");
 // require("Fibonacci.Heap.WM.nut");
 require("Extras.nut");
+require("Stations.nut");
 require("Waterbody.Check.nut");
 require("Pathfinder.Ship.nut");
 require("Line.Walker.nut");
@@ -77,12 +78,13 @@ require("Marine.nut");
 require("Log.nut");
 require("Dominion.Roads.nut")
 
-import("util.superlib", "_MinchinWeb_SuperLib_", 27);
+import("util.superlib", "_MinchinWeb_SuperLib_", 27);	//	don't think this import statement actually works...
+SuperLib <- _MinchinWeb_SuperLib_;
 
 class MinchinWeb {
 	function GetVersion()       { return 7; }
-	function GetRevision()		{ return 130101; }
-	function GetDate()          { return "2013-01-01"; }
+	function GetRevision()		{ return 130116; }
+	function GetDate()          { return "2013-01-16"; }
 	function GetName()          { return "MinchinWeb's MetaLibrary"; }
 
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
@@ -96,8 +98,9 @@ class MinchinWeb {
 	static Atlas = _MinchinWeb_Atlas_;
 	static Marine = _MinchinWeb_Marine_;
 	static Industry = _MinchinWeb_Industry_;	// in Extras.nut
-	static Station = _MinchinWeb_Station_;		// in Extras.nut
+	static Station = _MinchinWeb_Station_;
 	static Log = _MinchinWeb_Log_;
 	static DLS = _MinchinWeb_DLS_;				// in Dominion.Roads.nut
+	static Road = _MinchinWeb_Road_;			// in Extras.nut
 }
  
