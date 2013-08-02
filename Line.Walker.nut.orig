@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿/*	LineWalker class v.1-GS r.221 [2012-01-28],
  *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.7
@@ -13,6 +14,13 @@
  *	+ Attribution is provided in the normal place for recognition of 3rd party
  *		contributions.
  *	+ You accept that this software is provided to you "as is", without warranty.
+=======
+﻿/*	LineWalker class v.1 r.221 [2012-01-28],
+ *		part of Minchinweb's MetaLibrary v.4,
+ *		originally part of WmDOT v.7
+ *	Copyright © 2011-12 by W. Minchin. For more info,
+ *		please visit http://openttd-noai-wmdot.googlecode.com/
+>>>>>>> game-script
  */
  
 /*	The LineWalker class allows you to define a starting and endpoint, and then
