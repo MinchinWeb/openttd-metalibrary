@@ -1,6 +1,7 @@
-﻿MinchinWeb's MetaLibrary Read-me  
+<<<<<<< HEAD
+MinchinWeb's MetaLibrary Read-me  
 v.6-GS, 2013-08-01  
-Copyright Â© 2011-13 by W. Minchin. For more info, please visit  
+Copyright © 2011-13 by W. Minchin. For more info, please visit  
     https://github.com/MinchinWeb/openttd-metalibrary  
 
 -- About MetaLibrary ----------------------------------------------------------  
@@ -19,10 +20,34 @@ As dependencies, MetaLib also requires:
     - Graph.AyStar, v.6     ('Graph.AyStar-6.tar')  
   
 -- Installation ---------------------------------------------------------------  
+=======
+﻿MinchinWeb's MetaLibrary Read-me
+v.5, r.245, 2012-06-27
+Copyright © 2011-12 by W. Minchin. For more info, please visit
+    http://openttd-noai-wmdot.googlecode.com/
+
+-- About MetaLibrary ----------------------------------------------------------
+MetaLibrary started as a collection of functions from my AI, WmDOT. The hope is
+    to provide a collection of classes and functions that will be useful to
+    other AI writers. Your comments, suggestions, and bug reports are welcomed
+    and encouraged!
+
+-- Requirements ---------------------------------------------------------------
+MetaLibrary requires OpenTTD version 1.2 or newer. This is available as a free
+    download from OpenTTD.org. It is not particularly useful on its own, but
+    will hopefully be helpful if you would like to write your own AI.
+As dependencies, MetaLib also requires:
+    - Binary Heap, v.1      ('Queue.BinaryHeap-1.tar')
+    - Fibonacci Heap, v.2   ('Queue.FibonacciHeap-2.tar')
+    - Graph.AyStar, v.6     ('Graph.AyStar-6.tar')
+
+-- Installation ---------------------------------------------------------------
+>>>>>>> game-script
 The easiest (and recommended) way to install MetaLibrary is use OpenTTD's
     'Check Online Content' inferface. Search for 'MetaLibrary.' If you have not
     already installed the required dependant libraries, OpenTTD will prompt you
     to download them at the same time. This also makes it very easy for me to
+<<<<<<< HEAD
     provide updates.  
 Manual installation can be accomplished by putting the
     'MinchinWebs_MetaLibrary-6.tar' file you downloaded in the
@@ -121,6 +146,90 @@ provided:
 	    warranty.  
   
 -- Included Functions ---------------------------------------------------------  
+=======
+    provide updates.
+Manual installation can be accomplished by putting the
+    'MinchinWebs_MetaLibrary-5.tar' file you downloaded in the
+    '..\OpenTTD\ai\library'  folder. If you are manually installing,
+    the libraries mentioned above need to be in the same folder. 
+
+To make use of the library in your AIs, add the line:
+        import("util.MinchinWeb", "MetaLib", 5);
+    which will make the library available as the "MetaLib" class (or whatever
+    you change that to).
+    
+-- Noteable Changes in Version 5 ----------------------------------------------
+ * add MinchinWeb.Station.IsNextToDock(TileID)
+ * add MinchinWeb.Marine.RankShips(EngineID, Life, Cargo)
+ * add MinchinWeb.Marine.NearestDepot(TileID)
+ * Ship depot builder no longer will build the depot next to a dock
+ 
+-- Version History ------------------------------------------------------------
+Version 5 [2012-06-27]
+    Added several ship related functions
+    
+Version 4 [2012-01-30]
+    Added Log
+	Bug fix to Spiral Walker
+
+Version 3 [2012-01-14]
+    Minor update; released to coincide with the release of WmDOT v8
+	Bug fixes and improvements to the Ship and Road Pathfinder
+	Road Pathfinder can now bridge over canals, rivers, and railroads
+
+Version 2 [2012-01-11]
+    Major update; released to coincide with the release of WmDOT v7
+    Added the Ship Pathfinder (v2), Line Walker (v1), and Atlas (v1) classes
+    Added Constants, Station, Industry, and Marine (v1) class functions
+    Updated Extras (v.2) and Arrays (v.3)
+    
+Version 1 [2011-04-28]
+    Initial public release; released to coincide with the release of WmDOT v6
+    Included Arrays v2, Extras v1, Road Pathfinder v7, Spiral Walker v2,
+        and Waterbody Check v1
+
+-- Roadmap --------------------------------------------------------------------
+These are features I hope to add to MetaLibrary shortly. However, this is 
+    subject to change without notice. However, I am open to suggestions!
+        Road Pathfinder improvements (prebuild bridges and tunnels, upgrade
+            bridges)
+		Ship Pathfinder improvements
+		Replace Waterbody Check
+            
+-- Known Issues ---------------------------------------------------------------
+Pathfinding can take an exceptionally long time if there is no possible path.
+    This is most often an issue when the two towns in question are on different
+    islands.
+
+-- Help! It broke! (Bug Report) -----------------------------------------------
+If MetaLibrary cause crashes, please help me fix it! Save a screenshot (under
+    the ? on the far right of the in-game toolbar) and, if possible, the
+    offending AI, and report the bug to either:
+                            http://www.tt-forums.net/viewtopic.php?f=65&t=57903
+                            http://code.google.com/p/openttd-noai-wmdot/issues/
+
+-- Helpful Links --------------------------------------------------------------
+Get OpenTTD!                                                    www.openttd.org
+TT-Forums - all things Transport Tycoon related               www.tt-forums.net
+MetaLibrary's thread on TT-Forums: release announcements, bug reports,
+    suggetions, and general commentary
+                            http://www.tt-forums.net/viewtopic.php?f=65&t=57903
+MetaLibrary and WmDOT on Google Code (source code, and Bleeding Edge edition)
+                                    http://code.google.com/p/openttd-noai-wmdot
+To report issues:            http://code.google.com/p/openttd-noai-wmdot/issues
+
+My other projects (for OpenTTD):
+    WmDOT (an AI)           http://www.tt-forums.net/viewtopic.php?f=65&t=53698
+    Alberta Town Names      http://www.tt-forums.net/viewtopic.php?f=67&t=53313
+    MinchinWeb's Random Town Name Generator
+                            http://www.tt-forums.net/viewtopic.php?f=67&t=53579
+
+-- Licence -------------------------------------------------------------------
+MetaLibrary (unless otherwise noted) is licenced under a
+    Creative Commons-Attribution 3.0 licence.
+
+-- Included Functions ---------------------------------------------------------
+>>>>>>> game-script
 Detailed descirptions of each of the function is given within the code files.
     See them for further details of each function.
 
@@ -258,7 +367,11 @@ The Atlas takes sources (departs) and attractions (destinations) and then
 		    - Returns the revision number of the current build of OpenTTD
 
     Industry.GetIndustryID(Tile)
+<<<<<<< HEAD
             - GSIndustty.GetIndustryID( GSIndustry.GetLocation(IndustryID) )
+=======
+            - AIIndustty.GetIndustryID( AIIndustry.GetLocation(IndustryID) )
+>>>>>>> game-script
                 sometimes fails because GetLocation() returns the northmost
                 tile of the industry which may be a dock, heliport, or not
                 part of the industry at all.
@@ -305,7 +418,11 @@ The LineWalker class allows you to define a starting and endpoint, and then
             - Returns the tile set as the LineWalker end
  
 [Log.nut] v.3
+<<<<<<< HEAD
 To get this to fully work, you will need to add a setting to your GS (in your
+=======
+To get this to fully work, you will need to add a setting to your AI (in your
+>>>>>>> game-script
     info.nut file)
 
 	function GetSettings() {
@@ -326,7 +443,7 @@ Log reads the setting each time it is called and so the Debug Level can be set
 
 [Marine.nut] v.3 - Updated
     Ship.DistanceShip(TileA, TileB)
-            - Assuming open ocean, ship in OpenTTD will travel 45Â° angle where
+            - Assuming open ocean, ship in OpenTTD will travel 45° angle where
                 possible, and then finish up the trip by going along a
                 cardinal direction
         .GetPossibleDockTiles(IndustryID)
@@ -436,8 +553,8 @@ The ship pathfinder takes two water tiles, checks that they are in the same
             - Starts at a given tile and then walks out at the given slope
                 until it hits water
             - "ThirdQuadrant" refers to whether to search the first and second
-                quadrants (0Â°-90Â°, 271Â°-359Â°) or the third and fourth
-                quadrants (91Â°-270Â°) 
+                quadrants (0°-90°, 271°-359°) or the third and fourth
+                quadrants (91°-270°) 
             - LandHo() and WaterHo() are static functions and thus likely to be
                 moved to a different sublibrary in the near future
         .GetPathLength()
