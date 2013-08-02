@@ -1,7 +1,7 @@
-﻿/*	Waterbody Check v.1, r.193, [2012-01-05],
+﻿/*	Waterbody Check v.1-GS, r.193, [2012-01-05],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.7
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-13 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -153,7 +153,7 @@ function _MinchinWeb_WBC_::_Cost(self, path, new_tile, new_direction)
 
 //	local cost = self._cost_per_tile;
 	
-//	if (AIMarine.AreWaterTilesConnected(new_tile, prev_tile) != true) {
+//	if (GSMarine.AreWaterTilesConnected(new_tile, prev_tile) != true) {
 //		cost = self._max_cost * 10;	//	Basically, way over the top
 //	}
 //	return path.GetCost() + cost;
@@ -168,7 +168,7 @@ function _MinchinWeb_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
 	/* As estimate we multiply the lowest possible cost for a single tile with
 	 * with the minimum number of tiles we need to traverse. */
 	foreach (tile in goal_tiles) {
-		min_cost = min(AIMap.DistanceManhattan(cur_tile, tile) * self._cost_per_tile * self._distance_penalty, min_cost);
+		min_cost = min(GSMap.DistanceManhattan(cur_tile, tile) * self._cost_per_tile * self._distance_penalty, min_cost);
 	}
 	return min_cost;
 }
@@ -179,12 +179,12 @@ function _MinchinWeb_WBC_::_Neighbours(self, path, cur_node)
 	if (path.GetCost() >= self._max_cost) return [];
 	local tiles = [];
 
-	local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
-					 AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
+	local offsets = [GSMap.GetTileIndex(0, 1), GSMap.GetTileIndex(0, -1),
+					 GSMap.GetTileIndex(1, 0), GSMap.GetTileIndex(-1, 0)];
 	/* Check all tiles adjacent to the current tile. */
 	foreach (offset in offsets) {
 		local next_tile = cur_node + offset;
-		if (AIMarine.AreWaterTilesConnected(cur_node, next_tile)) {
+		if (GSMarine.AreWaterTilesConnected(cur_node, next_tile)) {
 			tiles.push([next_tile, self._GetDirection(cur_node, next_tile)]);
 		}
 	}
@@ -201,22 +201,22 @@ function _MinchinWeb_WBC_::_CheckDirection(self, tile, existing_direction, new_d
 
 function _MinchinWeb_WBC_::_GetDirection(from, to)
 {
-	if (AITile.GetSlope(to) == AITile.SLOPE_FLAT) return 0xFF;
+	if (GSTile.GetSlope(to) == GSTile.SLOPE_FLAT) return 0xFF;
 	if (from - to == 1) return 1;
 	if (from - to == -1) return 2;
-	if (from - to == AIMap.GetMapSizeX()) return 4;
-	if (from - to == -AIMap.GetMapSizeX()) return 8;
+	if (from - to == GSMap.GetMapSizeX()) return 4;
+	if (from - to == -GSMap.GetMapSizeX()) return 8;
 }
 
 function _MinchinWeb_WBC_::GetPathLength()
 {
 //  Runs over the path to determine its length
     if (this._running) {
-        AILog.Warning("You can't get the path length while there's a running pathfinder.");
+        GSLog.Warning("You can't get the path length while there's a running pathfinder.");
         return false;
     }
     if (this._mypath == null) {
-        AILog.Warning("You have tried to get the length of a 'null' path.");
+        GSLog.Warning("You have tried to get the length of a 'null' path.");
         return false;
     }
     
@@ -226,5 +226,5 @@ function _MinchinWeb_WBC_::GetPathLength()
 function _MinchinWeb_WBC_::PresetSafety(Start, End)
 {
 //	Caps the pathfinder as twice the Manhattan distance between the two tiles
-	this._max_cost = this._cost_per_tile * AIMap.DistanceManhattan(Start, End) * 2;
+	this._max_cost = this._cost_per_tile * GSMap.DistanceManhattan(Start, End) * 2;
 }

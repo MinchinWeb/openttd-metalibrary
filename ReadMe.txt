@@ -1,18 +1,18 @@
 MinchinWeb's MetaLibrary Read-me  
-v.6, 2012-12-31  
-Copyright © 2011-12 by W. Minchin. For more info, please visit  
+v.6-GS, 2013-08-01  
+Copyright © 2011-13 by W. Minchin. For more info, please visit  
     https://github.com/MinchinWeb/openttd-metalibrary  
 
 -- About MetaLibrary ----------------------------------------------------------  
 MetaLibrary started as a collection of functions from my AI, WmDOT. The hope is
     to provide a collection of classes and functions that will be useful to
-    other AI writers. Your comments, suggestions, and bug reports are welcomed
+    other AI/GS writers. Your comments, suggestions, and bug reports are welcomed
     and encouraged!
   
 -- Requirements ---------------------------------------------------------------  
 MetaLibrary requires OpenTTD version 1.2 or newer. This is available as a free
     download from OpenTTD.org. It is not particularly useful on its own, but
-    will hopefully be helpful if you would like to write your own AI.  
+    will hopefully be helpful if you would like to write your own GS.  
 As dependencies, MetaLib also requires:  
     - Binary Heap, v.1      ('Queue.BinaryHeap-1.tar')  
     - Fibonacci Heap, v.2   ('Queue.FibonacciHeap-2.tar')  
@@ -25,12 +25,12 @@ The easiest (and recommended) way to install MetaLibrary is use OpenTTD's
     to download them at the same time. This also makes it very easy for me to
     provide updates.  
 Manual installation can be accomplished by putting the
-    'MinchinWebs_MetaLibrary-5.tar' file you downloaded in the
-    '..\OpenTTD\ai\library'  folder. If you are manually installing,
+    'MinchinWebs_MetaLibrary-6.tar' file you downloaded in the
+    '..\OpenTTD\gs\library'  folder. If you are manually installing,
     the libraries mentioned above need to be in the same folder.   
 
-To make use of the library in your AIs, add the line:
-        import("util.MinchinWeb", "MetaLib", 5);
+To make use of the library in your GSs, add the line:
+        import("util.MinchinWeb", "MetaLib", 6);
     which will make the library available as the "MetaLib" class (or whatever
     you change that to).  
       
@@ -88,7 +88,7 @@ Pathfinding can take an exceptionally long time if there is no possible path.
 -- Help! It broke! (Bug Report) -----------------------------------------------  
 If MetaLibrary cause crashes, please help me fix it! Save a screenshot (under
     the ? on the far right of the in-game toolbar) and, if possible, the
-    offending AI, and report the bug to either:  
+    offending GS, and report the bug to either:  
                             http://www.tt-forums.net/viewtopic.php?f=65&t=57903
                             http://code.google.com/p/openttd-noai-wmdot/issues/
 
@@ -258,7 +258,7 @@ The Atlas takes sources (departs) and attractions (destinations) and then
 		    - Returns the revision number of the current build of OpenTTD
 
     Industry.GetIndustryID(Tile)
-            - AIIndustty.GetIndustryID( AIIndustry.GetLocation(IndustryID) )
+            - GSIndustty.GetIndustryID( GSIndustry.GetLocation(IndustryID) )
                 sometimes fails because GetLocation() returns the northmost
                 tile of the industry which may be a dock, heliport, or not
                 part of the industry at all.
@@ -305,7 +305,7 @@ The LineWalker class allows you to define a starting and endpoint, and then
             - Returns the tile set as the LineWalker end
  
 [Log.nut] v.3
-To get this to fully work, you will need to add a setting to your AI (in your
+To get this to fully work, you will need to add a setting to your GS (in your
     info.nut file)
 
 	function GetSettings() {

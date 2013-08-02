@@ -1,7 +1,7 @@
-﻿/*	Extra functions v.5 r.253 [2011-07-01],
- *		part of Minchinweb's MetaLibrary v.6,
+﻿/*	Extra functions v.5-GS r.253 [2011-07-01],
+ *		part of Minchinweb's MetaLibrary v.6-GS,
  *		originally part of WmDOT v.10
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-13 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -55,7 +55,7 @@
  *	//	Comparision functions will return the first value if the two are equal
  *
  *		MinchinWeb.Industry.GetIndustryID(Tile)
- *								- AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )
+ *								- GSIndustty.GetIndustryID( GSIndustry.GetLocation( IndustryID ) )
  *									sometimes fails because GetLocation() returns the northmost
  *									tile of the industry which may be a dock, heliport, or not
  *									part of the industry at all.
@@ -94,12 +94,12 @@ class _MinchinWeb_C_ {
 	
 	function MaxStationSpread() {
 	//	returns the OpenTTD setting for maximum station spread
-		if(AIGameSettings.IsValid("station_spread")) {
-			return AIGameSettings.GetValue("station_spread");
+		if(GSGameSettings.IsValid("station_spread")) {
+			return GSGameSettings.GetValue("station_spread");
 		} else {
 			try {
-			AILog.Error("'station_spread' is no longer valid! (MinchinWeb.Constants.MaxStationSpread(), v." + this.GetVersion() + " r." + this.GetRevision() + ")");
-			AILog.Error("Please report this problem to http://www.tt-forums.net/viewtopic.php?f=65&t=57903");
+			GSLog.Error("'station_spread' is no longer valid! (MinchinWeb.Constants.MaxStationSpread(), v." + this.GetVersion() + " r." + this.GetRevision() + ")");
+			GSLog.Error("Please report this problem to http://www.tt-forums.net/viewtopic.php?f=65&t=57903");
 			} catch (idx) {
 			}
 			return 16;
@@ -120,11 +120,11 @@ class _MinchinWeb_Extras_ {
 function _MinchinWeb_Extras_::SignLocation(text)
 {
 //	Returns the tile of the first instance where the sign matches the given text
-    local sign_list = AISignList();
+    local sign_list = GSSignList();
     for (local i = sign_list.Begin(); !sign_list.IsEnd(); i = sign_list.Next()) {
-        if(AISign.GetName(i) == text)
+        if(GSSign.GetName(i) == text)
         {
-            return AISign.GetLocation(i);
+            return GSSign.GetLocation(i);
         }
     }
     return null;
@@ -133,12 +133,12 @@ function _MinchinWeb_Extras_::SignLocation(text)
 function _MinchinWeb_Extras_::MidPoint(TileA, TileB)
 {
 //	Returns the tile that is halfway between the given tiles
-	local X = (AIMap.GetTileX(TileA) + AIMap.GetTileX(TileB)) / 2 + 0.5;
-	local Y = (AIMap.GetTileY(TileA) + AIMap.GetTileY(TileB)) / 2 + 0.5;
+	local X = (GSMap.GetTileX(TileA) + GSMap.GetTileX(TileB)) / 2 + 0.5;
+	local Y = (GSMap.GetTileY(TileA) + GSMap.GetTileY(TileB)) / 2 + 0.5;
 		//	the 0.5 is to make rounding work
 	X = X.tointeger();
 	Y = Y.tointeger();
-	return AIMap.GetTileIndex(X, Y);
+	return GSMap.GetTileIndex(X, Y);
 }
 
 function _MinchinWeb_Extras_::Perpendicular(SlopeIn)
@@ -155,10 +155,10 @@ function _MinchinWeb_Extras_::Perpendicular(SlopeIn)
 function _MinchinWeb_Extras_::Slope(TileA, TileB)
 {
 //	Returns the slope between two tiles
-	local dx = AIMap.GetTileX(TileB) - AIMap.GetTileX(TileA);
-	local dy = AIMap.GetTileY(TileB) - AIMap.GetTileY(TileA);
+	local dx = GSMap.GetTileX(TileB) - GSMap.GetTileX(TileA);
+	local dy = GSMap.GetTileY(TileB) - GSMap.GetTileY(TileA);
 //	local Inftest = _MinchinWeb_Extras_._infinity;
-//	AILog.Info(_MinchinWeb_Extras_._infinity);
+//	GSLog.Info(_MinchinWeb_Extras_._infinity);
 	
 	//	Zero check
 	if (dx == 0) {
@@ -290,15 +290,15 @@ function _MinchinWeb_Extras_::NextCardinalTile(StartTile, TowardsTile)
 {
 //	Given a StartTile and a TowardsTile, will given the tile immediately next
 //		(Manhattan Distance == 1) to StartTile that is closests to TowardsTile
-	local Tiles = AITileList();
-	local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
-						AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
+	local Tiles = GSTileList();
+	local offsets = [GSMap.GetTileIndex(0, 1), GSMap.GetTileIndex(0, -1),
+						GSMap.GetTileIndex(1, 0), GSMap.GetTileIndex(-1, 0)];
 				 
 	foreach (offset in offsets) {
-		Tiles.AddItem(StartTile + offset, AIMap.DistanceSquare(StartTile + offset, TowardsTile));
+		Tiles.AddItem(StartTile + offset, GSMap.DistanceSquare(StartTile + offset, TowardsTile));
 	}
 	
-	Tiles.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+	Tiles.Sort(GSList.SORT_BY_VALUE, GSList.SORT_ASCENDING);
 	
 	return Tiles.Begin();
 }
@@ -307,10 +307,10 @@ function _MinchinWeb_Extras_::GetOpenTTDRevision()
 {
 //	Returns the revision number of the current build of OpenTTD
 
-//	See AILib.Common for more details on what is contained in the full returned
+//	See GSLib.Common for more details on what is contained in the full returned
 //		version number
 
-	local Version = AIController.GetVersion();
+	local Version = GSController.GetVersion();
 	local Revision = Version & 0x0007FFFF;
 	return Revision;
 }
@@ -322,21 +322,21 @@ class _MinchinWeb_Industry_ {
 }
 
 function _MinchinWeb_Industry_::GetIndustryID(Tile) {
-//	AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )  sometiles
+//	GSIndustty.GetIndustryID( GSIndustry.GetLocation( IndustryID ) )  sometiles
 //		fails because GetLocation() returns the northmost tile of the industry
 //		which may be a dock, heliport, or not part of the industry at all.
 //	This function starts at the tile, and then searchs a square out (up to
 //		Constants.StationSize) until it finds a tile with a valid TileID.
 
-	local StartX = AIMap.GetTileX(Tile);
-	local StartY = AIMap.GetTileY(Tile);
-	local EndX = AIMap.GetTileX(Tile) + _MinchinWeb_C_.IndustrySize();
-	local EndY = AIMap.GetTileY(Tile) + _MinchinWeb_C_.IndustrySize();
+	local StartX = GSMap.GetTileX(Tile);
+	local StartY = GSMap.GetTileY(Tile);
+	local EndX = GSMap.GetTileX(Tile) + _MinchinWeb_C_.IndustrySize();
+	local EndY = GSMap.GetTileY(Tile) + _MinchinWeb_C_.IndustrySize();
 	
 	for (local i = StartX; i < EndX; i++) {
 		for (local j = StartY; j < EndY; j++) {
-			if (AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j)) != _MinchinWeb_C_.InvalidIndustry()) {
-				return AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j));
+			if (GSIndustry.GetIndustryID(GSMap.GetTileIndex(i,j)) != _MinchinWeb_C_.InvalidIndustry()) {
+				return GSIndustry.GetIndustryID(GSMap.GetTileIndex(i,j));
 			}
 		}
 	}
@@ -357,11 +357,11 @@ function _MinchinWeb_Station_::IsCargoAccepted(StationID, CargoID)
 //	Returns null if the StationID or CargoID are invalid
 //	Returns true or false, depending on if the cargo is accepted
 
-	if (!AIStation.IsValidStation(StationID) || !AICargo.IsValidCargo(CargoID)) {
-		AILog.Warning("MinchinWeb.Station.IsCargoAccepted() was provided with invalid input. Was provided " + StationID + " and " + CargoID + ".");
+	if (!GSStation.IsValidStation(StationID) || !GSCargo.IsValidCargo(CargoID)) {
+		GSLog.Warning("MinchinWeb.Station.IsCargoAccepted() was provided with invalid input. Was provided " + StationID + " and " + CargoID + ".");
 		return null;
 	} else {
-		local AllCargos = AICargoList_StationAccepting(StationID);
+		local AllCargos = GSCargoList_StationAccepting(StationID);
 		_MinchinWeb_Log_.Note("MinchinWeb.Station.IsCargoAccepted() was provided with " + StationID + " and " + CargoID + ". AllCargos: " + AllCargos.Count(), 6);
 		if (AllCargos.HasItem(CargoID)) {
 			return true;
@@ -375,11 +375,11 @@ function _MinchinWeb_Station_::IsNextToDock(TileID)
 {
 //	Checks whether a given tile is next to a dock. Returns true if this is the case
 	
-	local offsets = [0, AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
-						AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
+	local offsets = [0, GSMap.GetTileIndex(0, 1), GSMap.GetTileIndex(0, -1),
+						GSMap.GetTileIndex(1, 0), GSMap.GetTileIndex(-1, 0)];
 				 
 	foreach (offset in offsets) {
-		if (AIMarine.IsDockTile(TileID + offset)) {
+		if (GSMarine.IsDockTile(TileID + offset)) {
 			return true;
 		}
 	}
@@ -394,8 +394,8 @@ function _MinchinWeb_Station_::DistanceFromStation(VehicleID, StationID)
 
 //	To-DO:  Add check that supplied VehicleID and StationID are valid
 
-	local VehicleTile = AIVehicle.GetLocation(VehicleID);
-	local StationTile = AIBaseStation.GetLocation(StationID);
+	local VehicleTile = GSVehicle.GetLocation(VehicleID);
+	local StationTile = GSBaseStation.GetLocation(StationID);
 	
-	return AITile.GetDistanceManhattanToTile(VehicleTile, StationTile);
+	return GSTile.GetDistanceManhattanToTile(VehicleTile, StationTile);
 }

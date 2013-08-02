@@ -1,6 +1,6 @@
-﻿/*	Minchinweb's MetaLibrary v.6 [2012-12-31],  
+﻿/*	Minchinweb's MetaLibrary v.6-GS [2012-12-31],  
  *		originally part of, WmDOT v.10
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-13 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -20,7 +20,7 @@
 /*	Q:	What is MinchinWeb's MetaLibrary?
  *	A:	MetaLib is the collection of code I've written for WmDOT, my AI for
  *			OpenTTD, that I felt should properly be in a library. I also hope
- *			will this code will help some aspiring AI writer get off the ground
+ *			will this code will help some aspiring AI/GS writer get off the ground
  *			a little bit faster. ;)
  *
  *	Q:	How do I use the sublibraries directly?
@@ -41,12 +41,12 @@
  *			main class of a library will be renamed at import. For [MetaLib]
  *			that is the [MetaLib] class in this file. Every other class in this
  *			file or other .nut files that the library is built up by will end
- *			up at the global scope at the AI that imports the library. The
+ *			up at the global scope at the GS that imports the library. The
  *			global scope of the library will get merged with the global scope
- *			of your AI.
+ *			of your GS.
  *
  *		  "	To reduce the risk of causing you conflict problems this library
- *			prefixes everything that ends up at the global scope of AIs with
+ *			prefixes everything that ends up at the global scope of GSs with
  *			[ _MinchinWeb_ ]. That is also why the library is not named Utils or
  *			something with higher risk of you already having at your global
  *			scope.
@@ -58,7 +58,7 @@
  *											- Zuu, SuperLib v7 documentation
  *
  *	A grand 'Thank You' to Zuu for his SuperLib that provided a very useful
- *		model, to all the NoAI team to their work on making the AI system work,
+ *		model, to all the NoAI team to their work on making the GS system work,
  *		and to everyone that has brought us the amazing game of OpenTTD.
  */
  

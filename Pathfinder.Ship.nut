@@ -1,7 +1,7 @@
-﻿/*	ShipPathfinder v.4, r.240, [2012-06-22],
+﻿/*	ShipPathfinder v.4-GS, r.240, [2012-06-22],
  *		part of Minchinweb's MetaLibrary v.5,
  *		originally part of WmDOT v.7
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-13 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -171,7 +171,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 //_MinchinWeb_Log_.Note("A",1);
 //	Waterbody Check
 	if (this._first_run == true) {
-		_MinchinWeb_Log_.Note("Ship Pathfinder running WaterBody Check... (at tick " + AIController.GetTick() + ")", 6);
+		_MinchinWeb_Log_.Note("Ship Pathfinder running WaterBody Check... (at tick " + GSController.GetTick() + ")", 6);
 		local WBC;
 		if (this._first_run2 == true) {
 			WBC = this._WBC_class();
@@ -186,7 +186,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 		}
 		if (iterations != -1) { return false; }
 	}
-	_MinchinWeb_Log_.Note("Starting Ship Pathfinder (at tick " + AIController.GetTick() + ")", 7);
+	_MinchinWeb_Log_.Note("Starting Ship Pathfinder (at tick " + GSController.GetTick() + ")", 7);
 	
 	if (iterations == -1) { iterations = _MinchinWeb_C_.Infinity() }	//  = 10000; close enough to infinity but able to avoid infinite loops?
 	
@@ -231,7 +231,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 					local MidPoint = _MinchinWeb_Extras_.MidPoint(Land[0], Land[1]);
 					//	Check if Midpoint is on Water. If it is, add it and skip the right angle split
 					//	TO-DO: Midpoint should only be added if it's in the same Waterbody as the start and finish...
-					if ((AITile.IsWaterTile(MidPoint) == true) && ((Land[0] == -1) || (Land[1] == -1))) {
+					if ((GSTile.IsWaterTile(MidPoint) == true) && ((Land[0] == -1) || (Land[1] == -1))) {
 						local WPPoints = this._paths[WorkingPath];
 						local NewPointZIndex = _InsertPoint(MidPoint);
 						_MinchinWeb_Log_.Sign(MidPoint, NewPointZIndex + "", 7);
@@ -398,7 +398,7 @@ function _MinchinWeb_ShipPathfinder_::_PathLength(PathIndex)
 	local PrevTile = Walker.GetStart();
 	local CurTile = Walker.Walk();
 	while (!Walker.IsEnd() && (LandA == 0)) {
-		if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) {
+		if (GSMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) {
 			LandA = PrevTile	
 		}
 		PrevTile = CurTile;
@@ -416,7 +416,7 @@ function _MinchinWeb_ShipPathfinder_::_PathLength(PathIndex)
 	CurTile = Walker.Walk();
 	
 	while (!Walker.IsEnd() && (LandB == 0)) {
-		if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) {
+		if (GSMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) {
 			LandB = PrevTile	
 		}
 		PrevTile = CurTile;
@@ -439,12 +439,12 @@ function _MinchinWeb_ShipPathfinder_::_PathLength(PathIndex)
 	_MinchinWeb_Log_.Note("    WaterHo! " + StartTile + " , m=" + Slope  + " 3rdQ " + ThirdQuadrant, 7);
 	local PrevTile = Walker.GetStart();
 	local CurTile = Walker.Walk();
-	while ((AIMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) && (AIMap.DistanceManhattan(PrevTile, CurTile) == 1)) {
+	while ((GSMarine.AreWaterTilesConnected(PrevTile, CurTile) != true) && (GSMap.DistanceManhattan(PrevTile, CurTile) == 1)) {
 		PrevTile = CurTile;
 		CurTile = Walker.Walk();
 	}
 	
-	if (AIMarine.AreWaterTilesConnected(PrevTile, CurTile) == true) {
+	if (GSMarine.AreWaterTilesConnected(PrevTile, CurTile) == true) {
 		_MinchinWeb_Log_.Note("     WaterHo returning " + _MinchinWeb_Array_.ToStringTiles1D([CurTile]), 7);
 		return CurTile;
 	} else {
@@ -468,11 +468,11 @@ function _MinchinWeb_ShipPathfinder_::GetPathLength()
 {
 //	Runs over the path to determine its length
 	if (this._running) {
-		AILog.Warning("You can't get the path length while there's a running pathfinder.");
+		GSLog.Warning("You can't get the path length while there's a running pathfinder.");
 		return false;
 	}
 	if (this._mypath == null) {
-		AILog.Warning("You have tried to get the length of a 'null' path.");
+		GSLog.Warning("You have tried to get the length of a 'null' path.");
 		return false;
 	}
 	
@@ -505,7 +505,7 @@ function _MinchinWeb_ShipPathfinder_::CountPathBuoys()
 	_MinchinWeb_Log_.Note("My Path is " + _MinchinWeb_Array_.ToString1D(this._mypath), 7);
 
 	if (this._mypath == null) {
-		AILog.Warning("MinchinWeb.ShipPathfinder.CountBuoys() must be supplied with a valid path.");
+		GSLog.Warning("MinchinWeb.ShipPathfinder.CountBuoys() must be supplied with a valid path.");
 	} else {
 		//	basic direction changes (minus the two ends)
 		local Buoys = this._mypath.len() - 2;
@@ -529,7 +529,7 @@ function _MinchinWeb_ShipPathfinder_::BuildPathBuoys()
 //	changes  this._mypath  to be the list of these buoys
 
 	if (this._mypath == null) {
-		AILog.Warning("MinchinWeb.ShipPathfinder.BuildBuoys() must be supplied with a valid path.");
+		GSLog.Warning("MinchinWeb.ShipPathfinder.BuildBuoys() must be supplied with a valid path.");
 	} else {
 		for (local i = 0; i < this._mypath.len(); i++) {
 			//	skip first and last points
@@ -560,7 +560,7 @@ function _MinchinWeb_ShipPathfinder_::GetPath()
 //	Returns the path, as currently held by the pathfinder
 
 	if (this._mypath == null) {
-		AILog.Warning("MinchinWeb.ShipPathfinder.BuildBuoys() must be supplied with a valid path.");
+		GSLog.Warning("MinchinWeb.ShipPathfinder.BuildBuoys() must be supplied with a valid path.");
 	} else {
 		return this._mypath;
 	}

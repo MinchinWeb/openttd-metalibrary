@@ -1,6 +1,6 @@
 MinchinWeb's MetaLibrary License  
-v.6, 2012-12-31  
-Copyright © 2011-12 by W. Minchin. For more info, please visit  
+v.6-GS, 2013-08-01  
+Copyright © 2011-13 by W. Minchin. For more info, please visit  
     https://github.com/MinchinWeb/openttd-metalibrary 
 
 -- License -------------------------------------------------------------------  

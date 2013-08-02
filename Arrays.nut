@@ -1,8 +1,8 @@
-﻿/*	Array SubLibrary, v.4 [2012-12-24],
- *		part of Minchinweb's MetaLibrary v.6,
+﻿/*	Array SubLibrary, v.4-GS [2012-12-24],
+ *		part of Minchinweb's MetaLibrary v.6-GS,
  *		originally part of WmDOT v.5  r.53d	[2011-04-09]
  *			and WmArray library v.1  r.1 [2011-02-13].
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-13 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -313,7 +313,7 @@ function _MinchinWeb_Array_::ToStringTiles1D(InArrayOfTiles, ArrayLength = false
 		local i = 0;
 		local Temp = "";
 		while (i < InArrayOfTiles.len() ) {
-			Temp = Temp + "  " + AIMap.GetTileX(InArrayOfTiles[i]) + "," + AIMap.GetTileY(InArrayOfTiles[i]);
+			Temp = Temp + "  " + GSMap.GetTileX(InArrayOfTiles[i]) + "," + GSMap.GetTileY(InArrayOfTiles[i]);
 			i++;
 		}
 		if (ArrayLength == true) {

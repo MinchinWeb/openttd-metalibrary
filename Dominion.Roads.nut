@@ -1,5 +1,5 @@
-﻿/*	Dominion Land System Roads v.1.1 [2013-01-01],
- *		part of Minchinweb's MetaLibrary v.6,
+﻿/*	Dominion Land System Roads v.1.1-GS [2013-01-01],
+ *		part of Minchinweb's MetaLibrary v.6-GS,
  *	Copyright © 2012-13 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
@@ -71,7 +71,7 @@ class _MinchinWeb_DLS_ {
 		this._gridy = 8;
 		this._datum = 0;
 		this._pathfinder = _MinchinWeb_RoadPathfinder_();
-		this._road_type = AIRoad.ROADTYPE_ROAD;
+		this._road_type = GSRoad.ROADTYPE_ROAD;
 	}
 }
 
@@ -100,10 +100,10 @@ function _MinchinWeb_DLS_::SetDatum(NewDatum) {
 //	To-DO: Add error check
 
 	this._datum = NewDatum;
-//	_MinchinWeb_Log_.Note("Base Datum: x " + AIMap.GetTileX(this._datum) + "%" + this._gridx + "=" + AIMap.GetTileX(this._datum)%this._gridx + ", y:" + AIMap.GetTileY(this._datum) + "%" + this._gridy + "=" + AIMap.GetTileX(this._datum)%this._gridy, 6);
-	this._basedatum = AIMap.GetTileIndex(AIMap.GetTileX(this._datum)%this._gridx, AIMap.GetTileY(this._datum)%this._gridy);
+//	_MinchinWeb_Log_.Note("Base Datum: x " + GSMap.GetTileX(this._datum) + "%" + this._gridx + "=" + GSMap.GetTileX(this._datum)%this._gridx + ", y:" + GSMap.GetTileY(this._datum) + "%" + this._gridy + "=" + GSMap.GetTileX(this._datum)%this._gridy, 6);
+	this._basedatum = GSMap.GetTileIndex(GSMap.GetTileX(this._datum)%this._gridx, GSMap.GetTileY(this._datum)%this._gridy);
 
-	_MinchinWeb_Log_.Note("Datum set to " + AIMap.GetTileX(this._datum) + ", " + AIMap.GetTileY(this._datum) + "; BaseDatum set to " + AIMap.GetTileX(this._basedatum) + ", " + AIMap.GetTileY(this._basedatum), 5);
+	_MinchinWeb_Log_.Note("Datum set to " + GSMap.GetTileX(this._datum) + ", " + GSMap.GetTileY(this._datum) + "; BaseDatum set to " + GSMap.GetTileX(this._basedatum) + ", " + GSMap.GetTileY(this._basedatum), 5);
 }
 
 function _MinchinWeb_DLS_::GetDatum() {
@@ -113,7 +113,7 @@ function _MinchinWeb_DLS_::GetDatum() {
 
 function _MinchinWeb_DLS_::IsGridPoint(Point) {
 	//	Returns 'true' iff Point is a grid point
-	if (((AIMap.GetTileX(Point) - AIMap.GetTileX(this._datum)) % this._gridx == 0) && ((AIMap.GetTileY(Point) - AIMap.GetTileY(this._datum)) % this._gridy == 0)) {
+	if (((GSMap.GetTileX(Point) - GSMap.GetTileX(this._datum)) % this._gridx == 0) && ((GSMap.GetTileY(Point) - GSMap.GetTileY(this._datum)) % this._gridy == 0)) {
 		return true;
 	} else {
 		return false;
@@ -127,10 +127,10 @@ function _MinchinWeb_DLS_::GridPoints(End1, End2) {
 //	*End1* and *End2* are expected to be TileIndex'es
 //	End1 and End2 will not be included in the return array
 
-	local x1 = AIMap.GetTileX(End1);
-	local y1 = AIMap.GetTileY(End1);
-	local x2 = AIMap.GetTileX(End2);
-	local y2 = AIMap.GetTileY(End2);
+	local x1 = GSMap.GetTileX(End1);
+	local y1 = GSMap.GetTileY(End1);
+	local x2 = GSMap.GetTileX(End2);
+	local y2 = GSMap.GetTileY(End2);
 
 	if (x1 > x2) {
 		local tempx = x1;
@@ -147,12 +147,12 @@ function _MinchinWeb_DLS_::GridPoints(End1, End2) {
 
 	//	move to first grid x
 	local workingx = x1;
-	while ((workingx - AIMap.GetTileX(this._datum)) % this._gridx != 0) {
+	while ((workingx - GSMap.GetTileX(this._datum)) % this._gridx != 0) {
 		workingx++;
 	}
 	//	move to first grid y
 	local workingy = y1;
-	while ((workingy - AIMap.GetTileY(this._datum)) % this._gridy != 0) {
+	while ((workingy - GSMap.GetTileY(this._datum)) % this._gridy != 0) {
 		workingy++;
 	}
 
@@ -163,7 +163,7 @@ function _MinchinWeb_DLS_::GridPoints(End1, End2) {
 	local starty = workingy;
 	do {
 		do {
-			local Holding = AIMap.GetTileIndex(workingx, workingy);
+			local Holding = GSMap.GetTileIndex(workingx, workingy);
 			if ((Holding != End1) && (Holding != End2)) {
 				MyArray.push(Holding);
 				_MinchinWeb_Log_.Note("Add grid point at " + workingx + ", " + workingy, 7)
@@ -180,7 +180,7 @@ function _MinchinWeb_DLS_::GridPoints(End1, End2) {
 
 function _MinchinWeb_DLS_::AllGridPoints() {
 //	Returns an array of all the 'grid points' on the map
-	return _MinchinWeb_DLS_.GridPoints(AIMap.GetTileIndex(1,1), AIMap.GetTileIndex(AIMap.GetMapSizeX() - 2, AIMap.GetMapSizeY() - 2));
+	return _MinchinWeb_DLS_.GridPoints(GSMap.GetTileIndex(1,1), GSMap.GetTileIndex(GSMap.GetMapSizeX() - 2, GSMap.GetMapSizeY() - 2));
 }
 
 function _MinchinWeb_DLS_::FindPath(cycles = 10000) {
@@ -250,21 +250,21 @@ function _MinchinWeb_DLS_::InitializePath(StartArray, EndArray) {
 function _MinchinWeb_DLS_::BuildPath()
 {
 	if (this._running) {
-		AILog.Warning("You can't build a path while there's a running pathfinder.");
+		GSLog.Warning("You can't build a path while there's a running pathfinder.");
 		return false;
 	}
 	if (this._path == null) {
-		AILog.Warning("You have tried to build a 'null' path.");
+		GSLog.Warning("You have tried to build a 'null' path.");
 		return false;
 	}
 	
-	local TestMode = AIExecMode();	//	We're really doing this!
+	local TestMode = GSExecMode();	//	We're really doing this!
 
-	AIRoad.SetCurrentRoadType(this._road_type);
+	GSRoad.SetCurrentRoadType(this._road_type);
 	for (local i=0; i < this._path.len() - 2; i++) {
-		if (AIMap.DistanceManhattan(this._path[i], this._path[i+1]) == 1) {
+		if (GSMap.DistanceManhattan(this._path[i], this._path[i+1]) == 1) {
 		//	MD == 1 == road joining the two tiles
-			if (!AIRoad.BuildRoad(this._path[i], this._path[i+1])) {
+			if (!GSRoad.BuildRoad(this._path[i], this._path[i+1])) {
 			//	If we get here, then the road building has failed
 			//	Possible that the road already exists
 			//	TO-DO:
@@ -274,8 +274,8 @@ function _MinchinWeb_DLS_::BuildPath()
 			}
 		} else {
 		//	Implies that we're building either a tunnel or a bridge
-			if (!AIBridge.IsBridgeTile(this._path[i]) && !AITunnel.IsTunnelTile(this._path[i])) {
-				if (AIRoad.IsRoadTile(this._path[i])) {
+			if (!GSBridge.IsBridgeTile(this._path[i]) && !GSTunnel.IsTunnelTile(this._path[i])) {
+				if (GSRoad.IsRoadTile(this._path[i])) {
 				//	Original example demolishes tile if it's already a road
 				//		tile to get around expanded roadbits.
 				//	I don't like this approach as it could destroy Railway
@@ -284,9 +284,9 @@ function _MinchinWeb_DLS_::BuildPath()
 				//	- figure out a way to do this while keeping the other
 				//		things I've built on the tile
 				//	(can I just remove the road?)
-					AITile.DemolishTile(this._path[i]);
+					GSTile.DemolishTile(this._path[i]);
 				}
-				if (AITunnel.GetOtherTunnelEnd(this._path[i]) == this._path[i+1]) {
+				if (GSTunnel.GetOtherTunnelEnd(this._path[i]) == this._path[i+1]) {
 				//	The assumption here is that the land hasn't changed
 				//		from when the pathfinder was run and when we try to
 				//		build the path. If the tunnel building fails, we
@@ -295,22 +295,22 @@ function _MinchinWeb_DLS_::BuildPath()
 				//		different spot than is was when the pathfinder ran,
 				//		we skip tunnel building and try and build a bridge
 				//		instead, which will fail because the slopes are wrong...
-					if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, this._path[i])) {
+					if (!GSTunnel.BuildTunnel(GSVehicle.VT_ROAD, this._path[i])) {
 					//	At this point, an error has occured while building the tunnel.
 					//	Fail the pathfiner
 					//	return null;
-						AILog.Warning("MinchinWeb.DLS.BuildPath can't build a tunnel from " + AIMap.GetTileX(this._path[i]) + "," + AIMap.GetTileY(this._path[i]) + " to " + AIMap.GetTileX(this._path[i+1]) + "," + AIMap.GetTileY(this._path[i+1]) + "!!" );
+						GSLog.Warning("MinchinWeb.DLS.BuildPath can't build a tunnel from " + GSMap.GetTileX(this._path[i]) + "," + GSMap.GetTileY(this._path[i]) + " to " + GSMap.GetTileX(this._path[i+1]) + "," + GSMap.GetTileY(this._path[i+1]) + "!!" );
 					}
 				} else {
 				//	if not a tunnel, we assume we're buildng a bridge
-					local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(this._path[i], this._path[i+1] + 1));
-					BridgeList.Valuate(AIBridge.GetMaxSpeed);
-					BridgeList.Sort(AIList.SORT_BY_VALUE, false);
-					if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), this._path[i], this._path[i+1])) {
+					local BridgeList = GSBridgeList_Length(GSMap.DistanceManhattan(this._path[i], this._path[i+1] + 1));
+					BridgeList.Valuate(GSBridge.GetMaxSpeed);
+					BridgeList.Sort(GSList.SORT_BY_VALUE, false);
+					if (!GSBridge.BuildBridge(GSVehicle.VT_ROAD, BridgeList.Begin(), this._path[i], this._path[i+1])) {
 					//	At this point, an error has occured while building the bridge.
 					//	Fail the pathfiner
 					//	return null;
-					AILog.Warning("MinchinWeb.DLS.BuildPath can't build a bridge from " + AIMap.GetTileX(this._path[i]) + "," + AIMap.GetTileY(this._path[i]) + " to " + AIMap.GetTileX(this._path[i+1]) + "," + AIMap.GetTileY(this._path[i+1]) + "!! (or the tunnel end moved...)" );
+					GSLog.Warning("MinchinWeb.DLS.BuildPath can't build a bridge from " + GSMap.GetTileX(this._path[i]) + "," + GSMap.GetTileY(this._path[i]) + " to " + GSMap.GetTileX(this._path[i+1]) + "," + GSMap.GetTileY(this._path[i+1]) + "!! (or the tunnel end moved...)" );
 					}
 				}
 			}
@@ -327,14 +327,14 @@ function _MinchinWeb_DLS_::InitializePathOnTowns(StartTown, EndTown)
 //	Assumes that the town centers are road tiles (if this is not the case, the
 //		pathfinder will still run, but it will take a long time and eventually
 //		fail to return a path)
-	return this.InitializePath([AITown.GetLocation(StartTown)], [AITown.GetLocation(EndTown)]);
+	return this.InitializePath([GSTown.GetLocation(StartTown)], [GSTown.GetLocation(EndTown)]);
 }
 
 function _MinchinWeb_DLS_::GetPath()
 {
 //	Returns the path stored by the pathfinder
 	if (this._running) {
-		AILog.Warning("You can't get the path while there's a running pathfinder.");
+		GSLog.Warning("You can't get the path while there's a running pathfinder.");
 		return false;
 	}
 	return this._path;
@@ -344,17 +344,17 @@ function _MinchinWeb_DLS_::GetPathLength()
 {
 //	Runs over the path to determine its length
 	if (this._running) {
-		AILog.Warning("You can't get the path length while there's a running pathfinder.");
+		GSLog.Warning("You can't get the path length while there's a running pathfinder.");
 		return false;
 	}
 	if (this._path == null) {
-		AILog.Warning("You have tried to get the length of a 'null' path.");
+		GSLog.Warning("You have tried to get the length of a 'null' path.");
 		return false;
 	}
 	
 	local Length = 0;
 	for (local i=0; i < this._path.len() - 2; i++) {
-		Length = Length + AIMap.DistanceManhattan(this._path[i], this._path[i+1]);
+		Length = Length + GSMap.DistanceManhattan(this._path[i], this._path[i+1]);
 	}
 
 	return Length;
@@ -364,11 +364,11 @@ function _MinchinWeb_DLS_::PathToTilePairs()
 {
 //	Returns a 2D array that has each pair of tiles that path joins
 	if (this._running) {
-		AILog.Warning("You can't convert a path while there's a running pathfinder.");
+		GSLog.Warning("You can't convert a path while there's a running pathfinder.");
 		return false;
 	}
 	if (this._path == null) {
-		AILog.Warning("You have tried to convert a 'null' path.");
+		GSLog.Warning("You have tried to convert a 'null' path.");
 		return false;
 	}
 	
@@ -393,11 +393,11 @@ function _MinchinWeb_DLS_::TilePairsToBuild()
 //		isn't a current road connection
 
 	if (this._running) {
-		AILog.Warning("You can't convert a (partial) path while there's a running pathfinder.");
+		GSLog.Warning("You can't convert a (partial) path while there's a running pathfinder.");
 		return false;
 	}
 	if (this._path == null) {
-		AILog.Warning("You have tried to convert a (partial) 'null' path.");
+		GSLog.Warning("You have tried to convert a (partial) 'null' path.");
 		return false;
 	}
 	
@@ -414,29 +414,29 @@ function _MinchinWeb_DLS_::TilePairsToBuild()
 function _MinchinWeb_DLS_::GetBuildCost()
 {
 //	Turns to 'test mode,' builds the route provided, and returns the cost (all
-//		money for AI's is in British Pounds)
+//		money for GS's is in British Pounds)
 //	Note that due to inflation, this value can get stale
 //	Returns false if the test build fails somewhere
 
 	if (this._running) {
-		AILog.Warning("You can't find the build costs while there's a running pathfinder.");
+		GSLog.Warning("You can't find the build costs while there's a running pathfinder.");
 		return false;
 	}
 	if (this._path == null) {
-		AILog.Warning("You have tried to get the build costs of a 'null' path.");
+		GSLog.Warning("You have tried to get the build costs of a 'null' path.");
 		return false;
 	}
 	
-	local BeanCounter = AIAccounting();
-	local TestMode = AITestMode();
+	local BeanCounter = GSAccounting();
+	local TestMode = GSTestMode();
 	local Path = this._path;
 
-	AIRoad.SetCurrentRoadType(this._road_type);
+	GSRoad.SetCurrentRoadType(this._road_type);
 
 	for (local i=0; i < this._path.len() - 2; i++) {
-		if (AIMap.DistanceManhattan(this._path[i], this._path[i+1]) == 1) {
+		if (GSMap.DistanceManhattan(this._path[i], this._path[i+1]) == 1) {
 		//	MD == 1 == road joining the two tiles
-			if (!AIRoad.BuildRoad(this._path[i], this._path[i+1])) {
+			if (!GSRoad.BuildRoad(this._path[i], this._path[i+1])) {
 			//	If we get here, then the road building has failed
 			//	Possible that the road already exists
 			//	TO-DO
@@ -446,8 +446,8 @@ function _MinchinWeb_DLS_::GetBuildCost()
 			}
 		} else {
 		//	Implies that we're building either a tunnel or a bridge
-			if (!AIBridge.IsBridgeTile(this._path[i]) && !AITunnel.IsTunnelTile(this._path[i])) {
-				if (AIRoad.IsRoadTile(this._path[i])) {
+			if (!GSBridge.IsBridgeTile(this._path[i]) && !GSTunnel.IsTunnelTile(this._path[i])) {
+				if (GSRoad.IsRoadTile(this._path[i])) {
 				//	Original example demolishes tile if it's already a road
 				//		tile to get around expanded roadbits.
 				//	I don't like this approach as it could destroy Railway
@@ -456,25 +456,25 @@ function _MinchinWeb_DLS_::GetBuildCost()
 				//	- figure out a way to do this while keeping the other
 				//		things I've built on the tile
 				//	(can I just remove the road?)
-					AITile.DemolishTile(this._path[i]);
+					GSTile.DemolishTile(this._path[i]);
 				}
-				if (AITunnel.GetOtherTunnelEnd(this._path[i]) == this._path[i+1]) {
-					if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, this._path[i])) {
+				if (GSTunnel.GetOtherTunnelEnd(this._path[i]) == this._path[i+1]) {
+					if (!GSTunnel.BuildTunnel(GSVehicle.VT_ROAD, this._path[i])) {
 					//	At this point, an error has occured while building the tunnel.
 					//	Fail the pathfiner
 					//	return null;
-					AILog.Warning("MinchinWeb.DLS.GetBuildCost can't build a tunnel from " + AIMap.GetTileX(this._path[i]) + "," + AIMap.GetTileY(this._path[i]) + " to " + AIMap.GetTileX(this._path[i+1]) + "," + AIMap.GetTileY(this._path[i+1]) + "!!" );
+					GSLog.Warning("MinchinWeb.DLS.GetBuildCost can't build a tunnel from " + GSMap.GetTileX(this._path[i]) + "," + GSMap.GetTileY(this._path[i]) + " to " + GSMap.GetTileX(this._path[i+1]) + "," + GSMap.GetTileY(this._path[i+1]) + "!!" );
 					}
 				} else {
 				//	if not a tunnel, we assume we're buildng a bridge
-					local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(this._path[i], this._path[i+1] + 1));
-					BridgeList.Valuate(AIBridge.GetMaxSpeed);
-					BridgeList.Sort(AIList.SORT_BY_VALUE, false);
-					if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), this._path[i], this._path[i+1])) {
+					local BridgeList = GSBridgeList_Length(GSMap.DistanceManhattan(this._path[i], this._path[i+1] + 1));
+					BridgeList.Valuate(GSBridge.GetMaxSpeed);
+					BridgeList.Sort(GSList.SORT_BY_VALUE, false);
+					if (!GSBridge.BuildBridge(GSVehicle.VT_ROAD, BridgeList.Begin(), this._path[i], this._path[i+1])) {
 					//	At this point, an error has occured while building the bridge.
 					//	Fail the pathfiner
 					//	return null;
-					AILog.Warning("MinchinWeb.DLS.GetBuildCost can't build a bridge from " + AIMap.GetTileX(this._path[i]) + "," + AIMap.GetTileY(this._path[i]) + " to " + AIMap.GetTileX(this._path[i+1]) + "," + AIMap.GetTileY(this._path[i+1]) + "!!" );
+					GSLog.Warning("MinchinWeb.DLS.GetBuildCost can't build a bridge from " + GSMap.GetTileX(this._path[i]) + "," + GSMap.GetTileY(this._path[i]) + " to " + GSMap.GetTileX(this._path[i+1]) + "," + GSMap.GetTileY(this._path[i+1]) + "!!" );
 					}
 				}
 			}

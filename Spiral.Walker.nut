@@ -1,7 +1,7 @@
-﻿/*	SpiralWalker class v.3 r.223 [2012-01-28],
+﻿/*	SpiralWalker class v.3-GS r.223 [2012-01-28],
  *		part of Minchinweb's MetaLibrary v.4,
  *		originally part of WmDOT v.5
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-13 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -61,8 +61,8 @@ function _MinchinWeb_SW_::Start(Tile)
 {
 //	Sets the starting tile for SpiralWalker
 	this._start = Tile;
-	this._startx = AIMap.GetTileX(Tile);
-	this._starty = AIMap.GetTileY(Tile);
+	this._startx = GSMap.GetTileX(Tile);
+	this._starty = GSMap.GetTileY(Tile);
 	this._x = this._startx;
 	this._y = this._starty;
 	this._current_tile = this._start;
@@ -145,8 +145,8 @@ function _MinchinWeb_SW_::Walk()
 		}
 	}
 	_MinchinWeb_Log_.Note("     SpiralWalker.Walk: " + this._dx + " " + this._dy + " : " + this._Steps + " " + this._Stage + " " + this._StageSteps + " " + this._StageMax + " :: " + this._x + ", " + this._y, 7);
-	this._current_tile = AIMap.GetTileIndex(this._x, this._y);
-//	AISign.BuildSign(this._current_tile, "" + this._Steps);
+	this._current_tile = GSMap.GetTileIndex(this._x, this._y);
+//	GSSign.BuildSign(this._current_tile, "" + this._Steps);
 	return this._current_tile;
 }
 

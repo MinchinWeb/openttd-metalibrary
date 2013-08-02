@@ -1,7 +1,7 @@
-﻿/*	Logging Interface v.3, r.221, [2012-01-28]
+﻿/*	Logging Interface v.3-GS, r.221, [2012-01-28]
 *		part of MinchinWeb's MetaLibrary v.4,
  *		originally part of WmDOT v.5
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-13 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -15,7 +15,7 @@
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
 
-/* Add this you the  Info.nut  file of your AI:
+/* Add this you the  Info.nut  file of your GS:
 
 	function GetSettings() {
 		AddSetting({name = "Debug_Level", description = "Debug Level ", min_value = 0, max_value = 7, easy_value = 3, medium_value = 3, hard_value = 3, custom_value = 3, flags = CONFIG_INGAME});
@@ -31,7 +31,7 @@
 	function GetName()          { return "Logging Interface"; }
  
 	_DebugLevel = null;
-	//	How much is output to the AIDebug Screen
+	//	How much is output to the GSDebug Screen
 	//	0 - run silently
 	//	1 - Operations Noted here
 	//	2 - 'normal' debugging - each step
@@ -92,34 +92,34 @@ function _MinchinWeb_Log_::Note(Message, Level=3) {
 			Message = "     " + Message;
 			Level--;
 		}
-		AILog.Info(Message);
+		GSLog.Info(Message);
 	}
  }
  
  function _MinchinWeb_Log_::Warning(Message) {
-	AILog.Warning(Message);
+	GSLog.Warning(Message);
  }
  
  function _MinchinWeb_Log_::Error(Message) {
-	AILog.Error(Message);
+	GSLog.Error(Message);
  }
  
 function _MinchinWeb_Log_::Sign(Tile, Message, Level = 5)
 {
 	if (Level <= _MinchinWeb_Log_.UpdateDebugLevel() ) {
-		AISign.BuildSign(Tile, Message);
+		GSSign.BuildSign(Tile, Message);
 	}
 }
  
 function _MinchinWeb_Log_::PrintDebugLevel() {
-	AILog.Info("OpLog is running at level " + this._DebugLevel + ".");
+	GSLog.Info("OpLog is running at level " + this._DebugLevel + ".");
  }
  
 function _MinchinWeb_Log_::UpdateDebugLevel() {
-//	Looks for an AI setting for Debug Level, and set the debug level to that
+//	Looks for an GS setting for Debug Level, and set the debug level to that
 	local DebugLevel = 3;
-	if (AIController.GetSetting("Debug_Level") != -1) {
-		DebugLevel = AIController.GetSetting("Debug_Level");
+	if (GSController.GetSetting("Debug_Level") != -1) {
+		DebugLevel = GSController.GetSetting("Debug_Level");
 	}
 	return DebugLevel;
 }
