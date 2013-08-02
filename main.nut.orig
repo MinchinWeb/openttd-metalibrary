@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿/*	Minchinweb's MetaLibrary v.6-GS [2012-12-31],  
  *		originally part of, WmDOT v.10
  *	Copyright © 2011-13 by W. Minchin. For more info,
@@ -12,6 +13,12 @@
  *	+ Attribution is provided in the normal place for recognition of 3rd party
  *		contributions.
  *	+ You accept that this software is provided to you "as is", without warranty.
+=======
+﻿/*	Minchinweb's MetaLibrary v.5 r.245 [2012-06-27],  
+ *		originally part of, WmDOT v.10
+ *	Copyright © 2011-12 by W. Minchin. For more info,
+ *		please visit http://openttd-noai-wmdot.googlecode.com/
+>>>>>>> game-script
  */
  
 /*	See the README for a list of the functions included in this library.
@@ -46,7 +53,11 @@
  *			of your GS.
  *
  *		  "	To reduce the risk of causing you conflict problems this library
+<<<<<<< HEAD
  *			prefixes everything that ends up at the global scope of GSs with
+=======
+ *			prefixes everything that ends up at the global scope of AIs with
+>>>>>>> game-script
  *			[ _MinchinWeb_ ]. That is also why the library is not named Utils or
  *			something with higher risk of you already having at your global
  *			scope.
@@ -75,12 +86,20 @@ require("Spiral.Walker.nut");
 require("Atlas.nut");
 require("Marine.nut");
 require("Log.nut");
+<<<<<<< HEAD
 require("Dominion.Roads.nut")
 
 class MinchinWeb {
 	function GetVersion()       { return 6; }
 	function GetRevision()		{ return 121231; }
 	function GetDate()          { return "2012-12-31"; }
+=======
+
+class MinchinWeb {
+	function GetVersion()       { return 5; }
+	function GetRevision()		{ return 245; }
+	function GetDate()          { return "2012-06-27"; }
+>>>>>>> game-script
 	function GetName()          { return "MinchinWeb's MetaLibrary"; }
 
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
@@ -96,6 +115,12 @@ class MinchinWeb {
 	static Industry = _MinchinWeb_Industry_;	// in Extras.nut
 	static Station = _MinchinWeb_Station_;		// in Extras.nut
 	static Log = _MinchinWeb_Log_;
+<<<<<<< HEAD
 	static DLS = _MinchinWeb_DLS_;				// in Dominion.Roads.nut
 }
+=======
+}
+
+//	TO-DO: Add license statement...
+>>>>>>> game-script
  

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿/*	Extra functions v.5-GS r.253 [2011-07-01],
  *		part of Minchinweb's MetaLibrary v.6-GS,
  *		originally part of WmDOT v.10
@@ -13,6 +14,13 @@
  *	+ Attribution is provided in the normal place for recognition of 3rd party
  *		contributions.
  *	+ You accept that this software is provided to you "as is", without warranty.
+=======
+﻿/*	Extra functions v.5 r.253 [2011-07-01],
+ *		part of Minchinweb's MetaLibrary v.6,
+ *		originally part of WmDOT v.10
+ *	Copyright © 2011-12 by W. Minchin. For more info,
+ *		please visit http://openttd-noai-wmdot.googlecode.com/
+>>>>>>> game-script
  */
  
 // TO-DO:	Break this into Constants, Math, Geometry, and Extras
@@ -32,6 +40,7 @@
  *							.WaterDepotOffset() - return 4
  *						
  *		MinchinWeb.Extras.SignLocation(text)
+<<<<<<< HEAD
  *						 .MidPoint(TileA, TileB)
  *						 .Perpendicular(SlopeIn)
  *						 .Slope(TileA, TileB)
@@ -50,12 +59,36 @@
  *								the tile immediately next(Manhattan Distance == 1)
  *								to StartTile that is closests to TowardsTile
  *						 .GetOpenTTDRevision()
+=======
+ *						.MidPoint(TileA, TileB)
+ *						.Perpendicular(SlopeIn)
+ *						.Slope(TileA, TileB)
+ *						.Within(Bound1, Bound2, Value)
+ *						.WithinFloat(Bound1, Bound2, Value)
+ *						.MinAbsFloat(Value1, Value2)
+ *						.MaxAbsFloat(Value1, Value2)
+ *						.AbsFloat(Value)
+ *						.Sign(Value)
+ *						.MinFloat(Value1, Value2)
+ *						.MaxFloat(Value1, Value2)
+ *						.MinAbsFloatKeepSign(Value1, Value2)
+ *						.MaxAbsFloatKeepSign(Value1, Value2)
+ *						.NextCardinalTile(StartTile, TowardsTile)
+ *							- Given a StartTile and a TowardsTile, will given
+ *								the tile immediately next(Manhattan Distance == 1)
+ *								to StartTile that is closests to TowardsTile
+ *						.GetOpenTTDRevision()
+>>>>>>> game-script
  *							-Returns the revision number of the current build of OpenTTD
  *
  *	//	Comparision functions will return the first value if the two are equal
  *
  *		MinchinWeb.Industry.GetIndustryID(Tile)
+<<<<<<< HEAD
  *								- GSIndustty.GetIndustryID( GSIndustry.GetLocation( IndustryID ) )
+=======
+ *								- AIIndustty.GetIndustryID( GSIndustry.GetLocation( IndustryID ) )
+>>>>>>> game-script
  *									sometimes fails because GetLocation() returns the northmost
  *									tile of the industry which may be a dock, heliport, or not
  *									part of the industry at all.
@@ -290,7 +323,11 @@ function _MinchinWeb_Extras_::NextCardinalTile(StartTile, TowardsTile)
 {
 //	Given a StartTile and a TowardsTile, will given the tile immediately next
 //		(Manhattan Distance == 1) to StartTile that is closests to TowardsTile
+<<<<<<< HEAD
 	local Tiles = GSTileList();
+=======
+	local Tiles = AITileList();
+>>>>>>> game-script
 	local offsets = [GSMap.GetTileIndex(0, 1), GSMap.GetTileIndex(0, -1),
 						GSMap.GetTileIndex(1, 0), GSMap.GetTileIndex(-1, 0)];
 				 
@@ -298,7 +335,11 @@ function _MinchinWeb_Extras_::NextCardinalTile(StartTile, TowardsTile)
 		Tiles.AddItem(StartTile + offset, GSMap.DistanceSquare(StartTile + offset, TowardsTile));
 	}
 	
+<<<<<<< HEAD
 	Tiles.Sort(GSList.SORT_BY_VALUE, GSList.SORT_ASCENDING);
+=======
+	Tiles.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+>>>>>>> game-script
 	
 	return Tiles.Begin();
 }
@@ -307,10 +348,17 @@ function _MinchinWeb_Extras_::GetOpenTTDRevision()
 {
 //	Returns the revision number of the current build of OpenTTD
 
+<<<<<<< HEAD
 //	See GSLib.Common for more details on what is contained in the full returned
 //		version number
 
 	local Version = GSController.GetVersion();
+=======
+//	See AILib.Common for more details on what is contained in the full returned
+//		version number
+
+	local Version = AIController.GetVersion();
+>>>>>>> game-script
 	local Revision = Version & 0x0007FFFF;
 	return Revision;
 }
@@ -322,7 +370,11 @@ class _MinchinWeb_Industry_ {
 }
 
 function _MinchinWeb_Industry_::GetIndustryID(Tile) {
+<<<<<<< HEAD
 //	GSIndustty.GetIndustryID( GSIndustry.GetLocation( IndustryID ) )  sometiles
+=======
+//	AIIndustty.GetIndustryID( GSIndustry.GetLocation( IndustryID ) )  sometiles
+>>>>>>> game-script
 //		fails because GetLocation() returns the northmost tile of the industry
 //		which may be a dock, heliport, or not part of the industry at all.
 //	This function starts at the tile, and then searchs a square out (up to
@@ -357,11 +409,19 @@ function _MinchinWeb_Station_::IsCargoAccepted(StationID, CargoID)
 //	Returns null if the StationID or CargoID are invalid
 //	Returns true or false, depending on if the cargo is accepted
 
+<<<<<<< HEAD
 	if (!GSStation.IsValidStation(StationID) || !GSCargo.IsValidCargo(CargoID)) {
 		GSLog.Warning("MinchinWeb.Station.IsCargoAccepted() was provided with invalid input. Was provided " + StationID + " and " + CargoID + ".");
 		return null;
 	} else {
 		local AllCargos = GSCargoList_StationAccepting(StationID);
+=======
+	if (!AIStation.IsValidStation(StationID) || !AICargo.IsValidCargo(CargoID)) {
+		GSLog.Warning("MinchinWeb.Station.IsCargoAccepted() was provided with invalid input. Was provided " + StationID + " and " + CargoID + ".");
+		return null;
+	} else {
+		local AllCargos = AICargoList_StationAccepting(StationID);
+>>>>>>> game-script
 		_MinchinWeb_Log_.Note("MinchinWeb.Station.IsCargoAccepted() was provided with " + StationID + " and " + CargoID + ". AllCargos: " + AllCargos.Count(), 6);
 		if (AllCargos.HasItem(CargoID)) {
 			return true;
@@ -379,7 +439,11 @@ function _MinchinWeb_Station_::IsNextToDock(TileID)
 						GSMap.GetTileIndex(1, 0), GSMap.GetTileIndex(-1, 0)];
 				 
 	foreach (offset in offsets) {
+<<<<<<< HEAD
 		if (GSMarine.IsDockTile(TileID + offset)) {
+=======
+		if (AIMarine.IsDockTile(TileID + offset)) {
+>>>>>>> game-script
 			return true;
 		}
 	}
@@ -394,8 +458,15 @@ function _MinchinWeb_Station_::DistanceFromStation(VehicleID, StationID)
 
 //	To-DO:  Add check that supplied VehicleID and StationID are valid
 
+<<<<<<< HEAD
 	local VehicleTile = GSVehicle.GetLocation(VehicleID);
 	local StationTile = GSBaseStation.GetLocation(StationID);
 	
 	return GSTile.GetDistanceManhattanToTile(VehicleTile, StationTile);
+=======
+	local VehicleTile = AIVehicle.GetLocation(VehicleID);
+	local StationTile = AIBaseStation.GetLocation(StationID);
+	
+	return AITile.GetDistanceManhattanToTile(VehicleTile, StationTile);
+>>>>>>> game-script
 }

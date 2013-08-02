@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿/*	RoadPathfinder v.9-GS [2012-12-28],
  *		part of Minchinweb's MetaLibrary v.5,
  *		originally part of WmDOT v.4  r.50 [2011-04-06]
@@ -13,6 +14,13 @@
  *	+ Attribution is provided in the normal place for recognition of 3rd party
  *		contributions.
  *	+ You accept that this software is provided to you "as is", without warranty.
+=======
+﻿/*	RoadPathfinder v.8 r.221 [2012-01-28],
+ *		part of Minchinweb's MetaLibrary v.4,
+ *		originally part of WmDOT v.4  r.50 [2011-04-06]
+ *	Copyright © 2011-12 by W. Minchin. For more info,
+ *		please visit http://openttd-noai-wmdot.googlecode.com/
+>>>>>>> game-script
  */
  
 /*	This file is licenced under the originl license - LGPL v2.1
@@ -72,7 +80,11 @@
 	TO-DO
 		- upgrade slow bridges along path
 		- convert exisiting level crossings (road/rail) to road bridge
+<<<<<<< HEAD
 		- do something about one-way roads - build a pair? route around? [ if(GSRoad.AreRoadTilesConnected(new_tile, prev_tile) && !GSRoad.AreRoadTilesConnected(prev_tile, new_tile)) ]
+=======
+		- do something about one-way roads - build a pair? route around? [ if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) && !AIRoad.AreRoadTilesConnected(prev_tile, new_tile)) ]
+>>>>>>> game-script
 		- allow pre-building of tunnels and bridges
 */
 
@@ -255,11 +267,19 @@ function _MinchinWeb_RoadPathfinder_::_Cost(self, path, new_tile, new_direction)
 	/* If the new tile is (already) a bridge / tunnel tile, check whether we 
 	 * came from the other end of the bridge / tunnel or if we just entered the
 	 * bridge / tunnel. */
+<<<<<<< HEAD
 	if (GSBridge.IsBridgeTile(new_tile)) {
 		if (GSBridge.GetOtherBridgeEnd(new_tile) != prev_tile) {
 			return path.GetCost() + self._cost_tile;
 		} else {
 			return path.GetCost() + GSMap.DistanceManhattan(new_tile, prev_tile) * self._cost_tile + self._GetBridgeNumSlopes(new_tile, prev_tile) * self._cost_slope;
+=======
+	if (AIBridge.IsBridgeTile(new_tile)) {
+		if (AIBridge.GetOtherBridgeEnd(new_tile) != prev_tile) {
+			return path.GetCost() + self._cost_tile;
+		} else {
+			return path.GetCost() + AIMap.DistanceManhattan(new_tile, prev_tile) * self._cost_tile + self._GetBridgeNumSlopes(new_tile, prev_tile) * self._cost_slope;
+>>>>>>> game-script
 		}
 	}
 	if (GSTunnel.IsTunnelTile(new_tile)) {
@@ -270,7 +290,11 @@ function _MinchinWeb_RoadPathfinder_::_Cost(self, path, new_tile, new_direction)
 	/* If the two tiles are more then 1 tile apart, the pathfinder wants a 
 	 * bridge or tunnel to be build. It isn't an existing bridge / tunnel, as
 	 * that case is already handled. */
+<<<<<<< HEAD
 	if (GSMap.DistanceManhattan(new_tile, prev_tile) > 1) {
+=======
+	if (AIMap.DistanceManhattan(new_tile, prev_tile) > 1) {
+>>>>>>> game-script
 		/* Check if we should build a bridge or a tunnel. */
 		if (GSTunnel.GetOtherTunnelEnd(new_tile) == prev_tile) {
 			return path.GetCost() + GSMap.DistanceManhattan(new_tile, prev_tile) * (self._cost_tile + self._cost_tunnel_per_tile);
@@ -301,17 +325,29 @@ function _MinchinWeb_RoadPathfinder_::_Cost(self, path, new_tile, new_direction)
 
 	/* Add a cost to "outcost" all paths that aren't using already existing
 	 * roads, if that's what we're after */
+<<<<<<< HEAD
 	if (!GSRoad.AreRoadTilesConnected(prev_tile, new_tile)) {
+=======
+	if (!AIRoad.AreRoadTilesConnected(prev_tile, new_tile)) {
+>>>>>>> game-script
 		cost += self._cost_no_existing_road;
 	}
 	
 	/* Add a penalty for road/rail level crossings.  */
+<<<<<<< HEAD
 	if(GSTile.HasTransportType(new_tile, GSTile.TRANSPORT_RAIL)) {
+=======
+	if(AITile.HasTransportType(new_tile, AITile.TRANSPORT_RAIL)) {
+>>>>>>> game-script
 		cost += self._cost_level_crossing;
 	}
 	
 	/* Add a penalty for exisiting drive thru road stations  */
+<<<<<<< HEAD
 	if(GSRoad.IsDriveThroughRoadStationTile(new_tile)) {
+=======
+	if(AIRoad.IsDriveThroughRoadStationTile(new_tile)) {
+>>>>>>> game-script
 		cost += self._cost_drivethru_station; 
 	}
 	
@@ -375,7 +411,11 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 			//	Test for water (i.e. rivers or canals or rails to bridge over them
 			local iTile = cur_node + offset;
 			local BridgeLength = 2;
+<<<<<<< HEAD
 			while (GSTile.HasTransportType(iTile, GSTile.TRANSPORT_RAIL) || GSTile.IsWaterTile(iTile)) {
+=======
+			while (AITile.HasTransportType(iTile, AITile.TRANSPORT_RAIL) || AITile.IsWaterTile(iTile)) {
+>>>>>>> game-script
 				iTile += offset;
 				BridgeLength++;
 			}
@@ -385,12 +425,19 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 			
 			if (BridgeLength > 2) {
 			//	TO-DO: test for map wraparound... _SuperLib_Tile::IsStraight(tile1, tile2)
+<<<<<<< HEAD
 				local BridgeList = GSBridgeList_Length(BridgeLength);
 				if ((BridgeList.Count()) > 0 && (GSBridge.BuildBridge(GSVehicle.VT_ROAD, BridgeList.Begin(), cur_node, iTile))) {
 					local PathCheck = path;
 					local PathParent = path.GetParent();
 					// _MinchinWeb_Log_.Note("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(iTile, cur_node, true) << 4), 7);
 					tiles.push([iTile, self._GetDirection(iTile, cur_node, true) << 4]);
+=======
+				local BridgeList = AIBridgeList_Length(BridgeLength);
+				if ((BridgeList.Count()) > 0 && (AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), cur_node, iTile))) {
+//					_MinchinWeb_Log_.Note("Adding Bridge-over tile: " + _MinchinWeb_Array_.ToStringTiles1D([cur_node]) + _MinchinWeb_Array_.ToStringTiles1D([iTile]) + " . " + (self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4), 7);
+					tiles.push([iTile, self._GetDirection(path.GetParent().GetTile(), cur_node, true) << 4]);
+>>>>>>> game-script
 				}
 			}
 			
@@ -439,8 +486,13 @@ function _MinchinWeb_RoadPathfinder_::_GetDirection(from, to, is_bridge)
 function _MinchinWeb_RoadPathfinder_::_GetTunnelsBridges(last_node, cur_node, bridge_dir)
 {
 //	By rights, adding bridge over railroads and water should be added here
+<<<<<<< HEAD
 	local slope = GSTile.GetSlope(cur_node);
 	if (slope == GSTile.SLOPE_FLAT) return [];
+=======
+	local slope = AITile.GetSlope(cur_node);
+	if (slope == AITile.SLOPE_FLAT) return [];
+>>>>>>> game-script
 	local tiles = [];
 
 	for (local i = 2; i < this._max_bridge_length; i++) {
@@ -537,10 +589,17 @@ class _MinchinWeb_RoadPathfinder_.Info
 {
 	_main = null;
 	
+<<<<<<< HEAD
 	function GetVersion()       { return 9; }
 //	function GetMinorVersion()	{ return 0; }
 	function GetRevision()		{ return 121228; }
 	function GetDate()          { return "2012-12-28"; }
+=======
+	function GetVersion()       { return 7; }
+//	function GetMinorVersion()	{ return 0; }
+	function GetRevision()		{ return 183; }
+	function GetDate()          { return "2012-01-01"; }
+>>>>>>> game-script
 	function GetName()          { return "Road Pathfinder (Wm)"; }
 	
 	constructor(main)
@@ -564,7 +623,11 @@ function _MinchinWeb_RoadPathfinder_::PresetOriginal() {
 	this._max_tunnel_length = 20;
 	this._cost_only_existing_roads = false;
 	this._distance_penalty = 1;
+<<<<<<< HEAD
 	this._road_type = GSRoad.ROADTYPE_ROAD;
+=======
+	this._road_type = AIRoad.ROADTYPE_ROAD;
+>>>>>>> game-script
 	this._cost_level_crossing = 0;
 	this._cost_drivethru_station = 0;
 	return;
@@ -585,7 +648,11 @@ function _MinchinWeb_RoadPathfinder_::PresetPerfectPath() {
 	this._max_tunnel_length = 20;
 	this._cost_only_existing_roads = false;
 	this._distance_penalty = 1;
+<<<<<<< HEAD
 	this._road_type = GSRoad.ROADTYPE_ROAD;
+=======
+	this._road_type = AIRoad.ROADTYPE_ROAD;
+>>>>>>> game-script
 	this._cost_level_crossing = 0;
 	this._cost_drivethru_station = 0;
 	return;
@@ -623,7 +690,11 @@ function _MinchinWeb_RoadPathfinder_::PresetQuickAndDirty() {
 	this._max_tunnel_length = 10;
 	this._cost_only_existing_roads = false;
 	this._distance_penalty = 5;
+<<<<<<< HEAD
 	this._road_type = GSRoad.ROADTYPE_ROAD;
+=======
+	this._road_type = AIRoad.ROADTYPE_ROAD;
+>>>>>>> game-script
 	//	new for WmDOT v8
 	this._cost_level_crossing = 700;
 	this._cost_drivethru_station = 100;
@@ -645,7 +716,11 @@ function _MinchinWeb_RoadPathfinder_::PresetCheckExisting() {
 	this._max_tunnel_length = 9999;
 	this._cost_only_existing_roads = true;
 	this._distance_penalty = 3;
+<<<<<<< HEAD
 	this._road_type = GSRoad.ROADTYPE_ROAD;
+=======
+	this._road_type = AIRoad.ROADTYPE_ROAD;
+>>>>>>> game-script
 	this._cost_level_crossing = 0;
 	this._cost_drivethru_station = 0;
 	return;
@@ -710,6 +785,7 @@ function _MinchinWeb_RoadPathfinder_::GetBuildCost()
 						//	At this point, an error has occured while building the tunnel.
 						//	Fail the pathfiner
 						//	return null;
+<<<<<<< HEAD
 						GSLog.Warning("MinchinWeb.RoadPathfinder.GetBuildCost can't build a tunnel from " + GSMap.GetTileX(Path.GetTile()) + "," + GSMap.GetTileY(Path.GetTile()) + " to " + GSMap.GetTileX(SubPath.GetTile()) + "," + GSMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
 					} else {
@@ -722,6 +798,20 @@ function _MinchinWeb_RoadPathfinder_::GetBuildCost()
 						//	Fail the pathfiner
 						//	return null;
 						GSLog.Warning("MinchinWeb.RoadPathfinder.GetBuildCost can't build a bridge from " + GSMap.GetTileX(Path.GetTile()) + "," + GSMap.GetTileY(Path.GetTile()) + " to " + GSMap.GetTileX(SubPath.GetTile()) + "," + GSMap.GetTileY(SubPath.GetTile()) + "!!" );
+=======
+						AILog.Warning("MinchinWeb.RoadPathfinder.GetBuildCost can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
+						}
+					} else {
+					//	if not a tunnel, we assume we're buildng a bridge
+						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
+						BridgeList.Valuate(AIBridge.GetMaxSpeed);
+						BridgeList.Sort(AIList.SORT_BY_VALUE, false);
+						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
+						//	At this point, an error has occured while building the bridge.
+						//	Fail the pathfiner
+						//	return null;
+						AILog.Warning("MinchinWeb.RoadPathfinder.GetBuildCost can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
+>>>>>>> game-script
 						}
 					}
 				}
@@ -790,6 +880,7 @@ function _MinchinWeb_RoadPathfinder_::BuildPath()
 						//	At this point, an error has occured while building the tunnel.
 						//	Fail the pathfiner
 						//	return null;
+<<<<<<< HEAD
 							GSLog.Warning("MinchinWeb.RoadPathfinder.BuildPath can't build a tunnel from " + GSMap.GetTileX(Path.GetTile()) + "," + GSMap.GetTileY(Path.GetTile()) + " to " + GSMap.GetTileX(SubPath.GetTile()) + "," + GSMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
 					} else {
@@ -802,6 +893,20 @@ function _MinchinWeb_RoadPathfinder_::BuildPath()
 						//	Fail the pathfiner
 						//	return null;
 						GSLog.Warning("MinchinWeb.RoadPathfinder.BuildPath can't build a bridge from " + GSMap.GetTileX(Path.GetTile()) + "," + GSMap.GetTileY(Path.GetTile()) + " to " + GSMap.GetTileX(SubPath.GetTile()) + "," + GSMap.GetTileY(SubPath.GetTile()) + "!! (or the tunnel end moved...)" );
+=======
+							AILog.Warning("MinchinWeb.RoadPathfinder.BuildPath can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
+						}
+					} else {
+					//	if not a tunnel, we assume we're buildng a bridge
+						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
+						BridgeList.Valuate(AIBridge.GetMaxSpeed);
+						BridgeList.Sort(AIList.SORT_BY_VALUE, false);
+						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
+						//	At this point, an error has occured while building the bridge.
+						//	Fail the pathfiner
+						//	return null;
+						AILog.Warning("MinchinWeb.RoadPathfinder.BuildPath can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!! (or the tunnel end moved...)" );
+>>>>>>> game-script
 						}
 					}
 				}
@@ -886,6 +991,7 @@ function _MinchinWeb_RoadPathfinder_::PathToTilePairs()
 	return TilePairs;
 }
 
+<<<<<<< HEAD
 function _MinchinWeb_RoadPathfinder_::PathToTiles()
 {
 //	Returns a 1D array that has each pair of tiles that path covers
@@ -910,6 +1016,9 @@ function _MinchinWeb_RoadPathfinder_::PathToTiles()
 
 
 function _MinchinWeb_RoadPathfinder_::TilePairsToBuild()
+=======
+function _MinchinWeb_RoadPathfinder_::TilesPairsToBuild()
+>>>>>>> game-script
 {
 //	Similiar to PathToTilePairs(), but only returns those pairs where there
 //		isn't a current road connection
@@ -947,4 +1056,7 @@ function _MinchinWeb_RoadPathfinder_::TilePairsToBuild()
 	//	End build sequence
 	return TilePairs;
 }
+<<<<<<< HEAD
+=======
 
+>>>>>>> game-script

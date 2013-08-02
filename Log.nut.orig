@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿/*	Logging Interface v.3-GS, r.221, [2012-01-28]
 *		part of MinchinWeb's MetaLibrary v.4,
  *		originally part of WmDOT v.5
@@ -16,6 +17,16 @@
  */
 
 /* Add this you the  Info.nut  file of your GS:
+=======
+﻿/*	Logging Interface v.3, r.221, [2012-01-28]
+*		part of MinchinWeb's MetaLibrary v.4,
+ *		originally part of WmDOT v.5
+ *	Copyright © 2011-12 by W. Minchin. For more info,
+ *		please visit http://openttd-noai-wmdot.googlecode.com/
+ */
+
+/* Add this you the  Info.nut  file of your AI:
+>>>>>>> game-script
 
 	function GetSettings() {
 		AddSetting({name = "Debug_Level", description = "Debug Level ", min_value = 0, max_value = 7, easy_value = 3, medium_value = 3, hard_value = 3, custom_value = 3, flags = CONFIG_INGAME});
@@ -31,7 +42,11 @@
 	function GetName()          { return "Logging Interface"; }
  
 	_DebugLevel = null;
+<<<<<<< HEAD
 	//	How much is output to the GSDebug Screen
+=======
+	//	How much is output to the AIDebug Screen
+>>>>>>> game-script
 	//	0 - run silently
 	//	1 - Operations Noted here
 	//	2 - 'normal' debugging - each step
@@ -116,7 +131,11 @@ function _MinchinWeb_Log_::PrintDebugLevel() {
  }
  
 function _MinchinWeb_Log_::UpdateDebugLevel() {
+<<<<<<< HEAD
 //	Looks for an GS setting for Debug Level, and set the debug level to that
+=======
+//	Looks for an AI setting for Debug Level, and set the debug level to that
+>>>>>>> game-script
 	local DebugLevel = 3;
 	if (GSController.GetSetting("Debug_Level") != -1) {
 		DebugLevel = GSController.GetSetting("Debug_Level");

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿/*	Atlas v.1-GS r.221 [2012-01-28],
  *		part of Minchinweb's MetaLibrary v.4,
  *	Copyright © 2011-13 by W. Minchin. For more info,
@@ -12,6 +13,12 @@
  *	+ Attribution is provided in the normal place for recognition of 3rd party
  *		contributions.
  *	+ You accept that this software is provided to you "as is", without warranty.
+=======
+﻿/*	Atlas v.1 r.221 [2012-01-28],
+ *		part of Minchinweb's MetaLibrary v.4,
+ *	Copyright © 2011-12 by W. Minchin. For more info,
+ *		please visit http://openttd-noai-wmdot.googlecode.com/
+>>>>>>> game-script
  */
  
 /*	The Atlas takes sources (departs) and attractions (destinations) and then
@@ -210,7 +217,11 @@ function _MinchinWeb_Atlas_::SetModel(newmodel)
 			(newmodel == ModelType.DISTANCE_AIR) || (newmodel == ModelType.DISTANCE_NONE) || (newmodel == ModelType.ONE_OVER_T_SQUARED)) {
 		this._model = newmodel;
 	} else {
+<<<<<<< HEAD
 		GSLog.Warning("MinchinWeb.Atlas.SetModel() was supplied with an invalide ModelType. Was supplied: " + newmodel ".");
+=======
+		AILog.Warning("MinchinWeb.Atlas.SetModel() was supplied with an invalide ModelType. Was supplied: " + newmodel ".");
+>>>>>>> game-script
 	}
 }
 
@@ -304,6 +315,10 @@ function _MinchinWeb_Atlas_::SetMaxDistanceModel(newmodel)
 			(newmodel == ModelType.DISTANCE_AIR)) {
 		this._maxdistancemodel = newmodel;
 	} else {
+<<<<<<< HEAD
 		GSLog.Warning("MinchinWeb.Atlas.SetMaxDistanceModel() was supplied with an invalide ModelType. Was supplied: " + newmodel ".");
+=======
+		AILog.Warning("MinchinWeb.Atlas.SetMaxDistanceModel() was supplied with an invalide ModelType. Was supplied: " + newmodel ".");
+>>>>>>> game-script
 	}
 }
