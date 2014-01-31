@@ -1,6 +1,5 @@
-﻿/*	Station functions v.5 r.253 [2011-07-01],
+﻿/*	Station functions v.3 r.253 [2011-07-01],
  *		part of Minchinweb's MetaLibrary v.6,
- *		originally part of WmDOT v.10
  *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
@@ -30,53 +29,60 @@
 
 class _MinchinWeb_Station_ {
 	main = null;
-}
 
-function _MinchinWeb_Station_::IsCargoAccepted(StationID, CargoID)
-{
-//	Checks whether a certain Station accepts a given cargo
-//	Returns null if the StationID or CargoID are invalid
-//	Returns true or false, depending on if the cargo is accepted
-
-	if (!AIStation.IsValidStation(StationID) || !AICargo.IsValidCargo(CargoID)) {
-		AILog.Warning("MinchinWeb.Station.IsCargoAccepted() was provided with invalid input. Was provided " + StationID + " and " + CargoID + ".");
-		return null;
-	} else {
-		local AllCargos = AICargoList_StationAccepting(StationID);
-		_MinchinWeb_Log_.Note("MinchinWeb.Station.IsCargoAccepted() was provided with " + StationID + " and " + CargoID + ". AllCargos: " + AllCargos.Count(), 6);
-		if (AllCargos.HasItem(CargoID)) {
-			return true;
+	/**	\publicsection
+	 *	\brief		Checks whether a certain Station accepts a given cargo
+	 *	\param		StationID	ID of the station (as an integer)
+	 *	\param		CargoID		ID of the cargo (as an integer)
+	 *	\note		Can be used as a Valuator on a AIList of stations
+	 *	\return		Returns `null` if the StationID or CargoID are invalid.
+	 *				Returns true or false, depending on if the cargo is accepted
+	 *	\todo		Add example of valuator code
+	 */
+	function IsCargoAccepted(StationID, CargoID) {
+		if (!AIStation.IsValidStation(StationID) || !AICargo.IsValidCargo(CargoID)) {
+			AILog.Warning("MinchinWeb.Station.IsCargoAccepted() was provided with invalid input. Was provided " + StationID + " and " + CargoID + ".");
+			return null;
 		} else {
-			return false;
+			local AllCargos = AICargoList_StationAccepting(StationID);
+			_MinchinWeb_Log_.Note("MinchinWeb.Station.IsCargoAccepted() was provided with " + StationID + " and " + CargoID + ". AllCargos: " + AllCargos.Count(), 6);
+			if (AllCargos.HasItem(CargoID)) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
-}
 
-function _MinchinWeb_Station_::IsNextToDock(TileID)
-{
-//	Checks whether a given tile is next to a dock. Returns true if this is the case
-	
-	local offsets = [0, AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
-						AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
-				 
-	foreach (offset in offsets) {
-		if (AIMarine.IsDockTile(TileID + offset)) {
-			return true;
+	/**	\brief	Checks whether a given tile is next to a dock.
+	 *	\param	TileID	ID of the tile (as an integer)
+	 *	\return	`True` if the tile is next to a dock, `False` otherwise.
+	 */
+	function IsNextToDock(TileID) {
+		local offsets = [0, AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
+							AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
+					 
+		foreach (offset in offsets) {
+			if (AIMarine.IsDockTile(TileID + offset)) {
+				return true;
+			}
 		}
+		
+		return false;
 	}
-	
-	return false;
-}
 
-function _MinchinWeb_Station_::DistanceFromStation(VehicleID, StationID)
-{
-//	Returns the distance between a given vehicle and a given station
-//	Designed to be useable as a Valuator on a list of vehicles
-
-//	To-DO:  Add check that supplied VehicleID and StationID are valid
-
-	local VehicleTile = AIVehicle.GetLocation(VehicleID);
-	local StationTile = AIBaseStation.GetLocation(StationID);
-	
-	return AITile.GetDistanceManhattanToTile(VehicleTile, StationTile);
-}
+	/** \brief	Returns the distance between a given vehicle and a given station.
+	 *	\note	Designed to be usable as a Valuator on a AIList of vehicles
+	 *	\param	VehicleID	ID of the vehicle (as an integer)
+	 *	\param	StationID	ID of the station (as an integer)
+	 *	\return	Manhattan Distance between the vehicle and the station.
+	 *	\todo	Add check that supplied VehicleID and StationID are valid
+	 *	\todo	Add example of valuator code
+	 */
+	function DistanceFromStation(VehicleID, StationID) {
+		local VehicleTile = AIVehicle.GetLocation(VehicleID);
+		local StationTile = AIBaseStation.GetLocation(StationID);
+		
+		return AITile.GetDistanceManhattanToTile(VehicleTile, StationTile);
+	}
+};
