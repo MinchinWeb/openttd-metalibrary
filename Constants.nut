@@ -1,6 +1,6 @@
-﻿/*	Constants for MetaLibrary v.5 r.253 [2011-07-01],
+﻿/*	Constants for MetaLibrary v.1 r.206 [2012-01-12],
  *		part of Minchinweb's MetaLibrary v.6,
- *		originally part of WmDOT v.10
+ *		originally part of MetaLibrary v.2
  *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
@@ -28,6 +28,9 @@
  *							.WaterDepotOffset() - return 4
  *						
  */
+ 
+/**	\publicsection
+ */
 
 class _MinchinWeb_C_ {
 	//	These are constants called by the various sublibraries
@@ -38,16 +41,20 @@ class _MinchinWeb_C_ {
 	function Pi() { return 3.1415926535897932384626433832795; }
 	function e() { return 2.7182818284590452353602874713527; }
 	
-	function IndustrySize() { return 4; }	//	Industries are assumed to fit 
-											//		within a 4x4 box
-	function InvalidIndustry() { return 0xFFFF; }	//	number returned by OpenTTD for an invalid industry (65535)
-	function InvalidTile() { return 0xFFFFFF; } 	//	a number beyond the a valid TileIndex
-													//	valid (or invalid, if you prefer) for at least up to 2048x2048 maps
-	function BuoyOffset() { return 3; }				//	this is the assumed minimum desired spacing between buoys
-	function WaterDepotOffset() { return 4; }		//	this is the maximum desired spacing between docks and depots
-	
+	///	Industries are assumed to fit within a 4x4 box
+	function IndustrySize() { return 4; }
+	///	Number returned by OpenTTD for an invalid industry (65535)
+	function InvalidIndustry() { return 0xFFFF; }
+	///	a number beyond the a valid TileIndex.
+	///	Valid (or invalid, if you prefer) for at least up to 2048x2048 maps	
+	function InvalidTile() { return 0xFFFFFF; }
+	///	This is the assumed minimum desired spacing between buoys
+	function BuoyOffset() { return 3; }
+	///	This is the maximum desired spacing between docks and depots	
+	function WaterDepotOffset() { return 4; }
+
+	///	returns the OpenTTD setting for maximum station spread
 	function MaxStationSpread() {
-	//	returns the OpenTTD setting for maximum station spread
 		if(AIGameSettings.IsValid("station_spread")) {
 			return AIGameSettings.GetValue("station_spread");
 		} else {
@@ -59,4 +66,39 @@ class _MinchinWeb_C_ {
 			return 16;
 		}
 	}
-}
+
+	/**	\class		_MinchinWeb_C_
+	 *	\brief		Constants
+	 *	\version	v.1
+	 *	\author		W. Minchin (MinchinWeb)
+	 *	\since		MetaLibrary v.2
+	 *
+	 *	In general, these are constants used by other sub-libraries within
+	 *	MetaLibrary.
+	 *
+	 *	\fn		Infinity()
+	 *	\brief	A number close enough to infinity to work for our purposes here.
+	 *	\return	10,000
+	 *	\note	Slopes are capped at 10,000 and 1/10,000
+	 *
+	 *	\fn		FloatOffset()
+	 *			Two floating point numbers (i.e. numbers with decimal points)
+	 *			are considered to be equal if they differ by less than this
+	 *			value.
+	 *	\note	Floating points, due to the imprecision is translating binary
+	 *			numbers (as they are stored by the computer) to decimal numbers,
+	 *			and then performing math with these imperfectly translated
+	 *			numbers, can result in numbers than are otherwise equal, except
+	 *			for very small remainders. This is an attempt to sidestep this
+	 *			issue.
+	 *	\return	0.000,5 (or 1/2,000)
+	 *	\todo	Convert from an absolute number to a percentage.
+	 *
+	 *	\fn		Pi()
+	 *	\brief	Pi (π=3.14...) to 31 decimal places
+	 *
+	 *	\fn		e()
+	 *	\brief	Euler's number (*e*=2.718...) to 31 decimal places
+	 */
+};
+

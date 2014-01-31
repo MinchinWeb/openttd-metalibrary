@@ -94,6 +94,7 @@
 	function constructor() { }
 
 	/**	\publicsection
+	 *	\brief	Output messages to the AI debug screen.
 	 *	Displays the message if the Debug level is set high enough.
 	 *
 	 *	Can be used as a replacement for `AILog.Info()`
@@ -112,6 +113,8 @@
 	}
 
 	/**	\public
+	 *	\brief	Output warnings to the AI debug screen.
+	 *
 	 *	Displays the message as a Warning (in yellow text).
 	 *
 	 *	Can be used as a replacement for `AILog.Warning()`
@@ -122,6 +125,8 @@
 	}
 
 	/**	\public
+	 *	\brief	Output errors to the AI debug screen.
+	 *
 	 *	Displays the message as an Error (in red text).
 	 *
 	 *	Can be used as a replacement for `AILog.Error()`.
@@ -134,7 +139,7 @@
 	}
 
 	/**	\public
-	 *	Prints a message on a sign.
+	 *	\brief	Prints a message on a sign.
 	 *
 	 *	\param	Tile	tile to place the sign on (as an `AITile` object)
 	 *	\param	Message	message to print on the sign
@@ -147,7 +152,7 @@
 	}
 
 	/**	\public
-	 *	Prints the current debug level to the AI debug screen.
+	 *	\brief	Prints the current debug level to the AI debug screen.
 	 *	\return	nothing
 	 */	
 	function PrintDebugLevel() {
@@ -155,7 +160,7 @@
 	}
 
 	/**	\public
-	 *	Looks for an AI setting for Debug Level, and set the debug level to that.
+	 *	\brief	Looks for an AI setting for Debug Level, and set the debug level to that.
 	 *
 	 *	This is a bit of a failsafe. If there is no AI setting for the debug
 	 *	level, then a default of 3 is used.
@@ -172,4 +177,3 @@
 		return DebugLevel;
 	}
 };
-
