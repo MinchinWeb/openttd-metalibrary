@@ -1,11 +1,11 @@
 ﻿/*	Extra functions v.5 r.253 [2011-07-01],
  *		part of Minchinweb's MetaLibrary v.6,
  *		originally part of WmDOT v.10
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
- *	distribute, sublincense, and/or sell this software, and provide these 
+ *	distribute, sublicense, and/or sell this software, and provide these 
  *	rights to others, provided:
  *
  *	+ The above copyright notice and this permission notice shall be included
@@ -15,22 +15,11 @@
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
  
-// TO-DO:	Break this into Constants, Math, Geometry, and Extras
+// TO-DO:	Break this into Math, Geometry, and Extras
  
 /*	These are 'random' functions that didn't seem to fit well elsewhere.
  *
  *	Functions provided:
- *		MinchinWeb.Constants.Infinity() - returns 10,000
- *							.FloatOffset() - returns 1/2000
- *							.Pi() - returns 3.1415...
- *							.e() - returns 2.7182...
- *							.IndustrySize() - returns 4
- *							.InvalidIndustry() - returns 0xFFFF (65535)
- *							.InvalidTile() - returns 0xFFFFFF
- *							.MaxStationSpread() - returns the maximum station spread
- *							.BuoyOffset() - returns 3
- *							.WaterDepotOffset() - return 4
- *						
  *		MinchinWeb.Extras.SignLocation(text)
  *						 .MidPoint(TileA, TileB)
  *						 .Perpendicular(SlopeIn)
@@ -48,64 +37,12 @@
  *						 .NextCardinalTile(StartTile, TowardsTile)
  *							- Given a StartTile and a TowardsTile, will given
  *								the tile immediately next(Manhattan Distance == 1)
- *								to StartTile that is closests to TowardsTile
+ *								to StartTile that is closest to TowardsTile
  *						 .GetOpenTTDRevision()
  *							-Returns the revision number of the current build of OpenTTD
  *
- *	//	Comparision functions will return the first value if the two are equal
- *
- *		MinchinWeb.Industry.GetIndustryID(Tile)
- *								- AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )
- *									sometimes fails because GetLocation() returns the northmost
- *									tile of the industry which may be a dock, heliport, or not
- *									part of the industry at all.
- *								- This function starts at the tile, and then searchs a square out
- *									(up to Constants.StationSize) until it finds a tile with a
- *									valid TileID.
- *
- *		MinchinWeb.Station.IsCargoAccepted(StationID, CargoID)
- *								- Checks whether a certain Station accepts a given cargo
- *								- Returns null if the StationID or CargoID are invalid
- *								- Returns true or false, depending on if the cargo is accepted
- *						  .IsNextToDock(TileID)
- *								- Checks whether a given tile is next to a dock. Returns true if
- *									this is the case
- *						  .DistanceFromStation(VehicleID, StationID)
- *								- Returns the distance between a given vehicle and a given station
- *								- Designed to be useable as a Valuator on a list of vehicles
+ *	//	Comparison functions will return the first value if the two are equal
  */
-
-class _MinchinWeb_C_ {
-	//	These are constants called by the various sublibraries
-	function Infinity() 	{ return 10000; }	//	close enough to infinity :P
-												//	Slopes are capped at 10,000 and 1/10,000
-	function FloatOffset()	{ return 0.0005; }	//	= 1/2000
-	
-	function Pi() { return 3.1415926535897932384626433832795; }
-	function e() { return 2.7182818284590452353602874713527; }
-	
-	function IndustrySize() { return 4; }	//	Industries are assumed to fit 
-											//		within a 4x4 box
-	function InvalidIndustry() { return 0xFFFF; }	//	number returned by OpenTTD for an invalid industry (65535)
-	function InvalidTile() { return 0xFFFFFF; } 	//	a number beyond the a valid TileIndex
-													//	valid (or invalid, if you prefer) for at least up to 2048x2048 maps
-	function BuoyOffset() { return 3; }				//	this is the assumed minimum desired spacing between bouys
-	function WaterDepotOffset() { return 4; }		//	this is the maximum desired spacing between docks and depots
-	
-	function MaxStationSpread() {
-	//	returns the OpenTTD setting for maximum station spread
-		if(AIGameSettings.IsValid("station_spread")) {
-			return AIGameSettings.GetValue("station_spread");
-		} else {
-			try {
-			AILog.Error("'station_spread' is no longer valid! (MinchinWeb.Constants.MaxStationSpread(), v." + this.GetVersion() + " r." + this.GetRevision() + ")");
-			AILog.Error("Please report this problem to http://www.tt-forums.net/viewtopic.php?f=65&t=57903");
-			} catch (idx) {
-			}
-			return 16;
-		}
-	}
-}
  
 class _MinchinWeb_Extras_ {
 	_infinity = null;
@@ -313,89 +250,4 @@ function _MinchinWeb_Extras_::GetOpenTTDRevision()
 	local Version = AIController.GetVersion();
 	local Revision = Version & 0x0007FFFF;
 	return Revision;
-}
-
-
-// =============  INDUSTRY class  =============
-class _MinchinWeb_Industry_ {
-	main = null;
-}
-
-function _MinchinWeb_Industry_::GetIndustryID(Tile) {
-//	AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )  sometiles
-//		fails because GetLocation() returns the northmost tile of the industry
-//		which may be a dock, heliport, or not part of the industry at all.
-//	This function starts at the tile, and then searchs a square out (up to
-//		Constants.StationSize) until it finds a tile with a valid TileID.
-
-	local StartX = AIMap.GetTileX(Tile);
-	local StartY = AIMap.GetTileY(Tile);
-	local EndX = AIMap.GetTileX(Tile) + _MinchinWeb_C_.IndustrySize();
-	local EndY = AIMap.GetTileY(Tile) + _MinchinWeb_C_.IndustrySize();
-	
-	for (local i = StartX; i < EndX; i++) {
-		for (local j = StartY; j < EndY; j++) {
-			if (AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j)) != _MinchinWeb_C_.InvalidIndustry()) {
-				return AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j));
-			}
-		}
-	}
-	
-	//	if no valid industry is found...
-	return _MinchinWeb_C_.InvalidIndustry();
-}
-
-
-// =============  STATION class  =============
-class _MinchinWeb_Station_ {
-	main = null;
-}
-
-function _MinchinWeb_Station_::IsCargoAccepted(StationID, CargoID)
-{
-//	Checks whether a certain Station accepts a given cargo
-//	Returns null if the StationID or CargoID are invalid
-//	Returns true or false, depending on if the cargo is accepted
-
-	if (!AIStation.IsValidStation(StationID) || !AICargo.IsValidCargo(CargoID)) {
-		AILog.Warning("MinchinWeb.Station.IsCargoAccepted() was provided with invalid input. Was provided " + StationID + " and " + CargoID + ".");
-		return null;
-	} else {
-		local AllCargos = AICargoList_StationAccepting(StationID);
-		_MinchinWeb_Log_.Note("MinchinWeb.Station.IsCargoAccepted() was provided with " + StationID + " and " + CargoID + ". AllCargos: " + AllCargos.Count(), 6);
-		if (AllCargos.HasItem(CargoID)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
-
-function _MinchinWeb_Station_::IsNextToDock(TileID)
-{
-//	Checks whether a given tile is next to a dock. Returns true if this is the case
-	
-	local offsets = [0, AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
-						AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
-				 
-	foreach (offset in offsets) {
-		if (AIMarine.IsDockTile(TileID + offset)) {
-			return true;
-		}
-	}
-	
-	return false;
-}
-
-function _MinchinWeb_Station_::DistanceFromStation(VehicleID, StationID)
-{
-//	Returns the distance between a given vehicle and a given station
-//	Designed to be useable as a Valuator on a list of vehicles
-
-//	To-DO:  Add check that supplied VehicleID and StationID are valid
-
-	local VehicleTile = AIVehicle.GetLocation(VehicleID);
-	local StationTile = AIBaseStation.GetLocation(StationID);
-	
-	return AITile.GetDistanceManhattanToTile(VehicleTile, StationTile);
 }

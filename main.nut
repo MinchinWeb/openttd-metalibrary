@@ -1,6 +1,6 @@
 ﻿/*	Minchinweb's MetaLibrary v.6 [2012-12-31],  
  *		originally part of, WmDOT v.10
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -75,6 +75,7 @@ require("Pathfinder.Road.nut");
 require("Arrays.nut");
 // require("Fibonacci.Heap.WM.nut");
 require("Extras.nut");
+require("Constants.nut");
 require("Waterbody.Check.nut");
 require("Pathfinder.Ship.nut");
 require("Line.Walker.nut");
@@ -82,12 +83,15 @@ require("Spiral.Walker.nut");
 require("Atlas.nut");
 require("Marine.nut");
 require("Log.nut");
-require("Dominion.Roads.nut")
+require("Dominion.Roads.nut");
+require("Industry.nut");
+require("Station.nut");
+
 
 class MinchinWeb {
 	function GetVersion()       { return 6; }
-	function GetRevision()		{ return 121231; }
-	function GetDate()          { return "2012-12-31"; }
+	function GetRevision()		{ return 140131; }
+	function GetDate()          { return "2014-01-31"; }
 	function GetName()          { return "MinchinWeb's MetaLibrary"; }
 
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
