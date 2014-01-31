@@ -52,8 +52,7 @@ class _MinchinWeb_Array_ {
 	
 	/**	\publicsection
 	 */
-	/**	Creates a one dimensional (1-D) array.
-	 *
+	/**	\brief	Creates a one dimensional (1-D) array.
 	 *	\param	length	the desired length of the array
 	 *	\return	empty array of the given size
 	 *	\see	Create2D()
@@ -63,8 +62,7 @@ class _MinchinWeb_Array_ {
 		return array[length];
 	}
 
-	/**	Creates a two dimensional (2-D) array.
-	 *
+	/**	\brief	Creates a two dimensional (2-D) array.
 	 *	\param	length	the desired length of the array (in the first
 	 *					dimension)
 	 *	\param	width	the desired length of the array (in the second
@@ -82,8 +80,7 @@ class _MinchinWeb_Array_ {
 		return ReturnArray;
 	}
 
-	/**	Creates a three dimensional (3-D) array.
-	 *
+	/**	\brief	Creates a three dimensional (3-D) array.
 	 *	\param	length	the desired length of the array (in the first
 	 *					dimension)
 	 *	\param	width	the desired length of the array (in the second
@@ -111,7 +108,7 @@ class _MinchinWeb_Array_ {
 		return ReturnArray;
 	}
 
-	/**	Converts a one dimensional array to a nice string format.
+	/**	\brief	Converts a one dimensional array to a nice string format.
 	 *
 	 *	This function was created to aid in the output of arrays to the AI
 	 *	debug screen.
@@ -137,7 +134,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Converts a one dimensional array to a nice string format.
+	/**	\brief	Converts a one dimensional array to a nice string format.
 	 *
 	 *	This function was created to aid in the output of arrays to the AI
 	 *	debug screen.
@@ -171,7 +168,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Searches an array for a given value.
+	/**	\brief	Searches an array for a given value.
 	 *
 	 *	\param	InArray		array to search
 	 *						(assumed to be one dimensional (1-D))
@@ -197,8 +194,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Searches a (two dimensional) array for a given value.
-	 *
+	/**	\brief	Searches a (two dimensional) array for a given value.
 	 *	\param	InArray		array to search
 	 *						(assumed to be two dimensional (2-D))
 	 *	\param	SearchValue	what is searched for
@@ -229,8 +225,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Searches a (three dimensional) array for a given value.
-	 *
+	/**	\brief	Searches a (three dimensional) array for a given value.
 	 *	\param	InArray		array to search
 	 *						(assumed to be three dimensional (3-D))
 	 *	\param	SearchValue	what is searched for
@@ -255,8 +250,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Searches a two dimensional array for a given one dimensional array.
-	 *
+	/**	\brief	Searches a two dimensional array for a given one dimensional array.
 	 *	\param	InArray		array to search
 	 *						(assumed to be two dimensional (2-D))
 	 *	\param	SearchValue	array to search for
@@ -279,8 +273,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Searches an array for a given value.
-	 *
+	/**	\brief	Searches an array for a given value.
 	 *	\param	InArray		array to search
 	 *						(assumed to be one dimensional (1-D))
 	 *	\param	SearchValue	what is searched for
@@ -308,8 +301,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Searches an array for a given value.
-	 *
+	/**	\brief	Searches an array for a given value.
 	 *	\param	InArray		array to search
 	 *						(assumed to be two dimensional (2-D))
 	 *	\param	SearchValue	what is searched for
@@ -336,8 +328,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Searches an array for a given value.
-	 *
+	/**	\brief	Searches an array for a given value.
 	 *	\param	InArray		array to search
 	 *						(assumed to be three dimensional (3-D))
 	 *	\param	SearchValue	what is searched for
@@ -365,7 +356,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Removes an element from the array.
+	/**	\brief	Removes an element from the array.
 	 *
 	 *	Removes the value at the index, and shifts the rest of the array to the
 	 *	left. The returned array is thus one shorter than the supplied array.
@@ -389,7 +380,7 @@ class _MinchinWeb_Array_ {
 		return Return;	
 	}
 
-	/**	Adds an element from the array.
+	/**	\brief	Adds an element from the array.
 	 *
 	 *	Adds `Value` to the `InArray` at the given `Index`. The rest of the 
 	 *	array is shifted one place to the right. The returned array is thus one
@@ -416,7 +407,7 @@ class _MinchinWeb_Array_ {
 		return Return;	
 	}
 
-	/**	Converts a one dimensional array of tiles to a nice string format.
+	/**	\brief	Converts a one dimensional array of tiles to a nice string format.
 	 *
 	 *	This function was created to aid in the output of arrays of tiles to the
 	 *	AI debug screen.
@@ -447,7 +438,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Searches an array for a given pair of values.
+	/**	\brief	Searches an array for a given pair of values.
 	 *
 	 *	The idea is to provide an array of arrays of pairs (e.g. tile x and tile
 	 *	y, starting and ending points, etc.), and find out if `SearchValue1` and
@@ -486,7 +477,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Searches an array for a given pair of values.
+	/**	\brief	Searches an array for a given pair of values.
 	 *
 	 *	The idea is to provide an array of arrays of pairs (e.g. tile x and tile
 	 *	y, starting and ending points, etc.), and find out if `SearchValue1` and
@@ -525,7 +516,7 @@ class _MinchinWeb_Array_ {
 		}
 	}
 
-	/**	Compares the two arrays item for item.
+	/**	\brief	Compares the two arrays item for item.
 	 *
 	 *	Returns true if every item pair matches.
 	 *	\param	InArray1D		one dimensional (1-D) array, that is considered
@@ -550,7 +541,7 @@ class _MinchinWeb_Array_ {
 		return true;
 	}
 
-	/**	Appends one array to another.
+	/**	\brief	Appends one array to another.
 	 *	\param	Array1	the first array
 	 *	\param	Array2	the second array
 	 *	\return	an array that has `Array2` appended to the end of `Array1`

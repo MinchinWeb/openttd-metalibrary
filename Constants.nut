@@ -82,6 +82,9 @@ class _MinchinWeb_C_ {
 	 *	\note	Slopes are capped at 10,000 and 1/10,000
 	 *
 	 *	\fn		FloatOffset()
+	 *	\brief	Used to compare floating point numbers to determine if they are
+	 *			"equal".
+	 *
 	 *			Two floating point numbers (i.e. numbers with decimal points)
 	 *			are considered to be equal if they differ by less than this
 	 *			value.
@@ -95,10 +98,10 @@ class _MinchinWeb_C_ {
 	 *	\todo	Convert from an absolute number to a percentage.
 	 *
 	 *	\fn		Pi()
-	 *	\brief	Pi (π=3.14...) to 31 decimal places
+	 *	\brief	Pi (π = 3.14...) to 31 decimal places
 	 *
 	 *	\fn		e()
-	 *	\brief	Euler's number (*e*=2.718...) to 31 decimal places
+	 *	\brief	Euler's number (*e* = 2.718...) to 31 decimal places
 	 */
 };
 
