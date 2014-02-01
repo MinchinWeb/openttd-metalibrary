@@ -17,7 +17,7 @@
 
 /**	\brief		Line Walker
  *	\version	v.1 (2012-01-28)
- *	\author		W. Minchin (MinchinWeb)
+ *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.4
  *
  *	The LineWalker class allows you to define a starting and endpoint, and then

@@ -44,9 +44,9 @@
  *	//	Comparison functions will return the first value if the two are equal
  */
 
-/**	\brief		Extra fucntions
+/**	\brief		Extra functions
  *	\version	v.5 (2012-07-01)
- *	\author		W. Minchin (MinchinWeb)
+ *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.1
  *
  *	These are 'random' functions that didn't seem to fit well elsewhere.
@@ -67,6 +67,7 @@ class _MinchinWeb_Extras_ {
 	 *	\return	TileID of the first instance where the sign matches the given
 	 *			text.
 	 *	\return	`null` if no matching sign can be found.
+	 *	\static
 	 */
 	function SignLocation(text);
 
@@ -74,6 +75,7 @@ class _MinchinWeb_Extras_ {
 	 *	\param	TileA	one 'end' tile
 	 *	\param	TileB	the other 'end' tile
 	 *	\return	the `TileID` of the tile halfway between `TileA` and `TileB`
+	 *	\static
 	 */
 	function MidPoint(TileA, TileB);
 
@@ -83,6 +85,7 @@ class _MinchinWeb_Extras_ {
 	 *	\note	Perpendicular slopes are inverses of each other.
 	 *	\see	Slope()
 	 *	\see	\_MinchinWeb\_C\_.Infinity()
+	 *	\static
 	 */
 	function Perpendicular(SlopeIn);
 
@@ -95,6 +98,7 @@ class _MinchinWeb_Extras_ {
 	 *			is returned.
 	 *	\return	If the slope is flat (i.e. 0), `1/Infinity` is returned.
 	 *	\see	\_MinchinWeb\_C\_.Infinity()
+	 *	\static
 	 */
 	function Slope(TileA, TileB);
 
@@ -106,6 +110,7 @@ class _MinchinWeb_Extras_ {
 	 *	\note	This is helpful in that there is no requirement that `Bound1` be
 	 *			larger than `Bound2` or vis-versa.
 	 *	\see	WithinFloat()
+	 *	\static
 	 */
 	function Within(Bound1, Bound2, Value);
 
@@ -119,6 +124,7 @@ class _MinchinWeb_Extras_ {
 	 *	\note	This version explicitly converts all three parameters before
 	 *			comparing them.
 	 *	\see	Within()
+	 *	\static
 	 */
 	function WithinFloat(Bound1, Bound2, Value);
 
@@ -128,6 +134,7 @@ class _MinchinWeb_Extras_ {
 	 *			be positive).
 	 *	\see	MinAbsFloatKeepSign()
 	 *	\see	MaxAbsFloat()
+	 *	\static
 	 */
 	function MinAbsFloat(Value1, Value2);
 
@@ -137,29 +144,34 @@ class _MinchinWeb_Extras_ {
 	 *			be positive).
 	 *	\see	MinAbsFloat()
 	 *	\see 	MaxAbsFloatKeepSign()
+	 *	\static
 	 */
 	function MaxAbsFloat(Value1, Value2);
 
 	/**	\brief	Returns the absolute value of a given number.
 	 *	\return	the absolute value of a given number (this will always
 	 *			be positive) (this will typically be a floating point number).
+	 *	\static
 	 */
 	function AbsFloat(Value);
 
 	/**	\brief	Returns the sign of a given number
 	 *	\return +1 if the Value >= 0, -1 Value < 0
+	 *	\static
 	 */
 	function Sign(Value);
 
 	/**	\brief	Returns the smaller of the two numbers
 	 *	\return	The smaller of the two numbers, as a floating point number.
 	 *	\see	MaxFloat()
+	 *	\static
 	 */
 	function MinFloat(Value1, Value2);
 
 	/**	\brief	Returns the larger of the two numbers
 	 *	\return	The larger of the two numbers, as a floating point number.
 	 *	\see	MinFloat()
+	 *	\static
 	 */
 	function MaxFloat(Value1, Value2);
 
@@ -167,6 +179,7 @@ class _MinchinWeb_Extras_ {
 	 *			number with the lesser of the two, sign intact.
 	 *	\see	MaxAbsFloatKeepSign()
 	 *	\see	MinAbsFloat()
+	 *	\static
 	 */
 	function MinAbsFloatKeepSign(Value1, Value2);
 
@@ -174,6 +187,7 @@ class _MinchinWeb_Extras_ {
 	 *			number with the greater of the two, sign intact.
 	 *	\see	MinAbsFloatKeepSign()
 	 *	\see	MaxAbsFloat()
+	 *	\static
 	 */
 	function MaxAbsFloatKeepSign(Value1, Value2);
 
@@ -184,6 +198,7 @@ class _MinchinWeb_Extras_ {
 	 *	next (Manhattan Distance == 1) to `StartTile` that is closest to
 	 *	`TowardsTile`
 	 *	\return	a neighbouring tile to `StartTile`
+	 *	\static
 	 */
 	function NextCardinalTile(StartTile, TowardsTile);
 
@@ -194,6 +209,7 @@ class _MinchinWeb_Extras_ {
 	 *			get bug reports, I know what version of OpenTTD was being run.
 	 *	\note	This might also be useful if you want to turn on or off certain
 	 *			features, depending on if they are in the user's version of OpenTTD.
+	 *	\static
 	 */
 	function GetOpenTTDRevision();
 };

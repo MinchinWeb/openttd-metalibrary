@@ -32,7 +32,7 @@
 /**	\class		_MinchinWeb_C_
  *	\brief		Constants
  *	\version	v.1
- *	\author		W. Minchin (MinchinWeb)
+ *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.2
  *
  *	In general, these are constants used by other sub-libraries within
@@ -46,6 +46,7 @@ class _MinchinWeb_C_ {
 	 *	\brief	A number close enough to infinity to work for our purposes here.
 	 *	\return	10,000
 	 *	\note	Slopes are capped at 10,000 and 1/10,000
+	 *	\static
 	 */
 	function Infinity() 	{ return 10000; }
 	
@@ -63,27 +64,50 @@ class _MinchinWeb_C_ {
 	 *			issue.
 	 *	\return	0.000,5 (or 1/2,000)
 	 *	\todo	Convert from an absolute number to a percentage.
+	 *	\static
 	 */
 	function FloatOffset()	{ return 0.0005; }	//	= 1/2000
 	
-	///	Pi (π = 3.14...) to 31 decimal places
+	/**	\brief	Pi (π = 3.14...) to 31 decimal places
+	 *	\static
+	 */
 	function Pi() { return 3.1415926535897932384626433832795; }
-	///	Euler's number (*e* = 2.718...) to 31 decimal places
+
+	/**	\brief	Euler's number (*e* = 2.718...) to 31 decimal places
+	 *	\static
+	 */
 	function e() { return 2.7182818284590452353602874713527; }
 	
-	///	Industries are assumed to fit within a 4x4 box
+	/**	\brief	Industries are assumed to fit within a 4x4 box
+	 *	\static
+	 */
 	function IndustrySize() { return 4; }
-	///	Number returned by OpenTTD for an invalid industry (65535)
+
+	/**	\brief	Number returned by OpenTTD for an invalid industry (65535)
+	 *	\static
+	 */
 	function InvalidIndustry() { return 0xFFFF; }
-	///	a number beyond the a valid TileIndex.
-	///	Valid (or invalid, if you prefer) for at least up to 2048x2048 maps	
+
+	/**	\brief	A number beyond the a valid TileIndex.
+	 *
+	 *	Valid (or invalid, if you prefer) for at least up to 2048x2048 maps
+	 *	\static
+	 */	
 	function InvalidTile() { return 0xFFFFFF; }
-	///	This is the assumed minimum desired spacing between buoys
+
+	/**	\brief	This is the assumed minimum desired spacing between buoys
+	 *	\static
+	 */
 	function BuoyOffset() { return 3; }
-	///	This is the maximum desired spacing between docks and depots	
+
+	/**	\brief	This is the maximum desired spacing between docks and depots
+	 *	\static
+	 */	
 	function WaterDepotOffset() { return 4; }
 
-	///	returns the OpenTTD setting for maximum station spread
+	/**	\brief	Returns the OpenTTD setting for maximum station spread
+	 *	\static
+	 */
 	function MaxStationSpread();
 };
 

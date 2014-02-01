@@ -17,7 +17,7 @@
 
 /**	\brief		Spiral Walker
  *	\version	v.3 (2012-01-28)
- *	\author		W. Minchin (MinchinWeb)
+ *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.4
  *
  *	The SpiralWalker class allows you to define a starting point, and then

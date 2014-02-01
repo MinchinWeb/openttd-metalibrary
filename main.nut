@@ -67,6 +67,11 @@
  *	A grand 'Thank You' to Zuu for his SuperLib that provided a very useful
  *		model, to all the NoAI team to their work on making the AI system work,
  *		and to everyone that has brought us the amazing game of OpenTTD.
+ *
+ *	\section	Notes
+ *	\todo		notes about static classes, what they are, and which classes
+ *				are 'static'
+ *	\todo		get the `\\requires` section working
  */
  
 require("Pathfinder.Road.nut");

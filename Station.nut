@@ -29,7 +29,7 @@
  
 /**	\brief		Station
  *	\version	v.3 (2011-07-21)
- *	\author		W. Minchin (MinchinWeb)
+ *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.2
  *
  * These are functions relating to dealing with stations.
@@ -46,12 +46,14 @@ class _MinchinWeb_Station_ {
 	 *	\return		Returns `null` if the StationID or CargoID are invalid.
 	 *				Returns true or false, depending on if the cargo is accepted
 	 *	\todo		Add example of valuator code
+	 *	\static
 	 */
 	function IsCargoAccepted(StationID, CargoID);
 
 	/**	\brief	Checks whether a given tile is next to a dock.
 	 *	\param	TileID	ID of the tile (as an integer)
 	 *	\return	`True` if the tile is next to a dock, `False` otherwise.
+	 *	\static
 	 */
 	function IsNextToDock(TileID);
 
@@ -62,6 +64,7 @@ class _MinchinWeb_Station_ {
 	 *	\return	Manhattan Distance between the vehicle and the station.
 	 *	\todo	Add check that supplied VehicleID and StationID are valid
 	 *	\todo	Add example of valuator code
+	 *	\static
 	 */
 	function DistanceFromStation(VehicleID, StationID);
 };

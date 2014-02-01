@@ -18,7 +18,7 @@
 
 /**	\brief		Arrays
  *	\version	v.4 (2012-12-24)
- *	\author		W. Minchin (MinchinWeb)
+ *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.6
  *
  *	This is a collection of functions to make working with Arrays easier.
@@ -56,6 +56,7 @@ class _MinchinWeb_Array_ {
 	 *	\return	empty array of the given size
 	 *	\see	Create2D()
 	 *	\see	Create3D()
+	 *	\static
 	 */
 	function Create1D(length) { return array[length]; }
 	
@@ -67,6 +68,7 @@ class _MinchinWeb_Array_ {
 	 *	\return	empty array of the given size (in two dimensions)
 	 *	\see	Create1D()
 	 *	\see	Create3D()
+	 *	\static
 	 */
 	function Create2D(length, width);
 	
@@ -80,6 +82,7 @@ class _MinchinWeb_Array_ {
 	 *	\return	empty array of the given size (in three dimensions)
 	 *	\see	Create1D()
 	 *	\see	Create2D()
+	 *	\static
 	 */
 	function Create3D(length, width, height);
 	
@@ -93,6 +96,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	ToString2D()
 	 *	\see	ToStringTiles1D()
 	 *	\todo	Add error check that an array is provided
+	 *	\static
 	 */
 	function ToString1D(InArray);
 
@@ -106,6 +110,7 @@ class _MinchinWeb_Array_ {
 	 *			is `null`.
 	 *	\see	ToString1D()
 	 *	\todo	Add error check that a 2D array is provided
+	 *	\static
 	 */
 	function ToString2D(InArray);
 
@@ -121,6 +126,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	ContainedIn3D()
 	 *	\see	Find1D()
 	 *	\todo	Add error check that an array is provided
+	 *	\static
 	 */
 	function ContainedIn1D(InArray, SearchValue);
 
@@ -139,6 +145,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	ContainedIn3D()
 	 *	\see	Find2D()
 	 *	\todo	Add error check that an array is provided
+	 *	\static
 	 */
 	function ContainedIn2D(InArray, SearchValue);
 
@@ -150,6 +157,7 @@ class _MinchinWeb_Array_ {
 	 *			`InArray` is `null`.
 	 *	\see	Find3D()
 	 *	\todo	Add error check that an array is provided
+	 *	\static
 	 */
 	function ContainedIn3D(InArray, SearchValue);
 	
@@ -162,6 +170,7 @@ class _MinchinWeb_Array_ {
 	 *			`InArray` is `null`.
 	 *	\see	ContainedIn1D()
 	 *	\todo	Add error check that arrays are provided
+	 *	\static
 	 */
 	function ContainedIn1DIn2D(InArray2D, SearchArray1D);
 
@@ -179,6 +188,7 @@ class _MinchinWeb_Array_ {
 	 *			array does not seem to be returning expected results. Use
 	 *			FindPairs() instead.
 	 *	\todo	Add error check that an array is provided
+	 *	\static
 	 */
 	function Find1D(InArray, SearchValue);
 
@@ -193,6 +203,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	Find1D()
 	 *	\see	Find3D()
 	 *	\todo	Add error check that an array is provided
+	 *	\static
 	 */
 	function Find2D(InArray, SearchValue);
 
@@ -207,6 +218,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	Find1D()
 	 *	\see	Find2D()
 	 *	\todo	Add error check that an array is provided
+	 *	\static
 	 */
 	function Find3D(InArray, SearchValue);
 
@@ -219,6 +231,7 @@ class _MinchinWeb_Array_ {
 	 *	\return	`InArray` sans the element at `Index`, the elements beyond it
 	 *			are shifted to the left.
 	 *	\todo	Add error check that an array is provided
+	 *	\static
 	 */
 	function RemoveValueAt(InArray, Index);
 
@@ -234,6 +247,7 @@ class _MinchinWeb_Array_ {
 	 *			beyond it shifted to the right.
 	 *	\todo	Add error check that an array is provided
 	 *	\todo	Add error check that `Index` is reasonable
+	 *	\static
 	 */
 	function InsertValueAt(InArray, Index, Value);
 
@@ -248,6 +262,7 @@ class _MinchinWeb_Array_ {
 	 *	\return	string version of array. e.g. `The array is 3 long.  12,45  62,52  59,10`
 	 *	\see	ToString1D()
 	 *	\todo	Add error check that an array is provided
+	 *	\static
 	 */
 	function ToStringTiles1D(InArrayOfTiles, ArrayLength = false);
 
@@ -264,6 +279,7 @@ class _MinchinWeb_Array_ {
 	 *			`null` if `InArray2D` is `null`.
 	 *	\see	ContainedInPairs()
 	 *	\todo	Add error check that a 2D array is provided
+	 *	\static
 	 */
 	function FindPairs(InArray2D, SearchValue1, SearchValue2);
 
@@ -280,6 +296,7 @@ class _MinchinWeb_Array_ {
 	 *			otherwise. `null` if `InArray2D` is `null`.
 	 *	\see	FindInPairs()
 	 *	\todo	Add error check that a 2D array is provided
+	 *	\static
 	 */
 	function ContainedInPairs(InArray2D, SearchValue1, SearchValue2);
 
@@ -294,6 +311,7 @@ class _MinchinWeb_Array_ {
 	 *			the comparison of each pair of elements. `false` otherwise.
 	 *	\note	I wrote this because I don't trust `InArray == TestArray` to
 	 *			work this way...
+	 *	\static
 	 */
 	function Compare1D(InArray1D, TestArray1D);
 
@@ -301,6 +319,7 @@ class _MinchinWeb_Array_ {
 	 *	\param	Array1	the first array
 	 *	\param	Array2	the second array
 	 *	\return	an array that has `Array2` appended to the end of `Array1`
+	 *	\static
 	 */
 	function Append(Array1, Array2);
 };

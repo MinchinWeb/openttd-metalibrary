@@ -27,7 +27,7 @@
 
 /**	\brief		Industries
  *	\version	v.1 (2012-01-12)
- *	\author		W. Minchin (MinchinWeb)
+ *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.2
  *
  * These are functions relating to dealing with OpenTTD industries.
@@ -49,6 +49,7 @@ class _MinchinWeb_Industry_ {
 	 *	\note	This function starts at the tile, and then searches a square out
 	 *			(up to `Constants.StationSize()` ) until it finds a tile with a
 	 *			valid `IndustryID`.
+	 *	\static
 	 */
 	function GetIndustryID(Tile);
 };

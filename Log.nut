@@ -17,7 +17,7 @@
 
 /**	\brief		Logging Interface
  *	\version	v.3 (2012-01-28)
- *	\author		W. Minchin (MinchinWeb)
+ *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.4
  *
  * To make use of this library, add this you the `info.nut` file of your AI:
@@ -35,22 +35,27 @@
  *	\note	There is no requirement that you use the Logging interface in your
  *			AI if you make use of MetaLibrary. You just will not see any
  *			debugging output from the library.
+ *	\note	This class will work equally well as a static or a non-static class,
+ *			as Debug Level is determined at each call.
  */
 
  class _MinchinWeb_Log_ {
 	/**	\publicsection
 	 *	\fn		GetVersion()
 	 *	\return	current version of the Logging Interface
+	 *	\static
 	 *	\fn		GetDate()
 	 *	\return	the date of the last update to the Logging Interface
+	 *	\static
 	 *	\fn		GetName()
 	 *	\return	the name of the Logging Interface
+	 *	\static
 	 *	\fn		GetRevision()
 	 *	\return	The revision (as per svn) of the last update to the Logging
-	 *			Interface. 
-	 *	\deprecated		This has been deprecated with the move to git. On
-	 *					files updated since the move to git, this will be of
-	 *					the form YYMMDD.
+	 *			Interface.
+	 *	\static
+	 *	\note	This has been changed with the move to git. On files updated
+	 *			since the move to git, this will be of the form YYMMDD.
 	 */
 	function GetVersion()       { return 3; }
 	function GetRevision()		{ return 221; }
@@ -99,6 +104,7 @@
 	 *	Can be used as a replacement for `AILog.Info()`
 	 *	\param	Message	message to print to AI debug screen
 	 *	\param	Level	required minimum level to print message (default is 3)
+	 *	\static
 	 */ 
 	function Note(Message, Level = 3);
 
@@ -109,6 +115,7 @@
 	 *
 	 *	Can be used as a replacement for `AILog.Warning()`
 	 *	\param	Message	message to print to AI debug screen
+	 *	\static
 	 */
 	function Warning(Message) { AILog.Warning(Message); }
 
@@ -121,6 +128,7 @@
 	 *	If not captured, errors (including calling this function) will crash
 	 *	your AI.
 	 *	\param	Message	message to print to AI debug screen
+	 *	\static
 	 */	
 	function Error(Message) { AILog.Error(Message); }
 
@@ -130,12 +138,14 @@
 	 *	\param	Tile	tile to place the sign on (as an `AITile` object)
 	 *	\param	Message	message to print on the sign
 	 *	\param	Level	required minimum level to place tile (default is 5)
+	 *	\static
 	 */	
 	function Sign(Tile, Message, Level = 5);
 
 	/**	\public
 	 *	\brief	Prints the current debug level to the AI debug screen.
 	 *	\return	nothing
+	 *	\static
 	 */	
 	function PrintDebugLevel();
 
@@ -148,6 +158,7 @@
 	 *	This function will not typically need to be called directly.
 	 *	\return	current debug level, as per AI setting.
 	 *	\see _DebugLevel
+	 *	\static
 	 */	
 	function UpdateDebugLevel() {
 		local DebugLevel = 3;
