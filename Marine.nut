@@ -15,6 +15,13 @@
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
 
+/**	\brief		Water and Ship related functions.
+ *	\version	v.3 (2012-06-23)
+ *	\author		W. Minchin (%MinchinWeb)
+ *	\since		MetaLibrary v.2
+ *	\see		\_MinchinWeb\_ShipPathfinder\_
+ */
+ 
 /* 
  *		MinchinWeb.Marine.DistanceShip(TileA, TileB)
  *							- Assuming open ocean, ship in OpenTTD will travel
@@ -69,24 +76,114 @@
  
 class _MinchinWeb_Marine_ {
 	main = null;
-}
+
+	/**	\publicsection
+	 *	\brief	Distance, as measured by a ship.
+	 *
+	 *	Assuming open ocean, ship in OpenTTD will travel 45° angle where
+	 *	possible, and then finish up the trip by going along a cardinal
+	 *	direction.
+	 *	\static
+	 */
+	function DistanceShip(TileA, TileB);
+
+	/**	\brief	Tiles where a dock can be built near an industry.
+	 *
+	 *	Given an industry (by IndustryID), searches for possible tiles to build
+	 *	a dock and returns the list as an array of TileIndexs.
+	 *	\note	Tiles returned should be checked to ensure that the desired
+	 *			cargo is still accepted.
+	 *	\note	Assumes that the industry location returned is the NE corner of
+	 *			the industry, and that industries fit within a 4x4 block.
+	 *	\param	IndustryID	The IndustryID you wanted checked.
+	 *	\return	An array of tiles that a dock could be built on near the
+	 *			industry.
+	 *	\return	If the industry has a built-in dock, that tile will be included
+	 *			in the tiles returned.
+	 *	\static
+	 */
+	function GetPossibleDockTiles(IndustryID);
+
+	/**	\brief	The tiles a ship can access a dock from.
+	 *
+	 *	Given a tile, returns an array of possible 'front' tiles that a ship
+	 *	could access the dock from.
+	 *	\param	Tile	Can be either the land tile of a dock, or the water
+	 *					tile.
+	 *	\note	Does not test if there is currently a dock at the tile.
+	 *
+	 *	\note	Might do funny things if the tile given is next to a river
+	 *			(i.e. a flat tile next to a water tile).
+	 *	\static
+	 */
+	function GetDockFrontTiles(Tile);
+
+	/**	\brief	Builds a buoy.
+	 *
+	 *	Attempts to build a buoy, but first checks the box within
+	 *	\_MinchinWeb\_C\_.BuoyOffset() for an existing buoy, and makes sure
+	 *	there's nothing but water between the two. If no existing buoy is found,
+	 *	one is built.
+	 *	\return	The location of the existing or built buoy.
+	 *	\static
+	 */
+	function BuildBuoy(Tile);
+
+	/**	\brief	Build a (ship) depot next to a dock.
+	 *
+	 *	Attempts to build a (water) depot, but first checks the box within
+	 *	\_MinchinWeb\_C\_.WaterDepotOffset() for an existing depot, and makes
+	 *	sure there's nothing but water between the depot and dock. If no
+	 *	existing depot is found, one is built.
+	 *	\param	DockTile		Must be a water tile.
+	 *	\param	NotNextToDock	When `True`, will keep the dock from being built
+	 *							next to an existing dock.
+	 *	\note	This will fail if the `DockTile` given is a dock (or any tile
+	 *			that is not a water tile).
+	 *	\return	The location of the existing or built depot.
+	 *	\todo	Check documentation of parameters.
+	 *	\static
+	 */
+	function BuildDepot(DockTile, Front, NotNextToDock=true);
+
+	/**	\brief	Ship Scoring
+	 *
+	 *	Given an EngineID, the function will score them; higher is better.
+	 *	\note	Designed to run as a validator on a AIList of EngineID's.
+	 *	\todo	Add example of validator code.
+	 *	\param	Life	Desired lifespan of route, assumed to be in years.
+	 *	\param	Cargo	Doesn't work yet. Capacity is measured in the default
+	 *					cargo.
+	 *	\todo	Implement ship capacity in given cargo.
+	 *	\static
+	 */
+	function RateShips(EngineID, Life, Cargo);
+
+	/**	\brief	Nearest ship depot.
+	 *	\return	The tile of the Ship Depot nearest to the given TileID
+	 *	\todo	Add check that depot is connected to the given TileID.
+	 *	\todo	Check that there is a depot to return.
+	 *	\static
+	 */
+	function NearestDepot(TileID);
+};
+
+//	== Function definitions ================================================
  
-function _MinchinWeb_Marine_::DistanceShip(TileA, TileB)
-{
+function _MinchinWeb_Marine_::DistanceShip(TileA, TileB) {
 //	Assuming open ocean, ship in OpenTTD will travel 45° angle where possible,
 //		and then finish up the trip by going along a cardinal direction
 	return ((AIMap.DistanceManhattan(TileA, TileB) - AIMap.DistanceMax(TileA, TileB)) * 0.4 + AIMap.DistanceMax(TileA, TileB)).tointeger();
 }
 
-function _MinchinWeb_Marine_::GetPossibleDockTiles(IndustryID)
-{
+function _MinchinWeb_Marine_::GetPossibleDockTiles(IndustryID) {
 //	Given an industry (by IndustryID), searches for possible tiles to build a
 //		dock and returns the list as an array of TileIndexs
 
 //	Tiles given should be checked to ensure that the desired cargo is still
 //		accepted
 
-//	Assumes that the industry location retruned is the NE corner of the
+//	Assumes that the industry location returned is the NE corner of the
 //		industry, and that industries fit within a 4x4 block
 	local Tiles = [];
 	if (AIIndustry.IsValidIndustry(IndustryID) == true) {
@@ -112,8 +209,7 @@ function _MinchinWeb_Marine_::GetPossibleDockTiles(IndustryID)
 	}
 }
 
-function _MinchinWeb_Marine_::GetDockFrontTiles(Tile)
-{
+function _MinchinWeb_Marine_::GetDockFrontTiles(Tile) {
 //	Given a tile, returns an array of possible 'front' tiles that a ship could
 //		access the dock from
 //	Can be either the land tile of a dock, or the water tile
@@ -177,14 +273,13 @@ function _MinchinWeb_Marine_::GetDockFrontTiles(Tile)
 	return ReturnTiles;
 }
 
-function _MinchinWeb_Marine_::BuildBuoy(Tile)
-{
+function _MinchinWeb_Marine_::BuildBuoy(Tile) {
 //	Attempts to build a buoy, but first checks the box within
 //		MinchinWeb.Constants.BuoyOffset() for an existing buoy, and makes sure
 //		there's nothing but water between the two. If no existing buoy is found,
 //		one is built.
 
-//	Returns the location of the existing or built bouy.
+//	Returns the location of the existing or built buoy.
 
 	local Existing = AITileList();
 	local UseExistingAt = null;
@@ -230,8 +325,7 @@ function _MinchinWeb_Marine_::BuildBuoy(Tile)
 	}
 }
 
-function _MinchinWeb_Marine_::BuildDepot(DockTile, Front, NotNextToDock=true)
-{
+function _MinchinWeb_Marine_::BuildDepot(DockTile, Front, NotNextToDock=true) {
 //	Attempts to build a (water) depot, but first checks the box within
 //		MinchinWeb.Constants.WaterDepotOffset() for an existing depot, and makes
 //		sure there's nothing but water between the depot and dock. If no
@@ -241,7 +335,7 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front, NotNextToDock=true)
 //	This will fail if the DockTile given is a dock (or any tile that is not a water tile)
 
 //	'NotNextToDock,' when set, will keep the dock from being built next to an
-//		exisiting dock
+//		existing dock
 
 	local StartX = AIMap.GetTileX(DockTile) - _MinchinWeb_C_.WaterDepotOffset();
 	local StartY = AIMap.GetTileY(DockTile) - _MinchinWeb_C_.WaterDepotOffset();
@@ -339,8 +433,7 @@ function _MinchinWeb_Marine_::BuildDepot(DockTile, Front, NotNextToDock=true)
 	return UseExistingAt;
 }
 
-function _MinchinWeb_Marine_::RateShips(EngineID, Life, Cargo)
-{
+function _MinchinWeb_Marine_::RateShips(EngineID, Life, Cargo) {
 //	Designed to Run as a validator
 //	Given the EngineID, it will score them; higher is better
 //	   Score = [(Capacity in Cargo)*Reliability*Speed] / 
@@ -365,8 +458,7 @@ function _MinchinWeb_Marine_::RateShips(EngineID, Life, Cargo)
 	return Score;
 }
 
-function _MinchinWeb_Marine_::NearestDepot(TileID)
-{
+function _MinchinWeb_Marine_::NearestDepot(TileID) {
 //	Returns the tile of the Ship Depot nearest to the given TileID
 
 //	To-Do:	Add check that depot is connected to tile
@@ -376,3 +468,4 @@ function _MinchinWeb_Marine_::NearestDepot(TileID)
 	AllDepots.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
 	return AllDepots.Begin();
 }
+// EOF
