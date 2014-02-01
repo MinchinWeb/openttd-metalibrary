@@ -1,11 +1,11 @@
 ﻿/*	Waterbody Check v.1, r.193, [2012-01-05],
  *		part of Minchinweb's MetaLibrary v.2,
  *		originally part of WmDOT v.7
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
- *	distribute, sublincense, and/or sell this software, and provide these 
+ *	distribute, sublicense, and/or sell this software, and provide these 
  *	rights to others, provided:
  *
  *	+ The above copyright notice and this permission notice shall be included
@@ -15,19 +15,25 @@
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
 
-/*	Waterbody check is in effect a specialized pathfinder. It serves to check
+/**	\brief		Waterbody Check
+ *	\version	v.1 (2012-01-05)
+ *	\author		W. Minchin (MinchinWeb)
+ *	\since		MetaLibrary v.1
+ *
+ *	Waterbody check is in effect a specialized pathfinder. It serves to check
  *		whether two points are in the same waterbody (i.e. a ship could travel
  *		between them). It is optimized to run extremely fast (I hope!). It can
- *		be called seperately, but was originally designed as a pre-run check
+ *		be called separately, but was originally designed as a pre-run check
  *		for my Ship Pathfinder (also included in this MetaLibrary).
  *
  *	It is based on the NoAI Team's Road Pathfinder v3.
+ *
+ *	\requires	Graph.AyStar v6 library
+ *	\see		\_MinchinWeb\_ShipPathfinder\_
+ *	\todo		Add a cost for turns that then this would function as a 'real'
+ *				pathfinder (maybe...)
  */
  
-//	TO-DO:	Add a cost for turns that then this would function as a 'real' pathfinder
-
-//	Requires Graph.AyStar v6 library
-
 /*	This file provides functions:
  *		MinchinWeb.WaterbodyCheck.InitializePath(sources, goals)
  *									- Set up the pathfinder
@@ -60,8 +66,7 @@ class _MinchinWeb_WBC_
 	_running = null;
 	_mypath = null;
 	
-	constructor()
-	{
+	constructor() {
 		this._max_cost = 16000;
 		this._cost_per_tile = 1;
 		this._distance_penalty = 1;
@@ -71,7 +76,7 @@ class _MinchinWeb_WBC_
 		this._running = false;
 	}
 
-	/**
+	/**	\publicsection
 	 * Initialize a path search between sources and goals.
 	 * @param sources The source tiles.
 	 * @param goals The target tiles.
@@ -91,7 +96,7 @@ class _MinchinWeb_WBC_
 	 * Try to find the path as indicated with InitializePath with the lowest cost.
 	 * @param iterations After how many iterations it should abort for a moment.
 	 *  This value should either be -1 for infinite, or > 0. Any other value
-	 *  aborts immediatly and will never find a path.
+	 *  aborts immediately and will never find a path.
 	 * @return A route if one was found, or false if the amount of iterations was
 	 *  reached, or null if no path was found.
 	 *  You can call this function over and over as long as it returns false,
@@ -99,14 +104,30 @@ class _MinchinWeb_WBC_
 	 * @see AyStar::FindPath()
 	 */
 	function FindPath(iterations);
+	
+	/**	\brief	How long is the (found) path?
+	 *	\return	Path length in tiles
+	 */
+	function GetPathLength();
+	
+	/**	\brief	Caps the pathfinder as twice the Manhattan distance between the
+	 *			two tiles
+	 */
+	function PresetSafety(Start, End);
 };
 
 class _MinchinWeb_WBC_.Cost
 {
+	/**	\brief	Used to set (and get) pathfinder parameters
+	 *
+	 *	Valid values are:
+	 *	- max_cost
+	 *	- cost_per_tile
+	 *	- distance_penalty
+	 */
 	_main = null;
 
-	function _set(idx, val)
-	{
+	function _set(idx, val) {
 		if (this._main._running) throw("You are not allowed to change parameters of a running pathfinder.");
 
 		switch (idx) {
@@ -119,8 +140,7 @@ class _MinchinWeb_WBC_.Cost
 		return val;
 	}
 
-	function _get(idx)
-	{
+	function _get(idx) {
 		switch (idx) {
 			case "max_cost":			return this._main._max_cost;
 			case "cost_per_tile":		return this._main._cost_per_tile;
@@ -129,8 +149,7 @@ class _MinchinWeb_WBC_.Cost
 		}
 	}
 
-	constructor(main)
-	{
+	constructor(main) {
 		this._main = main;
 	}
 };
@@ -189,7 +208,8 @@ function _MinchinWeb_WBC_::_Neighbours(self, path, cur_node)
 		}
 	}
 	
-	//	TO-DO: Add diagonals to possible neighbours
+	/**	\todo	Add diagonals to possible neighbours
+	 */
 	
 	return tiles;
 }
