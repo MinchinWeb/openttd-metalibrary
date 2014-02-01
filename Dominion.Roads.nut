@@ -1,6 +1,6 @@
 ﻿/*	Dominion Land System Roads v.1.1 [2013-01-01],
  *		part of Minchinweb's MetaLibrary v.6,
- *	Copyright © 2012-13 by W. Minchin. For more info,
+ *	Copyright © 2012-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -13,15 +13,23 @@
  *		contributions.
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
- 
-/*	*Domian Land System* refers to the system of survey in Western Canada. Land
- *	was surveyed into 1/2 mile x 1/2 mile "quarter sections" that would be sold
- *	to settlers. Roads were placed on a 1 mile x 2 mile grid along the edges of
- *	these quarter sections.
+
+/**	\brief		Dominion Land System (Road Pathfinder)
+ *	\version	v.1 (2013-01-01)
+ *	\author		W. Minchin (%MinchinWeb)
+ *	\since		MetaLibrary v.6
+ *
+ *	*Dominion Land System* refers to the system of survey in Western Canada.
+ *	Land was surveyed into 1/2 mile x 1/2 mile "quarter sections" that would be
+ *	sold to settlers (around 1905, the price was $10). Roads were placed on a
+ *	1 mile x 2 mile grid along the edges of these quarter sections.
  *
  *	Here, we follow the same idea, although on a square grid. The default grid
  *	is 8x8 tiles. This is designed to run as a wrapper on the main road
  *	pathfinder.
+ *
+ *	\requires	*Pathfinder.Road.nut*
+ *	\see		\_MinchinWeb\_RoadPathfinder\_
  */
 
 /*	This file provides the following functions
@@ -52,8 +60,6 @@
 				  	  .PresetStreetcar()
 */
 
-//	Requires *Pathfinder.Road.nut*
-
 class _MinchinWeb_DLS_ {
 	_gridx = null;		///< Grid spacing in x direction
 	_gridy = null;		///< Grid spacing in y direction
@@ -73,10 +79,165 @@ class _MinchinWeb_DLS_ {
 		this._pathfinder = _MinchinWeb_RoadPathfinder_();
 		this._road_type = AIRoad.ROADTYPE_ROAD;
 	}
-}
+	
+	/**	\publicsection
+	 *	\brief	Sets network Datum.
+	 *
+	 *	Used to set the datum for our road system.
+	 *	\note	In surveying, a 'datum' is where all other points are measured
+	 *			from.
+	 *	\param	NewDatum	assumed to be a TileIndex
+	 *	\todo	Add error check
+	 */
+	function SetDatum(NewDatum);
+	
+	/**	\brief	Returns the currently set Datum
+	 *	\return	The current Datum (as a TileIndex)
+	 *	\note	In surveying, a 'datum' is where all other points are measured
+	 *			from.
+	 */
+	function GetDatum() { return this._datum; }
+	
+	/**	\brief	Is the tile given a grid point
+	 *	\return	`True` if and only if `Point` is a gird point;
+	 *			`False` otherwise.
+	 */
+	function IsGridPoint(Point);
+	
+	/**	\brief	Get all the grid points between two tiles
+	 *	\param	End1	expected to be a TileIndex
+	 *	\param	End2	expected to be a TileIndex
+	 *	\return	An array of TileIndexs that are 'grid points' or where roads
+	 *			will have intersections.
+	 *	\note	`End1` and `End2` will **NOT** be included in the return array.
+	 */
+	function GridPoints(End1, End2);
+	
+	/**	\brief	Get all grid points
+	 *	\return	An array of all the 'grid points' on the map
+	 */
+	function AllGridPoints();
+	
+	/**	\brief	Run the pathfinder.
+	 *	\param	cycles	number of iterations to run before returning.
+	 *	\return	`True` when the path is found
+	 *	\see	BuildPath()
+	 *	\see	GetPath()
+	 *	\note	The path must be initialized before it can be run.
+	 *	\see	InitializePath()
+	 *	\see	InitializePathOnTowns()
+	 *	\todo	stop ignoring the passed parameter of `cycles`
+	 */
+	function FindPath(cycles = 10000);
+	
+	/**	\brief	Initializes the pathfinder
+	 *	\param	StartArray	the first item assumed be a TileIndex, the of the
+	 *						items in the array are ignored.
+	 *	\param	EndArray	the first item assumed be a TileIndex, the of the
+	 *						items in the array are ignored.
+	 */
+	function InitializePath(StartArray, EndArray);
+	
+	/**	\brief	Build the path
+	 *	\note	requires that the path has already been found.
+	 *	\see	FindPath()
+	 */
+	function BuildPath();
 
-class _MinchinWeb_DLS_.Info
-{
+	/**	\brief	Initializes the pathfinder using two towns.
+	 *	\param	StartTown	Assumed to be a TownID
+	 *	\param	EndTown		Assumed to be a TownID
+	 *	\note	This assumes that the town centres are road tiles (if this is
+	 *			not the case, the pathfinder will still run, but it will take a
+	 *			long time and eventually fail to return a path). This is not
+	 *			typically an issue because on map generation, the centre of each
+	 *			town is a road tile.
+	 */
+	function InitializePathOnTowns(StartTown, EndTown);
+	
+	/** \brief	Returns the path stored by the pathfinder
+	 */
+	function GetPath();
+	
+	/**	\brief	Returns the length of the path stored by the pathfinder.
+	 *	\return	The lenght of the path in tiles.
+	 */
+	function GetPathLength();
+	
+	/**	\brief	Convert the path to tile pairs.
+	 *	\return	A 2D array that has each pair of tiles that the path joins.
+	 *	\see	TileParisToBuild()
+	 */
+	function PathToTilePairs();
+	
+	/**	\brief	Get all the tiles in the path.
+	 *	\return	A 1D array of the tiles in the path
+	 */
+	function PathToTiles() { return this._path; }
+	
+	/**	\brief	Get the road tile pairs that need built.
+	 *
+	 *	Similar to PathToTilePairs(), but only returns those pairs where there
+	 *	isn't a current road connection.
+	 *	\see	PathToTilePairs()
+	 *	\return	A 2D array that has each pair of tiles that the path joins that
+	 *			are not current joined by road.
+	 */
+	function TilePairsToBuild();
+	
+	/**	\brief	Determine how much it will cost to build the path.
+	 *
+	 *	Turns to 'test mode,' builds the route provided, and returns the cost.
+	 *	\return	The build cost, in British Pounds.
+	 *	\return	`False` if the test build fails somewhere.
+	 *	\note	Note that due to inflation, this value can get stale.
+	 */
+	function GetBuildCost();
+	
+	/**	Pass-thru functions to RoadPathfinder
+	 *	\see	\_MinchinWeb\_RoadPathfinder\_.PresetOriginal()
+	 */
+	function PresetOriginal() {
+		return this._pathfinder.PresetOriginal();
+	}
+
+	/**	Pass-thru functions to RoadPathfinder
+	 *	\see	\_MinchinWeb\_RoadPathfinder\_.PresetPerfectPath()
+	 */
+	function PresetPerfectPath() {
+		return this._pathfinder.PresetPerfectPath();
+	}
+	
+	/**	Pass-thru functions to RoadPathfinder
+	 *	\see	\_MinchinWeb\_RoadPathfinder\_.PresetQuickAndDirty()
+	 */
+	function PresetQuickAndDirty() {
+		return this._pathfinder.PresetQuickAndDirty();
+	}
+	
+	/**	Pass-thru functions to RoadPathfinder
+	 *	\see	\_MinchinWeb\_RoadPathfinder\_.PresetCheckExisting()
+	 */
+	function PresetCheckExisting() {
+		return this._pathfinder.PresetCheckExisting()
+	}
+	
+	/**	Pass-thru functions to RoadPathfinder
+	 *	\see	\_MinchinWeb\_RoadPathfinder\_.PresetMode6()
+	 */
+	function PresetPresetMode6() {
+		return this._pathfinder.PresetMode6();
+	}
+	
+	/**	Pass-thru functions to RoadPathfinder
+	 *	\see	\_MinchinWeb\_RoadPathfinder\_.PresetStreetcar()
+	 */
+	function PresetPresetStreetcar() {
+		return this._pathfinder.PresetStreetcar();
+	}
+};
+
+class _MinchinWeb_DLS_.Info {
 	_main = null;
 	
 	function GetVersion()       { return 1; }
@@ -85,30 +246,18 @@ class _MinchinWeb_DLS_.Info
 	function GetDate()          { return "2013-01-01"; }
 	function GetName()          { return "Dominion Land System Roads"; }
 	
-	constructor(main)
-	{
+	constructor(main) {
 		this._main = main;
 	}
-}
+};
 
 
 function _MinchinWeb_DLS_::SetDatum(NewDatum) {
-//	## SetDatum
-//	Used to set the datum for our road system  
-//	*NewDatum* is assumed to be a TileIndex
-//
-//	To-DO: Add error check
-
 	this._datum = NewDatum;
 //	_MinchinWeb_Log_.Note("Base Datum: x " + AIMap.GetTileX(this._datum) + "%" + this._gridx + "=" + AIMap.GetTileX(this._datum)%this._gridx + ", y:" + AIMap.GetTileY(this._datum) + "%" + this._gridy + "=" + AIMap.GetTileX(this._datum)%this._gridy, 6);
 	this._basedatum = AIMap.GetTileIndex(AIMap.GetTileX(this._datum)%this._gridx, AIMap.GetTileY(this._datum)%this._gridy);
 
 	_MinchinWeb_Log_.Note("Datum set to " + AIMap.GetTileX(this._datum) + ", " + AIMap.GetTileY(this._datum) + "; BaseDatum set to " + AIMap.GetTileX(this._basedatum) + ", " + AIMap.GetTileY(this._basedatum), 5);
-}
-
-function _MinchinWeb_DLS_::GetDatum() {
-//	returns the currently set Datum
-	return this._datum;
 }
 
 function _MinchinWeb_DLS_::IsGridPoint(Point) {
@@ -296,7 +445,7 @@ function _MinchinWeb_DLS_::BuildPath()
 				//		we skip tunnel building and try and build a bridge
 				//		instead, which will fail because the slopes are wrong...
 					if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, this._path[i])) {
-					//	At this point, an error has occured while building the tunnel.
+					//	At this point, an error has occurred while building the tunnel.
 					//	Fail the pathfiner
 					//	return null;
 						AILog.Warning("MinchinWeb.DLS.BuildPath can't build a tunnel from " + AIMap.GetTileX(this._path[i]) + "," + AIMap.GetTileY(this._path[i]) + " to " + AIMap.GetTileX(this._path[i+1]) + "," + AIMap.GetTileY(this._path[i+1]) + "!!" );
@@ -307,7 +456,7 @@ function _MinchinWeb_DLS_::BuildPath()
 					BridgeList.Valuate(AIBridge.GetMaxSpeed);
 					BridgeList.Sort(AIList.SORT_BY_VALUE, false);
 					if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), this._path[i], this._path[i+1])) {
-					//	At this point, an error has occured while building the bridge.
+					//	At this point, an error has occurred while building the bridge.
 					//	Fail the pathfiner
 					//	return null;
 					AILog.Warning("MinchinWeb.DLS.BuildPath can't build a bridge from " + AIMap.GetTileX(this._path[i]) + "," + AIMap.GetTileY(this._path[i]) + " to " + AIMap.GetTileX(this._path[i+1]) + "," + AIMap.GetTileY(this._path[i+1]) + "!! (or the tunnel end moved...)" );
@@ -324,7 +473,7 @@ function _MinchinWeb_DLS_::BuildPath()
 function _MinchinWeb_DLS_::InitializePathOnTowns(StartTown, EndTown)
 {
 //	Initializes the pathfinder using two towns
-//	Assumes that the town centers are road tiles (if this is not the case, the
+//	Assumes that the town centres are road tiles (if this is not the case, the
 //		pathfinder will still run, but it will take a long time and eventually
 //		fail to return a path)
 	return this.InitializePath([AITown.GetLocation(StartTown)], [AITown.GetLocation(EndTown)]);
@@ -382,14 +531,9 @@ function _MinchinWeb_DLS_::PathToTilePairs()
 	return TilePairs;
 }
 
-function _MinchinWeb_DLS_::PathToTiles() {
-	//	Returns a 1D array of the tiles in the path
-	return this._path;
-}
-
 function _MinchinWeb_DLS_::TilePairsToBuild()
 {
-//	Similiar to PathToTilePairs(), but only returns those pairs where there
+//	Similar to PathToTilePairs(), but only returns those pairs where there
 //		isn't a current road connection
 
 	if (this._running) {
@@ -460,18 +604,18 @@ function _MinchinWeb_DLS_::GetBuildCost()
 				}
 				if (AITunnel.GetOtherTunnelEnd(this._path[i]) == this._path[i+1]) {
 					if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, this._path[i])) {
-					//	At this point, an error has occured while building the tunnel.
+					//	At this point, an error has occurred while building the tunnel.
 					//	Fail the pathfiner
 					//	return null;
 					AILog.Warning("MinchinWeb.DLS.GetBuildCost can't build a tunnel from " + AIMap.GetTileX(this._path[i]) + "," + AIMap.GetTileY(this._path[i]) + " to " + AIMap.GetTileX(this._path[i+1]) + "," + AIMap.GetTileY(this._path[i+1]) + "!!" );
 					}
 				} else {
-				//	if not a tunnel, we assume we're buildng a bridge
+				//	if not a tunnel, we assume we're building a bridge
 					local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(this._path[i], this._path[i+1] + 1));
 					BridgeList.Valuate(AIBridge.GetMaxSpeed);
 					BridgeList.Sort(AIList.SORT_BY_VALUE, false);
 					if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), this._path[i], this._path[i+1])) {
-					//	At this point, an error has occured while building the bridge.
+					//	At this point, an error has occurred while building the bridge.
 					//	Fail the pathfiner
 					//	return null;
 					AILog.Warning("MinchinWeb.DLS.GetBuildCost can't build a bridge from " + AIMap.GetTileX(this._path[i]) + "," + AIMap.GetTileY(this._path[i]) + " to " + AIMap.GetTileX(this._path[i+1]) + "," + AIMap.GetTileY(this._path[i+1]) + "!!" );
@@ -484,23 +628,4 @@ function _MinchinWeb_DLS_::GetBuildCost()
 	//	End build sequence
 	return BeanCounter.GetCosts();
 }
-
-// Pass-thru functions to RoadPathfinder
-function _MinchinWeb_DLS_::PresetOriginal() {
-	return this._pathfinder.PresetOriginal();
-}
-function _MinchinWeb_DLS_::PresetPerfectPath() {
-	return this._pathfinder.PresetPerfectPath();
-}
-function _MinchinWeb_DLS_::PresetQuickAndDirty() {
-	return this._pathfinder.PresetQuickAndDirty();
-}
-function _MinchinWeb_DLS_::PresetCheckExisting() {
-	return this._pathfinder.PresetCheckExisting()
-}
-function _MinchinWeb_DLS_::PresetMode6() {
-	return this._pathfinder.PresetMode6();
-}
-function _MinchinWeb_DLS_::PresetStreetcar() {
-	return this._pathfinder.PresetStreetcar();
-}
+// EOF
