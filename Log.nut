@@ -37,7 +37,6 @@
  *			debugging output from the library.
  */
 
-
  class _MinchinWeb_Log_ {
 	/**	\publicsection
 	 *	\fn		GetVersion()

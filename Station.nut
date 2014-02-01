@@ -26,6 +26,14 @@
  *								- Returns the distance between a given vehicle and a given station
  *								- Designed to be usable as a Valuator on a list of vehicles
  */
+ 
+/**	\brief		Station
+ *	\version	v.3 (2011-07-21)
+ *	\author		W. Minchin (MinchinWeb)
+ *	\since		MetaLibrary v.2
+ *
+ * These are functions relating to dealing with stations.
+ */
 
 class _MinchinWeb_Station_ {
 	main = null;
