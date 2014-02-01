@@ -5,7 +5,7 @@
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
- *	distribute, sublincense, and/or sell this software, and provide these 
+ *	distribute, sublicense, and/or sell this software, and provide these 
  *	rights to others, provided:
  *
  *	+ The above copyright notice and this permission notice shall be included
@@ -100,16 +100,7 @@
 	 *	\param	Message	message to print to AI debug screen
 	 *	\param	Level	required minimum level to print message (default is 3)
 	 */ 
-	function Note(Message, Level = 3) {
-		if (Level <=  _MinchinWeb_Log_.UpdateDebugLevel() ) {
-			local i = 1;
-			while (i < Level) {
-				Message = "     " + Message;
-				Level--;
-			}
-			AILog.Info(Message);
-		}
-	}
+	function Note(Message, Level = 3);
 
 	/**	\public
 	 *	\brief	Output warnings to the AI debug screen.
@@ -119,9 +110,7 @@
 	 *	Can be used as a replacement for `AILog.Warning()`
 	 *	\param	Message	message to print to AI debug screen
 	 */
-	function Warning(Message) {
-		AILog.Warning(Message);
-	}
+	function Warning(Message) { AILog.Warning(Message); }
 
 	/**	\public
 	 *	\brief	Output errors to the AI debug screen.
@@ -133,9 +122,7 @@
 	 *	your AI.
 	 *	\param	Message	message to print to AI debug screen
 	 */	
-	function Error(Message) {
-		AILog.Error(Message);
-	}
+	function Error(Message) { AILog.Error(Message); }
 
 	/**	\public
 	 *	\brief	Prints a message on a sign.
@@ -144,19 +131,13 @@
 	 *	\param	Message	message to print on the sign
 	 *	\param	Level	required minimum level to place tile (default is 5)
 	 */	
-	function Sign(Tile, Message, Level = 5) {
-		if (Level <= _MinchinWeb_Log_.UpdateDebugLevel() ) {
-			AISign.BuildSign(Tile, Message);
-		}
-	}
+	function Sign(Tile, Message, Level = 5);
 
 	/**	\public
 	 *	\brief	Prints the current debug level to the AI debug screen.
 	 *	\return	nothing
 	 */	
-	function PrintDebugLevel() {
-		AILog.Info("OpLog is running at level " + this._DebugLevel + ".");
-	}
+	function PrintDebugLevel();
 
 	/**	\public
 	 *	\brief	Looks for an AI setting for Debug Level, and set the debug level to that.
@@ -176,3 +157,35 @@
 		return DebugLevel;
 	}
 };
+
+//	== Function definition =================================================
+
+function Note(Message, Level = 3) {
+	if (Level <=  _MinchinWeb_Log_.UpdateDebugLevel() ) {
+		local i = 1;
+		while (i < Level) {
+			Message = "     " + Message;
+			Level--;
+		}
+		AILog.Info(Message);
+	}
+}
+
+function Sign(Tile, Message, Level = 5) {
+	if (Level <= _MinchinWeb_Log_.UpdateDebugLevel() ) {
+		AISign.BuildSign(Tile, Message);
+	}
+}
+
+function PrintDebugLevel() {
+	AILog.Info("OpLog is running at level " + this._DebugLevel + ".");
+}
+
+function UpdateDebugLevel() {
+	local DebugLevel = 3;
+	if (AIController.GetSetting("Debug_Level") != -1) {
+		DebugLevel = AIController.GetSetting("Debug_Level");
+	}
+	return DebugLevel;
+}
+// EOF

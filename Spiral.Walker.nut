@@ -69,112 +69,30 @@ class _MinchinWeb_SW_ {
 	 *	\see	Restart()
 	 *	\see	Slope()
 	 */
-	function Start(Tile) {
-		this._start = Tile;
-		this._startx = AIMap.GetTileX(Tile);
-		this._starty = AIMap.GetTileY(Tile);
-		this._x = this._startx;
-		this._y = this._starty;
-		this._current_tile = this._start;
-		
-		this._dx = -1;
-		this._dy =  0;
-		this._Steps = 0;
-	//	this._Stage = 1;
-		this._Stage = 1;
-		this._StageMax = 1;
-		this._StageSteps = 0;
-	}
+	function Start(Tile);
 
 	/** \brief	Resets the variables for the SpiralWalker
 	 *	\see	Restart()
 	 */
-	function Reset() {
-		this._start = null;
-		this._startx = null;
-		this._starty = null;
-		this._x = null;
-		this._y = null;
-		this._current_tile = null;
-	}
+	function Reset();
 
 	/**	\brief	Moves the SpiralWalker to the original starting position
 	 *	\see	Reset()
 	 */
-	function Restart() {
-		this._x = this._startx;
-		this._y = this._starty;
-		this._current_tile = this._start;
-		
-		this._dx = -1;
-		this._dy =  0;
-		this._Steps = 0;
-		this._Stage = 1;
-		this._StageMax = 1;
-		this._StageSteps = 0;
-	}
+	function Restart();
 
 	/**	\brief	'Walks' the SpiralWalker one tile at a tile
 	 *	\return	the tile that the SpiralWalker is now "standing on"
 	 *	\note	This is where (most) of the action is!
 	 *	\note	Before calling this function, you need to set the Start().
 	 */
-	function Walk() {
-		if (this._Steps == 0) {
-			this._Steps++;
-		} else {
-		
-			this._x += this._dx;
-			this._y += this._dy;
-			this._StageSteps ++;
-			this._Steps ++;
-			
-			// Check if it's time to turn
-			if (this._StageSteps == this._StageMax) {
-				this._StageSteps = 0;
-				if (this._Stage % 2 == 0) {
-					this._StageMax++;
-				}
-				this._Stage ++;
-				
-				// Turn Clockwise
-				switch (this._dx) {
-					case 0:
-						switch (this._dy) {
-							case -1:
-								this._dx = -1;
-								this._dy =  0;
-								break;
-							case 1:
-								this._dx = 1;
-								this._dy = 0;
-								break;
-						}
-						break;
-					case -1:
-						this._dx = 0;
-						this._dy = 1;
-						break;
-					case 1:
-						this._dx =  0;
-						this._dy = -1;
-						break;
-				}
-			}
-		}
-		_MinchinWeb_Log_.Note("     SpiralWalker.Walk: " + this._dx + " " + this._dy + " : " + this._Steps + " " + this._Stage + " " + this._StageSteps + " " + this._StageMax + " :: " + this._x + ", " + this._y, 7);
-		this._current_tile = AIMap.GetTileIndex(this._x, this._y);
-	//	AISign.BuildSign(this._current_tile, "" + this._Steps);
-		return this._current_tile;
-	}
+	function Walk();
 
 	/**	\brief	Returns the tile the SpiralWalker is starting on
 	 *	\return	The tile the SpiralWalker is starting on
 	 *	\see	Start()
 	 */
-	function GetStart() {
-		return this._start;
-	}
+	function GetStart() { return this._start; }
 
 	/**	\brief	Returns the Stage the SpiralWalker is on.
 	 *
@@ -184,25 +102,110 @@ class _MinchinWeb_SW_ {
 	 *	\see	GetStep()
 	 *	\todo	Add an image showing how stages are counted
 	 */
-	function GetStage() {
-		return this._Stage;
-	}
+	function GetStage() { return this._Stage; }
 
 	/**	\brief	Returns the Tile the SpiralWalker is on.
 	 *	\return	the Tile the SpiralWalker is on.
 	 *	\see	GetStep()
 	 *	\see	GetStage()
 	 */
-	function GetTile() {
-		return this._current_tile;
-	}
+	function GetTile() { return this._current_tile; }
 
 	/**	\brief	Returns the number of steps the SpiralWalker has done.
 	 *	\return	The number of steps the SpiralWalker has done.
 	 *	\see	GetStage()
 	 *	\todo	Add an image showing how steps are counted
 	 */
-	function GetStep() {
-		return this._Steps;
-	}
+	function GetStep() { return this._Steps; }
 };
+
+
+//	== Function definition ==================================================
+function _MinchinWeb_SW_::Start(Tile) {
+	this._start = Tile;
+	this._startx = AIMap.GetTileX(Tile);
+	this._starty = AIMap.GetTileY(Tile);
+	this._x = this._startx;
+	this._y = this._starty;
+	this._current_tile = this._start;
+	
+	this._dx = -1;
+	this._dy =  0;
+	this._Steps = 0;
+//	this._Stage = 1;
+	this._Stage = 1;
+	this._StageMax = 1;
+	this._StageSteps = 0;
+}
+
+function _MinchinWeb_SW_::Reset() {
+	this._start = null;
+	this._startx = null;
+	this._starty = null;
+	this._x = null;
+	this._y = null;
+	this._current_tile = null;
+}
+
+function _MinchinWeb_SW_::Restart() {
+	this._x = this._startx;
+	this._y = this._starty;
+	this._current_tile = this._start;
+	
+	this._dx = -1;
+	this._dy =  0;
+	this._Steps = 0;
+	this._Stage = 1;
+	this._StageMax = 1;
+	this._StageSteps = 0;
+}
+
+function _MinchinWeb_SW_::Walk() {
+	if (this._Steps == 0) {
+		this._Steps++;
+	} else {
+	
+		this._x += this._dx;
+		this._y += this._dy;
+		this._StageSteps ++;
+		this._Steps ++;
+		
+		// Check if it's time to turn
+		if (this._StageSteps == this._StageMax) {
+			this._StageSteps = 0;
+			if (this._Stage % 2 == 0) {
+				this._StageMax++;
+			}
+			this._Stage ++;
+			
+			// Turn Clockwise
+			switch (this._dx) {
+				case 0:
+					switch (this._dy) {
+						case -1:
+							this._dx = -1;
+							this._dy =  0;
+							break;
+						case 1:
+							this._dx = 1;
+							this._dy = 0;
+							break;
+					}
+					break;
+				case -1:
+					this._dx = 0;
+					this._dy = 1;
+					break;
+				case 1:
+					this._dx =  0;
+					this._dy = -1;
+					break;
+			}
+		}
+	}
+	_MinchinWeb_Log_.Note("     SpiralWalker.Walk: " + this._dx + " " + this._dy + " : " + this._Steps + " " + this._Stage + " " + this._StageSteps + " " + this._StageMax + " :: " + this._x + ", " + this._y, 7);
+	this._current_tile = AIMap.GetTileIndex(this._x, this._y);
+//	AISign.BuildSign(this._current_tile, "" + this._Steps);
+	return this._current_tile;
+}
+// EOF

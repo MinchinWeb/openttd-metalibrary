@@ -51,17 +51,14 @@ class _MinchinWeb_Array_ {
 	main = null;
 	
 	/**	\publicsection
-	 */
-	/**	\brief	Creates a one dimensional (1-D) array.
+	 *	\brief	Creates a one dimensional (1-D) array.
 	 *	\param	length	the desired length of the array
 	 *	\return	empty array of the given size
 	 *	\see	Create2D()
 	 *	\see	Create3D()
 	 */
-	function Create1D(length) {
-		return array[length];
-	}
-
+	function Create1D(length) { return array[length]; }
+	
 	/**	\brief	Creates a two dimensional (2-D) array.
 	 *	\param	length	the desired length of the array (in the first
 	 *					dimension)
@@ -71,15 +68,8 @@ class _MinchinWeb_Array_ {
 	 *	\see	Create1D()
 	 *	\see	Create3D()
 	 */
-	function Create2D(length, width) {
-		local ReturnArray = [length];
-		local tempArray = [width];
-		for (local i=0; i < length; i++) {
-			ReturnArray[i] = tempArray;
-		}
-		return ReturnArray;
-	}
-
+	function Create2D(length, width);
+	
 	/**	\brief	Creates a three dimensional (3-D) array.
 	 *	\param	length	the desired length of the array (in the first
 	 *					dimension)
@@ -91,23 +81,8 @@ class _MinchinWeb_Array_ {
 	 *	\see	Create1D()
 	 *	\see	Create2D()
 	 */
-	function Create3D(length, width, height)
-	{
-		local ReturnArray = [length];
-		local tempArray = [width];
-		local tempArray2 = [height];
-		
-		for (local i=0; i < width; i++) {
-			tempArray[i] = tempArray2;
-		}
-		
-		for (local i=0; i < length; i++) {
-			ReturnArray[i] = tempArray;
-		}
-		
-		return ReturnArray;
-	}
-
+	function Create3D(length, width, height);
+	
 	/**	\brief	Converts a one dimensional array to a nice string format.
 	 *
 	 *	This function was created to aid in the output of arrays to the AI
@@ -119,20 +94,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	ToStringTiles1D()
 	 *	\todo	Add error check that an array is provided
 	 */
-	function ToString1D(InArray) {
-		if (InArray == null) {
-			return null;
-		} else {
-			local Length = InArray.len();
-			local i = 0;
-			local Temp = "";
-			while (i < InArray.len() ) {
-				Temp = Temp + "  " + InArray[i];
-				i++;
-			}
-			return ("The array is " + Length + " long.  " + Temp + " ");
-		}
-	}
+	function ToString1D(InArray);
 
 	/**	\brief	Converts a one dimensional array to a nice string format.
 	 *
@@ -145,28 +107,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	ToString1D()
 	 *	\todo	Add error check that a 2D array is provided
 	 */
-	function ToString2D(InArray) {
-		if (InArray == null) {
-			return null;
-		} else {
-			local Length = InArray.len();
-			local i = 0;
-			local Temp = "";
-			while (i < InArray.len() ) {
-				local InnerArray = [];
-				InnerArray = InArray[i];
-				local InnerLength = InnerArray.len();
-				local j = 0;
-				while (j < InnerArray.len() ) {
-					Temp = Temp + "  " + InnerArray[j];
-					j++;
-				}
-				Temp = Temp + "  /  ";
-				i++;
-			}
-			return ("The array is " + Length + " long." + Temp + " ");
-		}
-	}
+	function ToString2D(InArray);
 
 	/**	\brief	Searches an array for a given value.
 	 *
@@ -181,18 +122,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	Find1D()
 	 *	\todo	Add error check that an array is provided
 	 */
-	function ContainedIn1D(InArray, SearchValue) {
-		if (InArray == null) {
-			return null;
-		} else {
-			for (local i = 0; i < InArray.len(); i++ ) {
-					if (InArray[i] == SearchValue) {
-						return true;
-					}
-			}
-			return false;
-		}
-	}
+	function ContainedIn1D(InArray, SearchValue);
 
 	/**	\brief	Searches a (two dimensional) array for a given value.
 	 *	\param	InArray		array to search
@@ -210,20 +140,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	Find2D()
 	 *	\todo	Add error check that an array is provided
 	 */
-	function ContainedIn2D(InArray, SearchValue) {
-		if (InArray == null) {
-			return null;
-		} else {
-			for (local i = 0; i < InArray.len(); i++ ) {
-				for (local j=0; j < InArray[i].len(); j++ ) {
-					if (InArray[i][j] == SearchValue) {
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-	}
+	function ContainedIn2D(InArray, SearchValue);
 
 	/**	\brief	Searches a (three dimensional) array for a given value.
 	 *	\param	InArray		array to search
@@ -234,22 +151,8 @@ class _MinchinWeb_Array_ {
 	 *	\see	Find3D()
 	 *	\todo	Add error check that an array is provided
 	 */
-	function ContainedIn3D(InArray, SearchValue) {
-		if (InArray == null) {
-			return null;
-		} else {
-			for (local i = 0; i < InArray.len(); i++ ) {
-				for (local j=0; j < InArray[i].len(); j++ ) {
-					for (local k=0; k < InArray[i].len(); k++)
-						if (InArray[i][j][k] == SearchValue) {
-							return true;
-						}
-				}
-			}
-			return false;
-		}
-	}
-
+	function ContainedIn3D(InArray, SearchValue);
+	
 	/**	\brief	Searches a two dimensional array for a given one dimensional array.
 	 *	\param	InArray		array to search
 	 *						(assumed to be two dimensional (2-D))
@@ -260,18 +163,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	ContainedIn1D()
 	 *	\todo	Add error check that arrays are provided
 	 */
-	function ContainedIn1DIn2D(InArray2D, SearchArray1D) {
-		if (InArray2D == null) {
-			return null;
-		} else {
-			for (local i = 0; i < InArray2D.len(); i++ ) {
-				if (_MinchinWeb_Array_.Compare1D(InArray2D[i], SearchArray1D) == true) {
-					return true;
-				}
-			}
-			return false;
-		}
-	}
+	function ContainedIn1DIn2D(InArray2D, SearchArray1D);
 
 	/**	\brief	Searches an array for a given value.
 	 *	\param	InArray		array to search
@@ -288,18 +180,7 @@ class _MinchinWeb_Array_ {
 	 *			FindPairs() instead.
 	 *	\todo	Add error check that an array is provided
 	 */
-	function Find1D(InArray, SearchValue) {
-		if (InArray == null) {
-			return null;
-		} else {
-			for (local i = 0; i < InArray.len(); i++ ) {
-					if (InArray[i] == SearchValue) {
-						return i;
-					}
-			}
-			return false;
-		}
-	}
+	function Find1D(InArray, SearchValue);
 
 	/**	\brief	Searches an array for a given value.
 	 *	\param	InArray		array to search
@@ -313,20 +194,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	Find3D()
 	 *	\todo	Add error check that an array is provided
 	 */
-	function Find2D(InArray, SearchValue) {
-		if (InArray == null) {
-			return null;
-		} else {
-			for (local i = 0; i < InArray.len(); i++ ) {
-				for (local j=0; j < InArray[i].len(); j++ ) {
-					if (InArray[i][j] == SearchValue) {
-						return [i, j];
-					}
-				}
-			}
-			return false;
-		}
-	}
+	function Find2D(InArray, SearchValue);
 
 	/**	\brief	Searches an array for a given value.
 	 *	\param	InArray		array to search
@@ -340,21 +208,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	Find2D()
 	 *	\todo	Add error check that an array is provided
 	 */
-	function Find3D(InArray, SearchValue) {
-		if (InArray == null) {
-			return null;
-		} else {
-			for (local i = 0; i < InArray.len(); i++ ) {
-				for (local j=0; j < InArray[i].len(); j++ ) {
-					for (local k=0; k < InArray[i].len(); k++)
-						if (InArray[i][j][k] == SearchValue) {
-							return [i,j,k];
-						}
-				}
-			}
-			return false;
-		}
-	}
+	function Find3D(InArray, SearchValue);
 
 	/**	\brief	Removes an element from the array.
 	 *
@@ -366,19 +220,7 @@ class _MinchinWeb_Array_ {
 	 *			are shifted to the left.
 	 *	\todo	Add error check that an array is provided
 	 */
-	function RemoveValueAt(InArray, Index) {
-		local i = 0;
-		local Return = [];
-		
-		for (i; i < Index; i++) {
-			Return.push(InArray[i]);
-		}
-		i++;
-		for (i; i < InArray.len(); i++) {
-			Return.push(InArray[i]);
-		}
-		return Return;	
-	}
+	function RemoveValueAt(InArray, Index);
 
 	/**	\brief	Adds an element from the array.
 	 *
@@ -393,19 +235,7 @@ class _MinchinWeb_Array_ {
 	 *	\todo	Add error check that an array is provided
 	 *	\todo	Add error check that `Index` is reasonable
 	 */
-	function InsertValueAt(InArray, Index, Value) {
-		local i = 0;
-		local Return = [];
-		
-		for (i; i < Index; i++) {
-			Return.push(InArray[i]);
-		}
-		Return.push(Value);
-		for (i; i < InArray.len(); i++) {
-			Return.push(InArray[i]);
-		}
-		return Return;	
-	}
+	function InsertValueAt(InArray, Index, Value);
 
 	/**	\brief	Converts a one dimensional array of tiles to a nice string format.
 	 *
@@ -419,24 +249,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	ToString1D()
 	 *	\todo	Add error check that an array is provided
 	 */
-	function ToStringTiles1D(InArrayOfTiles, ArrayLength = false) {
-		if (InArrayOfTiles == null) {
-			return null;
-		} else {
-			local Length = InArrayOfTiles.len();
-			local i = 0;
-			local Temp = "";
-			while (i < InArrayOfTiles.len() ) {
-				Temp = Temp + "  " + AIMap.GetTileX(InArrayOfTiles[i]) + "," + AIMap.GetTileY(InArrayOfTiles[i]);
-				i++;
-			}
-			if (ArrayLength == true) {
-				return ("The array is " + Length + " long.  " + Temp + " ");
-			} else {
-				return Temp;
-			}
-		}
-	}
+	function ToStringTiles1D(InArrayOfTiles, ArrayLength = false);
 
 	/**	\brief	Searches an array for a given pair of values.
 	 *
@@ -452,30 +265,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	ContainedInPairs()
 	 *	\todo	Add error check that a 2D array is provided
 	 */
-	function FindPairs(InArray2D, SearchValue1, SearchValue2) {
-		if (InArray2D == null) {
-			return null;
-		} else {
-			local Return1 = false;
-			local Return2 = false;
-			for (local i = 0; i < InArray2D.len(); i++ ) {
-				for (local j=0; j < InArray2D[i].len(); j++ ) {
-					if ((InArray2D[i][j] == SearchValue1) && !Return1) {
-						Return1 = true;	
-					} else if (InArray2D[i][j] == SearchValue2) {
-						Return2 = true;	
-					}
-				}
-				if (Return1 && Return2) {
-					return i;
-				} else {
-					Return1 = false;
-					Return2 = false;
-				}
-			}
-			return false;
-		}
-	}
+	function FindPairs(InArray2D, SearchValue1, SearchValue2);
 
 	/**	\brief	Searches an array for a given pair of values.
 	 *
@@ -491,30 +281,7 @@ class _MinchinWeb_Array_ {
 	 *	\see	FindInPairs()
 	 *	\todo	Add error check that a 2D array is provided
 	 */
-	function ContainedInPairs(InArray2D, SearchValue1, SearchValue2) {
-		if (InArray2D == null) {
-			return null;
-		} else {
-			local Return1 = false;
-			local Return2 = false;
-			for (local i = 0; i < InArray2D.len(); i++ ) {
-				for (local j=0; j < InArray2D[i].len(); j++ ) {
-					if ((InArray2D[i][j] == SearchValue1) && !Return1) {
-						Return1 = true;	
-					} else if (InArray2D[i][j] == SearchValue2) {
-						Return2 = true;	
-					}
-				}
-				if (Return1 && Return2) {
-					return true;
-				} else {
-					Return1 = false;
-					Return2 = false;
-				}
-			}
-			return false;
-		}
-	}
+	function ContainedInPairs(InArray2D, SearchValue1, SearchValue2);
 
 	/**	\brief	Compares the two arrays item for item.
 	 *
@@ -528,33 +295,301 @@ class _MinchinWeb_Array_ {
 	 *	\note	I wrote this because I don't trust `InArray == TestArray` to
 	 *			work this way...
 	 */
-	function Compare1D(InArray1D, TestArray1D) {
-		if (InArray1D.len() != TestArray1D.len() ) {
-			return false;	
-		}
-		for (local i = 0; i < InArray1D.len(); i++) {
-			if (InArray1D[i] != TestArray1D[i]) {
-				return false;
-			}
-		}
-		
-		return true;
-	}
+	function Compare1D(InArray1D, TestArray1D);
 
 	/**	\brief	Appends one array to another.
 	 *	\param	Array1	the first array
 	 *	\param	Array2	the second array
 	 *	\return	an array that has `Array2` appended to the end of `Array1`
 	 */
-	function Append(Array1, Array2) {
-		local ReturnArray = [];
-		for (local i=0; i < Array1.len() - 1; i++) {
-			ReturnArray.push(Array1[i]);
-		}
-		for (local i=0; i < Array2.len() - 1; i++) {
-			ReturnArray.push(Array2[i]);
-		}
-
-		return ReturnArray;
-	}
+	function Append(Array1, Array2);
 };
+
+//	== Function definitions ==================================================
+
+function _MinchinWeb_Array_::Create2D(length, width) {
+	local ReturnArray = [length];
+	local tempArray = [width];
+	for (local i=0; i < length; i++) {
+		ReturnArray[i] = tempArray;
+	}
+	return ReturnArray;
+}
+
+function _MinchinWeb_Array_::Create3D(length, width, height) {
+	local ReturnArray = [length];
+	local tempArray = [width];
+	local tempArray2 = [height];
+	
+	for (local i=0; i < width; i++) {
+		tempArray[i] = tempArray2;
+	}
+	
+	for (local i=0; i < length; i++) {
+		ReturnArray[i] = tempArray;
+	}
+	
+	return ReturnArray;
+}
+
+function _MinchinWeb_Array_::ToString1D(InArray) {
+	if (InArray == null) {
+		return null;
+	} else {
+		local Length = InArray.len();
+		local i = 0;
+		local Temp = "";
+		while (i < InArray.len() ) {
+			Temp = Temp + "  " + InArray[i];
+			i++;
+		}
+		return ("The array is " + Length + " long.  " + Temp + " ");
+	}
+}
+
+function _MinchinWeb_Array_::ToString2D(InArray) {
+	if (InArray == null) {
+		return null;
+	} else {
+		local Length = InArray.len();
+		local i = 0;
+		local Temp = "";
+		while (i < InArray.len() ) {
+			local InnerArray = [];
+			InnerArray = InArray[i];
+			local InnerLength = InnerArray.len();
+			local j = 0;
+			while (j < InnerArray.len() ) {
+				Temp = Temp + "  " + InnerArray[j];
+				j++;
+			}
+			Temp = Temp + "  /  ";
+			i++;
+		}
+		return ("The array is " + Length + " long." + Temp + " ");
+	}
+}
+
+function _MinchinWeb_Array_::ContainedIn1D(InArray, SearchValue) {
+	if (InArray == null) {
+		return null;
+	} else {
+		for (local i = 0; i < InArray.len(); i++ ) {
+				if (InArray[i] == SearchValue) {
+					return true;
+				}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::ContainedIn2D(InArray, SearchValue) {
+	if (InArray == null) {
+		return null;
+	} else {
+		for (local i = 0; i < InArray.len(); i++ ) {
+			for (local j=0; j < InArray[i].len(); j++ ) {
+				if (InArray[i][j] == SearchValue) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::ContainedIn3D(InArray, SearchValue) {
+	if (InArray == null) {
+		return null;
+	} else {
+		for (local i = 0; i < InArray.len(); i++ ) {
+			for (local j=0; j < InArray[i].len(); j++ ) {
+				for (local k=0; k < InArray[i].len(); k++)
+					if (InArray[i][j][k] == SearchValue) {
+						return true;
+					}
+			}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::ContainedIn1DIn2D(InArray2D, SearchArray1D) {
+	if (InArray2D == null) {
+		return null;
+	} else {
+		for (local i = 0; i < InArray2D.len(); i++ ) {
+			if (_MinchinWeb_Array_.Compare1D(InArray2D[i], SearchArray1D) == true) {
+				return true;
+			}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::Find1D(InArray, SearchValue) {
+	if (InArray == null) {
+		return null;
+	} else {
+		for (local i = 0; i < InArray.len(); i++ ) {
+				if (InArray[i] == SearchValue) {
+					return i;
+				}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::Find2D(InArray, SearchValue) {
+	if (InArray == null) {
+		return null;
+	} else {
+		for (local i = 0; i < InArray.len(); i++ ) {
+			for (local j=0; j < InArray[i].len(); j++ ) {
+				if (InArray[i][j] == SearchValue) {
+					return [i, j];
+				}
+			}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::Find3D(InArray, SearchValue) {
+	if (InArray == null) {
+		return null;
+	} else {
+		for (local i = 0; i < InArray.len(); i++ ) {
+			for (local j=0; j < InArray[i].len(); j++ ) {
+				for (local k=0; k < InArray[i].len(); k++)
+					if (InArray[i][j][k] == SearchValue) {
+						return [i,j,k];
+					}
+			}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::RemoveValueAt(InArray, Index) {
+	local i = 0;
+	local Return = [];
+	
+	for (i; i < Index; i++) {
+		Return.push(InArray[i]);
+	}
+	i++;
+	for (i; i < InArray.len(); i++) {
+		Return.push(InArray[i]);
+	}
+	return Return;	
+}
+
+function _MinchinWeb_Array_::InsertValueAt(InArray, Index, Value) {
+	local i = 0;
+	local Return = [];
+	
+	for (i; i < Index; i++) {
+		Return.push(InArray[i]);
+	}
+	Return.push(Value);
+	for (i; i < InArray.len(); i++) {
+		Return.push(InArray[i]);
+	}
+	return Return;	
+}
+
+function _MinchinWeb_Array_::ToStringTiles1D(InArrayOfTiles, ArrayLength = false) {
+	if (InArrayOfTiles == null) {
+		return null;
+	} else {
+		local Length = InArrayOfTiles.len();
+		local i = 0;
+		local Temp = "";
+		while (i < InArrayOfTiles.len() ) {
+			Temp = Temp + "  " + AIMap.GetTileX(InArrayOfTiles[i]) + "," + AIMap.GetTileY(InArrayOfTiles[i]);
+			i++;
+		}
+		if (ArrayLength == true) {
+			return ("The array is " + Length + " long.  " + Temp + " ");
+		} else {
+			return Temp;
+		}
+	}
+}
+
+function _MinchinWeb_Array_::FindPairs(InArray2D, SearchValue1, SearchValue2) {
+	if (InArray2D == null) {
+		return null;
+	} else {
+		local Return1 = false;
+		local Return2 = false;
+		for (local i = 0; i < InArray2D.len(); i++ ) {
+			for (local j=0; j < InArray2D[i].len(); j++ ) {
+				if ((InArray2D[i][j] == SearchValue1) && !Return1) {
+					Return1 = true;	
+				} else if (InArray2D[i][j] == SearchValue2) {
+					Return2 = true;	
+				}
+			}
+			if (Return1 && Return2) {
+				return i;
+			} else {
+				Return1 = false;
+				Return2 = false;
+			}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::ContainedInPairs(InArray2D, SearchValue1, SearchValue2) {
+	if (InArray2D == null) {
+		return null;
+	} else {
+		local Return1 = false;
+		local Return2 = false;
+		for (local i = 0; i < InArray2D.len(); i++ ) {
+			for (local j=0; j < InArray2D[i].len(); j++ ) {
+				if ((InArray2D[i][j] == SearchValue1) && !Return1) {
+					Return1 = true;	
+				} else if (InArray2D[i][j] == SearchValue2) {
+					Return2 = true;	
+				}
+			}
+			if (Return1 && Return2) {
+				return true;
+			} else {
+				Return1 = false;
+				Return2 = false;
+			}
+		}
+		return false;
+	}
+}
+
+function _MinchinWeb_Array_::Compare1D(InArray1D, TestArray1D) {
+	if (InArray1D.len() != TestArray1D.len() ) {
+		return false;	
+	}
+	for (local i = 0; i < InArray1D.len(); i++) {
+		if (InArray1D[i] != TestArray1D[i]) {
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+function _MinchinWeb_Array_::Append(Array1, Array2) {
+	local ReturnArray = [];
+	for (local i=0; i < Array1.len() - 1; i++) {
+		ReturnArray.push(Array1[i]);
+	}
+	for (local i=0; i < Array2.len() - 1; i++) {
+		ReturnArray.push(Array2[i]);
+	}
+
+	return ReturnArray;
+}
+// EOF

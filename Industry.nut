@@ -50,22 +50,27 @@ class _MinchinWeb_Industry_ {
 	 *			(up to `Constants.StationSize()` ) until it finds a tile with a
 	 *			valid `IndustryID`.
 	 */
-	function GetIndustryID(Tile) {
-		local StartX = AIMap.GetTileX(Tile);
-		local StartY = AIMap.GetTileY(Tile);
-		local EndX = AIMap.GetTileX(Tile) + _MinchinWeb_C_.IndustrySize();
-		local EndY = AIMap.GetTileY(Tile) + _MinchinWeb_C_.IndustrySize();
-		
-		for (local i = StartX; i < EndX; i++) {
-			for (local j = StartY; j < EndY; j++) {
-				if (AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j)) != _MinchinWeb_C_.InvalidIndustry()) {
-					return AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j));
-				}
+	function GetIndustryID(Tile);
+};
+
+//	== Function definitions ================================================
+
+function _MinchinWeb_Industry_::GetIndustryID(Tile) {
+	local StartX = AIMap.GetTileX(Tile);
+	local StartY = AIMap.GetTileY(Tile);
+	local EndX = AIMap.GetTileX(Tile) + _MinchinWeb_C_.IndustrySize();
+	local EndY = AIMap.GetTileY(Tile) + _MinchinWeb_C_.IndustrySize();
+	
+	for (local i = StartX; i < EndX; i++) {
+		for (local j = StartY; j < EndY; j++) {
+			if (AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j)) != _MinchinWeb_C_.InvalidIndustry()) {
+				return AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j));
 			}
 		}
-		
-		//	if no valid industry is found...
-		return _MinchinWeb_C_.InvalidIndustry();
 	}
-};
+	
+	//	if no valid industry is found...
+	return _MinchinWeb_C_.InvalidIndustry();
+}
+// EOF
 
