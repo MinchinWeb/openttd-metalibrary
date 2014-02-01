@@ -64,8 +64,7 @@ class _MinchinWeb_LW_ {
 	_dirx = null;
 	_current_tile = null;
 	
-	constructor()
-	{
+	constructor() {
 		this._past_end = true;
 //		this._infinity = _MinchinWeb_C_.Infinity();	//	close enough to infinity :P
 								//	Slopes are capped at 10,000 and 1/10,000
@@ -76,6 +75,9 @@ class _MinchinWeb_LW_ {
 	 *	\brief	Sets the starting tile for LineWalker
 	 *	\see	End()
 	 *	\see	Slope()
+	 *	\see	Restart()
+	 *	\see	Reset()
+	 *	\see	GetStart()
 	 */
 	function Start(Tile) {
 		this._start = Tile;
@@ -122,6 +124,7 @@ class _MinchinWeb_LW_ {
 	 *			between the start and end tiles.
 	 *	\see	Start()
 	 *	\see	Slope()
+	 *	\see	GetEnd()
 	 */
 	function End(Tile) {
 		this._end = Tile;
@@ -202,6 +205,7 @@ class _MinchinWeb_LW_ {
 	}
 
 	/** \brief	Resets the variables for the LineWalker
+	 *	\see	Restart()
 	 */
 	function Reset() {
 		this._start = null;
@@ -219,8 +223,9 @@ class _MinchinWeb_LW_ {
 	}
 
 	/**	\brief	Moves the LineWalker to the original starting position
+	 *	\see	Reset()
 	 */
-	function _MinchinWeb_LW_::Restart() {
+	function Restart() {
 		this._x = this._startx.tofloat();
 		this._y = this._starty.tofloat();
 		this._past_end = false;
@@ -231,8 +236,10 @@ class _MinchinWeb_LW_ {
 	//		This is where (most) of the action is!
 
 	/**	\brief	'Walks' the LineWalker one tile at a tile
-	*	\return	the tile that the LineWalker is now "standing on"
+	 *	\return	the tile that the LineWalker is now "standing on"
 	 *	\note	This is where (most) of the action is!
+	 *	\note	Before calling this function, you need to set the Start() and at
+	 *			least one of End() or Slope().
 	 */
 	function Walk() {
 		if (this._past_end == true) {
@@ -284,6 +291,8 @@ class _MinchinWeb_LW_ {
 	 *			by the Starting and Ending point
 	 *	\return	`True` if we are at the edge of the bounding box defined
 	 *			by the Starting and Ending point
+	 *	\see	End()
+	 *	\see	GetEnd()
 	 */
 	function IsEnd() {
 		return this._past_end;
@@ -291,15 +300,18 @@ class _MinchinWeb_LW_ {
 
 	/**	\brief	Returns the tile the LineWalker is starting on
 	 *	\return	The tile the LineWalker is starting on
+	 *	\see	Start()
 	 */
-	function _MinchinWeb_LW_::GetStart() {
+	function GetStart() {
 		return this._start;
 	}
 
 	/**	\brief	Returns the tile the LineWalker is ending on
 	 *	\return	The tile the LineWalker is ending on
+	 *	\see	End()
+	 *	\see	IsEnd()
 	 */
-	function _MinchinWeb_LW_::GetEnd() {
+	function GetEnd() {
 		return this._end;
 	}
 };
