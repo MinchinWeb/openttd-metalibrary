@@ -5,7 +5,7 @@
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
- *	distribute, sublincense, and/or sell this software, and provide these 
+ *	distribute, sublicense, and/or sell this software, and provide these 
  *	rights to others, provided:
  *
  *	+ The above copyright notice and this permission notice shall be included
@@ -15,8 +15,39 @@
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
  
-/**
- * A Ship Pathfinder.
+/**	\brief		A Ship Pathfinder.
+ *	\version	v.4 (2012-06-22)
+ *	\author		W. Minchin (%MinchinWeb)
+ *	\since		MetaLibrary v.2
+ *
+ *	I decided to create a pathfinder based on geometry rather than using the A*
+ *	approach I used for roads. My pathfinder works like this:
+ *	-	To initialize, a path with two points (the start and end) is added to
+ *		the pathfinder. For each following loop:
+ *		1.	The shortest (unfinished) path is pulled from the pathfinder.
+ *		2.	The path is walked, point-to-point, until land is reached.
+ *			-	If land is reached, two lines are drawn at right angles starting
+ *				the midpoint (of the land). If water if reached, that point is 
+ *				then added to the path, and the path is added to the
+ *				'unfinished' list.
+ *		3.	If the shortest path is on the 'finished' list (i.e. all water),
+ *			then that path is returned. Otherwise, the loop restarts.
+ *
+ *	With simple geometries, it works fast and well. However, on complex
+ *	geometries, it doesn't work as well as I would like. The other problem I
+ *	have is that the geometry only works on the basis that the start and end
+ *	points are in the same waterbody, and so I created \_MinchinWeb\_WBC\_
+ *	(WaterbodyCheck) to confirm this is the case; however it adds running time
+ *	to the whole pathfinder. One the plus side, building the path is very
+ *	simple: just build buoys at each point along the path!
+ *
+ *	\requires	Fibonacci Heap v.2
+ *	\see		\_MinchinWeb\_WBC\_
+ *	\todo		Add image showing how the Ship Pathfinder works
+ *	\todo		**Inflection Point Check**: Run the pathfinder without WBC as
+ *				long as the length of the paths keep going up. Once the length
+ *				starts going down, if the length goes back up, either fail the
+ *				pathfinder or invoke WBC.
  */
  
 /* 
@@ -38,13 +69,6 @@
  *								 .GetPath()
  *								 .OverrideWBC()
  */
- 
-//	TO-DO
-//		- Inflections Point Check:
-//				Run the pathfinder without WBC as long as the length of the
-//					paths keep going up. Once the length starts going down, if
-//					the length goes back up, either fail the pathfinder or
-//					invoke WBC
  
 class _MinchinWeb_ShipPathfinder_
 {
@@ -94,6 +118,14 @@ class _MinchinWeb_ShipPathfinder_
 		this.info = this.Info(this);	
 	}
 	
+	/**	\publicsection
+	 *	\brief	Initializes the pathfinder.
+	 *	\param	source	Starting tile, as a TileID as the first element of an
+	 *					array.
+	 *	\param	goal	Ending tile, as a TileID as the first element of an
+	 *					array.
+	 *	\note	Assumes only one source and goal tile.
+	 */
 	function InitializePath(source, goal) {
 	//	Assumes only one source and goal tile...
 		this._points = [];
@@ -112,11 +144,79 @@ class _MinchinWeb_ShipPathfinder_
 		this._UnfinishedPaths.Insert(0, _MinchinWeb_ShipPathfinder_._PathLength(0));
 	}
 	
+	/**	\brief	Runs the pathfinder.
+	 *	\param	iterations		Number of cycles to run the pathfinder before
+	 *							returning. If set to `-1`, will run until a path
+	 *							is found.
+	 *	\return	`null` if a path cannot be found.
+	 *	\return	the path, if a path is found.
+	 *	\return	`False` if the pathfinder is unfinished.
+	 */
 	function FindPath(iterations);
-}
+	
+	/**	\brief	Find land!
+	 *
+	 *	Starting one two water tiles, this function will walk the line between
+	 *	them, starting at the outside ends, and return the tiles where it hits
+	 *	land.
+	 *	\param	TileA	A water tile
+	 *	\param	TileB	Another water tile
+	 *	\return	A two element, one dimensional array of the tile indexes of the
+	 *			first land tiles hit after starting at TileA and TileB.
+	 *	\return	`[-1, -1]` if the path is all water (no land).
+	 *	\static
+	 */
+	function LandHo(TileA, TileB);
+	
+	/**	\brief	To the sea! (Find water)
+	 *
+	 *	Starts at a given tile and then walks out at the given slope until it
+	 *	hits water.
+	 *	\param	StartTile	A land tile.
+	 *	\param	Slope		The slope of the line to follow out.
+	 *	\param	ThirdQuadrant	Whether to follow the slope in the third or
+	 *							fourth quadrant.
+	 *	\todo	Add image showing the Cartesian quadrants.
+	 *
+	 *	\return	The first water tile hit.
+	 *	\static
+	 */
+	function WaterHo(StartTile, Slope, ThirdQuadrant = false);
+	
+	/**	\brief	Runs over the path to determine its length.
+	 *	\return	Path length in tiles
+	 */
+	function GetPathLength();
+	
+	/**	\brief	Returns the number of potential buoys that may need to be built.
+	 */
+	function CountPathBuoys();
+	
+	/**	\brief	Build the buoys along the path.
+	 *
+	 *	Build the buoys that may need to be built.
+	 *	Changes `this._mypath` to be the list of these buoys.
+	 */
+	function BuildPathBuoys();
+	
+	/**	\brief	Get the current path.
+	 *	\return	The path, as currently held by the pathfinder.
+	 */
+	function GetPath();
+	
+	/**	\brief	Skip Waterbody Check
+	 *
+	 *	This function skips the Waterbody Check at the beginning of the Ship
+	 *	Pathfinder run. This is intended for if you have already run Waterbody
+	 *	Check or otherwise know that the two points are in the same waterbody.
+	 *	\warning	The Ship Pathfinder's behaviour without this check in place
+	 *				is not tested, as the Ship Pathfinder assumes the two points
+	 *				are in the same waterbody.... Use at your own risk.
+	 */
+	function OverrideWBC();
+};
 
-class _MinchinWeb_ShipPathfinder_.Info
-{
+class _MinchinWeb_ShipPathfinder_.Info {
 	_main = null;
 	
 	function GetVersion()       { return 4; }
@@ -129,10 +229,9 @@ class _MinchinWeb_ShipPathfinder_.Info
 	{
 		this._main = main;
 	}
-}
+};
 
-class _MinchinWeb_ShipPathfinder_.Cost
-{
+class _MinchinWeb_ShipPathfinder_.Cost {
 	_main = null;
 
 	function _set(idx, val)
@@ -165,6 +264,9 @@ class _MinchinWeb_ShipPathfinder_.Cost
 		this._main = main;
 	}
 };
+
+//	== Function definitions ================================================
+
 
 function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 {
@@ -540,7 +642,7 @@ function _MinchinWeb_ShipPathfinder_::BuildPathBuoys()
 			}
 		}
 		
-		// Build extra bouys for long stretches
+		// Build extra buoys for long stretches
 		for (local i = 1; i < this._mypath.len(); i++) {
 			if (_MinchinWeb_Marine_.DistanceShip(this._mypath[i-1], this._mypath[i]) > this._max_buoy_spacing ) {
 				local midpoint = _MinchinWeb_Extras_.MidPoint(this._mypath[i-1], this._mypath[i]);
@@ -576,6 +678,8 @@ function _MinchinWeb_ShipPathfinder_::OverrideWBC()
 //		waterbody...
 
 	this._first_run == false;
-	_MinchinWeb_Log_.Note("WaterBody Check has been overriden", 6);
+	_MinchinWeb_Log_.Note("WaterBody Check has been overridden", 6);
 }
+// EOF
+
 	
