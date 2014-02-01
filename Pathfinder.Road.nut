@@ -1,38 +1,37 @@
 ﻿/*	RoadPathfinder v.9 [2012-12-28],
  *		part of Minchinweb's MetaLibrary v.5,
  *		originally part of WmDOT v.4  r.50 [2011-04-06]
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
- *
- *	Permission is granted to you to use, copy, modify, merge, publish, 
- *	distribute, sublincense, and/or sell this software, and provide these 
- *	rights to others, provided:
- *
- *	+ The above copyright notice and this permission notice shall be included
- *		in all copies or substantial portions of the software.
- *	+ Attribution is provided in the normal place for recognition of 3rd party
- *		contributions.
- *	+ You accept that this software is provided to you "as is", without warranty.
- */
- 
-/*	This file is licenced under the originl license - LGPL v2.1
- *		and is based on the NoAI Team's Road Pathfinder v3
  */
 
 /* $Id: main.nut 15101 2009-01-16 00:05:26Z truebrain $ */
-
-/**
- * A Road Pathfinder.
+ 
+/**	\note	This file is licensed under the original license -- **LGPL v2.1** --
+ *			and is based on the NoAI Team's Road Pathfinder v3.
+ *
+ *
+ * 	\brief		A Road Pathfinder (and extras)
+ *	\version	v.9 (2012-12-28)
+ *	\author		NoAI Team
+ *	\author		W. Minchin (%MinchinWeb)
+ *	\since		MetaLibrary v.1
+ *
  *  This road pathfinder tries to find a buildable / existing route for
  *  road vehicles. You can changes the costs below using for example
- *  roadpf.cost.turn = 30. Note that it's not allowed to change the cost
+ *  `roadpf.cost.turn = 30`. Note that it's not allowed to change the cost
  *  between consecutive calls to FindPath. You can change the cost before
  *  the first call to FindPath and after FindPath has returned an actual
- *  route. To use only existing roads, set cost.only_existing_road to
- *  'true'.
+ *  route. To use only existing roads, set `roadpf.cost.only_existing_road =
+ *  True`.
+ *
+ *	The pathfinder has been extended to provide 'presets' for configuration,
+ *	store the found path, and build the found path.
+ *
+ *	\requires	Graph.AyStar v6
+ *	\see		\\_MinchinWeb\\_DLS\\_
  */
- 
-//	Requires Graph.AyStar v6 library
+
 
 /*	This file provides functions:
 		MinchinWeb.RoadPathfinder.InitializePath(sources, goals)
@@ -66,15 +65,17 @@
 		MinchinWeb.RoadPathfinder.PathToTilePairs()
 				Returns a 2D array that has each pair of tiles that path joins
 		MinchinWeb.RoadPathfinder.TilesPairsToBuild()
-				Similiar to PathToTilePairs(), but only returns those pairs 
+				Similar to PathToTilePairs(), but only returns those pairs 
 				where there isn't a current road connection
-
-	TO-DO
-		- upgrade slow bridges along path
-		- convert exisiting level crossings (road/rail) to road bridge
-		- do something about one-way roads - build a pair? route around? [ if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) && !AIRoad.AreRoadTilesConnected(prev_tile, new_tile)) ]
-		- allow pre-building of tunnels and bridges
-*/
+ */
+/**	\todo	upgrade slow bridges along path
+ *	\todo	convert existing level crossings (road/rail) to road bridge
+ *	\todo	do something about one-way roads - build a pair? route around?
+ *
+ *		if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) &&
+ *		!AIRoad.AreRoadTilesConnected(prev_tile, new_tile))
+ *	\todo	allow pre-building of tunnels and bridges
+ */
 
 
 class _MinchinWeb_RoadPathfinder_
@@ -82,18 +83,18 @@ class _MinchinWeb_RoadPathfinder_
 	_aystar_class = import("graph.aystar", "", 6);
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
-	_cost_no_existing_road = null; ///< The cost that is added to _cost_tile if no road exists yet.
-	_cost_turn = null;             ///< The cost that is added to _cost_tile if the direction changes.
+	_cost_no_existing_road = null; ///< The cost that is added to `_cost_tile` if no road exists yet.
+	_cost_turn = null;             ///< The cost that is added to `_cost_tile` if the direction changes.
 	_cost_slope = null;            ///< The extra cost if a road tile is sloped.
-	_cost_bridge_per_tile = null;  ///< The cost per tile of a new bridge, this is added to _cost_tile.
-	_cost_tunnel_per_tile = null;  ///< The cost per tile of a new tunnel, this is added to _cost_tile.
+	_cost_bridge_per_tile = null;  ///< The cost per tile of a new bridge, this is added to `_cost_tile`.
+	_cost_tunnel_per_tile = null;  ///< The cost per tile of a new tunnel, this is added to `_cost_tile`.
 	_cost_coast = null;            ///< The extra cost for a coast tile.
 	_cost_level_crossing = null;   ///< the extra cost for rail/road level crossings.
 	_cost_drivethru_station = null;   ///< The extra cost for drive-thru road stations.
 	_pathfinder = null;            ///< A reference to the used AyStar object.
 	_max_bridge_length = null;     ///< The maximum length of a bridge that will be build.
 	_max_tunnel_length = null;     ///< The maximum length of a tunnel that will be build.
-	_cost_only_existing_roads = null;	   ///< Choose whether to only search through exisitng connected roads
+	_cost_only_existing_roads = null;	   ///< Choose whether to only search through existing connected roads
 	_distance_penalty = null;		///< Penalty to use to speed up pathfinder, 1 is no penalty
 	_road_type = null;
 	cost = null;                   ///< Used to change the costs.
@@ -117,7 +118,6 @@ class _MinchinWeb_RoadPathfinder_
 		this._max_bridge_length = 10;
 		this._max_tunnel_length = 20;
 		this._cost_only_existing_roads = false;
-//		this._pathfinder = this._aystar_class(this._Cost, this._Estimate, this._Neighbours, this._CheckDirection, this, this, this, this);
 		this._pathfinder = this._aystar_class(this, this._Cost, this._Estimate, this._Neighbours, this._CheckDirection);
 		this._distance_penalty = 1;
 		this._road_type = AIRoad.ROADTYPE_ROAD;
@@ -130,10 +130,12 @@ class _MinchinWeb_RoadPathfinder_
 	}
 
 	/**
-	 * Initialize a path search between sources and goals.
+	 *	\publicsection
+	 * \brief	Initialize a path search between sources and goals.
 	 * @param sources The source tiles.
 	 * @param goals The target tiles.
 	 * @see AyStar::InitializePath()
+	 *	\see	InitializePathOnTowns()
 	 */
 	function InitializePath(sources, goals) {
 		local nsources = [];
@@ -146,10 +148,11 @@ class _MinchinWeb_RoadPathfinder_
 	}
 
 	/**
-	 * Try to find the path as indicated with InitializePath with the lowest cost.
+	 * \brief	Try to find the path as indicated with InitializePath with the
+	 *			lowest cost.
 	 * @param iterations After how many iterations it should abort for a moment.
 	 *  This value should either be -1 for infinite, or > 0. Any other value
-	 *  aborts immediatly and will never find a path.
+	 *  aborts immediately and will never find a path.
 	 * @return A route if one was found, or false if the amount of iterations was
 	 *  reached, or null if no path was found.
 	 *  You can call this function over and over as long as it returns false,
@@ -157,6 +160,108 @@ class _MinchinWeb_RoadPathfinder_
 	 * @see AyStar::FindPath()
 	 */
 	function FindPath(iterations);
+
+	/** \brief	The settings in the original (v3) pathfinder by NoAI Team.
+	 */
+	function PresetOriginal();
+
+	/** \brief	Good for reusing existing roads.
+	 *
+	 *	My slightly updated version of PresetOriginal().
+	 */
+	function PresetPerfectPath();
+
+	/**	\brief	Quick but messy preset.
+	 *
+	 *	Runs in as little as 5% of the time of PresetPerfectPath(), but builds
+	 *	odd bridges and loops.
+	 */
+	function PresetQuickAndDirty();
+
+	/**	\brief	Use only existing roads.
+	 *
+	 *	Based on PerfectPath, but uses only existing roads. Useful for checking
+	 *	if there an existing route and how long it is.
+	 */
+	function PresetCheckExisting();
+
+	/**	\brief	Reserved.
+	 *
+	 *	Reserved for future use for intraurban tram lines.
+	 */
+	function PresetStreetcar();
+
+	/**	\brief	Cost to build found path.
+	 *
+	 *	Turns to 'test mode,' builds the route provided, and returns the cost.
+	 *	\note	All money for AI's is in British Pounds.
+	 *	\note	Due to inflation, this value can get stale
+	 *	\return	Cost to build path
+	 *	\return	`False` if the test build fails somewhere
+	 */
+	function GetBuildCost();
+
+	/**	\brief	Build the found path.
+	 *	\see	BuildPath()
+	 */
+	function BuildPath();
+
+	/**	\brief	Load an existing path.
+	 *
+	 *	'Loads' a path to allow GetBuildCost(), BuildPath() and GetPathLength()
+	 *	to be used.
+	 *	\see	GetBuildCost()
+	 *	\see	FindPath()
+	 */
+	function LoadPath();
+
+	/**	\brief	Export the found path.
+	 *	\return	The path stored by the pathfinder
+	 *	\see	GetPath()
+	 *	\see	BuildPath()
+	 */
+	function GetPath();
+
+	/**	\brief	Get the length of the found path.
+	 *
+	 *	Runs over the path to determine its length.
+	 *	\return	The length of the path in tiles.
+	 *	\see	LoadPath()
+	 */
+	function GetPathLength();
+	
+	/**	\brief	Initializes the pathfinder using two towns.
+	 *	\note	Assumes that the town centres are road tiles. If this is not the
+	 *			case, the pathfinder will still run, but it will take a long
+	 *			time and eventually fail to return a path. This is generally not
+	 *			an issue because on map creation the centre of town will be a
+	 *			road tile.
+	 *	\see	InitializePath()
+	 */
+	function InitializePathOnTowns();
+	
+	/**	\brief	Get the found path as tile pairs.
+	 *	\return	2D array that has each pair of tiles that path joins.
+	 *	\see 	TilePairsToBuild()
+	 *	\see	PathToTiles()
+	 */
+	function PathToTilePairs();
+	
+	/**	\brief	Get a list of all the tiles in the path.
+	 *	\return	1D array that has each pair of tiles that path covers.
+	 *	\see	PathToTilePairs()
+	 */
+	function PathToTiles();
+	
+	/**	\brief	Tiles in the path that need to be built.
+	 *
+	 *	Similar to PathToTilePairs(), but only returns those pairs where there
+	 *	isn't a current road connection.
+	 *	\return	2D array that has each pair of tiles that path joins that are
+	 *			not currently joined by road.
+	 *	\see	BuildPath()
+	 */
+	function TilePairsToBuild();
 };
 
 class _MinchinWeb_RoadPathfinder_.Cost
@@ -380,7 +485,7 @@ function _MinchinWeb_RoadPathfinder_::_Neighbours(self, path, cur_node)
 				BridgeLength++;
 			}
 			
-			//	test to see if we could actaully build said bridge
+			//	test to see if we could actually build said bridge
 			//	TO-DO: Check to see if this test is done elsewhere...
 			
 			if (BridgeLength > 2) {
@@ -509,10 +614,10 @@ function _MinchinWeb_RoadPathfinder_::_CheckTunnelBridge(current_tile, new_tile)
 }
 
 
-/*	These are supplimentary to the Road Pathfinder itself, but will
+/*	These are supplementary to the Road Pathfinder itself, but will
  *		hopefully prove useful either directly or as a model for writing your
  *		own functions. They include:
- *	- Info class - useful for outputing the details of the library to the debug
+ *	- Info class - useful for outputting the details of the library to the debug
  *		screen
  *	- Build function - used to build the path generated by the pathfinder
  *	- Cost function - used to determine the cost of building the path generated
@@ -521,12 +626,12 @@ function _MinchinWeb_RoadPathfinder_::_CheckTunnelBridge(current_tile, new_tile)
  *	- Presets - a combination of settings for the pathfinder for using it in
  *		different circumstances
  *		- Original - the settings in the original (v3) pathfinder by NoAI Team
- *		- PerfectPath - my slighlty updated version of Original. Good for
- *			reusing exisiting roads
+ *		- PerfectPath - my slightly updated version of Original. Good for
+ *			reusing existing roads
  *		- Dirty - quick but messy preset. Runs in as little as 5% of the time
  *			of 'PerfectPath', but builds odd bridges and loops
- *		- ExistingCheck - based on PerfectPath, but uses only exising roads.
- *			Useful for checking if there an exisiting route and how long it is
+ *		- ExistingCheck - based on PerfectPath, but uses only existing roads.
+ *			Useful for checking if there an existing route and how long it is
  *		- Streetcar - reserved for future use for intraurban tram lines
  *		If you would like a preset added here, I would be happy to include it
  *			in future versions!
@@ -571,7 +676,7 @@ function _MinchinWeb_RoadPathfinder_::PresetOriginal() {
 }
 
 function _MinchinWeb_RoadPathfinder_::PresetPerfectPath() {
-//	my slighlty updated version of Original. Good for reusing exisiting
+//	my slightly updated version of Original. Good for reusing existing
 //		roads
 	this._max_cost = 100000;
 	this._cost_tile = 30;
@@ -594,22 +699,6 @@ function _MinchinWeb_RoadPathfinder_::PresetPerfectPath() {
 function _MinchinWeb_RoadPathfinder_::PresetQuickAndDirty() {
 //	quick but messy preset. Runs in as little as 5% of the time of
 //		'PerfectPath', but builds odd bridges and loops
-/*	this._max_cost = 100000;
-	this._cost_tile = 30;
-	this._cost_no_existing_road = 301;
-	this._cost_turn = 50;
-	this._cost_slope = 150;
-	this._cost_bridge_per_tile = 750;
-	this._cost_tunnel_per_tile = 120;
-	this._cost_coast = 20;
-	this._max_bridge_length = 16;
-	this._max_tunnel_length = 10;
-	this._cost_only_existing_roads = false;
-	this._distance_penalty = 5;
-	this._road_type = AIRoad.ROADTYPE_ROAD;
-	return;
-	*/
-	
 // v4 DOT
 	this._max_cost = 100000;
 	this._cost_tile = 30;
@@ -631,8 +720,8 @@ function _MinchinWeb_RoadPathfinder_::PresetQuickAndDirty() {
 }
 
 function _MinchinWeb_RoadPathfinder_::PresetCheckExisting() {
-//	based on PerfectPath, but uses only exising roads. Useful for checking
-//		if there an exisiting route and how long it is
+//	based on PerfectPath, but uses only existing roads. Useful for checking
+//		if there an existing route and how long it is
 	this._max_cost = 100000;
 	this._cost_tile = 30;
 	this._cost_no_existing_road = 40;
@@ -651,7 +740,7 @@ function _MinchinWeb_RoadPathfinder_::PresetCheckExisting() {
 	return;
 }
 
-function _MinchinWeb_RoadPathfinder_::PresetStreetcar () {
+function _MinchinWeb_RoadPathfinder_::PresetStreetcar() {
 //	reserved for future use for intraurban tram lines
 	return;
 }
@@ -707,19 +796,19 @@ function _MinchinWeb_RoadPathfinder_::GetBuildCost()
 					}
 					if (AITunnel.GetOtherTunnelEnd(Path.GetTile()) == SubPath.GetTile()) {
 						if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, Path.GetTile())) {
-						//	At this point, an error has occured while building the tunnel.
-						//	Fail the pathfiner
+						//	At this point, an error has occurred while building the tunnel.
+						//	Fail the pathfinder
 						//	return null;
 						AILog.Warning("MinchinWeb.RoadPathfinder.GetBuildCost can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
 					} else {
-					//	if not a tunnel, we assume we're buildng a bridge
+					//	if not a tunnel, we assume we're building a bridge
 						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
 						BridgeList.Valuate(AIBridge.GetMaxSpeed);
 						BridgeList.Sort(AIList.SORT_BY_VALUE, false);
 						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
-						//	At this point, an error has occured while building the bridge.
-						//	Fail the pathfiner
+						//	At this point, an error has occurred while building the bridge.
+						//	Fail the pathfinder
 						//	return null;
 						AILog.Warning("MinchinWeb.RoadPathfinder.GetBuildCost can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
@@ -787,19 +876,19 @@ function _MinchinWeb_RoadPathfinder_::BuildPath()
 					//		we skip tunnel building and try and build a bridge
 					//		instead, which will fail because the slopes are wrong...
 						if (!AITunnel.BuildTunnel(AIVehicle.VT_ROAD, Path.GetTile())) {
-						//	At this point, an error has occured while building the tunnel.
-						//	Fail the pathfiner
+						//	At this point, an error has occurred while building the tunnel.
+						//	Fail the pathfinder
 						//	return null;
 							AILog.Warning("MinchinWeb.RoadPathfinder.BuildPath can't build a tunnel from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!!" );
 						}
 					} else {
-					//	if not a tunnel, we assume we're buildng a bridge
+					//	if not a tunnel, we assume we're building a bridge
 						local BridgeList = AIBridgeList_Length(AIMap.DistanceManhattan(Path.GetTile(), SubPath.GetTile() + 1));
 						BridgeList.Valuate(AIBridge.GetMaxSpeed);
 						BridgeList.Sort(AIList.SORT_BY_VALUE, false);
 						if (!AIBridge.BuildBridge(AIVehicle.VT_ROAD, BridgeList.Begin(), Path.GetTile(), SubPath.GetTile())) {
-						//	At this point, an error has occured while building the bridge.
-						//	Fail the pathfiner
+						//	At this point, an error has occurred while building the bridge.
+						//	Fail the pathfinder
 						//	return null;
 						AILog.Warning("MinchinWeb.RoadPathfinder.BuildPath can't build a bridge from " + AIMap.GetTileX(Path.GetTile()) + "," + AIMap.GetTileY(Path.GetTile()) + " to " + AIMap.GetTileX(SubPath.GetTile()) + "," + AIMap.GetTileY(SubPath.GetTile()) + "!! (or the tunnel end moved...)" );
 						}
@@ -853,7 +942,7 @@ function _MinchinWeb_RoadPathfinder_::GetPathLength()
 function _MinchinWeb_RoadPathfinder_::InitializePathOnTowns(StartTown, EndTown)
 {
 //	Initializes the pathfinder using two towns
-//	Assumes that the town centers are road tiles (if this is not the case, the
+//	Assumes that the town centres are road tiles (if this is not the case, the
 //		pathfinder will still run, but it will take a long time and eventually
 //		fail to return a path)
 	return this.InitializePath([AITown.GetLocation(StartTown)], [AITown.GetLocation(EndTown)]);
@@ -911,7 +1000,7 @@ function _MinchinWeb_RoadPathfinder_::PathToTiles()
 
 function _MinchinWeb_RoadPathfinder_::TilePairsToBuild()
 {
-//	Similiar to PathToTilePairs(), but only returns those pairs where there
+//	Similar to PathToTilePairs(), but only returns those pairs where there
 //		isn't a current road connection
 
 	if (this._running) {
@@ -947,3 +1036,4 @@ function _MinchinWeb_RoadPathfinder_::TilePairsToBuild()
 	//	End build sequence
 	return TilePairs;
 }
+// EOF
