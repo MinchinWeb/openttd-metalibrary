@@ -11,20 +11,43 @@ the ground a little bit faster. ;)
 Sub-Libraries Available                                         {#sublibraries}
 ===============================================================================
 
-- `%MinchinWeb.Atlas` <- \_MinchinWeb\_Atlas\_
-- `%MinchinWeb.Array` <- \_MinchinWeb\_Array\_
+- `%MinchinWeb.Atlas` ← \_MinchinWeb\_Atlas\_
+    - given a list of 'sources' and 'attractions', will weight the combinations
+	    and generate a list of pairs to connect.
+- `%MinchinWeb.Array` ← \_MinchinWeb\_Array\_
+    - Array functions
 - `%MinchinWeb.Constants` <- \_MinchinWeb\_C\_
-- `%MinchinWeb.DLS` <- \_MinchinWeb\_DLS\_
-- `%MinchinWeb.Extras` <- \_MinchinWeb\_Extras\_
-- `%MinchinWeb.LineWalker` <- \_MinchinWeb\_LW\_
-- `%MinchinWeb.Log` <- \_MinchinWeb\_Log\_
-- `%MinchinWeb.Industry` <- \_MinchinWeb\_Industry\_
-- `%MinchinWeb.Marine` <- \_MinchinWeb\_Marine\_
-- `%MinchinWeb.ShipPathfinder` <- \_MinchinWeb\_ShipPathfinder\_
-- `%MinchinWeb.SpiralWalker` <- \_MinchinWeb\_SW\_
-- `%MinchinWeb.Station` <- \_MinchinWeb\_Station\_
-- `%MinchinWeb.RoadPathfinder` <- \_MinchinWeb\_RoadPathfinder\_
-- `%MinchinWeb.WaterbodyCheck` <- \_MinchinWeb\_WBC\_
+- `%MinchinWeb.DLS` ← \_MinchinWeb\_DLS\_
+    - **Dominion Land System** -- a wrapper on the road pathfinder to encourage
+	  roads to be built on a grid.
+- `%MinchinWeb.Extras` ← \_MinchinWeb\_Extras\_
+    - Extra functions, for things like math, map geometry, ship support, etc.
+- `%MinchinWeb.LineWalker` ← \_MinchinWeb\_LW\_
+    - **Line Walker** -- walk the map between two points, or start at a given
+	  point and walk out at a given slope.
+- `%MinchinWeb.Log` ← \_MinchinWeb\_Log\_
+    - help (dynamically) control the amount of debugging output displayed.
+- `%MinchinWeb.Industry` ← \_MinchinWeb\_Industry\_
+- `%MinchinWeb.Marine` ← \_MinchinWeb\_Marine\_
+    - Marine and ship related functions.
+- `%MinchinWeb.ShipPathfinder` ← \_MinchinWeb\_ShipPathfinder\_
+    - A geometry based Ship Pathfinder.
+- `%MinchinWeb.SpiralWalker` ← \_MinchinWeb\_SW\_
+    - **Spiral Walker** -- allows you to define a starting point, and then
+      'walk' all the tiles in a spiral outward. It was originally used to find a
+	  buildable spot for my HQ in WmDOT, but is useful for many other things as
+	  well.
+- `%MinchinWeb.Station` ← \_MinchinWeb\_Station\_
+- `%MinchinWeb.RoadPathfinder` ← \_MinchinWeb\_RoadPathfinder\_
+    - Based on NoAI Team's pathfinder. The pathfinder uses the A* search pattern
+      and includes functions to find the path, determine its cost, and build it.
+	  Can bridge over rivers, canals, and railroad tracks.
+- `%MinchinWeb.WaterbodyCheck` ← \_MinchinWeb\_WBC\_
+    - Waterbody Check - in effect a specialized pathfinder. It serves to check
+      whether two points are in the same waterbody (i.e. a ship could travel
+	  between them). It is optimized to run extremely fast (I hope!). It can be
+	  called seperately, but was originally designed as a pre-run check for my
+	  Ship Pathfinder.
 
 Changelog
 ===============================================================================
