@@ -30,6 +30,7 @@
  *
  *	\requires	Graph.AyStar v6
  *	\see		\\_MinchinWeb\\_DLS\\_
+ *	\see		\\_MinchinWeb\\_ShipPathfinder\\_
  */
 
 

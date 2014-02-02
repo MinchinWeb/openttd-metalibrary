@@ -17,63 +17,6 @@
 /*	See the README for a list of the functions included in this library.
  */
  
-/** \mainpage
- *	\section	FAQ
- *
- *	**Q:**	What is MinchinWeb's MetaLibrary?
- *
- *	**A:**	MetaLib is the collection of code I've written for WmDOT, my AI for
- *			OpenTTD, that I felt should properly be in a library. I also hope
- *			will this code will help some aspiring AI writer get off the ground
- *			a little bit faster. ;)
- *
- *	**Q:**	How do I use the sub-libraries directly?
- *
- *	**A:**	Import the main library, and then create global points to the
- *			sub-libaries you want to use. Eg:
- *	~~~	
- *			Import("util.MinchinWeb", "MinchinWeb", 6);
- *			Arrays <- MinchinWeb.Arrays;
- *	~~~
- *	*Info:*	See the sub-library files for the functions available and their
- *				implementation.
- *
- *	**Q:**	What is the \_MinchinWeb\_ ... all over the place?
- *
- *	**A:**	I can't answer it better than Zuu when he put together his SuperLib, so
- *			I'll quote him.
- *
- *	> "	Unfortunately due to constraints in OpenTTD and Squirrel, only the
- *	>	main class of a library will be renamed at import. For [MetaLib]
- *	>	that is the [MetaLib] class in this file. Every other class in this
- *	>	file or other .nut files that the library is built up by will end
- *	>	up at the global scope at the AI that imports the library. The
- *	>	global scope of the library will get merged with the global scope
- *	>	of your AI.
- *	>
- *	> "	To reduce the risk of causing you conflict problems this library
- *	>	prefixes everything that ends up at the global scope of AIs with
- *	>	[ \_MinchinWeb\_ ]. That is also why the library is not named Utils or
- *	>	something with higher risk of you already having at your global
- *	>	scope.
- *	>
- *	> "	You should however never need to use any of the [ \_MinchinWeb\_ ... ]
- *	>	names as a user of this library. It is not even recommended to do
- *	>	so as it is part of the implementation and could change without
- *	>	notice. "
- *	>
- *	> -- Zuu, SuperLib v.7 documentation
- *
- *	A grand 'Thank You' to Zuu for his SuperLib that provided a very useful
- *		model, to all the NoAI team to their work on making the AI system work,
- *		and to everyone that has brought us the amazing game of OpenTTD.
- *
- *	\section	Notes
- *	\todo		notes about static classes, what they are, and which classes
- *				are 'static'
- *	\todo		get the `\\requires` section working
- */
- 
 require("Pathfinder.Road.nut");
 	//	Requires Graph.AyStar v6 library
 // require("AyStar.WM.nut");
@@ -92,26 +35,86 @@ require("Dominion.Roads.nut");
 require("Industry.nut");
 require("Station.nut");
 
-
+/**	\brief	Main Library Class
+ *
+ *	This is the main class of the Library. It will be renamed on importing the
+ *	library into your AI.
+ *
+ *		Import("util.MinchinWeb", "[your_access_name]", 6);
+ *
+ *	(Don't really use `[your_access_name]`, use something that is easy enough
+ *	to type and will remind you of where the functions are coming from. I like
+ *	to use `%MinchinWeb`.)
+ *
+ *	Using imported name for the library, you can then access the various
+ *	sublibraries. For example:
+ *	-	`%MinchinWeb.Atlas` <- \_MinchinWeb\_Atlas\_
+ *	-	`%MinchinWeb.Array` <- \_MinchinWeb\_Array\_
+ *	-	`%MinchinWeb.Constants` <- \_MinchinWeb\_C\_
+ *	-	`%MinchinWeb.DLS` <- \_MinchinWeb\_DLS\_
+ *	-	`%MinchinWeb.Extras` <- \_MinchinWeb\_Extras\_
+ *	-	`%MinchinWeb.LineWalker` <- \_MinchinWeb\_LW\_
+ *	-	`%MinchinWeb.Log` <- \_MinchinWeb\_Log\_
+ *	-	`%MinchinWeb.Industry` <- \_MinchinWeb\_Industry\_
+ *	-	`%MinchinWeb.Marine` <- \_MinchinWeb\_Marine\_
+ *	-	`%MinchinWeb.ShipPathfinder` <- \_MinchinWeb\_ShipPathfinder\_
+ *	-	`%MinchinWeb.SpiralWalker` <- \_MinchinWeb\_SW\_
+ *	-	`%MinchinWeb.Station` <- \_MinchinWeb\_Station\_
+ *	-	`%MinchinWeb.RoadPathfinder` <- \_MinchinWeb\_RoadPathfinder\_
+ *	-	`%MinchinWeb.WaterbodyCheck` <- \_MinchinWeb\_WBC\_
+ */
 class MinchinWeb {
+	/**	\publicsection
+	 */
 	function GetVersion()       { return 6; }
 	function GetRevision()		{ return 140131; }
 	function GetDate()          { return "2014-01-31"; }
 	function GetName()          { return "MinchinWeb's MetaLibrary"; }
 
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
-	static ShipPathfinder = _MinchinWeb_ShipPathfinder_;	
+	///<	\see	\_MinchinWeb\_RoadPathfinder\_
+	
+	static ShipPathfinder = _MinchinWeb_ShipPathfinder_;
+	///<	\see	\_MinchinWeb\_ShipPathfinder\_
+	
 	static Array = _MinchinWeb_Array_;
+	///<	\see	\_MinchinWeb\_Array\_
+	
 	static Extras = _MinchinWeb_Extras_;
+	///<	\see	\_MinchinWeb\_Extras\_
+	
 	static WaterbodyCheck = _MinchinWeb_WBC_;
+	///<	\see	\_MinchinWeb\_WBC\_
+	
 	static LineWalker = _MinchinWeb_LW_;
+	///<	\see	\_MinchinWeb\_LW\_
+	
 	static SpiralWalker = _MinchinWeb_SW_;
-	static Constants = _MinchinWeb_C_;			// in Extras.nut
+	///<	\see	\_MinchinWeb\_SW\_
+	
+	static Constants = _MinchinWeb_C_;
+	///<	\see	\_MinchinWeb\_C\_
+	// in Constants.nut
+	
 	static Atlas = _MinchinWeb_Atlas_;
+	///<	\see	\_MinchinWeb\_Atlas\_
+	
 	static Marine = _MinchinWeb_Marine_;
-	static Industry = _MinchinWeb_Industry_;	// in Extras.nut
-	static Station = _MinchinWeb_Station_;		// in Extras.nut
+	///<	\see	\_MinchinWeb\_Marine\_
+	
+	static Industry = _MinchinWeb_Industry_;
+	///<	\see	\_MinchinWeb\_Industry\_
+	
+	static Station = _MinchinWeb_Station_;
+	///<	\see	\_MinchinWeb\_Station\_
+	
 	static Log = _MinchinWeb_Log_;
-	static DLS = _MinchinWeb_DLS_;				// in Dominion.Roads.nut
-}
+	///<	\see	\_MinchinWeb\_Log\_
+	
+	static DLS = _MinchinWeb_DLS_;
+	///<	\see	\_MinchinWeb\_DLS\_
+	// in Dominion.Roads.nut
+};
+// EOF
+
  

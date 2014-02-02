@@ -1,7 +1,7 @@
 ﻿/*	ShipPathfinder v.4, r.240, [2012-06-22],
  *		part of Minchinweb's MetaLibrary v.5,
  *		originally part of WmDOT v.7
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -43,6 +43,7 @@
  *
  *	\requires	Fibonacci Heap v.2
  *	\see		\_MinchinWeb\_WBC\_
+ *	\see		\_MinchinWeb\_RoadPathfinder\_
  *	\todo		Add image showing how the Ship Pathfinder works
  *	\todo		**Inflection Point Check**: Run the pathfinder without WBC as
  *				long as the length of the paths keep going up. Once the length

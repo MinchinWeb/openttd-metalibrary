@@ -1,6 +1,6 @@
 ﻿/*	Minchinweb's MetaLibrary v.6 [2012-12-31],  
  *		originally part of WmDOT v.10
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -13,7 +13,11 @@
  *		contributions.
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
-
+ 
+/**	\brief	MinchinWeb extends AILibrary so that it is registered as a library
+ *			by OpenTTD.
+ *	\see	MinchinWeb
+ */
 class MinchinWeb extends AILibrary {
 	function GetAuthor()      { return "W. Minchin"; }
 	function GetName()        { return "MinchinWeb"; }

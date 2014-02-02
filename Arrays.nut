@@ -175,9 +175,10 @@ class _MinchinWeb_Array_ {
 	function ContainedIn1DIn2D(InArray2D, SearchArray1D);
 
 	/**	\brief	Searches an array for a given value.
-	 *	\param	InArray		array to search
-	 *						(assumed to be one dimensional (1-D))
-	 *	\param	SearchValue	what is searched for
+	 *	\param	InArray2D		array to search
+	 *							(assumed to be two dimensional (2-D))
+	 *	\param	SearchArray1D	array to search for
+	 *							(assumed to be one dimensional (1-D))
 	 *	\return	array index of the first time `SearchValue` is found (as an
 	 *			integer), `false` if not. `null` if `InArray` is `null`.
 	 *	\see	ContainedIn1D()
@@ -318,7 +319,7 @@ class _MinchinWeb_Array_ {
 	/**	\brief	Appends one array to another.
 	 *	\param	Array1	the first array
 	 *	\param	Array2	the second array
-	 *	\return	an array that has `Array2` appended to the end of `Array1`
+	 *	\return	An array that has `Array2` appended to the end of `Array1`
 	 *	\static
 	 */
 	function Append(Array1, Array2);
