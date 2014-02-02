@@ -111,20 +111,53 @@ $(document).ready(function(){initNavTree('index.html','');});
 <h1><a class="anchor" id="sublibraries"></a>
 Sub-Libraries Available                                         </h1>
 <ul>
-<li><code>MinchinWeb.Atlas</code> &lt;- <a class="el" href="class___minchin_web___atlas__.html" title="Keep track of the world – match sources and destinations. ">_MinchinWeb_Atlas_</a></li>
-<li><code>MinchinWeb.Array</code> &lt;- <a class="el" href="class___minchin_web___array__.html" title="Arrays. ">_MinchinWeb_Array_</a></li>
+<li><code>MinchinWeb.Atlas</code> ← <a class="el" href="class___minchin_web___atlas__.html" title="Keep track of the world – match sources and destinations. ">_MinchinWeb_Atlas_</a><ul>
+<li>given a list of 'sources' and 'attractions', will weight the combinations and generate a list of pairs to connect.</li>
+</ul>
+</li>
+<li><code>MinchinWeb.Array</code> ← <a class="el" href="class___minchin_web___array__.html" title="Arrays. ">_MinchinWeb_Array_</a><ul>
+<li>Array functions</li>
+</ul>
+</li>
 <li><code>MinchinWeb.Constants</code> &lt;- <a class="el" href="class___minchin_web___c__.html" title="Constants. ">_MinchinWeb_C_</a></li>
-<li><code>MinchinWeb.DLS</code> &lt;- <a class="el" href="class___minchin_web___d_l_s__.html" title="Dominion Land System (Road Pathfinder) ">_MinchinWeb_DLS_</a></li>
-<li><code>MinchinWeb.Extras</code> &lt;- <a class="el" href="class___minchin_web___extras__.html" title="Extra functions. ">_MinchinWeb_Extras_</a></li>
-<li><code>MinchinWeb.LineWalker</code> &lt;- <a class="el" href="class___minchin_web___l_w__.html" title="Line Walker. ">_MinchinWeb_LW_</a></li>
-<li><code>MinchinWeb.Log</code> &lt;- <a class="el" href="class___minchin_web___log__.html" title="Logging Interface. ">_MinchinWeb_Log_</a></li>
-<li><code>MinchinWeb.Industry</code> &lt;- <a class="el" href="class___minchin_web___industry__.html" title="Industries. ">_MinchinWeb_Industry_</a></li>
-<li><code>MinchinWeb.Marine</code> &lt;- <a class="el" href="class___minchin_web___marine__.html" title="Water and Ship related functions. ">_MinchinWeb_Marine_</a></li>
-<li><code>MinchinWeb.ShipPathfinder</code> &lt;- <a class="el" href="class___minchin_web___ship_pathfinder__.html" title="A Ship Pathfinder. ">_MinchinWeb_ShipPathfinder_</a></li>
-<li><code>MinchinWeb.SpiralWalker</code> &lt;- <a class="el" href="class___minchin_web___s_w__.html" title="Spiral Walker. ">_MinchinWeb_SW_</a></li>
-<li><code>MinchinWeb.Station</code> &lt;- <a class="el" href="class___minchin_web___station__.html" title="Station. ">_MinchinWeb_Station_</a></li>
-<li><code>MinchinWeb.RoadPathfinder</code> &lt;- <a class="el" href="class___minchin_web___road_pathfinder__.html" title="A Road Pathfinder (and extras) ">_MinchinWeb_RoadPathfinder_</a></li>
-<li><code>MinchinWeb.WaterbodyCheck</code> &lt;- <a class="el" href="class___minchin_web___w_b_c__.html" title="Waterbody Check. ">_MinchinWeb_WBC_</a></li>
+<li><code>MinchinWeb.DLS</code> ← <a class="el" href="class___minchin_web___d_l_s__.html" title="Dominion Land System (Road Pathfinder) ">_MinchinWeb_DLS_</a><ul>
+<li><b>Dominion Land System</b> &ndash; a wrapper on the road pathfinder to encourage roads to be built on a grid.</li>
+</ul>
+</li>
+<li><code>MinchinWeb.Extras</code> ← <a class="el" href="class___minchin_web___extras__.html" title="Extra functions. ">_MinchinWeb_Extras_</a><ul>
+<li>Extra functions, for things like math, map geometry, ship support, etc.</li>
+</ul>
+</li>
+<li><code>MinchinWeb.LineWalker</code> ← <a class="el" href="class___minchin_web___l_w__.html" title="Line Walker. ">_MinchinWeb_LW_</a><ul>
+<li><b>Line Walker</b> &ndash; walk the map between two points, or start at a given point and walk out at a given slope.</li>
+</ul>
+</li>
+<li><code>MinchinWeb.Log</code> ← <a class="el" href="class___minchin_web___log__.html" title="Logging Interface. ">_MinchinWeb_Log_</a><ul>
+<li>help (dynamically) control the amount of debugging output displayed.</li>
+</ul>
+</li>
+<li><code>MinchinWeb.Industry</code> ← <a class="el" href="class___minchin_web___industry__.html" title="Industries. ">_MinchinWeb_Industry_</a></li>
+<li><code>MinchinWeb.Marine</code> ← <a class="el" href="class___minchin_web___marine__.html" title="Water and Ship related functions. ">_MinchinWeb_Marine_</a><ul>
+<li>Marine and ship related functions.</li>
+</ul>
+</li>
+<li><code>MinchinWeb.ShipPathfinder</code> ← <a class="el" href="class___minchin_web___ship_pathfinder__.html" title="A Ship Pathfinder. ">_MinchinWeb_ShipPathfinder_</a><ul>
+<li>A geometry based Ship Pathfinder.</li>
+</ul>
+</li>
+<li><code>MinchinWeb.SpiralWalker</code> ← <a class="el" href="class___minchin_web___s_w__.html" title="Spiral Walker. ">_MinchinWeb_SW_</a><ul>
+<li><b>Spiral Walker</b> &ndash; allows you to define a starting point, and then 'walk' all the tiles in a spiral outward. It was originally used to find a buildable spot for my HQ in WmDOT, but is useful for many other things as well.</li>
+</ul>
+</li>
+<li><code>MinchinWeb.Station</code> ← <a class="el" href="class___minchin_web___station__.html" title="Station. ">_MinchinWeb_Station_</a></li>
+<li><code>MinchinWeb.RoadPathfinder</code> ← <a class="el" href="class___minchin_web___road_pathfinder__.html" title="A Road Pathfinder (and extras) ">_MinchinWeb_RoadPathfinder_</a><ul>
+<li>Based on NoAI Team's pathfinder. The pathfinder uses the A* search pattern and includes functions to find the path, determine its cost, and build it. Can bridge over rivers, canals, and railroad tracks.</li>
+</ul>
+</li>
+<li><code>MinchinWeb.WaterbodyCheck</code> ← <a class="el" href="class___minchin_web___w_b_c__.html" title="Waterbody Check. ">_MinchinWeb_WBC_</a><ul>
+<li>Waterbody Check - in effect a specialized pathfinder. It serves to check whether two points are in the same waterbody (i.e. a ship could travel between them). It is optimized to run extremely fast (I hope!). It can be called seperately, but was originally designed as a pre-run check for my Ship Pathfinder.</li>
+</ul>
+</li>
 </ul>
 <h1>Changelog </h1>
 <h3>Version 6</h3>
@@ -198,7 +231,7 @@ Notes To Me                                                            </h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Feb 1 2014 17:34:41 for MinchinWeb&#39;s MetaLibrary by
+    <li class="footer">Generated on Sat Feb 1 2014 18:53:10 for MinchinWeb&#39;s MetaLibrary by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
