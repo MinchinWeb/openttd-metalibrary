@@ -1,10 +1,10 @@
 ﻿/*	Atlas v.1 r.221 [2012-01-28],
  *		part of Minchinweb's MetaLibrary v.4,
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
- *	distribute, sublincense, and/or sell this software, and provide these 
+ *	distribute, sublicense, and/or sell this software, and provide these 
  *	rights to others, provided:
  *
  *	+ The above copyright notice and this permission notice shall be included
@@ -13,15 +13,8 @@
  *		contributions.
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
- 
-/*	The Atlas takes sources (departs) and attractions (destinations) and then
- *		generates a heap of pairs sorted by rating. Ratings can be generated
- *		based on distance alone or can be altered by user defined ratings (e.g.
- *		industry productions or town populations).
- */
- 
-/*
- *	Included functions:
+
+/*	Included functions:
  
 	Atlas()
 	Atlas.Reset()
@@ -58,7 +51,7 @@
 				Model)
 			- Given the start and end points, applies the traffic model and
 				returns the weighting (Smaller weightings are considered better)
-			- This function is indepedant of the model/class, so is useful if
+			- This function is independent of the model/class, so is useful if
 				you want to apply the traffic model to a given set of points. It
 				is what is called internally to apply the model
 		.SetMaxDistance(distance = -1)
@@ -77,38 +70,57 @@
 
  */
 
- 
-enum ModelType
-{
-	ONE_D,					// 0
-	DISTANCE_MANHATTAN,		// 1
-	DISTANCE_SHIP,			// 2
-	DISTANCE_AIR,			// 3
-	DISTANCE_NONE,			// 4
-	ONE_OVER_T_SQUARED,		// 5
-}
- 
+/**	\brief	Model Types used by \_MinchinWeb\_Atlas\_
+ */
+enum ModelType {
+	ONE_D,					///< One Dimensional - maximum of Δx and Δy
+	DISTANCE_MANHATTAN,		///< Manhattan Distance - sum of Δx and Δy
+	DISTANCE_SHIP,			///< Ship Distance - see \_MinchinWeb\_Marine\_.DistanceShip()
+	DISTANCE_AIR,			///< As the crow flies - √(Δx<sup>2</sup> + Δy<sup>2</sup>)
+	DISTANCE_NONE,			///< No consideration of distance.
+	ONE_OVER_T_SQUARED,		///< 1 / (travel time)<sup>2</sup>
+};
+
+/**	\brief		Keep track of the world -- match sources and destinations.
+ *	\version	v.1 (2012-01-28)
+ *	\author		W. Minchin (%MinchinWeb)
+ *	\since		MetaLibrary v.2
+ *
+ *	The Atlas takes sources (departs) and attractions (destinations) and then
+ *	generates a heap of pairs sorted by rating. I use this class to decide
+ *	which pairs of industries or towns to service.
+ *
+ *	Ratings can be generated based on distance alone or can be altered by user
+ *	defined ratings (e.g. industry productions or town populations).
+ *
+ *	\requires	Binary Heap v.1
+ *	\requires	::ModelType
+ */
 class _MinchinWeb_Atlas_ {
+	/**	\publicsection
+	 */
 	function GetVersion()       { return 1; }
 	function GetRevision()		{ return 187; }
 	function GetDate()          { return "2012-01-04"; }
 	function GetName()          { return "Atlas Library"; }
+	
+	/**	\privatesection
+	 */
 
 	_heap_class = import("Queue.Binary_Heap", "", 1);
 	
-	_sources = [];			//	'from' here... (array)
-	_attractions = [];		//		'to' here  (array)
-	_pairs = null;			//	heap of paired sources and attractions
+	_sources = [];			///	'From' here... (array)
+	_attractions = [];		///		'To' here  (array)
+	_pairs = null;			///	Heap of paired sources and attractions
 	
-	_ignorepairs = [];		//	a list of pairs to ignore
-	_maxdistance = null;	//	this is the maximum distance between sources and attractions to include in the model
-	_maxdistancemodel = null;	//	this is how to measure distances between sources and attractions to determine weather they exceed "_maxdistance"
+	_ignorepairs = [];		///	A list of pairs to ignore
+	_maxdistance = null;	///	This is the maximum distance between sources and attractions to include in the model
+	_maxdistancemodel = null;	///	This is how to measure distances between sources and attractions to determine weather they exceed "_maxdistance"
 		
 	
-	_model = null;			//	enumerated list of possible models
+	_model = null;			///	Stores models selected, see ::ModelType
 	
-	constructor()
-	{
+	constructor() {
 		this._pairs = this._heap_class();
 		this._model = ModelType.DISTANCE_MANHATTAN;
 		this._ignorepairs = [[-1,-1]];
@@ -116,10 +128,125 @@ class _MinchinWeb_Atlas_ {
 		this._maxdistancemodel = ModelType.DISTANCE_MANHATTAN;
 		this._model = 1;
 	}
-}
 
-function _MinchinWeb_Atlas_::Reset()
-{
+	/**	\publicsection
+	 *	\brief	Resets the Atlas.
+	 *
+	 *	Dumps all entered data.
+	 */
+	function Reset();
+
+	/**	\brief	Adds a source to the sources list with the given priority.
+	 *	\param	Source	Assumed to be a TileIndex.
+	 */
+	function AddSource(Source, Priority) {
+		this._sources.push([Source, Priority]);
+	};
+
+	/**	\brief	Adds an attraction to the attraction list with the given
+	 *			priority.
+	 *	\param	Attraction	Assumed to be a TileIndex.
+	 */
+	function AddAttraction(Attraction, Priority) {
+		this._attractions.push([Attraction, Priority]);
+	};
+
+	/** \brief	Adds to both sources and attractions.
+	 *
+	 *	Adds a tile to the BOTH the sources list and the attractions list with
+	 *	the (same) given priority.
+	 *	\param	AddedTile	Assumed to be a TileIndex.
+	 */
+	function AddBoth(AddedTile, Priority);
+
+	/**	\brief	Runs the Atlas.
+	 *
+	 *	Takes the provided sources and destinations and runs the selected
+	 *	traffic model, populating the 'pairs' heap.
+	 */
+	function RunModel();
+
+	/**	\brief		Pop the heap.
+	 *	\return		The top rated pair as an array.
+	 *	\warning	Removes the pair from the model.
+	 *	\see		Peek()
+	 */
+	function Pop();
+
+	/**	\brief		Peek the heap.
+	 *	\return		The top rated pair as an array.
+	 *	\note		Leaves the pair in the model.
+	 *	\see		Pop()
+	 */
+	function Peek() { return this._pairs.Peek(); };
+
+	/**	\brief	Number of pairs in the heap.
+	 *	\return	Number of pairs in the heap.
+	 */
+	function Count() { return this._pairs.Count(); };
+
+	/**	\brief	Check if an item exists in the heap.
+	 *	\return `True` or `False`
+	 */
+	function Exists() { return this._pairs.Exists(); };
+
+	/**	\brief	Set the model type.
+	 *	\see	::ModelType
+	 */
+	function SetModel(newmodel);
+
+	/**	\brief	Returns the current model type.
+	 *	\return	The current model type, as the enum.
+	 *	\see	::ModelType
+	 */
+	function GetModel() { return this._model; };
+
+	/**	\brief	The string equivalent of the ModelType
+	 *	\param	ToPrint	ModelType, as enum
+	 *	\return	The string equivalent.
+	 *	\see	::ModelType
+	 */
+	function PrintModelType(ToPrint);
+
+	/**	\brief	Apply the Atlas model
+	 *
+	 *	Given the start and end tiles, applies the traffic model and returns
+	 *	the weighting. Smaller weightings are considered better.
+	 *	\note	This function is independent of the model/class (i.e it is a
+	 *			static function), so is useful if you want to apply the traffic
+	 *			model to a given set of tiles. It is what is called internally
+	 *			to apply the model.
+	 *	\param	StartTile	Assumed to be a TileID
+	 *	\param	EndTile		Assumed to be a TileId
+	 *	\param	Model		Assumed to be one of the enum ::ModelType
+	 *	\static
+	 */
+	function ApplyTrafficModel(StartTile, StartPriority, EndTile, EndPriority, Model);
+
+	/**	\brief	Set the maximum distance the model will allow
+	 *	\param	distance	Sets the maximum distance between sources and
+	 *						attractions to be included in the model.
+	 *						Negative values remove the limit.
+	 *	\see	SetMaxDistanceModel()
+	 */
+	function SetMaxDistance(distance = -1);
+	
+	/**	\brief	Set the ::ModelType for determining max distance.
+	 *
+	 *	Used to calculate the distance between the source and attraction for
+	 *	applying `maxdistance`.
+	 *	\param newmodel	::ModelType to use
+	 *	\note	For `newmodel`, ::ModelType .DISTANCE_NONE is invalid. Use
+	 *			`SetMaxDistance(-1)` instead.
+	 *	\note	For `newmodel`, ::ModelType .ONE_OVER_T_SQUARED is invalid.
+	 *	\see	SetMaxDistance()
+	 */
+	function SetMaxDistanceModel(newmodel);
+};
+
+//	== Function definition ==================================================
+
+function _MinchinWeb_Atlas_::Reset() {
 //	Resets the Atlas
 	this._pairs = this._heap_class();
 	this._model = ModelType.DISTANCE_MANHATTAN;
@@ -131,28 +258,13 @@ function _MinchinWeb_Atlas_::Reset()
 	return;
 }
 
-function _MinchinWeb_Atlas_::AddSource(Source, Priority)
-{
-//	Adds a source to the sources list with the given priority
-//	Assumes Source to be a TileIndex
-	this._sources.push([Source, Priority]);
-}
-
-function _MinchinWeb_Atlas_::AddAttraction(Attraction, Priority)
-{
-//	Adds an attraction to the attraction list with the given priority
-	this._attractions.push([Attraction, Priority]);
-}
-
-function _MinchinWeb_Atlas_::AddBoth(AddedTile, Priority)
-{
+function _MinchinWeb_Atlas_::AddBoth(AddedTile, Priority) {
 //	Adds a tile to the BOTH the sources list and the attractions list with the (same) given priority
 	this._sources.push([AddedTile, Priority]);
 	this._attractions.push([AddedTile, Priority]);
 }
 
-function _MinchinWeb_Atlas_::RunModel()
-{
+function _MinchinWeb_Atlas_::RunModel() {
 //	Takes the provided sources and destinations and runs the selected traffic model, populating the 'pairs' heap
 	this._pairs = this._heap_class();
 	for (local i = 0; i < this._sources.len(); i++) {
@@ -169,8 +281,7 @@ function _MinchinWeb_Atlas_::RunModel()
 	}
 }
 
-function _MinchinWeb_Atlas_::Pop()
-{
+function _MinchinWeb_Atlas_::Pop() {
 //	Returns the top rated pair as an array and removes the pair from the model
 
 //	If the two tiles returned are equal, pop another one
@@ -185,43 +296,17 @@ function _MinchinWeb_Atlas_::Pop()
 	return Test;
 }
 
-function _MinchinWeb_Atlas_::Peek()
-{
-//	Returns the top rated pair (as an array) but DOES NOT remove the pair from the model
-	return this._pairs.Peek();
-}
-
-function _MinchinWeb_Atlas_::Count()
-{
-//	Returns the amount of items currently in the list.
-	return this._pairs.Count();
-}
-
-function _MinchinWeb_Atlas_::Exists()
-{
-//	Check if an item exists in the list. Returns true/false.
-	return this._pairs.Exists();
-}
-
-function _MinchinWeb_Atlas_::SetModel(newmodel)
-{
+function _MinchinWeb_Atlas_::SetModel(newmodel) {
 //	Sets the model type to the provided type
 	if ((newmodel == ModelType.ONE_D) || (newmodel == ModelType.DISTANCE_MANHATTAN) || (newmodel == ModelType.DISTANCE_SHIP) ||
 			(newmodel == ModelType.DISTANCE_AIR) || (newmodel == ModelType.DISTANCE_NONE) || (newmodel == ModelType.ONE_OVER_T_SQUARED)) {
 		this._model = newmodel;
 	} else {
-		AILog.Warning("MinchinWeb.Atlas.SetModel() was supplied with an invalide ModelType. Was supplied: " + newmodel ".");
+		AILog.Warning("MinchinWeb.Atlas.SetModel() was supplied with an invalid ModelType. Was supplied: " + newmodel ".");
 	}
 }
 
-function _MinchinWeb_Atlas_::GetModel()
-{
-//	Returns the current model type (as the enum)
-	return this._model;
-}
-
-function _MinchinWeb_Atlas_::PrintModelType(ToPrint)
-{
+function _MinchinWeb_Atlas_::PrintModelType(ToPrint) {
 //	given a ModelType, returns the string equivalent
 	
 	switch (ToPrint) {
@@ -250,8 +335,7 @@ function _MinchinWeb_Atlas_::PrintModelType(ToPrint)
 }
 
 
-function _MinchinWeb_Atlas_::ApplyTrafficModel(StartTile, StartPriority, EndTile, EndPriority, Model)
-{
+function _MinchinWeb_Atlas_::ApplyTrafficModel(StartTile, StartPriority, EndTile, EndPriority, Model) {
 //	Given the start and end points, applies the traffic model and returns the
 //		weighting
 //	Smaller weightings are considered better
@@ -281,8 +365,7 @@ function _MinchinWeb_Atlas_::ApplyTrafficModel(StartTile, StartPriority, EndTile
 	}
 }
 
-function _MinchinWeb_Atlas_::SetMaxDistance(distance = -1)
-{
+function _MinchinWeb_Atlas_::SetMaxDistance(distance = -1) {
 //	Sets the maximum distance between sources and attractions to be included in the model
 //		Negative values remove the limit
 	if (distance < 0) {
@@ -292,8 +375,7 @@ function _MinchinWeb_Atlas_::SetMaxDistance(distance = -1)
 	}
 }
 
-function _MinchinWeb_Atlas_::SetMaxDistanceModel(newmodel)
-{
+function _MinchinWeb_Atlas_::SetMaxDistanceModel(newmodel) {
 //	Sets the model type to the provided type
 //		Used to calculate the distance between the source and attraction for applying maxdistance
 
@@ -307,3 +389,4 @@ function _MinchinWeb_Atlas_::SetMaxDistanceModel(newmodel)
 		AILog.Warning("MinchinWeb.Atlas.SetMaxDistanceModel() was supplied with an invalide ModelType. Was supplied: " + newmodel ".");
 	}
 }
+// EOF
