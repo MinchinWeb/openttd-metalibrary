@@ -176,3 +176,5 @@ Notes To Me                                                            {#notes}
 \todo		Update to Fibonacci Heap, v.3
 \todo		Consider Fibonacci Heap version in NoCAB
 \todo		Add picture of in game downloader
+\todo		Look into theming dOxygen output
+\todo		Add 'News' tab pointing back to my Blog updates on MetaLibrary
