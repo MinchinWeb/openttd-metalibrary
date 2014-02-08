@@ -5,7 +5,7 @@ Copyright © 2011-12 by W. Minchin. For more info, please visit
 
 -- License -------------------------------------------------------------------  
 Permission is granted to you to use, copy, modify, merge, publish, distribute,
-sublincense, and/or sell this software, and provide these rights to others,
+sublicense, and/or sell this software, and provide these rights to others,
 provided:  
     + The above copyright notice and this permission notice shall be included
         in all copies or substantial portions of the software.  
