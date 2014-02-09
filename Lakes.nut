@@ -1,5 +1,5 @@
-﻿/*	Lakes Check v.1, r.193, [2012-01-05],
- *		part of Minchinweb's MetaLibrary v.2,
+﻿/*	Lakes Check v.2 [2014-02-08],
+ *		part of Minchinweb's MetaLibrary v.7,
  *		replacement for WaterBody Check
  *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -17,7 +17,7 @@
 
 /**	\brief		Lakes
  *	\version	v.2 (2012-02-07)
- *	\author		W. Minchin (MinchinWeb)
+ *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.7
  *
  *	Lakes is a replacement for WaterBody Check (\_MinchinWeb\_WBC\_). Lakes
@@ -28,6 +28,60 @@
  *
  *	Pathfinding contained here in is based on the NoAI Team's
  *		Road Pathfinder v3.
+ *
+ *	\dot
+	digraph G {
+		Start -> {B; A};
+		A -> AreaA;
+		B -> AreaB;
+		AreaA -> AddPtA [label="unknown"];
+		{AreaA; AreaB} -> Match [label="known"];
+		AreaB -> AddPtB [label="unknown"];
+		Match -> Yes1 [label="yes"];
+		Match -> StillEdges [label="no"];
+		{AddPtA; AddPtB} -> StillEdges;
+		StillEdges -> StillEdgeA [label="yes"];
+		StillEdgeA -> StillEdgeB [label="no"];
+		StillEdgeB -> StillEdges [label="no"]
+		StillEdgeA -> PickEdgeA -> AMatchB;
+		AMatchB -> FoundMatch [label="yes"];
+		AMatchB -> AddA [label="no"];
+		AddA -> AddEdgeA -> StillEdgeB -> PickEdgeB;
+		PickEdgeB -> BMatchA;
+		BMatchA -> FoundMatch [label="yes"];
+		BMatchA -> AddB [label="no"];
+		AddB -> AddEdgeB -> StillEdges;
+		FoundMatch -> Yes2;
+		StillEdges -> No1 [label="no"];
+		
+		Start [shape=box];
+		A [label="Point A"];
+		B [label="Point B"];
+		AreaA [shape=diamond, label="Area?"];
+		AreaB [shape=diamond, label="Area?"];
+		AddPtA [label="Add Point"];
+		AddPtB [label="Add Point"];
+		Match [shape=diamond, label="Areas\nmatch?"];
+		Yes1 [shape=box, label="return\n'True'"];
+		Yes2 [shape=box, label="return\n'True'"];
+		No1 [shape=box, label="return\n'null'"];
+		StillEdges [shape=diamond, label="Still\nedges?"];
+		StillEdgeA [shape=diamond, label="Edge left\non A?"];
+		StillEdgeB [shape=diamond, label="Edge left\non B?"];
+		PickEdgeA [label="Pick past-edge\nclosest to B"];
+		PickEdgeB [label="Pick past-edge\nclosest to A"];
+		AMatchB [shape=diamond, label="In B's\n area?"];
+		BMatchA [shape=diamond, label="In A's\n area?"];
+		AddA [label="Add tile\nto\nArea A"];
+		AddB [label="Add tile\nto\nArea B"];
+		AddEdgeA [label="Add new\npast-edges"];
+		AddEdgeB [label="Add new\npast-edges"];
+		FoundMatch [label="Match\nfound!"];
+		
+		{ rank=same; A -> B [color=white]; }
+		{ rank=same; StillEdgeA; StillEdgeB; }
+	}
+ *	\enddot
  *
  *	\requires	Graph.AyStar v6 library
  *	\requires	\_MinchinWeb\_DLS\_
@@ -41,6 +95,10 @@ class _MinchinWeb_Lakes_
 	_connections = null;		///< array that shows the connections to each tile groups (index is [TileGroup])
 	_areas = null;				///< array of the defined tile groups (index is [TileGroup])
 	_open_neighbours = null;	///< array of tiles that are open from each tile group (index is [TileGroup])
+	_AGroup = null;				///< array of groups containing source tiles
+	_BGroup = null;				///< array of groups containing goal tiles
+	_A = null;					///< array of source tiles
+	_B = null;					///< array of goal tiles
 
 	_aystar_class = import("graph.aystar", "", 6);
 	_cost_per_tile = null;
@@ -70,42 +128,38 @@ class _MinchinWeb_Lakes_
 
 	/**	\publicsection
 	 * Initialize a path search between sources and goals.
-	 * @param sources The source tiles.
-	 * @param goals The target tiles.
-	 * @see AyStar::InitializePath()
+	 * \param	sources	The source tiles. Assumed to be an array.
+	 * \param	goals	The target tiles. Assumed to be an array.
 	 */
 	function InitializePath(sources, goals) {
-		local nsources = [];
+		this._AGroup = [];
+		this._BGroup = [];
+		this._A = sources;
+		this._B = goals;
 
 		foreach (node in sources) {
-			nsources.push([node, 0xFF]);
+			this._AGroup.push(this.AddPoint(node));
 		}
-		this._pathfinder.InitializePath(nsources, goals);
-		this._mypath = null;
+		foreach (node in goals) {
+			this._BGroup.push(this.AddPoint(node));
+		}
+		this._AGroup = _MinchinWeb_Array_.RemoveDuplicates(this._AGroup);
+		this._BGroup = _MinchinWeb_Array_.RemoveDuplicates(this._BGroup);
+		this._running = true;
 	}
 
 	/**
-	 * Try to find the path as indicated with InitializePath with the lowest cost.
-	 * @param iterations After how many iterations it should abort for a moment.
-	 *  This value should either be -1 for infinite, or > 0. Any other value
-	 *  aborts immediately and will never find a path.
-	 * @return A route if one was found, or false if the amount of iterations was
-	 *  reached, or null if no path was found.
+	 * Try to find if the source and goal tiles are within the same waterbody.
+	 * \param	iterations	After how many iterations it should abort for a
+	 *						moment. This value should either be -1 for infinite,
+	 *						or > 0. Any other value aborts immediately and will
+	 *						never find a path.
+	 * \return	'True' if within the same waterbody, or 'False' if the amount of
+	 *			iterations was reached, or 'null' if no path was found.
 	 *  You can call this function over and over as long as it returns false,
 	 *  which is an indication it is not yet done looking for a route.
-	 * @see AyStar::FindPath()
 	 */
 	function FindPath(iterations);
-	
-	/**	\brief	How long is the (found) path?
-	 *	\return	Path length in tiles
-	 */
-	function GetPathLength();
-	
-	/**	\brief	Caps the pathfinder as twice the Manhattan distance between the
-	 *			two tiles
-	 */
-	function PresetSafety(Start, End);
 	
 	/**	\private
 	 *	\brief	Seeds the grid points to Lakes.
@@ -160,33 +214,97 @@ class _MinchinWeb_WBC_.Cost
 };
 
 function _MinchinWeb_WBC_::FindPath(iterations) {
-	local ret = this._pathfinder.FindPath(iterations);
-	this._running = (ret == false) ? true : false;
-	if (this._running == false) { this._mypath = ret; }
-	return ret;
-}
-
-
-function _MinchinWeb_WBC_::_Cost(self, path, new_tile, new_direction) {
-	/* path == null means this is the first node of a path, so the cost is 0. */
-	if (path == null) return 0;
-
-//	local prev_tile = path.GetTile();
-
-//	local cost = self._cost_per_tile;
+	//	This is where the meat and potatoes is!
+	//	See the diagram in the docs for how this works
+	if iterations < 0 {
+		iterations = _MinchinWeb_C_.Infinity();
+	}
+	for (local i = 0; i < iterations; i++) {
+		//	Get not only the groups the tiles are in, but all the tile groups
+		//		that are connected
+		AAllGroups = [];
+		for (local j = 0; j < this._AGroup.len() - 1; j++) {
+			AAllGroups = _MinchinWeb_Array_.Append(AAllGroups, this._conenctions[this._AGroup[j]])
+		}
+		AAllGroups = _MinchinWeb_Array_.RemoveDuplicates(AAllGroups);
+		
+		for (local j = 0; j < AAllGroups.len() - 1; j++) {
+			if _MinchinWeb_Array_.ContainedIn1D(this._BGroup, AAllGroups[j]) {
+				//	If we have a connection, return 'True'
+				return true;
+			}
+		}
+		
+		//	No match (yet anyway...)
+		//	Get all the open neighbours of A
+		ANeighbours = [];
+		AEdge = [];
+		BAllGroups = [];
+		BNeighbours = [];
+		AEdge = [];
+		for (local j = 0; j < this.AAllGroups.len() - 1; j++) {
+			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[this.AAllGroups[j]]);
+			AEdge = _MinchinWeb_Array_.Append(AEdge, this._open_neighbours[this.AAllGroups[j]][0]);
+		}
+		for (local j = 0; j < this._BGroup.len() - 1; j++) {
+			BAllGroups = _MinchinWeb_Array_.Append(BAllGroups, this._conenctions[this._BGroup[j]]);
+		}
+		BAllGroups = _MinchinWeb_Array_.RemoveDuplicates(BAllGroups);
+		for (local j = 0; j < BAllGroups.len() - 1; j++) {
+			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]])
+			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[this.BAllGroups[j]][0]);
+		}
+		if (ANeighbours.len() > 0) {
+			//MORE
+			//	Get the tile from AEdge that is closest to BEdge
+			//	Process the tile's 4 neighbours
+			
+		} else {
+			//	With no 'open neighbours', there can be no more connections
+			return null;
+		}
+		
+		AAllGroups = [];
+		ANeighbours = [];
+		AEdge = [];
+		BAllGroups = [];
+		BNeighbours = [];
+		AEdge = [];
+		for (local j = 0; j < this._AGroup.len() - 1; j++) {
+			AAllGroups = _MinchinWeb_Array_.Append(AAllGroups, this._conenctions[this._AGroup[j]])
+		}
+		AAllGroups = _MinchinWeb_Array_.RemoveDuplicates(AAllGroups);
+		for (local j = 0; j < this.AAllGroups.len() - 1; j++) {
+			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[this.AAllGroups[j]]);
+			AEdge = _MinchinWeb_Array_.Append(AEdge, this._open_neighbours[this.AAllGroups[j]][0]);
+		}
+		for (local j = 0; j < this._BGroup.len() - 1; j++) {
+			BAllGroups = _MinchinWeb_Array_.Append(BAllGroups, this._conenctions[this._BGroup[j]]);
+		}
+		BAllGroups = _MinchinWeb_Array_.RemoveDuplicates(BAllGroups);
+		for (local j = 0; j < BAllGroups.len() - 1; j++) {
+			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]])
+			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[this.BAllGroups[j]][0]);
+		}
+		
+		if (BNeighbours.len() > 0) {
+			//	MORE
+			//	Get the tile from BEdge that is closest to AEdge
+			//	Process the tile's 4 neighbours
+			
+		} else {
+			//	With no 'open neighbours', there can be no more connections
+			return null;
+		}
+	}
 	
-//	if (AIMarine.AreWaterTilesConnected(new_tile, prev_tile) != true) {
-//		cost = self._max_cost * 10;	//	Basically, way over the top
-//	}
-//	return path.GetCost() + cost;
-
-	//	this pathfinder will only return tiles adjacent to one another (done in Neighbours...)
-	return path.GetCost() + self._cost_per_tile;
+	//	ran out of loops, we're still running
+	return false;
 }
 
 function _MinchinWeb_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles) {
 	local min_cost = self._max_cost;
-	/* As estimate we multiply the lowest possible cost for a single tile with
+	/** As estimate we multiply the lowest possible cost for a single tile with
 	 * with the minimum number of tiles we need to traverse. */
 	foreach (tile in goal_tiles) {
 		min_cost = min(AIMap.DistanceManhattan(cur_tile, tile) * self._cost_per_tile * self._distance_penalty, min_cost);
@@ -195,6 +313,8 @@ function _MinchinWeb_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles) 
 }
 
 function _MinchinWeb_WBC_::_Neighbours(self, path, cur_node) {
+	/**	\todo	rewrite
+	 */
 	/* self._max_cost is the maximum path cost, if we go over it, the path isn't valid. */
 	if (path.GetCost() >= self._max_cost) return [];
 	local tiles = [];
@@ -227,25 +347,6 @@ function _MinchinWeb_WBC_::_GetDirection(from, to) {
 	if (from - to == -AIMap.GetMapSizeX()) return 8;
 }
 
-function _MinchinWeb_WBC_::GetPathLength() {
-//  Runs over the path to determine its length
-    if (this._running) {
-        AILog.Warning("You can't get the path length while there's a running pathfinder.");
-        return false;
-    }
-    if (this._mypath == null) {
-        AILog.Warning("You have tried to get the length of a 'null' path.");
-        return false;
-    }
-    
-    return _mypath.GetLength();
-}
-
-function _MinchinWeb_WBC_::PresetSafety(Start, End) {
-//	Caps the pathfinder as twice the Manhattan distance between the two tiles
-	this._max_cost = this._cost_per_tile * AIMap.DistanceManhattan(Start, End) * 2;
-}
-
 //	== Functions not related to the pathfinder ===============================
 
 function _MinchinWeb_WBC_::_AddGridPoints() {
@@ -262,26 +363,32 @@ function _MinchinWeb_WBC_::AddPoint(myTileID) {
 	
 	if this._map[x][y] != null {
 		//	already in _map
-		return this._map[x][y]
+		if this._map[x][y] == -1 {
+			return false;
+		} else {
+			return this._map[x][y];
+		}
 	} else if AITile.IsWaterTile(myTileID) == true {
 		//	add to _map if a water tile
-		this._map[x][y] = this._areas.length()
+		myArea = this._areas.length()
+		this._area.append(myTileID)
+		this._neighbours.append([])
+		this._map[x][y] = myArea
 		
 		local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
 					 AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
-	
+
 		foreach (offset in offsets) {
 			local next_tile = myTileID + offset;
-			//// ADD MORE
-			if (AIMarine.AreWaterTilesConnected(cur_node, next_tile)) {
-				tiles.push([next_tile, self._GetDirection(cur_node, next_tile)]);
+			if (AIMarine.AreWaterTilesConnected(myTileID, next_tile)) {
+				this._open_neighbours[myArea].append([myTileID, next_tile]);
 			}
 		}
 		
-		this._open_neighbours.append(this.
-		this._areas.append(myTileID);
-		
+		Log.Sign(myTileID, "L" + myArea, 7);
+		return myArea;
 	} else {
+		this._map[x][y] = -1;
 		return false;
 	}
 }

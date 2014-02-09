@@ -329,6 +329,7 @@ class _MinchinWeb_Array_ {
 	 *	The item is maintain at its first location and removed at all others.
 	 *	\param	Array	array to remove duplicates from
 	 *	\return	An array minus the duplicate items.
+	 *	\todo	Add error check that an array is provided.
 	 *	\static
 	 */
 	function RemoveDuplicates(Array);
