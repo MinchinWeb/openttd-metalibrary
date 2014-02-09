@@ -1,5 +1,5 @@
-﻿/*	Array SubLibrary, v.4 [2012-12-24],
- *		part of Minchinweb's MetaLibrary v.6,
+﻿/*	Array SubLibrary, v.5 [2014-02-08],
+ *		part of Minchinweb's MetaLibrary v.7,
  *		originally part of WmDOT v.5  r.53d	[2011-04-09]
  *			and WmArray library v.1  r.1 [2011-02-13].
  *	Copyright © 2011-12 by W. Minchin. For more info,
@@ -17,7 +17,7 @@
  */
 
 /**	\brief		Arrays
- *	\version	v.4 (2012-12-24)
+ *	\version	v.5 (2014-02-08)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.6
  *
@@ -323,6 +323,15 @@ class _MinchinWeb_Array_ {
 	 *	\static
 	 */
 	function Append(Array1, Array2);
+	
+	/**	\brief	Removes duplicates from an array.
+	 *
+	 *	The item is maintain at its first location and removed at all others.
+	 *	\param	Array	array to remove duplicates from
+	 *	\return	An array minus the duplicate items.
+	 *	\static
+	 */
+	function RemoveDuplicates(Array);
 };
 
 //	== Function definitions ==================================================
@@ -611,5 +620,16 @@ function _MinchinWeb_Array_::Append(Array1, Array2) {
 	}
 
 	return ReturnArray;
+}
+
+function _MinchinWeb_Array_::RemoveDuplicates(Array) {
+	for (local i=0; i < Array.len() - 1; i++) {
+		for (local j=1; j < Array.len() - 1; j++) {
+			if Array[i] == Array[j] {
+				Array = _MinchinWeb_Array_.RemoveValueAt(Array, j);
+				j--;
+			}
+		}
+	}
 }
 // EOF
