@@ -80,7 +80,6 @@
 	}
  *	\enddot
  *
- *	\requires	Graph.AyStar v6 library
  *	\requires	\_MinchinWeb\_DLS\_
  *	\see		\_MinchinWeb\_ShipPathfinder\_
  *	\see		\_MinchinWeb\_WBC\_
@@ -97,27 +96,13 @@ class _MinchinWeb_Lakes_
 	_A = null;					///< array of source tiles
 	_B = null;					///< array of goal tiles
 
-	_aystar_class = import("graph.aystar", "", 6);
-	_cost_per_tile = null;
-	_max_cost = null;              ///< The maximum cost for a route.
-	_distance_penalty = null;		///< Penalty to use to speed up pathfinder, 1 is no penalty
-	_pathfinder = null;
-	cost = null;                   ///< Used to change the costs.
 	_running = null;
-	_mypath = null;
 	
 	constructor() {
 		this._map = _MinchinWeb_Array_.Create2D(AIMap.GetMapSizeX(), AIMap.GetMapSizeY());
 		this._connections = [];
 		this._areas = [];
 		this._open_neighbours = [];
-		
-		this._max_cost = 16000;
-		this._cost_per_tile = 1;
-		this._distance_penalty = 1;
-		
-		this._pathfinder = this._aystar_class(this, this._Cost, this._Estimate, this._Neighbours, this._CheckDirection);
-		this.cost = this.Cost(this);
 		this._running = false;
 		
 		this._AddGridPoints();
@@ -178,43 +163,6 @@ class _MinchinWeb_Lakes_
 	function _AllGroups(StartGroupArray);
 };
 
-class _MinchinWeb_WBC_.Cost
-{
-	/**	\brief	Used to set (and get) pathfinder parameters
-	 *
-	 *	Valid values are:
-	 *	- max_cost
-	 *	- cost_per_tile
-	 *	- distance_penalty
-	 */
-	_main = null;
-
-	function _set(idx, val) {
-		if (this._main._running) throw("You are not allowed to change parameters of a running pathfinder.");
-
-		switch (idx) {
-			case "max_cost":			this._main._max_cost = val; break;
-			case "cost_per_tile":		this._main._cost_per_tile = val; break;
-			case "distance_penalty":	this._main._distance_penalty = val; break;
-			default: throw("the index '" + idx + "' does not exist");
-		}
-
-		return val;
-	}
-
-	function _get(idx) {
-		switch (idx) {
-			case "max_cost":			return this._main._max_cost;
-			case "cost_per_tile":		return this._main._cost_per_tile;
-			case "distance_penalty":	return this._main._distance_penalty;
-			default: throw("the index '" + idx + "' does not exist");
-		}
-	}
-
-	constructor(main) {
-		this._main = main;
-	}
-};
 
 function _MinchinWeb_Lakes_::FindPath(iterations) {
 	//	This is where the meat and potatoes is!
@@ -297,51 +245,6 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 	
 	//	ran out of loops, we're still running
 	return false;
-}
-
-function _MinchinWeb_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles) {
-	local min_cost = self._max_cost;
-	/** As estimate we multiply the lowest possible cost for a single tile with
-	 * with the minimum number of tiles we need to traverse. */
-	foreach (tile in goal_tiles) {
-		min_cost = min(AIMap.DistanceManhattan(cur_tile, tile) * self._cost_per_tile * self._distance_penalty, min_cost);
-	}
-	return min_cost;
-}
-
-function _MinchinWeb_WBC_::_Neighbours(self, path, cur_node) {
-	/**	\todo	rewrite
-	 */
-	/* self._max_cost is the maximum path cost, if we go over it, the path isn't valid. */
-	if (path.GetCost() >= self._max_cost) return [];
-	local tiles = [];
-
-	local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
-					 AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
-	/* Check all tiles adjacent to the current tile. */
-	foreach (offset in offsets) {
-		local next_tile = cur_node + offset;
-		if (AIMarine.AreWaterTilesConnected(cur_node, next_tile)) {
-			tiles.push([next_tile, self._GetDirection(cur_node, next_tile)]);
-		}
-	}
-	
-	/**	\todo	Add diagonals to possible neighbours
-	 */
-	
-	return tiles;
-}
-
-function _MinchinWeb_WBC_::_CheckDirection(self, tile, existing_direction, new_direction) {
-	return false;
-}
-
-function _MinchinWeb_WBC_::_GetDirection(from, to) {
-	if (AITile.GetSlope(to) == AITile.SLOPE_FLAT) return 0xFF;
-	if (from - to == 1) return 1;
-	if (from - to == -1) return 2;
-	if (from - to == AIMap.GetMapSizeX()) return 4;
-	if (from - to == -AIMap.GetMapSizeX()) return 8;
 }
 
 //	== Functions not related to the pathfinder ===============================
