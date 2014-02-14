@@ -1,4 +1,4 @@
-﻿/*	Array SubLibrary, v.5 [2014-02-08],
+﻿/*	Array SubLibrary, v.5 [2014-02-14],
  *		part of Minchinweb's MetaLibrary v.7,
  *		originally part of WmDOT v.5  r.53d	[2011-04-09]
  *			and WmArray library v.1  r.1 [2011-02-13].
@@ -17,7 +17,7 @@
  */
 
 /**	\brief		Arrays
- *	\version	v.5 (2014-02-08)
+ *	\version	v.5 (2014-02-14)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.6
  *
@@ -333,6 +333,13 @@ class _MinchinWeb_Array_ {
 	 *	\static
 	 */
 	function RemoveDuplicates(Array);
+	
+	/**	\brief	Turns an Array in an AIList
+	 *	\todo	Add error check that an array is provided.
+	 *	\return	An AIList with the contents of the Array
+	 *	\static
+	 */
+	function _MinchinWeb_Array_::toAIList(Array);
 };
 
 //	== Function definitions ==================================================
@@ -632,5 +639,13 @@ function _MinchinWeb_Array_::RemoveDuplicates(Array) {
 			}
 		}
 	}
+}
+
+function _MinchinWeb_Array_::toAIList(Array) {
+	local list = AIList();
+	foreach (item in Array) {
+		list.AddItem(item);
+	}
+	return list;
 }
 // EOF
