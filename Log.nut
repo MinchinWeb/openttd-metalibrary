@@ -1,4 +1,4 @@
-﻿/*	Logging Interface v.3, r.221, [2012-01-28]
+﻿/*	Logging Interface v.4, [2014-02-14]
  *		part of MinchinWeb's MetaLibrary v.4,
  *		originally part of WmDOT v.5
  *	Copyright © 2011-14 by W. Minchin. For more info,
@@ -16,7 +16,7 @@
  */
 
 /**	\brief		Logging Interface
- *	\version	v.3 (2012-01-28)
+ *	\version	v.4 (2014-02-14)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.4
  *
@@ -57,10 +57,10 @@
 	 *	\note	This has been changed with the move to git. On files updated
 	 *			since the move to git, this will be of the form YYMMDD.
 	 */
-	function GetVersion()       { return 3; }
-	function GetRevision()		{ return 221; }
-	function GetDate()          { return "2012-01-28"; }
-	function GetName()          { return "Logging Interface"; }
+	function GetVersion()       { return 4; };
+	function GetRevision()		{ return 140214; };
+	function GetDate()          { return "2014-02-14"; };
+	function GetName()          { return "Logging Interface"; };
 
 	/**	\privatesection
 	 *	\var	_DebugLevel
@@ -95,7 +95,7 @@
 	/** \private
 	 *	Does nothing
 	 */
-	function constructor() { }
+	function constructor() { };
 
 	/**	\publicsection
 	 *	\brief	Output messages to the AI debug screen.
@@ -117,7 +117,7 @@
 	 *	\param	Message	message to print to AI debug screen
 	 *	\static
 	 */
-	function Warning(Message) { AILog.Warning(Message); }
+	function Warning(Message) { AILog.Warning(Message); };
 
 	/**	\public
 	 *	\brief	Output errors to the AI debug screen.
@@ -130,7 +130,7 @@
 	 *	\param	Message	message to print to AI debug screen
 	 *	\static
 	 */	
-	function Error(Message) { AILog.Error(Message); }
+	function Error(Message) { AILog.Error(Message); };
 
 	/**	\public
 	 *	\brief	Prints a message on a sign.
@@ -166,12 +166,12 @@
 			DebugLevel = AIController.GetSetting("Debug_Level");
 		}
 		return DebugLevel;
-	}
+	};
 };
 
 //	== Function definition =================================================
 
-function Note(Message, Level = 3) {
+function _MinchinWeb_Log_::Note(Message, Level = 3) {
 	if (Level <=  _MinchinWeb_Log_.UpdateDebugLevel() ) {
 		local i = 1;
 		while (i < Level) {
@@ -182,17 +182,17 @@ function Note(Message, Level = 3) {
 	}
 }
 
-function Sign(Tile, Message, Level = 5) {
+function _MinchinWeb_Log_::Sign(Tile, Message, Level = 5) {
 	if (Level <= _MinchinWeb_Log_.UpdateDebugLevel() ) {
 		AISign.BuildSign(Tile, Message);
 	}
 }
 
-function PrintDebugLevel() {
+function _MinchinWeb_Log_::PrintDebugLevel() {
 	AILog.Info("OpLog is running at level " + this._DebugLevel + ".");
 }
 
-function UpdateDebugLevel() {
+function _MinchinWeb_Log_::UpdateDebugLevel() {
 	local DebugLevel = 3;
 	if (AIController.GetSetting("Debug_Level") != -1) {
 		DebugLevel = AIController.GetSetting("Debug_Level");
