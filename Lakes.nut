@@ -173,6 +173,12 @@ class _MinchinWeb_Lakes_
 	 *	\param	myTileID	Assumed to be a tile index.
 	 */	
 	function AddPoint(myTileID);
+
+	/** \private
+	  *	\brief, given a starting group, return all groups attached to it
+	  *	\param	StartGroupArray	assumed to be an array
+	  */
+	function _AllGroups(StartGroupArray);
 };
 
 class _MinchinWeb_WBC_.Cost
@@ -213,7 +219,7 @@ class _MinchinWeb_WBC_.Cost
 	}
 };
 
-function _MinchinWeb_WBC_::FindPath(iterations) {
+function _MinchinWeb_Lakes_::FindPath(iterations) {
 	//	This is where the meat and potatoes is!
 	//	See the diagram in the docs for how this works
 	if iterations < 0 {
@@ -222,11 +228,7 @@ function _MinchinWeb_WBC_::FindPath(iterations) {
 	for (local i = 0; i < iterations; i++) {
 		//	Get not only the groups the tiles are in, but all the tile groups
 		//		that are connected
-		AAllGroups = [];
-		for (local j = 0; j < this._AGroup.len() - 1; j++) {
-			AAllGroups = _MinchinWeb_Array_.Append(AAllGroups, this._conenctions[this._AGroup[j]])
-		}
-		AAllGroups = _MinchinWeb_Array_.RemoveDuplicates(AAllGroups);
+		AAllGroups = _MinchinWeb_Lakes_._AllGroups(this._AGroup);
 		
 		for (local j = 0; j < AAllGroups.len() - 1; j++) {
 			if _MinchinWeb_Array_.ContainedIn1D(this._BGroup, AAllGroups[j]) {
@@ -242,14 +244,8 @@ function _MinchinWeb_WBC_::FindPath(iterations) {
 		BAllGroups = [];
 		BNeighbours = [];
 		AEdge = [];
-		for (local j = 0; j < this.AAllGroups.len() - 1; j++) {
-			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[this.AAllGroups[j]]);
-			AEdge = _MinchinWeb_Array_.Append(AEdge, this._open_neighbours[this.AAllGroups[j]][0]);
-		}
-		for (local j = 0; j < this._BGroup.len() - 1; j++) {
-			BAllGroups = _MinchinWeb_Array_.Append(BAllGroups, this._conenctions[this._BGroup[j]]);
-		}
-		BAllGroups = _MinchinWeb_Array_.RemoveDuplicates(BAllGroups);
+		AAllGroups = _MinchinWeb_Lakes_._AllGroups(this._AGroup);
+		BAllGroups = _MinchinWeb_Lakes_._AllGroups(this._BGroup);
 		for (local j = 0; j < BAllGroups.len() - 1; j++) {
 			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]])
 			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[this.BAllGroups[j]][0]);
@@ -270,18 +266,8 @@ function _MinchinWeb_WBC_::FindPath(iterations) {
 		BAllGroups = [];
 		BNeighbours = [];
 		AEdge = [];
-		for (local j = 0; j < this._AGroup.len() - 1; j++) {
-			AAllGroups = _MinchinWeb_Array_.Append(AAllGroups, this._conenctions[this._AGroup[j]])
-		}
-		AAllGroups = _MinchinWeb_Array_.RemoveDuplicates(AAllGroups);
-		for (local j = 0; j < this.AAllGroups.len() - 1; j++) {
-			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[this.AAllGroups[j]]);
-			AEdge = _MinchinWeb_Array_.Append(AEdge, this._open_neighbours[this.AAllGroups[j]][0]);
-		}
-		for (local j = 0; j < this._BGroup.len() - 1; j++) {
-			BAllGroups = _MinchinWeb_Array_.Append(BAllGroups, this._conenctions[this._BGroup[j]]);
-		}
-		BAllGroups = _MinchinWeb_Array_.RemoveDuplicates(BAllGroups);
+		AAllGroups = _MinchinWeb_Lakes_._AllGroups(this._AGroup);
+		BAllGroups = _MinchinWeb_Lakes_._AllGroups(this._BGroup);
 		for (local j = 0; j < BAllGroups.len() - 1; j++) {
 			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]])
 			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[this.BAllGroups[j]][0]);
@@ -349,7 +335,7 @@ function _MinchinWeb_WBC_::_GetDirection(from, to) {
 
 //	== Functions not related to the pathfinder ===============================
 
-function _MinchinWeb_WBC_::_AddGridPoints() {
+function _MinchinWeb_Lakes_::_AddGridPoints() {
 	Grid = _MinchinWeb_DLS_.AllGridPoints()
 	
 	foreach point in Grid {
@@ -357,7 +343,7 @@ function _MinchinWeb_WBC_::_AddGridPoints() {
 	}
 }
 
-function _MinchinWeb_WBC_::AddPoint(myTileID) {
+function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 	x = AIMap.GetTileX(myTileID)
 	y = AIMap.GetTileY(myTileID)
 	
@@ -391,4 +377,36 @@ function _MinchinWeb_WBC_::AddPoint(myTileID) {
 		this._map[x][y] = -1;
 		return false;
 	}
+}
+
+function _MinchinWeb_Lakes_::_AllGroups(StartGroupArray) {
+	//	this function starts with an array of starting groups
+	//	starts at the beginning and for the first group, appends all connected
+	//		groups to the end of the array
+	//	does the same for the second and so on until the original end of the
+	//		array
+	//	next it compacts the resulting array by removing duplicates
+	//	then it picks up where it left off in the (now larger) array and starts
+	//		adding connections again
+	//	this cycle keeps going until no more connections are added that aren't
+	//		duplicates
+
+	loops = 0;
+	StartIndex = 0;
+	ReturnGroup = StartGroupArray;
+	NextStartIndex = 0;
+	
+	do {
+		MoreAdded = False;
+		NextStartIndex = ReturnGroup.len();
+		for (i = StartIndex; i < NextStartIndex; i++) {
+			ReturnGroup = _MinchinWeb_Array_.Append(ReturnGroup, this._conenctions[this._AGroup[i]]);
+			ReturnGroup = _MinchinWeb_Array_.RemoveDuplicates(ReturnGroup);
+			MoreAdded = True;
+		}
+		StartIndex = NextStartIndex;
+		loops++;
+	} while (MoreAdded == True)
+	
+	return ReturnGroup;
 }
