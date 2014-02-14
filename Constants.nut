@@ -46,6 +46,8 @@ class _MinchinWeb_C_ {
 	 *	\brief	A number close enough to infinity to work for our purposes here.
 	 *	\return	10,000
 	 *	\note	Slopes are capped at 10,000 and 1/10,000
+	 *	\note	A tile that is a Manhattan Distance of 'infinity' tiles away
+	 *			will always be outside of the defined map. 
 	 *	\static
 	 */
 	function Infinity() 	{ return 10000; }

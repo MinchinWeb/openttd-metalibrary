@@ -212,6 +212,18 @@ class _MinchinWeb_Extras_ {
 	 *	\static
 	 */
 	function GetOpenTTDRevision();
+	
+	/**	\brief	Get the minimum distance between TileID and any of the tiles
+	 *			in TargetArray
+	 *	\note	This is designed such that it can be run as a validator on an
+	 *			AIList of tiles
+	 *	\param	TileID		Tile we measure distance from
+	 *	\param	TargetArray	An array to tiles that we want to measure distance
+	 *						to
+	 *	\return	the minimum distance between TileID and any of the TargetArray
+	 *	\note	Distance is measured using Manhattan Distances
+	 */
+	function MinDistance(TileID, TargetArray);
 };
 
 //	== Function definitions =================================================
@@ -375,5 +387,13 @@ function _MinchinWeb_Extras_::GetOpenTTDRevision() {
 	local Version = AIController.GetVersion();
 	local Revision = Version & 0x0007FFFF;
 	return Revision;
+}
+
+function _MinchinWeb_Extras_::MinDistance(TileID, TargetArray) {
+	MinDist = _MinchinWeb_C_.Infinity();
+	foreach (Target in TargetArray) {
+		MinDist = min(MinDist, AITile.GetDistanceManhattanToTile(TileID, Target);
+	}
+	return MinDist;
 }
 // EOF
