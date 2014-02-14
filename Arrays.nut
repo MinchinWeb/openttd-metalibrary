@@ -339,7 +339,7 @@ class _MinchinWeb_Array_ {
 	 *	\return	An AIList with the contents of the Array
 	 *	\static
 	 */
-	function _MinchinWeb_Array_::toAIList(Array);
+	function toAIList(Array);
 };
 
 //	== Function definitions ==================================================
@@ -633,7 +633,7 @@ function _MinchinWeb_Array_::Append(Array1, Array2) {
 function _MinchinWeb_Array_::RemoveDuplicates(Array) {
 	for (local i=0; i < Array.len() - 1; i++) {
 		for (local j=1; j < Array.len() - 1; j++) {
-			if Array[i] == Array[j] {
+			if (Array[i] == Array[j]) {
 				Array = _MinchinWeb_Array_.RemoveValueAt(Array, j);
 				j--;
 			}

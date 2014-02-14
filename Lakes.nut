@@ -167,7 +167,7 @@ class _MinchinWeb_Lakes_
 function _MinchinWeb_Lakes_::FindPath(iterations) {
 	//	This is where the meat and potatoes is!
 	//	See the diagram in the docs for how this works
-	if iterations < 0 {
+	if (iterations < 0) {
 		iterations = _MinchinWeb_C_.Infinity();
 	}
 	for (local i = 0; i < iterations; i++) {
@@ -176,7 +176,7 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		AAllGroups = _MinchinWeb_Lakes_._AllGroups(this._AGroup);
 		
 		for (local j = 0; j < AAllGroups.len() - 1; j++) {
-			if _MinchinWeb_Array_.ContainedIn1D(this._BGroup, AAllGroups[j]) {
+			if (_MinchinWeb_Array_.ContainedIn1D(this._BGroup, AAllGroups[j])) {
 				//	If we have a connection, return 'true'
 				return true;
 			}
@@ -252,7 +252,7 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 function _MinchinWeb_Lakes_::_AddGridPoints() {
 	Grid = _MinchinWeb_DLS_.AllGridPoints()
 	
-	foreach point in Grid {
+	foreach (point in Grid) {
 		this.AddPoint(point)
 	}
 }
@@ -261,14 +261,14 @@ function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 	x = AIMap.GetTileX(myTileID)
 	y = AIMap.GetTileY(myTileID)
 	
-	if this._map[x][y] != null {
+	if (this._map[x][y] != null) {
 		//	already in _map
-		if this._map[x][y] == -1 {
+		if (this._map[x][y] == -1) {
 			return false;
 		} else {
 			return this._map[x][y];
 		}
-	} else if AITile.IsWaterTile(myTileID) == true {
+	} else if (AITile.IsWaterTile(myTileID) == true) {
 		//	add to _map if a water tile
 		myArea = this._areas.length()
 		this._area.append(myTileID)
@@ -328,31 +328,32 @@ function _MinchinWeb_Lakes_::_AllGroups(StartGroupArray) {
 function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
 	//	Start by finding out what area we're expanding
 	FromTiles = [];
-	for (i = 0; i < this._open_neighbours.len(), i++) {
-		for (j = 0; j < this._open_neighbours[i].len(), j++) {
+	for (i = 0; i < this._open_neighbours.len(); i++) {
+		for (j = 0; j < this._open_neighbours[i].len(); j++) {
 			if (this._open_neighbours[i][j][0] == NextTile) {
-				FromTiles.append(this._open_neighbours[i][j][1];
+				FromTiles.append(this._open_neighbours[i][j][1]);
 			}
-	}
-	
-	if FromTiles.len() == 0 {
-		//	if something broke, spit out useful debug information
-		_MinchinWeb_Log_.Warning("MinchinWeb.Lakes._AddNeighbour() failed.")
-		_MinchinWeb_Log_.Note("    this._open_neighbours")
-		for (i = 0; i < this._open_neighbours.len(), i++) {
-			_MinchinWeb_Log_.Note("    [" + i + "] " + _MinchinWeb_Array_.ToString2D(this._open_neighbours[i]), 0)
 		}
-		_MinchinWeb_Log_.Error("No source for " +  _MinchinWeb_Array_.ToStringTiles1D([NextTile]);
 	}
 	
-	FromGroup = this._map[AITile.GetTileX(FromTile[0]][AITile.GetTileY(FromTile[0]];
-	this._map[AITile.GetTileX(NextTile[0]][AITile.GetTileY(NextTile[0]] = FromGroup;
+	if (FromTiles.len() == 0) {
+		//	if something broke, spit out useful debug information
+		_MinchinWeb_Log_.Warning("MinchinWeb.Lakes._AddNeighbour() failed.");
+		_MinchinWeb_Log_.Note("    this._open_neighbours");
+		for (i = 0; i < this._open_neighbours.len(); i++) {
+			_MinchinWeb_Log_.Note("    [" + i + "] " + _MinchinWeb_Array_.ToString2D(this._open_neighbours[i]), 0);
+		}
+		_MinchinWeb_Log_.Error("No source for " + _MinchinWeb_Array_.ToStringTiles1D([NextTile]));
+	}
+	
+	FromGroup = this._map[AITile.GetTileX(FromTile[0])][AITile.GetTileY(FromTile[0])];
+	this._map[AITile.GetTileX(NextTile[0])][AITile.GetTileY(NextTile[0])] = FromGroup;
 	
 	//	If more than one groups list this tile as an open neighbour, register
 	//	the two groups are now linked
 	for (i = 0; i < FromTiles.len(); i++) {
 		//	remove open neighbour
-		ActiveFromGroup = this._map[AITile.GetTileX(FromTile[i]][AITile.GetTileY(FromTile[i]];
+		ActiveFromGroup = this._map[AITile.GetTileX(FromTile[i])][AITile.GetTileY(FromTile[i])];
 		this._open_neighbours[ActiveFromGroup] = _MinchinWeb_Array_.RemoveValueAt(this._open_neighbours[ActiveFromGroup], _MinchinWeb_Array_.Find1D(this._open_neighbours[ActiveFromGroup], NextTile));
 		
 		//	register connections
