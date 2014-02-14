@@ -345,8 +345,8 @@ class _MinchinWeb_Array_ {
 //	== Function definitions ==================================================
 
 function _MinchinWeb_Array_::Create2D(length, width) {
-	local ReturnArray = [length];
-	local tempArray = [width];
+	local ReturnArray = array(length);
+	local tempArray = array(width);
 	for (local i=0; i < length; i++) {
 		ReturnArray[i] = tempArray;
 	}
@@ -354,9 +354,9 @@ function _MinchinWeb_Array_::Create2D(length, width) {
 }
 
 function _MinchinWeb_Array_::Create3D(length, width, height) {
-	local ReturnArray = [length];
-	local tempArray = [width];
-	local tempArray2 = [height];
+	local ReturnArray = array(length);
+	local tempArray = array(width);
+	local tempArray2 = array(height);
 	
 	for (local i=0; i < width; i++) {
 		tempArray[i] = tempArray2;
