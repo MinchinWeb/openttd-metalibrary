@@ -1,4 +1,4 @@
-﻿/*	Lakes Check v.2 [2014-02-08],
+﻿/*	Lakes Check v.2 [2014-02-14],
  *		part of Minchinweb's MetaLibrary v.7,
  *		replacement for WaterBody Check
  *	Copyright © 2011-14 by W. Minchin. For more info,
@@ -16,7 +16,7 @@
  */
 
 /**	\brief		Lakes
- *	\version	v.2 (2012-02-07)
+ *	\version	v.2 (2012-02-14)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.7
  *
@@ -25,9 +25,6 @@
  *		ship could sail between them). It trades memory usage for speed by
  *		caching results. Like WaterBody Check, it will keep trying to find a
  *		connections until there is no possible connection left.
- *
- *	Pathfinding contained here in is based on the NoAI Team's
- *		Road Pathfinder v3.
  *
  *	\dot
 	digraph G {
@@ -62,8 +59,8 @@
 		AddPtA [label="Add Point"];
 		AddPtB [label="Add Point"];
 		Match [shape=diamond, label="Areas\nmatch?"];
-		Yes1 [shape=box, label="return\n'True'"];
-		Yes2 [shape=box, label="return\n'True'"];
+		Yes1 [shape=box, label="return\n'true'"];
+		Yes2 [shape=box, label="return\n'true'"];
 		No1 [shape=box, label="return\n'null'"];
 		StillEdges [shape=diamond, label="Still\nedges?"];
 		StillEdgeA [shape=diamond, label="Edge left\non A?"];
@@ -154,7 +151,7 @@ class _MinchinWeb_Lakes_
 	 *						moment. This value should either be -1 for infinite,
 	 *						or > 0. Any other value aborts immediately and will
 	 *						never find a path.
-	 * \return	'True' if within the same waterbody, or 'False' if the amount of
+	 * \return	'true' if within the same waterbody, or 'false' if the amount of
 	 *			iterations was reached, or 'null' if no path was found.
 	 *  You can call this function over and over as long as it returns false,
 	 *  which is an indication it is not yet done looking for a route.
@@ -232,7 +229,7 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		
 		for (local j = 0; j < AAllGroups.len() - 1; j++) {
 			if _MinchinWeb_Array_.ContainedIn1D(this._BGroup, AAllGroups[j]) {
-				//	If we have a connection, return 'True'
+				//	If we have a connection, return 'true'
 				return true;
 			}
 		}
@@ -244,19 +241,29 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		BAllGroups = [];
 		BNeighbours = [];
 		AEdge = [];
-		AAllGroups = _MinchinWeb_Lakes_._AllGroups(this._AGroup);
-		BAllGroups = _MinchinWeb_Lakes_._AllGroups(this._BGroup);
+		AAllGroups = _AllGroups(this._AGroup);
+		BAllGroups = _AllGroups(this._BGroup);
+		for (local j = 0; j < AAllGroups.len() - 1; j++) {
+			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[AAllGroups[j]])
+			AEdge = _MinchinWeb_Array_.Append(AEdge, this._open_neighbours[this.AAllGroups[j]][0]);
+		}
 		for (local j = 0; j < BAllGroups.len() - 1; j++) {
 			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]])
 			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[this.BAllGroups[j]][0]);
 		}
+		
 		if (ANeighbours.len() > 0) {
-			//MORE
 			//	Get the tile from AEdge that is closest to BEdge
+			ATileList = _MinchinWeb_Array_.toAIList(ANeighbours);
+			ATileList.Valuate(_MinchinWeb_Extras_.MinDistance, BEdge);
+			ATileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
+			NextTile = ATileList.Begin();
+
 			//	Process the tile's 4 neighbours
-			
+			this._AddNeighbour(NextTile);
 		} else {
 			//	With no 'open neighbours', there can be no more connections
+			this._running = false;
 			return null;
 		}
 		
@@ -274,10 +281,14 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		}
 		
 		if (BNeighbours.len() > 0) {
-			//	MORE
-			//	Get the tile from BEdge that is closest to AEdge
+			//	Get the tile from AEdge that is closest to BEdge
+			BTileList = _MinchinWeb_Array_.toAIList(BNeighbours);
+			BTileList.Valuate(_MinchinWeb_Extras_.MinDistance, AEdge);
+			BTileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
+			NextTile = BTileList.Begin();
+
 			//	Process the tile's 4 neighbours
-			
+			this._AddNeighbour(NextTile);
 		} else {
 			//	With no 'open neighbours', there can be no more connections
 			return null;
@@ -397,16 +408,72 @@ function _MinchinWeb_Lakes_::_AllGroups(StartGroupArray) {
 	NextStartIndex = 0;
 	
 	do {
-		MoreAdded = False;
+		MoreAdded = false;
 		NextStartIndex = ReturnGroup.len();
 		for (i = StartIndex; i < NextStartIndex; i++) {
 			ReturnGroup = _MinchinWeb_Array_.Append(ReturnGroup, this._conenctions[this._AGroup[i]]);
 			ReturnGroup = _MinchinWeb_Array_.RemoveDuplicates(ReturnGroup);
-			MoreAdded = True;
+			MoreAdded = true;
 		}
 		StartIndex = NextStartIndex;
 		loops++;
-	} while (MoreAdded == True)
+	} while (MoreAdded == true)
 	
 	return ReturnGroup;
 }
+
+function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
+	//	Start by finding out what area we're expanding
+	FromTiles = [];
+	for (i = 0; i < this._open_neighbours.len(), i++) {
+		for (j = 0; j < this._open_neighbours[i].len(), j++) {
+			if (this._open_neighbours[i][j][0] == NextTile) {
+				FromTiles.append(this._open_neighbours[i][j][1];
+			}
+	}
+	
+	if FromTiles.len() == 0 {
+		//	if something broke, spit out useful debug information
+		_MinchinWeb_Log_.Warning("MinchinWeb.Lakes._AddNeighbour() failed.")
+		_MinchinWeb_Log_.Note("    this._open_neighbours")
+		for (i = 0; i < this._open_neighbours.len(), i++) {
+			_MinchinWeb_Log_.Note("    [" + i + "] " + _MinchinWeb_Array_.ToString2D(this._open_neighbours[i]), 0)
+		}
+		_MinchinWeb_Log_.Error("No source for " +  _MinchinWeb_Array_.ToStringTiles1D([NextTile]);
+	}
+	
+	FromGroup = this._map[AITile.GetTileX(FromTile[0]][AITile.GetTileY(FromTile[0]];
+	this._map[AITile.GetTileX(NextTile[0]][AITile.GetTileY(NextTile[0]] = FromGroup;
+	
+	//	If more than one groups list this tile as an open neighbour, register
+	//	the two groups are now linked
+	for (i = 0; i < FromTiles.len(); i++) {
+		//	remove open neighbour
+		ActiveFromGroup = this._map[AITile.GetTileX(FromTile[i]][AITile.GetTileY(FromTile[i]];
+		this._open_neighbours[ActiveFromGroup] = _MinchinWeb_Array_.RemoveValueAt(this._open_neighbours[ActiveFromGroup], _MinchinWeb_Array_.Find1D(this._open_neighbours[ActiveFromGroup], NextTile));
+		
+		//	register connections
+		this._connections[FromGroup].append(ActiveFromGroup);
+		this._connections[ActiveFromGroup].append(FromGroup);
+		
+		//	remove duplicates
+		this._connections[ActiveFromGroup] = _MinchinWeb_Array_.RemoveDuplicates(this._connections[ActiveFromGroup]);
+	}
+	//	remove more duplicates
+	this._connections[FromGroup] = _MinchinWeb_Array_.RemoveDuplicates(this._connections[FromGroup]);
+	
+	//	now add neighbours to newly added tile
+	local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
+				 AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
+
+	//	add the new tiles neighbours to the open neighbours list
+	foreach (offset in offsets) {
+		local OffsetTile = NextTile + offset;
+		if (AIMarine.AreWaterTilesConnected(NextTile, OffsetTile)) {
+			this._open_neighbours[FromGroup].append([NextTile, OffsetTile]);
+		}
+	}
+	
+	Log.Sign(NextTile, "L" + myArea, 7);
+}
+//	EOF
