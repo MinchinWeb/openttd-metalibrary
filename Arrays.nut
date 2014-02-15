@@ -342,7 +342,7 @@ class _MinchinWeb_Array_ {
 	 *	\return	An AIList with the contents of the Array
 	 *	\static
 	 */
-	function toAIList(Array);
+	function ToAIList(Array);
 };
 
 //	== Function definitions ==================================================
@@ -646,12 +646,13 @@ function _MinchinWeb_Array_::RemoveDuplicates(Array) {
 			}
 		}
 	}
+	return Array;
 }
 
-function _MinchinWeb_Array_::toAIList(Array) {
+function _MinchinWeb_Array_::ToAIList(Array) {
 	local list = AIList();
 	foreach (item in Array) {
-		list.AddItem(item);
+		list.AddItem(item, 0);
 	}
 	return list;
 }

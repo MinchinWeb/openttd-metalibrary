@@ -390,7 +390,7 @@ function _MinchinWeb_Extras_::GetOpenTTDRevision() {
 }
 
 function _MinchinWeb_Extras_::MinDistance(TileID, TargetArray) {
-	MinDist = _MinchinWeb_C_.Infinity();
+	local MinDist = _MinchinWeb_C_.Infinity();
 	foreach (Target in TargetArray) {
 		MinDist = min(MinDist, AITile.GetDistanceManhattanToTile(TileID, Target));
 	}

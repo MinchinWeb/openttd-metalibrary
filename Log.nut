@@ -189,7 +189,12 @@ function _MinchinWeb_Log_::Sign(Tile, Message, Level = 5) {
 }
 
 function _MinchinWeb_Log_::PrintDebugLevel() {
-	AILog.Info("OpLog is running at level " + this._DebugLevel + ".");
+	try {
+		AILog.Info("OpLog is running at level " + AIController.GetSetting("Debug_Level") + ".");
+	} catch (all) {
+		AILog.Warning("No AI setting 'Debug_Level'");
+	}
+	
 }
 
 function _MinchinWeb_Log_::UpdateDebugLevel() {

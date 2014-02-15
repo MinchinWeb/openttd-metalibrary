@@ -105,8 +105,8 @@ class _MinchinWeb_Lakes_
 		this._open_neighbours = [];
 		this._running = false;
 		
-		this._AddGridPoints();
-	}
+		_AddGridPoints();
+	};
 
 	/**	\publicsection
 	 * Initialize a path search between sources and goals.
@@ -125,10 +125,11 @@ class _MinchinWeb_Lakes_
 		foreach (node in goals) {
 			this._BGroup.push(this.AddPoint(node));
 		}
+
 		this._AGroup = _MinchinWeb_Array_.RemoveDuplicates(this._AGroup);
 		this._BGroup = _MinchinWeb_Array_.RemoveDuplicates(this._BGroup);
 		this._running = true;
-	}
+	};
 
 	/**
 	 * Try to find if the source and goal tiles are within the same waterbody.
@@ -161,6 +162,13 @@ class _MinchinWeb_Lakes_
 	  *	\param	StartGroupArray	assumed to be an array
 	  */
 	function _AllGroups(StartGroupArray);
+	
+	/**	\public
+	 *	\brief	Get the minimum distance between the source and destination
+	 *			tiles.
+	 *	\note	Distance is caluclated as Manhattan Distance
+	 */
+	function GetPathLength();
 };
 
 
@@ -173,7 +181,8 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 	for (local i = 0; i < iterations; i++) {
 		//	Get not only the groups the tiles are in, but all the tile groups
 		//		that are connected
-		AAllGroups = _MinchinWeb_Lakes_._AllGroups(this._AGroup);
+		_MinchinWeb_Log_.Note(_MinchinWeb_Array_.ToString1D(this._AGroup), 6);
+		local AAllGroups = _MinchinWeb_Lakes_._AllGroups(this._AGroup);
 		
 		for (local j = 0; j < AAllGroups.len() - 1; j++) {
 			if (_MinchinWeb_Array_.ContainedIn1D(this._BGroup, AAllGroups[j])) {
@@ -184,11 +193,11 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		
 		//	No match (yet anyway...)
 		//	Get all the open neighbours of A
-		ANeighbours = [];
-		AEdge = [];
-		BAllGroups = [];
-		BNeighbours = [];
-		AEdge = [];
+		local ANeighbours = [];
+		local AEdge = [];
+		local BAllGroups = [];
+		local BNeighbours = [];
+		local BEdge = [];
 		AAllGroups = _AllGroups(this._AGroup);
 		BAllGroups = _AllGroups(this._BGroup);
 		for (local j = 0; j < AAllGroups.len() - 1; j++) {
@@ -202,7 +211,7 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		
 		if (ANeighbours.len() > 0) {
 			//	Get the tile from AEdge that is closest to BEdge
-			ATileList = _MinchinWeb_Array_.toAIList(ANeighbours);
+			ATileList = _MinchinWeb_Array_.ToAIList(ANeighbours);
 			ATileList.Valuate(_MinchinWeb_Extras_.MinDistance, BEdge);
 			ATileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
 			NextTile = ATileList.Begin();
@@ -220,9 +229,9 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		AEdge = [];
 		BAllGroups = [];
 		BNeighbours = [];
-		AEdge = [];
-		AAllGroups = _MinchinWeb_Lakes_._AllGroups(this._AGroup);
-		BAllGroups = _MinchinWeb_Lakes_._AllGroups(this._BGroup);
+		BEdge = [];
+		AAllGroups = _AllGroups(this._AGroup);
+		BAllGroups = _AllGroups(this._BGroup);
 		for (local j = 0; j < BAllGroups.len() - 1; j++) {
 			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]])
 			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[this.BAllGroups[j]][0]);
@@ -230,7 +239,7 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		
 		if (BNeighbours.len() > 0) {
 			//	Get the tile from AEdge that is closest to BEdge
-			BTileList = _MinchinWeb_Array_.toAIList(BNeighbours);
+			BTileList = _MinchinWeb_Array_.ToAIList(BNeighbours);
 			BTileList.Valuate(_MinchinWeb_Extras_.MinDistance, AEdge);
 			BTileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
 			NextTile = BTileList.Begin();
@@ -247,21 +256,32 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 	return false;
 }
 
+function _MinchinWeb_Lakes_::GetPathLength() {
+	local BList = _MinchinWeb_Array_.ToAIList(this._B);
+	local MinDist = _MinchinWeb_C_.Infinity();
+	BList.Valuate(_MinchinWeb_Extras_.MinDistance, this._A);
+	return BList.GetValue(BList.Begin()); // value of first item
+}
+
 //	== Functions not related to the pathfinder ===============================
 
 function _MinchinWeb_Lakes_::_AddGridPoints() {
-	Grid = _MinchinWeb_DLS_.AllGridPoints()
+	local myDLS = _MinchinWeb_DLS_();
+	local Grid = myDLS.AllGridPoints()
 	
 	foreach (point in Grid) {
-		this.AddPoint(point)
+		AddPoint(point)
 	}
 }
 
 function _MinchinWeb_Lakes_::AddPoint(myTileID) {
-	x = AIMap.GetTileX(myTileID)
-	y = AIMap.GetTileY(myTileID)
+	local x = AIMap.GetTileX(myTileID)
+	local y = AIMap.GetTileY(myTileID)
+	local xyArea = this._map[x][y];
+	// _MinchinWeb_Log_.Note("Tile Area " + x + " / " + y + " : " + xyArea + " : " + this._map.len() + " / " + this._map[x].len() + " : " + this._areas.len(), 6);
+	// _MinchinWeb_Log_.Note( _MinchinWeb_Array_.ToString1D(this._map[x], false, true), 7);
 	
-	if (this._map[x][y] != null) {
+	if (xyArea != null) {
 		//	already in _map
 		if (this._map[x][y] == -1) {
 			return false;
@@ -270,10 +290,11 @@ function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 		}
 	} else if (AITile.IsWaterTile(myTileID) == true) {
 		//	add to _map if a water tile
-		myArea = this._areas.length()
-		this._area.append(myTileID)
-		this._neighbours.append([])
-		this._map[x][y] = myArea
+		local myArea = this._areas.len();
+		this._areas.append(myTileID);
+		this._open_neighbours.append([]);
+		this._connections.append([]);
+		this._map[x][y] = myArea;
 		
 		local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
 					 AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
@@ -285,7 +306,7 @@ function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 			}
 		}
 		
-		Log.Sign(myTileID, "L" + myArea, 7);
+		_MinchinWeb_Log_.Sign(myTileID, "L" + myArea, 7);
 		return myArea;
 	} else {
 		this._map[x][y] = -1;
@@ -305,16 +326,18 @@ function _MinchinWeb_Lakes_::_AllGroups(StartGroupArray) {
 	//	this cycle keeps going until no more connections are added that aren't
 	//		duplicates
 
-	loops = 0;
-	StartIndex = 0;
-	ReturnGroup = StartGroupArray;
-	NextStartIndex = 0;
+	local loops = 0;
+	local StartIndex = 0;
+	local ReturnGroup = StartGroupArray;
+	local NextStartIndex = 0;
+	local MoreAdded = true;
 	
 	do {
 		MoreAdded = false;
 		NextStartIndex = ReturnGroup.len();
-		for (i = StartIndex; i < NextStartIndex; i++) {
-			ReturnGroup = _MinchinWeb_Array_.Append(ReturnGroup, this._conenctions[this._AGroup[i]]);
+		for (local i = StartIndex; i < NextStartIndex; i++) {
+			_MinchinWeb_Log_.Note(_MinchinWeb_Array_.ToString2D(this._connections), 7);
+			ReturnGroup = _MinchinWeb_Array_.Append(ReturnGroup, this._connections[this._AGroup[i]]);
 			ReturnGroup = _MinchinWeb_Array_.RemoveDuplicates(ReturnGroup);
 			MoreAdded = true;
 		}
