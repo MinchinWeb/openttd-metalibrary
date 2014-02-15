@@ -90,7 +90,7 @@ class _MinchinWeb_Lakes_
 	_map = null;				///< array that tells which group each tile belongs in (index is [TileX][TileY])
 	_connections = null;		///< array that shows the connections to each tile groups (index is [TileGroup])
 	_areas = null;				///< array of the defined tile groups (index is [TileGroup])
-	_open_neighbours = null;	///< array of tiles that are open from each tile group (index is [TileGroup])
+	_open_neighbours = null;	///< array of tiles that are open from each tile group (index is [TileGroup]) (form is [Edge_Tile, Past_Edge_Tile])
 	_AGroup = null;				///< array of groups containing source tiles
 	_BGroup = null;				///< array of groups containing goal tiles
 	_A = null;					///< array of source tiles
@@ -166,7 +166,7 @@ class _MinchinWeb_Lakes_
 	/**	\public
 	 *	\brief	Get the minimum distance between the source and destination
 	 *			tiles.
-	 *	\note	Distance is caluclated as Manhattan Distance
+	 *	\note	Distance is calculated as Manhattan Distance
 	 */
 	function GetPathLength();
 };
@@ -181,12 +181,13 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 	for (local i = 0; i < iterations; i++) {
 		//	Get not only the groups the tiles are in, but all the tile groups
 		//		that are connected
-		_MinchinWeb_Log_.Note(_MinchinWeb_Array_.ToString1D(this._AGroup), 6);
-		local AAllGroups = _MinchinWeb_Lakes_._AllGroups(this._AGroup);
+		local AAllGroups = _AllGroups(this._AGroup);
+		_MinchinWeb_Log_.Note("AGroup: " + _MinchinWeb_Array_.ToString1D(this._AGroup, false) + " All A:" + _MinchinWeb_Array_.ToString1D(AAllGroups, false), 6);
 		
-		for (local j = 0; j < AAllGroups.len() - 1; j++) {
+		for (local j = 0; j < AAllGroups.len(); j++) {
 			if (_MinchinWeb_Array_.ContainedIn1D(this._BGroup, AAllGroups[j])) {
 				//	If we have a connection, return 'true'
+				_MinchinWeb_Log_.Note("B Group found in A All Groups!", 6);
 				return true;
 			}
 		}
@@ -200,24 +201,29 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		local BEdge = [];
 		AAllGroups = _AllGroups(this._AGroup);
 		BAllGroups = _AllGroups(this._BGroup);
-		for (local j = 0; j < AAllGroups.len() - 1; j++) {
-			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[AAllGroups[j]])
-			AEdge = _MinchinWeb_Array_.Append(AEdge, this._open_neighbours[this.AAllGroups[j]][0]);
+		for (local j = 0; j < AAllGroups.len(); j++) {
+			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[AAllGroups[j]]);
+			AEdge = _MinchinWeb_Array_.Append(AEdge, this._open_neighbours[AAllGroups[j]][0]);
 		}
-		for (local j = 0; j < BAllGroups.len() - 1; j++) {
-			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]])
-			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[this.BAllGroups[j]][0]);
+		for (local j = 0; j < BAllGroups.len(); j++) {
+			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]]);
+			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[BAllGroups[j]][0]);
 		}
+		_MinchinWeb_Log_.Note("A -- Edge: " + AEdge.len() + "  Neighbours: " + ANeighbours.len() + "  //  B -- Edge: " + BEdge.len() + "  Neighbours: " + BNeighbours.len(), 6);
+		_MinchinWeb_Log_.Note(this._open_neighbours + "  -- len " + this._open_neighbours.len() + " -- [0] " + this._open_neighbours[0] + " -- [0][0] " + this._open_neighbours[0][0] + " -- [0][0][0] " + this._open_neighbours[0][0][0], 7);
+		_MinchinWeb_Log_.Note("Open Neighbours :" , 7);
 		
 		if (ANeighbours.len() > 0) {
 			//	Get the tile from AEdge that is closest to BEdge
-			ATileList = _MinchinWeb_Array_.ToAIList(ANeighbours);
+			local ATileList = AIList();
+			for (local k = 0; k < ANeighbours.len(); k++) {
+				ATileList.AddItem(ANeighbours[k][0], 0);
+			}
 			ATileList.Valuate(_MinchinWeb_Extras_.MinDistance, BEdge);
 			ATileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
-			NextTile = ATileList.Begin();
 
 			//	Process the tile's 4 neighbours
-			this._AddNeighbour(NextTile);
+			_AddNeighbour(ATileList.Begin());
 		} else {
 			//	With no 'open neighbours', there can be no more connections
 			this._running = false;
@@ -232,20 +238,22 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		BEdge = [];
 		AAllGroups = _AllGroups(this._AGroup);
 		BAllGroups = _AllGroups(this._BGroup);
-		for (local j = 0; j < BAllGroups.len() - 1; j++) {
-			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]])
-			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[this.BAllGroups[j]][0]);
+		for (local j = 0; j < BAllGroups.len(); j++) {
+			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]]);
+			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[BAllGroups[j]][0]);
 		}
 		
 		if (BNeighbours.len() > 0) {
 			//	Get the tile from AEdge that is closest to BEdge
-			BTileList = _MinchinWeb_Array_.ToAIList(BNeighbours);
+			local BTileList = AIList();
+			for (local k = 0; k < BNeighbours.len(); k++) {
+				BTileList.AddItem(BNeighbours[k][0], 0);
+			}
 			BTileList.Valuate(_MinchinWeb_Extras_.MinDistance, AEdge);
 			BTileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
-			NextTile = BTileList.Begin();
 
 			//	Process the tile's 4 neighbours
-			this._AddNeighbour(NextTile);
+			_AddNeighbour(BTileList.Begin());
 		} else {
 			//	With no 'open neighbours', there can be no more connections
 			return null;
@@ -303,8 +311,13 @@ function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 			local next_tile = myTileID + offset;
 			if (AIMarine.AreWaterTilesConnected(myTileID, next_tile)) {
 				this._open_neighbours[myArea].append([myTileID, next_tile]);
+				//_MinchinWeb_Log_.Note("Added Neighbours :" + myArea + " [" + _MinchinWeb_Array_.ToStringTiles1D(this._open_neighbours[myArea][this._open_neighbours[myArea].len() - 1]) + "]", 7);
 			}
+		/*	else {
+				_MinchinWeb_Log_.Note("Skipped Neighbours :" + myArea + " [" + myTileID + ", " + next_tile + "]", 7);
+			} */
 		}
+		
 		
 		_MinchinWeb_Log_.Sign(myTileID, "L" + myArea, 7);
 		return myArea;
@@ -333,13 +346,15 @@ function _MinchinWeb_Lakes_::_AllGroups(StartGroupArray) {
 	local MoreAdded = true;
 	
 	do {
+		_MinchinWeb_Log_.Note("In AllGroups(), loop " + loops + ". start: " + StartIndex + " // " + _MinchinWeb_Array_.ToString1D(ReturnGroup, false), 7);
 		MoreAdded = false;
 		NextStartIndex = ReturnGroup.len();
 		for (local i = StartIndex; i < NextStartIndex; i++) {
-			_MinchinWeb_Log_.Note(_MinchinWeb_Array_.ToString2D(this._connections), 7);
-			ReturnGroup = _MinchinWeb_Array_.Append(ReturnGroup, this._connections[this._AGroup[i]]);
-			ReturnGroup = _MinchinWeb_Array_.RemoveDuplicates(ReturnGroup);
-			MoreAdded = true;
+			if (this._connections[ReturnGroup[i]].len() > 0) {
+				ReturnGroup = _MinchinWeb_Array_.Append(ReturnGroup, this._connections[ReturnGroup[i]]);
+				ReturnGroup = _MinchinWeb_Array_.RemoveDuplicates(ReturnGroup);
+				MoreAdded = true;
+			}
 		}
 		StartIndex = NextStartIndex;
 		loops++;
@@ -350,9 +365,9 @@ function _MinchinWeb_Lakes_::_AllGroups(StartGroupArray) {
 
 function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
 	//	Start by finding out what area we're expanding
-	FromTiles = [];
-	for (i = 0; i < this._open_neighbours.len(); i++) {
-		for (j = 0; j < this._open_neighbours[i].len(); j++) {
+	local FromTiles = [];
+	for (local i = 0; i < this._open_neighbours.len(); i++) {
+		for (local j = 0; j < this._open_neighbours[i].len(); j++) {
 			if (this._open_neighbours[i][j][0] == NextTile) {
 				FromTiles.append(this._open_neighbours[i][j][1]);
 			}
@@ -363,21 +378,26 @@ function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
 		//	if something broke, spit out useful debug information
 		_MinchinWeb_Log_.Warning("MinchinWeb.Lakes._AddNeighbour() failed.");
 		_MinchinWeb_Log_.Note("    this._open_neighbours");
-		for (i = 0; i < this._open_neighbours.len(); i++) {
+		for (local i = 0; i < this._open_neighbours.len(); i++) {
 			_MinchinWeb_Log_.Note("    [" + i + "] " + _MinchinWeb_Array_.ToString2D(this._open_neighbours[i]), 0);
 		}
 		_MinchinWeb_Log_.Error("No source for " + _MinchinWeb_Array_.ToStringTiles1D([NextTile]));
 	}
 	
-	FromGroup = this._map[AITile.GetTileX(FromTile[0])][AITile.GetTileY(FromTile[0])];
-	this._map[AITile.GetTileX(NextTile[0])][AITile.GetTileY(NextTile[0])] = FromGroup;
+	local FromGroup = this._map[AIMap.GetTileX(FromTiles[0])][AIMap.GetTileY(FromTiles[0])];
+	this._map[AIMap.GetTileX(NextTile)][AIMap.GetTileY(NextTile)] = FromGroup;
 	
 	//	If more than one groups list this tile as an open neighbour, register
 	//	the two groups are now linked
-	for (i = 0; i < FromTiles.len(); i++) {
+	//_MinchinWeb_  //I'M HERE	//	MORE
+	for (local i = 0; i < FromTiles.len(); i++) {
 		//	remove open neighbour
-		ActiveFromGroup = this._map[AITile.GetTileX(FromTile[i])][AITile.GetTileY(FromTile[i])];
-		this._open_neighbours[ActiveFromGroup] = _MinchinWeb_Array_.RemoveValueAt(this._open_neighbours[ActiveFromGroup], _MinchinWeb_Array_.Find1D(this._open_neighbours[ActiveFromGroup], NextTile));
+		local ActiveFromGroup = this._map[AIMap.GetTileX(FromTiles[i])][AIMap.GetTileY(FromTiles[i])];
+		for (local j = 0; j < this._open_neighbours[ActiveFromGroup].len(); j++) {
+			if (this._open_neighbours[ActiveFromGroup][j][1] == NextTile) {
+				this._open_neighbours[ActiveFromGroup] = _MinchinWeb_Array_.RemoveValueAt(this._open_neighbours[ActiveFromGroup], j);
+			}
+		}
 		
 		//	register connections
 		this._connections[FromGroup].append(ActiveFromGroup);

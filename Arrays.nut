@@ -627,10 +627,10 @@ function _MinchinWeb_Array_::Compare1D(InArray1D, TestArray1D) {
 
 function _MinchinWeb_Array_::Append(Array1, Array2) {
 	local ReturnArray = [];
-	for (local i=0; i < Array1.len() - 1; i++) {
+	for (local i=0; i < Array1.len(); i++) {
 		ReturnArray.push(Array1[i]);
 	}
-	for (local i=0; i < Array2.len() - 1; i++) {
+	for (local i=0; i < Array2.len(); i++) {
 		ReturnArray.push(Array2[i]);
 	}
 
@@ -638,8 +638,8 @@ function _MinchinWeb_Array_::Append(Array1, Array2) {
 }
 
 function _MinchinWeb_Array_::RemoveDuplicates(Array) {
-	for (local i=0; i < Array.len() - 1; i++) {
-		for (local j=1; j < Array.len() - 1; j++) {
+	for (local i=0; i < Array.len(); i++) {
+		for (local j=1; j < Array.len(); j++) {
 			if (Array[i] == Array[j]) {
 				Array = _MinchinWeb_Array_.RemoveValueAt(Array, j);
 				j--;
