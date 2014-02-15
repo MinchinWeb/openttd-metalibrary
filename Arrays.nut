@@ -98,13 +98,16 @@ class _MinchinWeb_Array_ {
 	 *	\todo	Add error check that an array is provided
 	 *	\static
 	 */
-	function ToString1D(InArray);
+	function ToString1D(InArray, DispalyLength = true, replaceNull = false);
 
 	/**	\brief	Converts a one dimensional array to a nice string format.
 	 *
 	 *	This function was created to aid in the output of arrays to the AI
 	 *	debug screen.
 	 *	\param	InArray		two dimensional (2-D) array
+	 *	\paran	DisplayLength	whether to prefix the output with the length
+	 *							of the array
+	 *	\param	replaceNull		whether the replace 'null' values with '-'
 	 *	\return	string version of array.
 	 *			e.g. `The array is 2 long.  3  4  /  5  6`. `null` if `InArray`
 	 *			is `null`.
@@ -348,28 +351,25 @@ function _MinchinWeb_Array_::Create2D(length, width) {
 	local ReturnArray = array(length);
 	local tempArray = array(width);
 	for (local i=0; i < length; i++) {
-		ReturnArray[i] = tempArray;
+		ReturnArray[i] = array(width);
 	}
 	return ReturnArray;
 }
 
 function _MinchinWeb_Array_::Create3D(length, width, height) {
 	local ReturnArray = array(length);
-	local tempArray = array(width);
-	local tempArray2 = array(height);
-	
-	for (local i=0; i < width; i++) {
-		tempArray[i] = tempArray2;
-	}
 	
 	for (local i=0; i < length; i++) {
-		ReturnArray[i] = tempArray;
+		ReturnArray[i] = array(width)
+		for (local j=0; j < width; j++) {
+			ReturnArray[i][j] = array(height);
+		}
 	}
 	
 	return ReturnArray;
 }
 
-function _MinchinWeb_Array_::ToString1D(InArray) {
+function _MinchinWeb_Array_::ToString1D(InArray, DisplayLength = true, replaceNull = false) {
 	if (InArray == null) {
 		return null;
 	} else {
@@ -377,10 +377,17 @@ function _MinchinWeb_Array_::ToString1D(InArray) {
 		local i = 0;
 		local Temp = "";
 		while (i < InArray.len() ) {
-			Temp = Temp + "  " + InArray[i];
+			if ((replaceNull == true) && (InArray[i] == null)) {
+				Temp = Temp + "-" + "  ";
+			} else {
+				Temp = Temp + InArray[i] + "  ";
+			}
 			i++;
 		}
-		return ("The array is " + Length + " long.  " + Temp + " ");
+		if (DisplayLength == true) {
+			Temp = "The array is " + Length + " long.  " + Temp;
+		}
+		return (Temp);
 	}
 }
 
