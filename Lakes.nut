@@ -1,4 +1,4 @@
-﻿/*	Lakes Check v.2 [2014-02-20],
+﻿/*	Lakes Check v.2 [2014-02-21],
  *		part of Minchinweb's MetaLibrary v.7,
  *		replacement for WaterBody Check
  *	Copyright © 2011-14 by W. Minchin. For more info,
@@ -16,7 +16,7 @@
  */
 
 /**	\brief		Lakes
- *	\version	v.2 (2012-02-20)
+ *	\version	v.2 (2012-02-21)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.7
  *
@@ -87,7 +87,7 @@
  
 class _MinchinWeb_Lakes_
 {
-	_map = null;				///< array that tells which group each tile belongs in (index is [TileX][TileY])
+	_map = null;				///< AIList that tells which group each tile belongs in (`item` is TileIndex, `value` is Group; `value == -2` means the value remains unset, `value == -1` means the tile is land)
 	_connections = null;		///< array that shows the connections to each tile groups (index is [TileGroup])
 	_areas = null;				///< array of the defined tile groups (index is [TileGroup])
 	_open_neighbours = null;	///< array of tiles that are open from each tile group (index is [TileGroup]) (form is [Edge_Tile, Past_Edge_Tile])
@@ -99,10 +99,13 @@ class _MinchinWeb_Lakes_
 	_running = null;
 	
 	constructor() {
-		this._map = _MinchinWeb_Array_.Create2D(AIMap.GetMapSizeX(), AIMap.GetMapSizeY());
-		this._connections = [];
-		this._areas = [];
-		this._open_neighbours = [];
+		this._map = AIList();
+		for (local i = 0; i < AIMap.GetMapSize(); i++) {
+			this._map.AddItem(i, -2);
+		}
+		this._connections = array(0);
+		this._areas = array(0);
+		this._open_neighbours = array(0);
 		this._running = false;
 		
 		_AddGridPoints();
@@ -114,8 +117,8 @@ class _MinchinWeb_Lakes_
 	 * \param	goals	The target tiles. Assumed to be an array.
 	 */
 	function InitializePath(sources, goals) {
-		this._AGroup = [];
-		this._BGroup = [];
+		this._AGroup = array(0);
+		this._BGroup = array(0);
 		this._A = sources;
 		this._B = goals;
 
@@ -202,7 +205,7 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		local BEdge = array(0);
 		AAllGroups = _AllGroups(this._AGroup);
 		BAllGroups = _AllGroups(this._BGroup);
-		_MinchinWeb_Log_.Note("    A -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(AEdge), 7);
+		
 		foreach (Group in AAllGroups){
 			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[Group]);
 		}
@@ -300,46 +303,43 @@ function _MinchinWeb_Lakes_::_AddGridPoints() {
 }
 
 function _MinchinWeb_Lakes_::AddPoint(myTileID) {
-	local x = AIMap.GetTileX(myTileID)
-	local y = AIMap.GetTileY(myTileID)
-	local xyArea = this._map[x][y];
-	// _MinchinWeb_Log_.Note("Tile Area " + x + " / " + y + " : " + xyArea + " : " + this._map.len() + " / " + this._map[x].len() + " : " + this._areas.len(), 6);
-	// _MinchinWeb_Log_.Note( _MinchinWeb_Array_.ToString1D(this._map[x], false, true), 7);
+	// _MinchinWeb_Log_.Note("Tile Area " + this._map.GetValue(myTileID) + " : " + this._map.Count() + " / " + this._areas.len(), 6);
 	
-	if (xyArea != null) {
-		//	already in _map
-		if (this._map[x][y] == -1) {
-			return false;
-		} else {
-			return this._map[x][y];
-		}
-	} else if (AITile.IsWaterTile(myTileID) == true) {
-		//	add to _map if a water tile
-		local myArea = this._areas.len();
-		this._areas.append(myTileID);
-		this._open_neighbours.append([]);
-		this._connections.append([]);
-		this._map[x][y] = myArea;
-		
-		local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
-					 AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
+	switch (this._map.GetValue(myTileID)) {
+		case -2:
+			//	unset tile
+			if (AITile.IsWaterTile(myTileID) == true) {
+				//	add to _map if a water tile
+				local myArea = this._areas.len();
+				this._areas.append(myTileID);
+				this._open_neighbours.append([]);
+				this._connections.append([]);
+				this._map.SetValue(myTileID, myArea);
+				
+				local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
+							 AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
 
-		foreach (offset in offsets) {
-			local next_tile = myTileID + offset;
-			if (AIMarine.AreWaterTilesConnected(myTileID, next_tile)) {
-				this._open_neighbours[myArea].append([myTileID, next_tile]);
-		/*		_MinchinWeb_Log_.Note("Added Neighbours : " + myArea + " : " + _MinchinWeb_Array_.ToStringTiles1D(this._open_neighbours[myArea][this._open_neighbours[myArea].len() - 1]), 7);
+				foreach (offset in offsets) {
+					local next_tile = myTileID + offset;
+					if (AIMarine.AreWaterTilesConnected(myTileID, next_tile)) {
+						this._open_neighbours[myArea].append([myTileID, next_tile]);
+					}
+				}
+
+				_MinchinWeb_Log_.Note(myArea + " : " + _MinchinWeb_Array_.ToStringTiles2D(this._open_neighbours[myArea], false), 7);
+				_MinchinWeb_Log_.Sign(myTileID, "L" + myArea, 7);
+				return myArea;
 			} else {
-				_MinchinWeb_Log_.Note("Skipped Neighbours : " + myArea + " : " + _MinchinWeb_Array_.ToStringTiles1D([myTileID, next_tile]), 7);
-		*/	}
-		}
-
-		_MinchinWeb_Log_.Note(myArea + " : " + _MinchinWeb_Array_.ToStringTiles2D(this._open_neighbours[myArea], false), 7);
-		_MinchinWeb_Log_.Sign(myTileID, "L" + myArea, 7);
-		return myArea;
-	} else {
-		this._map[x][y] = -1;
-		return false;
+				//	land tile
+				this._map.SetValue(myTileID, -1);
+				return false;
+			}
+		case -1:
+			//	land tile
+			return false;
+		default:
+			//	already in _map
+			return this._map.GetValue(myTileID);
 	}
 }
 
@@ -362,7 +362,7 @@ function _MinchinWeb_Lakes_::_AllGroups(StartGroupArray) {
 	local MoreAdded = true;
 	
 	do {
-		//_MinchinWeb_Log_.Note("In AllGroups(), loop " + loops + ". start: " + StartIndex + " // " + _MinchinWeb_Array_.ToString1D(ReturnGroup, false), 7);
+		_MinchinWeb_Log_.Note("In AllGroups(), loop " + loops + ". start: " + StartIndex + " // " + _MinchinWeb_Array_.ToString1D(ReturnGroup, false), 7);
 		MoreAdded = false;
 		NextStartIndex = ReturnGroup.len();
 		for (local i = StartIndex; i < NextStartIndex; i++) {
@@ -406,7 +406,7 @@ function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
 		return null;
 	} else {
 	
-		local FromGroup = this._map[AIMap.GetTileX(NextTile)][AIMap.GetTileY(NextTile)];
+		local FromGroup = this._map.GetValue(NextTile);
 		local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
 						 AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
 		
@@ -415,11 +415,11 @@ function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
 		//		Then add possible neighbours to the open_neighbours list
 		for (local k = 0; k < OnwardTiles.len(); k++) {
 			if (AIMarine.AreWaterTilesConnected(NextTile, OnwardTiles[k])) {
-				this._map[AIMap.GetTileX(OnwardTiles[k])][AIMap.GetTileY(OnwardTiles[k])] = FromGroup;
+				this._map.SetValue((OnwardTiles[k]), FromGroup);
 				_MinchinWeb_Log_.Sign(OnwardTiles[k], "L" + FromGroup, 7);
 				foreach (offset in offsets) {
 					local next_tile = OnwardTiles[k] + offset;
-					if (AIMarine.AreWaterTilesConnected(OnwardTiles[k], next_tile) && (this._map[AIMap.GetTileX(next_tile)][AIMap.GetTileY(next_tile)] != this._map[AIMap.GetTileX(OnwardTiles[k])][AIMap.GetTileY(OnwardTiles[k])])) {
+					if (AIMarine.AreWaterTilesConnected(OnwardTiles[k], next_tile) && (this._map.GetValue(next_tile) != this._map.GetValue(OnwardTiles[k]))) {
 						this._open_neighbours[FromGroup].append([OnwardTiles[k], next_tile]);
 					}
 				}
@@ -432,7 +432,7 @@ function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
 			for (local i = 0; i < this._open_neighbours.len(); i++) {
 				for (local j = 0; j < this._open_neighbours[i].len(); j++) {
 					if (this._open_neighbours[i][j][1] == OnwardTile) {
-						local ActiveFromGroup = this._map[AIMap.GetTileX(this._open_neighbours[i][j][0])][AIMap.GetTileY(this._open_neighbours[i][j][0])];
+						local ActiveFromGroup = this._map.GetValue(this._open_neighbours[i][j][0]);
 						this._connections[FromGroup].append(ActiveFromGroup);
 						this._connections[ActiveFromGroup].append(FromGroup);
 						this._open_neighbours[i] = _MinchinWeb_Array_.RemoveValueAt(this._open_neighbours[i], j);
