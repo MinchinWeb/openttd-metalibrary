@@ -201,21 +201,30 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		local BEdge = [];
 		AAllGroups = _AllGroups(this._AGroup);
 		BAllGroups = _AllGroups(this._BGroup);
+		_MinchinWeb_Log_.Note("    A -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(AEdge), 7);
 		for (local j = 0; j < AAllGroups.len(); j++) {
 			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[AAllGroups[j]]);
-			AEdge = _MinchinWeb_Array_.Append(AEdge, this._open_neighbours[AAllGroups[j]][0]);
+			_MinchinWeb_Log_.Note("        Open Neighbours: " + AAllGroups[j] + " : " + _MinchinWeb_Array_.ToStringTiles2D(this._open_neighbours[AAllGroups[j]]), 7);
+		}
+		foreach (neighbour in ANeighbours) {
+			AEdge = _MinchinWeb_Array_.Append(AEdge, neighbour[0]);
+			_MinchinWeb_Log_.Note("    A -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(AEdge), 7);
 		}
 		for (local j = 0; j < BAllGroups.len(); j++) {
 			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]]);
 			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[BAllGroups[j]][0]);
 		}
+		foreach (neighbour in BNeighbours) {
+			BEdge = _MinchinWeb_Array_.Append(BEdge, neighbour[0]);
+			_MinchinWeb_Log_.Note("    B -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(BEdge), 7);
+		}
 		//	remove duplicates
 		AEdge = _MinchinWeb_Array_.RemoveDuplicates(AEdge);
 		BEdge = _MinchinWeb_Array_.RemoveDuplicates(BEdge);
+		
 		_MinchinWeb_Log_.Note("A -- Edge: " + AEdge.len() + "  Neighbours: " + ANeighbours.len() + "  //  B -- Edge: " + BEdge.len() + "  Neighbours: " + BNeighbours.len(), 6);
 		_MinchinWeb_Log_.Note("A -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(AEdge), 7);
 		_MinchinWeb_Log_.Note("B -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(BEdge), 7);
-		//~ _MinchinWeb_Log_.Note("Open Neighbours :" , 7);
 		
 		if (ANeighbours.len() > 0) {
 			//	Get the tile from AEdge that is closest to BEdge
@@ -244,8 +253,12 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		BAllGroups = _AllGroups(this._BGroup);
 		for (local j = 0; j < BAllGroups.len(); j++) {
 			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]]);
-			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[BAllGroups[j]][0]);
 		}
+		foreach (neighbour in BNeighbours) {
+			BEdge = _MinchinWeb_Array_.Append(BEdge, neighbour[0]);
+			_MinchinWeb_Log_.Note("    B -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(BEdge), 7);
+		}
+		BEdge = _MinchinWeb_Array_.RemoveDuplicates(BEdge);
 		
 		if (BNeighbours.len() > 0) {
 			//	Get the tile from AEdge that is closest to BEdge

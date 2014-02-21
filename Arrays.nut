@@ -98,7 +98,7 @@ class _MinchinWeb_Array_ {
 	 *	\todo	Add error check that an array is provided
 	 *	\static
 	 */
-	function ToString1D(InArray, DispalyLength = true, replaceNull = false);
+	function ToString1D(InArray, DisplayLength = true, replaceNull = false);
 
 	/**	\brief	Converts a one dimensional array to a nice string format.
 	 *
@@ -112,10 +112,11 @@ class _MinchinWeb_Array_ {
 	 *			e.g. `The array is 2 long.  3  4  /  5  6`. `null` if `InArray`
 	 *			is `null`.
 	 *	\see	ToString1D()
+	 *	\see	ToStringTiles2D()
 	 *	\todo	Add error check that a 2D array is provided
 	 *	\static
 	 */
-	function ToString2D(InArray);
+	function ToString2D(InArray, DisplayLength = true);
 
 	/**	\brief	Searches an array for a given value.
 	 *
@@ -262,13 +263,33 @@ class _MinchinWeb_Array_ {
 	 *	\param	InArrayOfTiles		one dimensional (1-D) array of Tiles
 	 *	\param	ArrayLength	(`true` or `false`) whether to print the prefix
 	 *						noting the length of the array. Default is `false`.
-	 *						`null` if `InArrayOfTiles` is `null`.
-	 *	\return	string version of array. e.g. `The array is 3 long.  12,45  62,52  59,10`
+	 *	\return	string version of array. e.g. `The array is 3 long.  12,45  62,52  59,10`.
+	 *			`null` if `InArrayOfTiles` is `null`.
 	 *	\see	ToString1D()
+	 *	\see	ToStringTiles2D()
 	 *	\todo	Add error check that an array is provided
+	 *	\todo	Add a better error message if you try and feed it not a 1-D array
 	 *	\static
 	 */
 	function ToStringTiles1D(InArrayOfTiles, ArrayLength = false);
+	
+	/**	\brief	Converts a one dimensional array of tiles to a nice string format.
+	 *
+	 *	This function was created to aid in the output of arrays of tiles to the
+	 *	AI debug screen.
+	 *	\param	InArrayOfTiles		two dimensional (2-D) array of Tiles
+	 *	\param	ArrayLength	(`true` or `false`) whether to print the prefix
+	 *						noting the length of the array. Default is `false`.
+
+	 *	\return	string version of array. e.g. `The array is 3 long.  12,45  62,52  59,10`.
+	 *			`null` if `InArrayOfTiles` is `null`.
+	 *	\see	ToString2D()
+	 *	\see	ToStringTiles1D()
+	 *	\todo	Add error check that an array is provided
+	 *	\todo	Add a better error message if you try and feed it not a 2-D array
+	 *	\static
+	 */
+	function ToStringTiles2D(InArrayOfTiles, ArrayLength = false);
 
 	/**	\brief	Searches an array for a given pair of values.
 	 *
@@ -391,7 +412,7 @@ function _MinchinWeb_Array_::ToString1D(InArray, DisplayLength = true, replaceNu
 	}
 }
 
-function _MinchinWeb_Array_::ToString2D(InArray) {
+function _MinchinWeb_Array_::ToString2D(InArray, DisplayLength = true) {
 	if (InArray == null) {
 		return null;
 	} else {
@@ -401,16 +422,21 @@ function _MinchinWeb_Array_::ToString2D(InArray) {
 		while (i < InArray.len() ) {
 			local InnerArray = [];
 			InnerArray = InArray[i];
-			local InnerLength = InnerArray.len();
 			local j = 0;
 			while (j < InnerArray.len() ) {
-				Temp = Temp + "  " + InnerArray[j];
+				Temp = Temp + InnerArray[j] + "  ";
 				j++;
 			}
-			Temp = Temp + "  /  ";
+			Temp = Temp + "/  ";
 			i++;
 		}
-		return ("The array is " + Length + " long." + Temp + " ");
+		//	get rid of last slash
+		Temp = Temp.slice(0, Temp.len() - 3);
+		
+		if (DisplayLength == true) {
+			Temp = "The array is " + Length + " long.  " + Temp;
+		}
+		return (Temp);
 	}
 }
 
@@ -559,6 +585,34 @@ function _MinchinWeb_Array_::ToStringTiles1D(InArrayOfTiles, ArrayLength = false
 		} else {
 			return Temp;
 		}
+	}
+}
+
+function _MinchinWeb_Array_::ToStringTiles2D(InArrayOfTiles, ArrayLength = false) {
+	if (InArrayOfTiles == null) {
+		return null;
+	} else {
+		local Length = InArrayOfTiles.len();
+		local i = 0;
+		local Temp = "";
+		while (i < InArrayOfTiles.len() ) {
+			local InnerArray = [];
+			InnerArray = InArrayOfTiles[i];
+			local j = 0;
+			while (j < InnerArray.len() ) {
+				Temp = Temp + AIMap.GetTileX(InnerArray[j]) + "," + AIMap.GetTileY(InnerArray[j]) + "  ";
+				j++;
+			}
+			Temp = Temp + "/  ";
+			i++;
+		}
+		//	get rid of last slash
+		Temp = Temp.slice(0, Temp.len() - 3);
+		
+		if (ArrayLength == true) {
+			Temp = "The array is " + Length + " long.  " + Temp;
+		}
+		return (Temp);
 	}
 }
 
