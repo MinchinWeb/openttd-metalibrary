@@ -1,4 +1,4 @@
-﻿/*	Array SubLibrary, v.5 [2014-02-14],
+﻿/*	Array SubLibrary, v.5 [2014-02-20],
  *		part of Minchinweb's MetaLibrary v.7,
  *		originally part of WmDOT v.5  r.53d	[2011-04-09]
  *			and WmArray library v.1  r.1 [2011-02-13].
@@ -17,7 +17,7 @@
  */
 
 /**	\brief		Arrays
- *	\version	v.5 (2014-02-14)
+ *	\version	v.5 (2014-02-20)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.6
  *
@@ -638,15 +638,16 @@ function _MinchinWeb_Array_::Append(Array1, Array2) {
 }
 
 function _MinchinWeb_Array_::RemoveDuplicates(Array) {
-	for (local i=0; i < Array.len(); i++) {
-		for (local j=1; j < Array.len(); j++) {
-			if (Array[i] == Array[j]) {
-				Array = _MinchinWeb_Array_.RemoveValueAt(Array, j);
+	local ReturnArray = Array;
+	for (local i=0; i < ReturnArray.len(); i++) {
+		for (local j=i+1; j < ReturnArray.len(); j++) {
+			if (ReturnArray[i] == ReturnArray[j]) {
+				ReturnArray = _MinchinWeb_Array_.RemoveValueAt(ReturnArray, j);
 				j--;
 			}
 		}
 	}
-	return Array;
+	return ReturnArray;
 }
 
 function _MinchinWeb_Array_::ToAIList(Array) {
