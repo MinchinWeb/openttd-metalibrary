@@ -188,6 +188,7 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 			if (_MinchinWeb_Array_.ContainedIn1D(this._BGroup, Group)) {
 				//	If we have a connection, return 'true'
 				_MinchinWeb_Log_.Note("B Group found in A All Groups!", 6);
+				this._running = false;
 				return true;
 			}
 		}
@@ -204,18 +205,15 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		_MinchinWeb_Log_.Note("    A -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(AEdge), 7);
 		foreach (Group in AAllGroups){
 			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[Group]);
-			_MinchinWeb_Log_.Note("        Open Neighbours: " + Group + " : " + _MinchinWeb_Array_.ToStringTiles2D(this._open_neighbours[Group]), 7);
 		}
 		foreach (neighbour in ANeighbours) {
 			AEdge.append(neighbour[0]);
-			_MinchinWeb_Log_.Note("    A -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(AEdge), 7);
 		}
 		foreach (Group in BAllGroups) {
 			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[Group]);
 		}
 		foreach (neighbour in BNeighbours) {
 			BEdge.append(neighbour[0]);
-			_MinchinWeb_Log_.Note("    B -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(BEdge), 7);
 		}
 		//	remove duplicates
 		AEdge = _MinchinWeb_Array_.RemoveDuplicates(AEdge);
@@ -233,6 +231,7 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 			}
 			ATileList.Valuate(_MinchinWeb_Extras_.MinDistance, BEdge);
 			ATileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+			//_MinchinWeb_Log_.Note("     Closest tile is " + _MinchinWeb_Array_.ToStringTiles1D([ATileList.Begin()]) + " at a distance of " + ATileList.GetValue(ATileList.Begin()), 7);
 
 			//	Process the tile's 4 neighbours
 			_AddNeighbour(ATileList.Begin());
@@ -255,7 +254,6 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		}
 		foreach (neighbour in BNeighbours) {
 			BEdge.append(neighbour[0]);
-			_MinchinWeb_Log_.Note("    B -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(BEdge), 7);
 		}
 		BEdge = _MinchinWeb_Array_.RemoveDuplicates(BEdge);
 		
@@ -266,18 +264,21 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 				BTileList.AddItem(neighbour[0], 0);
 			}
 			BTileList.Valuate(_MinchinWeb_Extras_.MinDistance, AEdge);
-			BTileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);
+			BTileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
+			//_MinchinWeb_Log_.Note("     Closest tile is " + _MinchinWeb_Array_.ToStringTiles1D([BTileList.Begin()]) + " at a distance of " + BTileList.GetValue(BTileList.Begin()), 7);
 
 			//	Process the tile's 4 neighbours
 			_AddNeighbour(BTileList.Begin());
 		} else {
 			//	With no 'open neighbours', there can be no more connections
+			this._running = false;
 			return null;
 		}
 	}
 	
 	//	ran out of loops, we're still running
 	return false;
+	
 }
 
 function _MinchinWeb_Lakes_::GetPathLength() {
@@ -361,7 +362,7 @@ function _MinchinWeb_Lakes_::_AllGroups(StartGroupArray) {
 	local MoreAdded = true;
 	
 	do {
-		_MinchinWeb_Log_.Note("In AllGroups(), loop " + loops + ". start: " + StartIndex + " // " + _MinchinWeb_Array_.ToString1D(ReturnGroup, false), 7);
+		//_MinchinWeb_Log_.Note("In AllGroups(), loop " + loops + ". start: " + StartIndex + " // " + _MinchinWeb_Array_.ToString1D(ReturnGroup, false), 7);
 		MoreAdded = false;
 		NextStartIndex = ReturnGroup.len();
 		for (local i = StartIndex; i < NextStartIndex; i++) {
