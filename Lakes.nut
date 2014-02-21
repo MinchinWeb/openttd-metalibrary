@@ -184,8 +184,8 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		local AAllGroups = _AllGroups(this._AGroup);
 		_MinchinWeb_Log_.Note("AGroup: " + _MinchinWeb_Array_.ToString1D(this._AGroup, false) + " All A:" + _MinchinWeb_Array_.ToString1D(AAllGroups, false), 6);
 		
-		for (local j = 0; j < AAllGroups.len(); j++) {
-			if (_MinchinWeb_Array_.ContainedIn1D(this._BGroup, AAllGroups[j])) {
+		foreach (Group in AAllGroups) {
+			if (_MinchinWeb_Array_.ContainedIn1D(this._BGroup, Group)) {
 				//	If we have a connection, return 'true'
 				_MinchinWeb_Log_.Note("B Group found in A All Groups!", 6);
 				return true;
@@ -194,28 +194,27 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		
 		//	No match (yet anyway...)
 		//	Get all the open neighbours of A
-		local ANeighbours = [];
-		local AEdge = [];
-		local BAllGroups = [];
-		local BNeighbours = [];
-		local BEdge = [];
+		local ANeighbours = array(0);
+		local AEdge = array(0);
+		local BAllGroups = array(0);
+		local BNeighbours = array(0);
+		local BEdge = array(0);
 		AAllGroups = _AllGroups(this._AGroup);
 		BAllGroups = _AllGroups(this._BGroup);
 		_MinchinWeb_Log_.Note("    A -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(AEdge), 7);
-		for (local j = 0; j < AAllGroups.len(); j++) {
-			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[AAllGroups[j]]);
-			_MinchinWeb_Log_.Note("        Open Neighbours: " + AAllGroups[j] + " : " + _MinchinWeb_Array_.ToStringTiles2D(this._open_neighbours[AAllGroups[j]]), 7);
+		foreach (Group in AAllGroups){
+			ANeighbours = _MinchinWeb_Array_.Append(ANeighbours, this._open_neighbours[Group]);
+			_MinchinWeb_Log_.Note("        Open Neighbours: " + Group + " : " + _MinchinWeb_Array_.ToStringTiles2D(this._open_neighbours[Group]), 7);
 		}
 		foreach (neighbour in ANeighbours) {
-			AEdge = _MinchinWeb_Array_.Append(AEdge, neighbour[0]);
+			AEdge.append(neighbour[0]);
 			_MinchinWeb_Log_.Note("    A -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(AEdge), 7);
 		}
-		for (local j = 0; j < BAllGroups.len(); j++) {
-			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]]);
-			BEdge = _MinchinWeb_Array_.Append(BEdge, this._open_neighbours[BAllGroups[j]][0]);
+		foreach (Group in BAllGroups) {
+			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[Group]);
 		}
 		foreach (neighbour in BNeighbours) {
-			BEdge = _MinchinWeb_Array_.Append(BEdge, neighbour[0]);
+			BEdge.append(neighbour[0]);
 			_MinchinWeb_Log_.Note("    B -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(BEdge), 7);
 		}
 		//	remove duplicates
@@ -229,8 +228,8 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		if (ANeighbours.len() > 0) {
 			//	Get the tile from AEdge that is closest to BEdge
 			local ATileList = AIList();
-			for (local k = 0; k < ANeighbours.len(); k++) {
-				ATileList.AddItem(ANeighbours[k][0], 0);
+			foreach (neighbour in ANeighbours) {
+				ATileList.AddItem(neighbour[0], 0);
 			}
 			ATileList.Valuate(_MinchinWeb_Extras_.MinDistance, BEdge);
 			ATileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
@@ -243,19 +242,19 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 			return null;
 		}
 		
-		AAllGroups = [];
-		ANeighbours = [];
-		AEdge = [];
-		BAllGroups = [];
-		BNeighbours = [];
-		BEdge = [];
+		//AAllGroups = [];
+		//ANeighbours = [];
+		//AEdge = [];
+		BAllGroups = array(0);
+		BNeighbours = array(0);
+		BEdge = array(0);
 		AAllGroups = _AllGroups(this._AGroup);
 		BAllGroups = _AllGroups(this._BGroup);
-		for (local j = 0; j < BAllGroups.len(); j++) {
-			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[BAllGroups[j]]);
+		foreach (Group in BAllGroups) {
+			BNeighbours = _MinchinWeb_Array_.Append(BNeighbours, this._open_neighbours[Group]);
 		}
 		foreach (neighbour in BNeighbours) {
-			BEdge = _MinchinWeb_Array_.Append(BEdge, neighbour[0]);
+			BEdge.append(neighbour[0]);
 			_MinchinWeb_Log_.Note("    B -- Edge: " + _MinchinWeb_Array_.ToStringTiles1D(BEdge), 7);
 		}
 		BEdge = _MinchinWeb_Array_.RemoveDuplicates(BEdge);
@@ -263,8 +262,8 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		if (BNeighbours.len() > 0) {
 			//	Get the tile from AEdge that is closest to BEdge
 			local BTileList = AIList();
-			for (local k = 0; k < BNeighbours.len(); k++) {
-				BTileList.AddItem(BNeighbours[k][0], 0);
+			foreach (neighbour in BNeighbours) {
+				BTileList.AddItem(neighbour[0], 0);
 			}
 			BTileList.Valuate(_MinchinWeb_Extras_.MinDistance, AEdge);
 			BTileList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_DESCENDING);

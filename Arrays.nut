@@ -343,8 +343,11 @@ class _MinchinWeb_Array_ {
 	/**	\brief	Appends one array to another.
 	 *	\param	Array1	the first array
 	 *	\param	Array2	the second array
-	 *	\return	An array that has `Array2` appended to the end of `Array1`
+	 *	\return	An array that the items has `Array2` appended to the end of the
+	 *			items of `Array1`
 	 *	\static
+	 *	\note	Consider using Squirrel's built-in function:
+	 *			`MyArray.append(Item)` to append individual items to an array
 	 */
 	function Append(Array1, Array2);
 	
@@ -574,17 +577,14 @@ function _MinchinWeb_Array_::ToStringTiles1D(InArrayOfTiles, ArrayLength = false
 		return null;
 	} else {
 		local Length = InArrayOfTiles.len();
-		local i = 0;
 		local Temp = "";
-		while (i < InArrayOfTiles.len() ) {
-			Temp = Temp + "  " + AIMap.GetTileX(InArrayOfTiles[i]) + "," + AIMap.GetTileY(InArrayOfTiles[i]);
-			i++;
+		foreach (Tile in InArrayOfTiles) {
+			Temp = Temp + "  " + AIMap.GetTileX(Tile) + "," + AIMap.GetTileY(Tile);
 		}
 		if (ArrayLength == true) {
-			return ("The array is " + Length + " long.  " + Temp + " ");
-		} else {
-			return Temp;
+			Temp = "The array is " + Length + " long.  " + Temp;
 		}
+		return Temp;
 	}
 }
 
