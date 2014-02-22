@@ -338,12 +338,16 @@ function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 							this._connections[myArea].append(ConnectedArea);
 							this._connections[ConnectedArea].append(myArea);
 							
-							//	remove open neighbour from ConnectedArea to next_tile
-							for (local i=0; i < this._open_neighbours[ConnectedArea].len(); i++) {
-								if (this._open_neighbours[ConnectedArea][i][1] == myTileID) {
-									//	we're looking for the reverse tile pair to the one we just tried to add
-									this._open_neighbours[ConnectedArea] = _MinchinWeb_Array_.RemoveValueAt(this._open_neighbours[ConnectedArea], i);
-									i--;
+							local AllConnectedAreas = _AllGroups([ConnectedArea]);
+							
+							//	remove open neighbour from AllConnectedAreas to next_tile
+							foreach (ThisArea in AllConnectedAreas) {
+								for (local i=0; i < this._open_neighbours[ThisArea].len(); i++) {
+									if (this._open_neighbours[ThisArea][i][1] == myTileID) {
+										//	we're looking for the reverse tile pair to the one we just tried to add
+										this._open_neighbours[ThisArea] = _MinchinWeb_Array_.RemoveValueAt(this._open_neighbours[ThisArea], i);
+										i--;
+									}
 								}
 							}
 						}
@@ -386,7 +390,7 @@ function _MinchinWeb_Lakes_::_AllGroups(StartGroupArray) {
 	local MoreAdded = true;
 	
 	do {
-		_MinchinWeb_Log_.Note("In AllGroups(), loop " + loops + ". start: " + StartIndex + " // " + _MinchinWeb_Array_.ToString1D(ReturnGroup, false), 7);
+		//_MinchinWeb_Log_.Note("In AllGroups(), loop " + loops + ". start: " + StartIndex + " // " + _MinchinWeb_Array_.ToString1D(ReturnGroup, false), 7);
 		MoreAdded = false;
 		NextStartIndex = ReturnGroup.len();
 		for (local i = StartIndex; i < NextStartIndex; i++) {
