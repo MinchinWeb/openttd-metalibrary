@@ -327,7 +327,26 @@ function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 				foreach (offset in offsets) {
 					local next_tile = myTileID + offset;
 					if (AIMarine.AreWaterTilesConnected(myTileID, next_tile)) {
-						this._open_neighbours[myArea].append([myTileID, next_tile]);
+						//	this._map.GetValue(next_tile) might be -1 if it's a
+						//		land time, but then we've failed the above if
+						//		statement and won't be here...
+						if (this._map.GetValue(next_tile) == -2) {
+							this._open_neighbours[myArea].append([myTileID, next_tile]);
+						} else {
+						//	register connection right now
+							local ConnectedArea = this._map.GetValue(next_tile);
+							this._connections[myArea].append(ConnectedArea);
+							this._connections[ConnectedArea].append(myArea);
+							
+							//	remove open neighbour from ConnectedArea to next_tile
+							for (local i=0; i < this._open_neighbours[ConnectedArea].len(); i++) {
+								if (this._open_neighbours[ConnectedArea][i][1] == myTileID) {
+									//	we're looking for the reverse tile pair to the one we just tried to add
+									this._open_neighbours[ConnectedArea] = _MinchinWeb_Array_.RemoveValueAt(this._open_neighbours[ConnectedArea], i);
+									i--;
+								}
+							}
+						}
 					}
 				}
 
