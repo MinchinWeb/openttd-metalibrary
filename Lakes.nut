@@ -439,19 +439,31 @@ function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
 	}
 	//	remove duplicates
 	OnwardTiles = _MinchinWeb_Array_.RemoveDuplicates(OnwardTiles);
+	//	remove onward tiles that are already in a tile group
+	local ConnectedGroups = _AllGroups([this._map[NextTile]]);
+	for (local i = 0; i < OnwardTiles.len(); i++) {
+		if (this._map[OnwardTiles[i]] != -2) {
+			//	But only if we've already registered the connection
+			if (_MinchinWeb_Array_.ContainedIn1D(ConnectedGroups, this._map[OnwardTiles[i]])) {
+				OnwardTiles = _MinchinWeb_Array_.RemoveValueAt(OnwardTiles, i);
+				//	Add remove from open neighbours
+				i--;
+			}
+		}
+	
+	}
 	_MinchinWeb_Log_.Note("NextTile: " + _MinchinWeb_Array_.ToStringTiles1D([NextTile]) + "  //  Onward Tiles: " + _MinchinWeb_Array_.ToStringTiles1D(OnwardTiles), 7);
 	
 	if (OnwardTiles.len() == 0) {
 		//	if something broke, spit out useful debug information
-		_MinchinWeb_Log_.Warning("                        MinchinWeb.Lakes._AddNeighbour() failed.");
+		_MinchinWeb_Log_.Warning("                        MinchinWeb.Lakes._AddNeighbour() failed. No source for " + _MinchinWeb_Array_.ToStringTiles1D([NextTile]));
 		/*_MinchinWeb_Log_.Note("    this._open_neighbours");
 		for (local i = 0; i < this._open_neighbours.len(); i++) {
 			_MinchinWeb_Log_.Note("    [" + i + "] " + _MinchinWeb_Array_.ToString2D(this._open_neighbours[i]), 0);
 		}*/
-		_MinchinWeb_Log_.Warning("                        No source for " + _MinchinWeb_Array_.ToStringTiles1D([NextTile]));
+
 		return null;
 	} else {
-	
 		local FromGroup = this._map.GetValue(NextTile);
 		local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
 						 AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
