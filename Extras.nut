@@ -1,6 +1,5 @@
-﻿/*	Extra functions v.5 r.253 [2012-07-01],
- *		part of Minchinweb's MetaLibrary v.6,
- *		originally part of WmDOT v.10
+﻿/*	Extra functions v.6 [2014-02-26],
+ *		part of Minchinweb's MetaLibrary v.7
  *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
@@ -219,7 +218,8 @@ class _MinchinWeb_Extras_ {
 	 *			AIList of tiles
 	 *	\param	TileID		Tile we measure distance from
 	 *	\param	TargetArray	An array to tiles that we want to measure distance
-	 *						to
+	 *						to. This can also be an AIList where the items are
+	 *						tiles.
 	 *	\return	the minimum distance between TileID and any of the TargetArray
 	 *	\note	Distance is measured using Manhattan Distances
 	 */

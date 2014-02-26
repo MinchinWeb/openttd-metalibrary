@@ -434,7 +434,9 @@ function _MinchinWeb_Array_::ToString2D(InArray, DisplayLength = true) {
 			i++;
 		}
 		//	get rid of last slash
-		Temp = Temp.slice(0, Temp.len() - 3);
+		if (Temp.len() > 3) {
+			Temp = Temp.slice(0, Temp.len() - 3);
+		}
 		
 		if (DisplayLength == true) {
 			Temp = "The array is " + Length + " long.  " + Temp;
