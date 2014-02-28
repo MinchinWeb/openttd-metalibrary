@@ -18,29 +18,7 @@
  
 /*	These are 'random' functions that didn't seem to fit well elsewhere.
  *
- *	Functions provided:
- *		MinchinWeb.Extras.SignLocation(text)
- *						 .MidPoint(TileA, TileB)
- *						 .Perpendicular(SlopeIn)
- *						 .Slope(TileA, TileB)
- *						 .Within(Bound1, Bound2, Value)
- *						 .WithinFloat(Bound1, Bound2, Value)
- *						 .MinAbsFloat(Value1, Value2)
- *						 .MaxAbsFloat(Value1, Value2)
- *						 .AbsFloat(Value)
- *						 .Sign(Value)
- *						 .MinFloat(Value1, Value2)
- *						 .MaxFloat(Value1, Value2)
- *						 .MinAbsFloatKeepSign(Value1, Value2)
- *						 .MaxAbsFloatKeepSign(Value1, Value2)
- *						 .NextCardinalTile(StartTile, TowardsTile)
- *							- Given a StartTile and a TowardsTile, will given
- *								the tile immediately next(Manhattan Distance == 1)
- *								to StartTile that is closest to TowardsTile
- *						 .GetOpenTTDRevision()
- *							-Returns the revision number of the current build of OpenTTD
- *
- *	//	Comparison functions will return the first value if the two are equal
+ *	Comparison functions will return the first value if the two are equal
  */
 
 /**	\brief		Extra functions

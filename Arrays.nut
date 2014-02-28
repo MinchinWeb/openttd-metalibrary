@@ -25,27 +25,6 @@
  *	\note	While Arrays are powerful, also consider using AIList.
  */
  
-/*	Provided functions:
- *		MinchinWeb.Array.Create1D(length)
- *						.Create2D(length, width)
- *						.Create3D(length, width, height)
- *						.ToString1D(InArray)
- *						.ToString2D(InArray)
- *						.ContainedIn1D(InArray, SearchValue)
- *						.ContainedIn2D(InArray, SearchValue)
- *						.ContainedIn3D(InArray, SearchValue)
- *					 	.ContainedIn1DIn2D(InArray2D, SearchArray1D)
- *						.Find1D(InArray, SearchValue)
- *					 	.Find2D(InArray, SearchValue)
- *						.Find3D(InArray, SearchValue)
- *						.RemoveValueAt(InArray, Index)
- *						.InsertValueAt(InArray, Index, Value)
- *						.ToStringTiles1D(InArrayOfTiles, ArrayLength = false)
- *						.FindPairs(InArray2D, SearchValue1, SearchValue2)
- *						.ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
- *						.Compare1D(InArray1D, TestArray1D)
- *						.Append(Array1, Array2)
- */
  
 class _MinchinWeb_Array_ {
 	main = null;
