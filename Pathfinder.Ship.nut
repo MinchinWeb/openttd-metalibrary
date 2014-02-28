@@ -1,5 +1,5 @@
-﻿/*	ShipPathfinder v.4, r.240, [2012-06-22],
- *		part of Minchinweb's MetaLibrary v.5,
+﻿/*	ShipPathfinder v.5, [2014-02-27],
+ *		part of Minchinweb's MetaLibrary v.7,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -16,7 +16,7 @@
  */
  
 /**	\brief		A Ship Pathfinder.
- *	\version	v.4 (2012-06-22)
+ *	\version	v.5 (2014-02-27)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.2
  *
@@ -36,13 +36,14 @@
  *	With simple geometries, it works fast and well. However, on complex
  *	geometries, it doesn't work as well as I would like. The other problem I
  *	have is that the geometry only works on the basis that the start and end
- *	points are in the same waterbody, and so I created \_MinchinWeb\_WBC\_
- *	(WaterbodyCheck) to confirm this is the case; however it adds running time
+ *	points are in the same waterbody, and so I created \_MinchinWeb\_Lakes\_
+ *	(Lakes) to confirm this is the case; however it adds running time
  *	to the whole pathfinder. One the plus side, building the path is very
  *	simple: just build buoys at each point along the path!
  *
- *	\requires	Fibonacci Heap v.2
+ *	\requires	Fibonacci Heap v.3
  *	\see		\_MinchinWeb\_WBC\_
+ *	\see		\_MinchinWeb\_Lakes\_
  *	\see		\_MinchinWeb\_RoadPathfinder\_
  *	\todo		Add image showing how the Ship Pathfinder works
  *	\todo		**Inflection Point Check**: Run the pathfinder without WBC as
@@ -51,29 +52,10 @@
  *				pathfinder or invoke WBC.
  */
  
-/* 
- *		MinchinWeb.ShipPathfinder.InitializePath(source, goal)
- *									- is provided with a single source and
- *										single goal tile (but both are supplied
- *										as arrays)
- *								 .Info.GetVersion()
- *									  .GetRevision()
- *									  .GetDate()
- *									  .GetName()
- *								 .Cost.[xx]
- *								 .FindPath(iterations)
- *								 .LandHo(TileA, TileB) - move to Marine
- *								 .WaterHo(StartTile, Slope, ThirdQuadrant = false) - move to Marine
- *								 .GetPathLength()
- *								 .CountPathBuoys()
- *								 .BuildPathBuoys()
- *								 .GetPath()
- *								 .OverrideWBC()
- */
  
 class _MinchinWeb_ShipPathfinder_
 {
-	_heap_class = import("queue.fibonacci_heap", "", 2);
+	_heap_class = import("queue.fibonacci_heap", "", 3);
 	_WBC_class = _MinchinWeb_WBC_;		///< Class used to check if the two points are within the same waterbody
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
@@ -89,7 +71,7 @@ class _MinchinWeb_ShipPathfinder_
 	_points = null;					///< Used to store points considered by the pathfinder. Stored as TileIndexes
 	_paths = null;					///< Used to store the paths the pathfinder is working with. Stored as indexes to _points
 	_clearedpaths = null;			///< Used to store points pairs that have already been cleared (all water)
-	_UnfinishedPaths = null;		///< Used to sort in-progess paths
+	_UnfinishedPaths = null;		///< Used to sort in-progress paths
 	_FinishedPaths = null			///< Used to store finished paths
 	_testedpaths = null;
 	_mypath = null;					///< Used to store the path after it's been found for Building functions
@@ -178,6 +160,7 @@ class _MinchinWeb_ShipPathfinder_
 	 *	\param	ThirdQuadrant	Whether to follow the slope in the third or
 	 *							fourth quadrant.
 	 *	\todo	Add image showing the Cartesian quadrants.
+	 *	\todo	Move to \_MinchinWeb\_Marine\_
 	 *
 	 *	\return	The first water tile hit.
 	 *	\static
@@ -220,10 +203,10 @@ class _MinchinWeb_ShipPathfinder_
 class _MinchinWeb_ShipPathfinder_.Info {
 	_main = null;
 	
-	function GetVersion()       { return 4; }
+	function GetVersion()       { return 5; }
 //	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 240; }
-	function GetDate()          { return "2012-06-23"; }
+	function GetRevision()		{ return 140227; }
+	function GetDate()          { return "2014-02-27"; }
 	function GetName()          { return "Ship Pathfinder (Wm)"; }
 	
 	constructor(main)
