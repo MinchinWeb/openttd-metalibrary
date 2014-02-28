@@ -336,7 +336,7 @@ function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 				this._connections.append([]);
 				this._map.SetValue(myTileID, myArea);
 				this._group_tiles.append(AIList());
-				this._group_tiles[myArea].AddItem(myTileID, myArea);
+				this._group_tiles[myArea].AddItem(myTileID, myTileID);
 				
 				local offsets = [AIMap.GetTileIndex(0, 1), AIMap.GetTileIndex(0, -1),
 							 AIMap.GetTileIndex(1, 0), AIMap.GetTileIndex(-1, 0)];
@@ -474,7 +474,7 @@ function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
 		for (local k = 0; k < OnwardTiles.len(); k++) {
 			if (AIMarine.AreWaterTilesConnected(NextTile, OnwardTiles[k])) {
 				this._map.SetValue((OnwardTiles[k]), FromGroup);
-				this._group_tiles[FromGroup].AddItem(OnwardTiles[k], FromGroup);
+				this._group_tiles[FromGroup].AddItem(OnwardTiles[k], OnwardTiles[k]);
 				_MinchinWeb_Log_.Sign(OnwardTiles[k], "L" + FromGroup, 7);
 				foreach (offset in offsets) {
 					local next_tile = OnwardTiles[k] + offset;

@@ -370,6 +370,7 @@ function _MinchinWeb_Extras_::GetOpenTTDRevision() {
 function _MinchinWeb_Extras_::MinDistance(TileID, TargetArray) {
 	local MinDist = _MinchinWeb_C_.Infinity();
 	foreach (Target in TargetArray) {
+		//	note that with AIList's, Target is the `Value`, not the `Item`
 		MinDist = min(MinDist, AITile.GetDistanceManhattanToTile(TileID, Target));
 	}
 	return MinDist;
