@@ -25,6 +25,7 @@ require("Arrays.nut");
 require("Extras.nut");
 require("Constants.nut");
 require("Waterbody.Check.nut");
+require("Lakes.nut");
 require("Pathfinder.Ship.nut");
 require("Line.Walker.nut");
 require("Spiral.Walker.nut");
@@ -34,7 +35,7 @@ require("Log.nut");
 require("Dominion.Roads.nut");
 require("Industry.nut");
 require("Station.nut");
-require("Lakes.nut");
+
 
 /**	\brief	Main Library Class
  *

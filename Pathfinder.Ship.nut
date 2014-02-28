@@ -115,7 +115,7 @@ class _MinchinWeb_ShipPathfinder_
 	 *	\note	Assumes only one source and goal tile.
 	 */
 	function InitializePath(source, goal) {
-	//	Assumes only one source and goal tile...
+		//	Assumes only one source and goal tile...
 		this._points = [];
 		this._paths = [];
 		this._clearedpaths = [];
@@ -254,10 +254,8 @@ class _MinchinWeb_ShipPathfinder_.Cost {
 //	== Function definitions ================================================
 
 
-function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
-{
-//_MinchinWeb_Log_.Note("A",1);
-//	Waterbody Check
+function _MinchinWeb_ShipPathfinder_::FindPath(iterations) {
+	//	Waterbody Check
 	if (this._first_run == true) {
 		_MinchinWeb_Log_.Note("Ship Pathfinder running WaterBody Check... (at tick " + AIController.GetTick() + ")", 6);
 		if (this._first_run2 == true) {
@@ -272,6 +270,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 		}
 		if (iterations != -1) { return false; }
 	}
+	
 	_MinchinWeb_Log_.Note("Starting Ship Pathfinder (at tick " + AIController.GetTick() + ")", 7);
 	
 	if (iterations == -1) { iterations = _MinchinWeb_C_.Infinity() }	//  = 10000; close enough to infinity but able to avoid infinite loops?
@@ -309,8 +308,11 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 					local m = _MinchinWeb_Extras_.Perpendicular(_MinchinWeb_Extras_.Slope(this._points[this._paths[WorkingPath][i]], this._points[this._paths[WorkingPath][i+1]]));
 					local MidPoint = _MinchinWeb_Extras_.MidPoint(Land[0], Land[1]);
 					//	Check if Midpoint is on Water. If it is, add it and skip the right angle split
-					//	TO-DO: Midpoint should only be added if it's in the same Waterbody as the start and finish...
-					if ((AITile.IsWaterTile(MidPoint) == true) && ((Land[0] == -1) || (Land[1] == -1))) {
+					//	Midpoint should only be added if it's in the same Waterbody as the start and finish...
+					//	WBCOnMidPoint will only be true iff the point is a water tile
+					this._WBC.InitializePath([MidPoint], [this._points[0]]);
+					WBCOnMidPoint = this._WBC.FindPath(-1);
+					if ((WMCOnMidPoint == true) && ((Land[0] == -1) || (Land[1] == -1))) {
 						local WPPoints = this._paths[WorkingPath];
 						local NewPointZIndex = _InsertPoint(MidPoint);
 						_MinchinWeb_Log_.Sign(MidPoint, NewPointZIndex + "", 7);
@@ -324,73 +326,83 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 						local NewPoint2 = WaterHo(MidPoint, m, true);
 						local WPPoints = this._paths[WorkingPath];
 						if (NewPoint1 != null) {
-							local NewPoint1Index = _InsertPoint(NewPoint1);
-							_MinchinWeb_Log_.Sign(NewPoint1, NewPoint1Index + "", 7);
-							local WPPoints1 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint1Index);
-							
-							//	With the new point, check both forward and back to see if the
-							//		points both before and after the new midpoint to see if
-							//		they can be removed from the path (iff the resulting
-							//		segement would be only on the water)
-							if ( ((i+3) < WPPoints1.len()) && (LandHo(this._points[WPPoints1[i+1]], this._points[WPPoints1[i+3]])[0] == -1) ) {
-								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+2);
-							}
-							//	With the new point, check we're not putting the point in
-							//		twice in a row...
-							if ( ((i+2) < WPPoints1.len()) && (WPPoints1[i+1] == WPPoints1[i+2]) ) {
-								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+1);
-								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints1[i+1] + " i=" + i, 6);
-							} else {
-								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints1[i+1] + " " + WPPoints1[i+2] +  " i=" + i, 6);
-							}
-							if ( ((i-1) > 0) && (LandHo(this._points[WPPoints1[i-1]], this._points[WPPoints1[i+1]])[0] == -1)) {
-								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i);
-								i--;	//	For double point check
-							}
-							if ( (i > 0) && (WPPoints1[i+1] == WPPoints1[i]) ) {
-								WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+1);
-								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints1[i+1] + " i=" + i, 6);
-							} else {
-								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints1[i] + " " + WPPoints1[i+1] +  " i=" + i, 6);
-							}
-							//	Put both paths back into the UnfinishedPath heap
-							//		(assuming we haven't been down this path before...)
-							if (_MinchinWeb_Array_.ContainedIn1DIn2D(this._testedpaths, WPPoints1) != true) {
-								this._paths[WorkingPath] = WPPoints1;
-								_MinchinWeb_Log_.Note("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath), 6);
-								this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
+							//	only add the point if it's in the same waterbody
+							this._WBC.InitializePath([NewPoint1], [this._points[0]]);
+							local WBCOnPoint1 = this._WBC.FindPath(-1);
+							if (WMCOnPoint1 == true) {
+								local NewPoint1Index = _InsertPoint(NewPoint1);
+								_MinchinWeb_Log_.Sign(NewPoint1, NewPoint1Index + "", 7);
+								local WPPoints1 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint1Index);
+								
+								//	With the new point, check both forward and back to see if the
+								//		points both before and after the new midpoint to see if
+								//		they can be removed from the path (iff the resulting
+								//		segment would be only on the water)
+								if ( ((i+3) < WPPoints1.len()) && (LandHo(this._points[WPPoints1[i+1]], this._points[WPPoints1[i+3]])[0] == -1) ) {
+									WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+2);
+								}
+								//	With the new point, check we're not putting the point in
+								//		twice in a row...
+								if ( ((i+2) < WPPoints1.len()) && (WPPoints1[i+1] == WPPoints1[i+2]) ) {
+									WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+1);
+									_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints1[i+1] + " i=" + i, 6);
+								} else {
+									_MinchinWeb_Log_.Note("          Point Kept " + WPPoints1[i+1] + " " + WPPoints1[i+2] +  " i=" + i, 6);
+								}
+								if ( ((i-1) > 0) && (LandHo(this._points[WPPoints1[i-1]], this._points[WPPoints1[i+1]])[0] == -1)) {
+									WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i);
+									i--;	//	For double point check
+								}
+								if ( (i > 0) && (WPPoints1[i+1] == WPPoints1[i]) ) {
+									WPPoints1 = _MinchinWeb_Array_.RemoveValueAt(WPPoints1, i+1);
+									_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints1[i+1] + " i=" + i, 6);
+								} else {
+									_MinchinWeb_Log_.Note("          Point Kept " + WPPoints1[i] + " " + WPPoints1[i+1] +  " i=" + i, 6);
+								}
+								//	Put both paths back into the UnfinishedPath heap
+								//		(assuming we haven't been down this path before...)
+								if (_MinchinWeb_Array_.ContainedIn1DIn2D(this._testedpaths, WPPoints1) != true) {
+									this._paths[WorkingPath] = WPPoints1;
+									_MinchinWeb_Log_.Note("     Inserting Path #" + WorkingPath + " : " +  _MinchinWeb_Array_.ToString1D(this._paths[WorkingPath]) + " l=" + _PathLength(WorkingPath), 6);
+									this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
+								}
 							}
 						}
 						if (NewPoint2 != null) {
-							local NewPoint2Index = _InsertPoint(NewPoint2);
-							_MinchinWeb_Log_.Sign(NewPoint2, NewPoint2Index + "", 7);
-							local WPPoints2 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint2Index);
-							
-							if ( ((i+3) < WPPoints2.len()) && (LandHo(this._points[WPPoints2[i+1]], this._points[WPPoints2[i+3]])[0] == -1) ) {
-								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+2);		
-							}
-							if ( ((i+2) < WPPoints2.len()) && (WPPoints2[i+1] == WPPoints2[i+2]) ) {
-								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+1);
-								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints2[i+1] + " i=" + i, 6);
-							} else {
-								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints2[i+1] + " " + WPPoints2[i+2] +  " i=" + i, 6);
-							}
-							if ( ((i-1) > 0) && (LandHo(this._points[WPPoints2[i-1]], this._points[WPPoints2[i+1]])[0] == -1)) {
-								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i);	
-								i--;								
-							}
-							if ( (i > 0) && (WPPoints2[i+1] == WPPoints2[i]) ) {
-								WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+1);
-								_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints2[i+1] + " i=" + i, 6);
-							} else {
-								_MinchinWeb_Log_.Note("          Point Kept " + WPPoints2[i] + " " + WPPoints2[i+1] +  " i=" + i, 6);
-							}
-							//	Put the paths into the UnfinishedPath heap
-							//		(assuming we haven't been down this path before...)
-							if (_MinchinWeb_Array_.ContainedIn1DIn2D(this._testedpaths, WPPoints2) != true) {
-								this._paths.push(WPPoints2);
-								_MinchinWeb_Log_.Note("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MinchinWeb_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1), 5);
-								this._UnfinishedPaths.Insert(this._paths.len() - 1, _PathLength(this._paths.len() - 1));
+							//	only add the point if it's in the same waterbody
+							this._WBC.InitializePath([NewPoint2], [this._points[0]]);
+							local WBCOnPoint2 = this._WBC.FindPath(-1);
+							if (WMCOnPoint2 == true) {
+								local NewPoint2Index = _InsertPoint(NewPoint2);
+								_MinchinWeb_Log_.Sign(NewPoint2, NewPoint2Index + "", 7);
+								local WPPoints2 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint2Index);
+								
+								if ( ((i+3) < WPPoints2.len()) && (LandHo(this._points[WPPoints2[i+1]], this._points[WPPoints2[i+3]])[0] == -1) ) {
+									WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+2);		
+								}
+								if ( ((i+2) < WPPoints2.len()) && (WPPoints2[i+1] == WPPoints2[i+2]) ) {
+									WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+1);
+									_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints2[i+1] + " i=" + i, 6);
+								} else {
+									_MinchinWeb_Log_.Note("          Point Kept " + WPPoints2[i+1] + " " + WPPoints2[i+2] +  " i=" + i, 6);
+								}
+								if ( ((i-1) > 0) && (LandHo(this._points[WPPoints2[i-1]], this._points[WPPoints2[i+1]])[0] == -1)) {
+									WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i);	
+									i--;								
+								}
+								if ( (i > 0) && (WPPoints2[i+1] == WPPoints2[i]) ) {
+									WPPoints2 = _MinchinWeb_Array_.RemoveValueAt(WPPoints2, i+1);
+									_MinchinWeb_Log_.Note("          Point Removed! " + WPPoints2[i+1] + " i=" + i, 6);
+								} else {
+									_MinchinWeb_Log_.Note("          Point Kept " + WPPoints2[i] + " " + WPPoints2[i+1] +  " i=" + i, 6);
+								}
+								//	Put the paths into the UnfinishedPath heap
+								//		(assuming we haven't been down this path before...)
+								if (_MinchinWeb_Array_.ContainedIn1DIn2D(this._testedpaths, WPPoints2) != true) {
+									this._paths.push(WPPoints2);
+									_MinchinWeb_Log_.Note("     Inserting Path #" + (this._paths.len() - 1) + " : " +  _MinchinWeb_Array_.ToString1D(WPPoints2) + " l=" + _PathLength(this._paths.len() - 1), 5);
+									this._UnfinishedPaths.Insert(this._paths.len() - 1, _PathLength(this._paths.len() - 1));
+								}
 							}
 						}
 					}	// End  of if MidPoint is on Water
