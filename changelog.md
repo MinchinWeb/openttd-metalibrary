@@ -1,6 +1,29 @@
 Changelog
 ===============================================================================
 
+Version 7                                                                 {#v7}
+===============================================================================
+Released 2014-02-28
+
+- Added Lakes as a replacement for WaterBodyCheck
+- Ship Pathfinder now uses Lakes rather than WaterBodyCheck
+- Ship Pathfinder now makes sure every point is in the same waterbody before
+    adding it to the path
+- WaterBodyCheck is now deprecated
+- Documentation for MetaLibrary is now online at
+    [Minchin.ca](http://minchin.ca/openttd-metalibrary)
+- Fix array creation bugs in Array.Create2D(), Array.Create3D()
+- Added Array.RemoveDuplicates(Array)
+- Added Array.ToAIList(Array)
+- Added Extras.MinDistance(TileID, TargetArray); can be used as a valuator
+- Split Constants from Extras (file only, function access remains the same)
+- Split Industry from Extras (file only, function access remains the same)
+- Split Station from Extras (file only, function access remains the same)
+- Bumped maximum Log `Debug_Level` to 8
+- Added separate Changelog file
+- Rename `Readme.txt` to `Readme.md`
+- Update requirement to Fibonacci Heap, v.3
+
 Version 6                                                                 {#v6}
 ===============================================================================
 Released 2012-12-31

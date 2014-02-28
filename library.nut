@@ -22,9 +22,9 @@ class MinchinWeb extends AILibrary {
 	function GetAuthor()      { return "W. Minchin"; }
 	function GetName()        { return "MinchinWeb"; }
 	function GetShortName()   { return "LMmW"; }	//	William's MetaLibrary
-	function GetDescription() { return "Minchinweb's MetaLibrary for AI development. See the minchin.ca/openttd-metalibrary/ for included functions. (v.7, 2014-02-27)"; }
+	function GetDescription() { return "Minchinweb's MetaLibrary for AI development. See the minchin.ca/openttd-metalibrary/ for included functions. (v.7, 2014-02-28)"; }
 	function GetVersion()     { return 7; }
-	function GetDate()        { return "2014-02-27"; }
+	function GetDate()        { return "2014-02-28"; }
 	function CreateInstance() { return "MinchinWeb"; }
 	function GetCategory()    { return "Util"; }
 //	function GetURL()		  { return "http://www.tt-forums.net/viewtopic.php?f=65&t=57903"; }
@@ -35,4 +35,4 @@ class MinchinWeb extends AILibrary {
 RegisterLibrary(MinchinWeb());
 
 //	requires AyStar v6
-//	requires Fibonacci Heap v2
+//	requires Fibonacci Heap v3

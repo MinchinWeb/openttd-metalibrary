@@ -46,21 +46,33 @@ Sub-Libraries Available                                         {#sublibraries}
     - Waterbody Check - in effect a specialized pathfinder. It serves to check
       whether two points are in the same waterbody (i.e. a ship could travel
 	  between them). It is optimized to run extremely fast (I hope!). It can be
-	  called seperately, but was originally designed as a pre-run check for my
+	  called separately, but was originally designed as a pre-run check for my
 	  Ship Pathfinder.
 
 Changelog
 ===============================================================================
-### Version 6
+### Version 7
 
-Released 2012-12-31
+Released 2014-02-28
 
-- Added Dominion Land System (DLS) which allows for grid based pathfinding
-- Update license statement
-- Moved source code to
-    [GitHub](https://github.com/MinchinWeb/openttd-metalibrary/) and
-	updated URL's
-- Road Pathfinder no longer chokes if a bridge doesn't have a parent path
+- Added Lakes as a replacement for WaterBodyCheck
+- Ship Pathfinder now uses Lakes rather than WaterBodyCheck
+- Ship Pathfinder now makes sure every point is in the same waterbody before
+    adding it to the path
+- WaterBodyCheck is now deprecated
+- Documentation for MetaLibrary is now online at
+    [Minchin.ca](http://minchin.ca/openttd-metalibrary)
+- Fix array creation bugs in Array.Create2D(), Array.Create3D()
+- Added Array.RemoveDuplicates(Array)
+- Added Array.ToAIList(Array)
+- Added Extras.MinDistance(TileID, TargetArray); can be used as a valuator
+- Split Constants from Extras (file only, function access remains the same)
+- Split Industry from Extras (file only, function access remains the same)
+- Split Station from Extras (file only, function access remains the same)
+- Bumped maximum Log `Debug_Level` to 8
+- Added separate Changelog file
+- Rename `Readme.txt` to `Readme.md`
+- Update requirement to Fibonacci Heap, v.3
 
 Read the complete [Changelog](md_openttd-metalibrary_changelog.html).
 
@@ -76,7 +88,7 @@ If you want to manually install it, download the folder and place it in your
 For you to use the library in your AI's you'll need to import it. Somewhere
 outside of any other class or function, add an import statement like:
 
-	Import("util.MinchinWeb", "MinchinWeb", 6);
+	Import("util.MinchinWeb", "MinchinWeb", 7);
 
 Requirements                                                    {#requirements}
 ===============================================================================
@@ -86,11 +98,12 @@ automatically be downloaded and installed. Otherwise, you'll need the
 following libraries:
 
 - [Binary Heap], v.1    (`Queue.BinaryHeap-1.tar`)  
-- Fibonacci Heap, v.2   (`Queue.FibonacciHeap-2.tar`)  (no link available)
+- [Fibonacci Heap], v.3 (`Queue.FibonacciHeap-3.tar`)
 - [Graph.AyStar], v.6   (`Graph.AyStar-6.tar`)
 
 [Binary Heap]: http://binaries.openttd.org/bananas/ailibrary/Queue.BinaryHeap-1.tar.gz
 [Graph.AyStar]: http://binaries.openttd.org/bananas/ailibrary/Graph.AyStar-6.tar.gz
+[Fibonacci Heap]: http://binaries.openttd.org/bananas/ailibrary/Queue.FibonacciHeap-3.tar.gz
 
 OpenTTD is able to read uncompressed `tar` files without any problem.
 
@@ -141,7 +154,7 @@ A grand 'Thank You' to Zuu for his SuperLib that provided a very useful
 License                                                              {#license}
 ===============================================================================
 
-**Minchinweb's MetaLibrary** v.6 [2012-12-31]
+**Minchinweb's MetaLibrary** v.7 [2017-02-28]
 
 Copyright © 2011-14 by W. Minchin.
 For more info,
@@ -173,7 +186,6 @@ Notes To Me                                                            {#notes}
 ===============================================================================
 \todo		Notes about static classes, what they are, and which classes
 			are 'static'
-\todo		Update to Fibonacci Heap, v.3
 \todo		Consider Fibonacci Heap version in NoCAB
 \todo		Add picture of in game downloader
 \todo		Look into theming dOxygen output
