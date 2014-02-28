@@ -1,12 +1,12 @@
-﻿/*	Array SubLibrary, v.4 [2012-12-24],
- *		part of Minchinweb's MetaLibrary v.6,
+﻿/*	Array SubLibrary, v.5 [2014-02-20],
+ *		part of Minchinweb's MetaLibrary v.7,
  *		originally part of WmDOT v.5  r.53d	[2011-04-09]
  *			and WmArray library v.1  r.1 [2011-02-13].
  *	Copyright © 2011-12 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
- *	distribute, sublincense, and/or sell this software, and provide these 
+ *	distribute, sublicense, and/or sell this software, and provide these 
  *	rights to others, provided:
  *
  *	+ The above copyright notice and this permission notice shall be included
@@ -17,7 +17,7 @@
  */
 
 /**	\brief		Arrays
- *	\version	v.4 (2012-12-24)
+ *	\version	v.5 (2014-02-20)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.6
  *
@@ -25,27 +25,6 @@
  *	\note	While Arrays are powerful, also consider using AIList.
  */
  
-/*	Provided functions:
- *		MinchinWeb.Array.Create1D(length)
- *						.Create2D(length, width)
- *						.Create3D(length, width, height)
- *						.ToString1D(InArray)
- *						.ToString2D(InArray)
- *						.ContainedIn1D(InArray, SearchValue)
- *						.ContainedIn2D(InArray, SearchValue)
- *						.ContainedIn3D(InArray, SearchValue)
- *					 	.ContainedIn1DIn2D(InArray2D, SearchArray1D)
- *						.Find1D(InArray, SearchValue)
- *					 	.Find2D(InArray, SearchValue)
- *						.Find3D(InArray, SearchValue)
- *						.RemoveValueAt(InArray, Index)
- *						.InsertValueAt(InArray, Index, Value)
- *						.ToStringTiles1D(InArrayOfTiles, ArrayLength = false)
- *						.FindPairs(InArray2D, SearchValue1, SearchValue2)
- *						.ContainedInPairs(InArray2D, SearchValue1, SearchValue2)
- *						.Compare1D(InArray1D, TestArray1D)
- *						.Append(Array1, Array2)
- */
  
 class _MinchinWeb_Array_ {
 	main = null;
@@ -98,21 +77,25 @@ class _MinchinWeb_Array_ {
 	 *	\todo	Add error check that an array is provided
 	 *	\static
 	 */
-	function ToString1D(InArray);
+	function ToString1D(InArray, DisplayLength = true, replaceNull = false);
 
 	/**	\brief	Converts a one dimensional array to a nice string format.
 	 *
 	 *	This function was created to aid in the output of arrays to the AI
 	 *	debug screen.
 	 *	\param	InArray		two dimensional (2-D) array
+	 *	\paran	DisplayLength	whether to prefix the output with the length
+	 *							of the array
+	 *	\param	replaceNull		whether the replace 'null' values with '-'
 	 *	\return	string version of array.
 	 *			e.g. `The array is 2 long.  3  4  /  5  6`. `null` if `InArray`
 	 *			is `null`.
 	 *	\see	ToString1D()
+	 *	\see	ToStringTiles2D()
 	 *	\todo	Add error check that a 2D array is provided
 	 *	\static
 	 */
-	function ToString2D(InArray);
+	function ToString2D(InArray, DisplayLength = true);
 
 	/**	\brief	Searches an array for a given value.
 	 *
@@ -259,13 +242,33 @@ class _MinchinWeb_Array_ {
 	 *	\param	InArrayOfTiles		one dimensional (1-D) array of Tiles
 	 *	\param	ArrayLength	(`true` or `false`) whether to print the prefix
 	 *						noting the length of the array. Default is `false`.
-	 *						`null` if `InArrayOfTiles` is `null`.
-	 *	\return	string version of array. e.g. `The array is 3 long.  12,45  62,52  59,10`
+	 *	\return	string version of array. e.g. `The array is 3 long.  12,45  62,52  59,10`.
+	 *			`null` if `InArrayOfTiles` is `null`.
 	 *	\see	ToString1D()
+	 *	\see	ToStringTiles2D()
 	 *	\todo	Add error check that an array is provided
+	 *	\todo	Add a better error message if you try and feed it not a 1-D array
 	 *	\static
 	 */
 	function ToStringTiles1D(InArrayOfTiles, ArrayLength = false);
+	
+	/**	\brief	Converts a one dimensional array of tiles to a nice string format.
+	 *
+	 *	This function was created to aid in the output of arrays of tiles to the
+	 *	AI debug screen.
+	 *	\param	InArrayOfTiles		two dimensional (2-D) array of Tiles
+	 *	\param	ArrayLength	(`true` or `false`) whether to print the prefix
+	 *						noting the length of the array. Default is `false`.
+
+	 *	\return	string version of array. e.g. `The array is 3 long.  12,45  62,52  59,10`.
+	 *			`null` if `InArrayOfTiles` is `null`.
+	 *	\see	ToString2D()
+	 *	\see	ToStringTiles1D()
+	 *	\todo	Add error check that an array is provided
+	 *	\todo	Add a better error message if you try and feed it not a 2-D array
+	 *	\static
+	 */
+	function ToStringTiles2D(InArrayOfTiles, ArrayLength = false);
 
 	/**	\brief	Searches an array for a given pair of values.
 	 *
@@ -319,40 +322,57 @@ class _MinchinWeb_Array_ {
 	/**	\brief	Appends one array to another.
 	 *	\param	Array1	the first array
 	 *	\param	Array2	the second array
-	 *	\return	An array that has `Array2` appended to the end of `Array1`
+	 *	\return	An array that the items has `Array2` appended to the end of the
+	 *			items of `Array1`
 	 *	\static
+	 *	\note	Consider using Squirrel's built-in function:
+	 *			`MyArray.append(Item)` to append individual items to an array
 	 */
 	function Append(Array1, Array2);
+	
+	/**	\brief	Removes duplicates from an array.
+	 *
+	 *	The item is maintain at its first location and removed at all others.
+	 *	\param	Array	array to remove duplicates from
+	 *	\return	An array minus the duplicate items.
+	 *	\todo	Add error check that an array is provided.
+	 *	\static
+	 */
+	function RemoveDuplicates(Array);
+	
+	/**	\brief	Turns an Array in an AIList
+	 *	\todo	Add error check that an array is provided.
+	 *	\return	An AIList with the contents of the Array
+	 *	\static
+	 */
+	function ToAIList(Array);
 };
 
 //	== Function definitions ==================================================
 
 function _MinchinWeb_Array_::Create2D(length, width) {
-	local ReturnArray = [length];
-	local tempArray = [width];
+	local ReturnArray = array(length);
+	local tempArray = array(width);
 	for (local i=0; i < length; i++) {
-		ReturnArray[i] = tempArray;
+		ReturnArray[i] = array(width);
 	}
 	return ReturnArray;
 }
 
 function _MinchinWeb_Array_::Create3D(length, width, height) {
-	local ReturnArray = [length];
-	local tempArray = [width];
-	local tempArray2 = [height];
-	
-	for (local i=0; i < width; i++) {
-		tempArray[i] = tempArray2;
-	}
+	local ReturnArray = array(length);
 	
 	for (local i=0; i < length; i++) {
-		ReturnArray[i] = tempArray;
+		ReturnArray[i] = array(width)
+		for (local j=0; j < width; j++) {
+			ReturnArray[i][j] = array(height);
+		}
 	}
 	
 	return ReturnArray;
 }
 
-function _MinchinWeb_Array_::ToString1D(InArray) {
+function _MinchinWeb_Array_::ToString1D(InArray, DisplayLength = true, replaceNull = false) {
 	if (InArray == null) {
 		return null;
 	} else {
@@ -360,14 +380,21 @@ function _MinchinWeb_Array_::ToString1D(InArray) {
 		local i = 0;
 		local Temp = "";
 		while (i < InArray.len() ) {
-			Temp = Temp + "  " + InArray[i];
+			if ((replaceNull == true) && (InArray[i] == null)) {
+				Temp = Temp + "-" + "  ";
+			} else {
+				Temp = Temp + InArray[i] + "  ";
+			}
 			i++;
 		}
-		return ("The array is " + Length + " long.  " + Temp + " ");
+		if (DisplayLength == true) {
+			Temp = "The array is " + Length + " long.  " + Temp;
+		}
+		return (Temp);
 	}
 }
 
-function _MinchinWeb_Array_::ToString2D(InArray) {
+function _MinchinWeb_Array_::ToString2D(InArray, DisplayLength = true) {
 	if (InArray == null) {
 		return null;
 	} else {
@@ -377,16 +404,23 @@ function _MinchinWeb_Array_::ToString2D(InArray) {
 		while (i < InArray.len() ) {
 			local InnerArray = [];
 			InnerArray = InArray[i];
-			local InnerLength = InnerArray.len();
 			local j = 0;
 			while (j < InnerArray.len() ) {
-				Temp = Temp + "  " + InnerArray[j];
+				Temp = Temp + InnerArray[j] + "  ";
 				j++;
 			}
-			Temp = Temp + "  /  ";
+			Temp = Temp + "/  ";
 			i++;
 		}
-		return ("The array is " + Length + " long." + Temp + " ");
+		//	get rid of last slash
+		if (Temp.len() > 3) {
+			Temp = Temp.slice(0, Temp.len() - 3);
+		}
+		
+		if (DisplayLength == true) {
+			Temp = "The array is " + Length + " long.  " + Temp;
+		}
+		return (Temp);
 	}
 }
 
@@ -524,17 +558,42 @@ function _MinchinWeb_Array_::ToStringTiles1D(InArrayOfTiles, ArrayLength = false
 		return null;
 	} else {
 		local Length = InArrayOfTiles.len();
+		local Temp = "";
+		foreach (Tile in InArrayOfTiles) {
+			Temp = Temp + "  " + AIMap.GetTileX(Tile) + "," + AIMap.GetTileY(Tile);
+		}
+		if (ArrayLength == true) {
+			Temp = "The array is " + Length + " long.  " + Temp;
+		}
+		return Temp;
+	}
+}
+
+function _MinchinWeb_Array_::ToStringTiles2D(InArrayOfTiles, ArrayLength = false) {
+	if (InArrayOfTiles == null) {
+		return null;
+	} else {
+		local Length = InArrayOfTiles.len();
 		local i = 0;
 		local Temp = "";
 		while (i < InArrayOfTiles.len() ) {
-			Temp = Temp + "  " + AIMap.GetTileX(InArrayOfTiles[i]) + "," + AIMap.GetTileY(InArrayOfTiles[i]);
+			local InnerArray = [];
+			InnerArray = InArrayOfTiles[i];
+			local j = 0;
+			while (j < InnerArray.len() ) {
+				Temp = Temp + AIMap.GetTileX(InnerArray[j]) + "," + AIMap.GetTileY(InnerArray[j]) + "  ";
+				j++;
+			}
+			Temp = Temp + "/  ";
 			i++;
 		}
+		//	get rid of last slash
+		Temp = Temp.slice(0, Temp.len() - 3);
+		
 		if (ArrayLength == true) {
-			return ("The array is " + Length + " long.  " + Temp + " ");
-		} else {
-			return Temp;
+			Temp = "The array is " + Length + " long.  " + Temp;
 		}
+		return (Temp);
 	}
 }
 
@@ -603,13 +662,34 @@ function _MinchinWeb_Array_::Compare1D(InArray1D, TestArray1D) {
 
 function _MinchinWeb_Array_::Append(Array1, Array2) {
 	local ReturnArray = [];
-	for (local i=0; i < Array1.len() - 1; i++) {
+	for (local i=0; i < Array1.len(); i++) {
 		ReturnArray.push(Array1[i]);
 	}
-	for (local i=0; i < Array2.len() - 1; i++) {
+	for (local i=0; i < Array2.len(); i++) {
 		ReturnArray.push(Array2[i]);
 	}
 
 	return ReturnArray;
+}
+
+function _MinchinWeb_Array_::RemoveDuplicates(Array) {
+	local ReturnArray = Array;
+	for (local i=0; i < ReturnArray.len(); i++) {
+		for (local j=i+1; j < ReturnArray.len(); j++) {
+			if (ReturnArray[i] == ReturnArray[j]) {
+				ReturnArray = _MinchinWeb_Array_.RemoveValueAt(ReturnArray, j);
+				j--;
+			}
+		}
+	}
+	return ReturnArray;
+}
+
+function _MinchinWeb_Array_::ToAIList(Array) {
+	local list = AIList();
+	foreach (item in Array) {
+		list.AddItem(item, 0);
+	}
+	return list;
 }
 // EOF

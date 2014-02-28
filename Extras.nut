@@ -1,6 +1,5 @@
-﻿/*	Extra functions v.5 r.253 [2012-07-01],
- *		part of Minchinweb's MetaLibrary v.6,
- *		originally part of WmDOT v.10
+﻿/*	Extra functions v.6 [2014-02-26],
+ *		part of Minchinweb's MetaLibrary v.7
  *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
@@ -19,29 +18,7 @@
  
 /*	These are 'random' functions that didn't seem to fit well elsewhere.
  *
- *	Functions provided:
- *		MinchinWeb.Extras.SignLocation(text)
- *						 .MidPoint(TileA, TileB)
- *						 .Perpendicular(SlopeIn)
- *						 .Slope(TileA, TileB)
- *						 .Within(Bound1, Bound2, Value)
- *						 .WithinFloat(Bound1, Bound2, Value)
- *						 .MinAbsFloat(Value1, Value2)
- *						 .MaxAbsFloat(Value1, Value2)
- *						 .AbsFloat(Value)
- *						 .Sign(Value)
- *						 .MinFloat(Value1, Value2)
- *						 .MaxFloat(Value1, Value2)
- *						 .MinAbsFloatKeepSign(Value1, Value2)
- *						 .MaxAbsFloatKeepSign(Value1, Value2)
- *						 .NextCardinalTile(StartTile, TowardsTile)
- *							- Given a StartTile and a TowardsTile, will given
- *								the tile immediately next(Manhattan Distance == 1)
- *								to StartTile that is closest to TowardsTile
- *						 .GetOpenTTDRevision()
- *							-Returns the revision number of the current build of OpenTTD
- *
- *	//	Comparison functions will return the first value if the two are equal
+ *	Comparison functions will return the first value if the two are equal
  */
 
 /**	\brief		Extra functions
@@ -212,6 +189,19 @@ class _MinchinWeb_Extras_ {
 	 *	\static
 	 */
 	function GetOpenTTDRevision();
+	
+	/**	\brief	Get the minimum distance between TileID and any of the tiles
+	 *			in TargetArray
+	 *	\note	This is designed such that it can be run as a validator on an
+	 *			AIList of tiles
+	 *	\param	TileID		Tile we measure distance from
+	 *	\param	TargetArray	An array to tiles that we want to measure distance
+	 *						to. This can also be an AIList where the items are
+	 *						tiles.
+	 *	\return	the minimum distance between TileID and any of the TargetArray
+	 *	\note	Distance is measured using Manhattan Distances
+	 */
+	function MinDistance(TileID, TargetArray);
 };
 
 //	== Function definitions =================================================
@@ -375,5 +365,13 @@ function _MinchinWeb_Extras_::GetOpenTTDRevision() {
 	local Version = AIController.GetVersion();
 	local Revision = Version & 0x0007FFFF;
 	return Revision;
+}
+
+function _MinchinWeb_Extras_::MinDistance(TileID, TargetArray) {
+	local MinDist = _MinchinWeb_C_.Infinity();
+	foreach (Target in TargetArray) {
+		MinDist = min(MinDist, AITile.GetDistanceManhattanToTile(TileID, Target));
+	}
+	return MinDist;
 }
 // EOF

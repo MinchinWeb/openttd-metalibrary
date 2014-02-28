@@ -1,10 +1,10 @@
-﻿/*	Minchinweb's MetaLibrary v.6 [2012-12-31],  
+﻿/*	Minchinweb's MetaLibrary v.7 [2014-02-27],  
  *		originally part of, WmDOT v.10
  *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
- *	distribute, sublincense, and/or sell this software, and provide these 
+ *	distribute, sublicense, and/or sell this software, and provide these 
  *	rights to others, provided:
  *
  *	+ The above copyright notice and this permission notice shall be included
@@ -34,6 +34,7 @@ require("Log.nut");
 require("Dominion.Roads.nut");
 require("Industry.nut");
 require("Station.nut");
+require("Lakes.nut");
 
 /**	\brief	Main Library Class
  *
@@ -53,6 +54,7 @@ require("Station.nut");
  *	-	`%MinchinWeb.Constants` <- \_MinchinWeb\_C\_
  *	-	`%MinchinWeb.DLS` <- \_MinchinWeb\_DLS\_
  *	-	`%MinchinWeb.Extras` <- \_MinchinWeb\_Extras\_
+ *	-	`%MinchinWeb.Lakes` <- \_MinchinWeb\_Lakes\_
  *	-	`%MinchinWeb.LineWalker` <- \_MinchinWeb\_LW\_
  *	-	`%MinchinWeb.Log` <- \_MinchinWeb\_Log\_
  *	-	`%MinchinWeb.Industry` <- \_MinchinWeb\_Industry\_
@@ -66,9 +68,9 @@ require("Station.nut");
 class MinchinWeb {
 	/**	\publicsection
 	 */
-	function GetVersion()       { return 6; }
-	function GetRevision()		{ return 140131; }
-	function GetDate()          { return "2014-01-31"; }
+	function GetVersion()       { return 7; }
+	function GetRevision()		{ return 140227; }
+	function GetDate()          { return "2014-02-27"; }
 	function GetName()          { return "MinchinWeb's MetaLibrary"; }
 
 	static RoadPathfinder = _MinchinWeb_RoadPathfinder_;
@@ -114,6 +116,9 @@ class MinchinWeb {
 	static DLS = _MinchinWeb_DLS_;
 	///<	\see	\_MinchinWeb\_DLS\_
 	// in Dominion.Roads.nut
+	
+	static Lakes = _MinchinWeb_Lakes_;
+	///<	\see	\_MInchinWeb\_Lakes\_
 };
 // EOF
 

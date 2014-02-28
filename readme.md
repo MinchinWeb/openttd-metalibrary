@@ -148,7 +148,7 @@ For more info,
 	please visit <https://github.com/MinchinWeb/openttd-metalibrary>
 
 Permission is granted to you to use, copy, modify, merge, publish, 
-distribute, sublincense, and/or sell this software, and provide these 
+distribute, sublicense, and/or sell this software, and provide these 
 rights to others, provided:
 
 - The above copyright notice and this permission notice shall be included
@@ -176,3 +176,5 @@ Notes To Me                                                            {#notes}
 \todo		Update to Fibonacci Heap, v.3
 \todo		Consider Fibonacci Heap version in NoCAB
 \todo		Add picture of in game downloader
+\todo		Look into theming dOxygen output
+\todo		Add 'News' tab pointing back to my Blog updates on MetaLibrary
