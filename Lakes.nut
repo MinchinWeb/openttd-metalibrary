@@ -306,7 +306,7 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 			this._running = false;
 			return null;
 		}
-		_MinchinWeb_Log_.Note("B -- " + (AIController.GetTick() - tick) + " ticks.", 0);
+		_MinchinWeb_Log_.Note("B -- " + (AIController.GetTick() - tick) + " ticks.", 8);
 	}
 	
 	//	ran out of loops, we're still running
@@ -382,7 +382,7 @@ function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 				}
 
 				_MinchinWeb_Log_.Note(myArea + " : " + _MinchinWeb_Array_.ToStringTiles2D(this._open_neighbours[myArea], false), 7);
-				_MinchinWeb_Log_.Sign(myTileID, "L" + myArea, 7);
+				_MinchinWeb_Log_.Sign(myTileID, "L" + myArea, 8);
 				return myArea;
 			} else {
 				//	land tile
@@ -485,7 +485,7 @@ function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
 			if (AIMarine.AreWaterTilesConnected(NextTile, OnwardTiles[k])) {
 				this._map.SetValue((OnwardTiles[k]), FromGroup);
 				this._group_tiles[FromGroup].AddItem(OnwardTiles[k], OnwardTiles[k]);
-				_MinchinWeb_Log_.Sign(OnwardTiles[k], "L" + FromGroup, 7);
+				_MinchinWeb_Log_.Sign(OnwardTiles[k], "L" + FromGroup, 8);
 				foreach (offset in offsets) {
 					local next_tile = OnwardTiles[k] + offset;
 					if (AIMarine.AreWaterTilesConnected(OnwardTiles[k], next_tile) && (this._map.GetValue(next_tile) != this._map.GetValue(OnwardTiles[k]))) {

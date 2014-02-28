@@ -1,4 +1,4 @@
-﻿/*	ShipPathfinder v.5, [2014-02-27],
+﻿/*	ShipPathfinder v.5, [2014-02-28],
  *		part of Minchinweb's MetaLibrary v.7,
  *		originally part of WmDOT v.7
  *	Copyright © 2011-14 by W. Minchin. For more info,
@@ -16,7 +16,7 @@
  */
  
 /**	\brief		A Ship Pathfinder.
- *	\version	v.5 (2014-02-27)
+ *	\version	v.5 (2014-02-28)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.2
  *
@@ -210,8 +210,8 @@ class _MinchinWeb_ShipPathfinder_.Info {
 	
 	function GetVersion()       { return 5; }
 //	function GetMinorVersion()	{ return 0; }
-	function GetRevision()		{ return 140227; }
-	function GetDate()          { return "2014-02-27"; }
+	function GetRevision()		{ return 140228; }
+	function GetDate()          { return "2014-02-28"; }
 	function GetName()          { return "Ship Pathfinder (Wm)"; }
 	
 	constructor(main)
