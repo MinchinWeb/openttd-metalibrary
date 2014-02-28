@@ -311,8 +311,8 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations) {
 					//	Midpoint should only be added if it's in the same Waterbody as the start and finish...
 					//	WBCOnMidPoint will only be true iff the point is a water tile
 					this._WBC.InitializePath([MidPoint], [this._points[0]]);
-					WBCOnMidPoint = this._WBC.FindPath(-1);
-					if ((WMCOnMidPoint == true) && ((Land[0] == -1) || (Land[1] == -1))) {
+					local WBCOnMidPoint = this._WBC.FindPath(-1);
+					if ((WBCOnMidPoint == true) && ((Land[0] == -1) || (Land[1] == -1))) {
 						local WPPoints = this._paths[WorkingPath];
 						local NewPointZIndex = _InsertPoint(MidPoint);
 						_MinchinWeb_Log_.Sign(MidPoint, NewPointZIndex + "", 7);
@@ -329,7 +329,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations) {
 							//	only add the point if it's in the same waterbody
 							this._WBC.InitializePath([NewPoint1], [this._points[0]]);
 							local WBCOnPoint1 = this._WBC.FindPath(-1);
-							if (WMCOnPoint1 == true) {
+							if (WBCOnPoint1 == true) {
 								local NewPoint1Index = _InsertPoint(NewPoint1);
 								_MinchinWeb_Log_.Sign(NewPoint1, NewPoint1Index + "", 7);
 								local WPPoints1 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint1Index);
@@ -372,7 +372,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations) {
 							//	only add the point if it's in the same waterbody
 							this._WBC.InitializePath([NewPoint2], [this._points[0]]);
 							local WBCOnPoint2 = this._WBC.FindPath(-1);
-							if (WMCOnPoint2 == true) {
+							if (WBCOnPoint2 == true) {
 								local NewPoint2Index = _InsertPoint(NewPoint2);
 								_MinchinWeb_Log_.Sign(NewPoint2, NewPoint2Index + "", 7);
 								local WPPoints2 = _MinchinWeb_Array_.InsertValueAt(WPPoints, i+1, NewPoint2Index);
