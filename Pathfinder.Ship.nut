@@ -41,6 +41,9 @@
  *	to the whole pathfinder. One the plus side, building the path is very
  *	simple: just build buoys at each point along the path!
  *
+ *	\note		\_MinchinWeb\_WBC\_ has been depreciated in favour of
+ *				\_MinchinWeb\_Lakes\_.
+ *
  *	\requires	Fibonacci Heap v.3
  *	\see		\_MinchinWeb\_WBC\_
  *	\see		\_MinchinWeb\_Lakes\_
@@ -56,7 +59,8 @@
 class _MinchinWeb_ShipPathfinder_
 {
 	_heap_class = import("queue.fibonacci_heap", "", 3);
-	_WBC_class = _MinchinWeb_WBC_;		///< Class used to check if the two points are within the same waterbody
+	_WBC_class = _MinchinWeb_Lakes_;		///< Class used to check if the two points are within the same waterbody
+	_WBC = null;					///< actual instance of class used to check if the points are within the same waterbody
 	_max_cost = null;              ///< The maximum cost for a route.
 	_cost_tile = null;             ///< The cost for a single tile.
 	_cost_turn = null;             ///< The cost that is added to _cost_tile if the direction changes.
@@ -93,6 +97,7 @@ class _MinchinWeb_ShipPathfinder_
 		this._testedpaths = [];
 		this._UnfinishedPaths = this._heap_class();
 		this._FinishedPaths = this._heap_class();
+		this._WBC = this._WBC_class();
 		
 		this._mypath = null;
 		this._running = false;
@@ -258,13 +263,11 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations)
 //	Waterbody Check
 	if (this._first_run == true) {
 		_MinchinWeb_Log_.Note("Ship Pathfinder running WaterBody Check... (at tick " + AIController.GetTick() + ")", 6);
-		local WBC;
 		if (this._first_run2 == true) {
-			WBC = this._WBC_class();
-			WBC.InitializePath([this._points[this._paths[0][0]]], [this._points[this._paths[0][1]]]);
+			this._WBC.InitializePath([this._points[this._paths[0][0]]], [this._points[this._paths[0][1]]]);
 			this._first_run2 = false;
 		}
-		local SameWaterBody = WBC.FindPath(iterations);
+		local SameWaterBody = this._WBC.FindPath(iterations);
 		if ((SameWaterBody == false) || (SameWaterBody == null)) {
 			return SameWaterBody;
 		} else {
