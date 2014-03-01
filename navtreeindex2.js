@@ -1,0 +1,23 @@
+var NAVTREEINDEX2 =
+{
+"main_8nut.html#a8a82b23f37e9f1d35b0041668e5c02a0":[4,0,10,9],
+"main_8nut.html#a9cd288420f6916d6f80ef220806cd3ae":[4,0,10,2],
+"main_8nut.html#aa04defbef7742f7a640e7e4fc8d7dfc8":[4,0,10,11],
+"main_8nut.html#aa38b58fc3bb89108dea9b9730a2042aa":[4,0,10,13],
+"main_8nut.html#aafe13e3cc280473e8ddab5f1c54d1501":[4,0,10,7],
+"main_8nut.html#ad34f5160e2f5f9d683025025eb740b00":[4,0,10,14],
+"main_8nut.html#ae23a9cf2cdd0002ed24d413cc8cbcef9":[4,0,10,5],
+"main_8nut.html#aef3cb651b4484b24f17a6f0572961f20":[4,0,10,3],
+"main_8nut.html#af20c0ce9549502520f1ddc60cb4a8881":[4,0,10,12],
+"main_8nut_source.html":[4,0,10],
+"md_openttd-metalibrary_changelog.html":[1],
+"md_openttd-metalibrary_changelog.html#v1":[1,6],
+"md_openttd-metalibrary_changelog.html#v2":[1,5],
+"md_openttd-metalibrary_changelog.html#v3":[1,4],
+"md_openttd-metalibrary_changelog.html#v4":[1,3],
+"md_openttd-metalibrary_changelog.html#v5":[1,2],
+"md_openttd-metalibrary_changelog.html#v6":[1,1],
+"md_openttd-metalibrary_changelog.html#v7":[1,0],
+"pages.html":[],
+"todo.html":[2]
+};

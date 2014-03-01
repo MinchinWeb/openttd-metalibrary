@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MinchinWeb&#39;s MetaLibrary
-   &#160;<span id="projectnumber">v.6</span>
+   &#160;<span id="projectnumber">v.7</span>
    </div>
    <div id="projectbrief">Library functions of OpenTTD AI writers.</div>
   </td>
@@ -139,7 +139,7 @@ Private Attributes</h2></td></tr>
 <dl class="section since"><dt>Since</dt><dd>MetaLibrary v.2</dd></dl>
 <p>These are functions relating to dealing with OpenTTD industries. </p>
 
-<p>Definition at line <a class="el" href="_industry_8nut_source.html#l00036">36</a> of file <a class="el" href="_industry_8nut_source.html">Industry.nut</a>.</p>
+<p>Definition at line <a class="el" href="_industry_8nut_source.html#l00025">25</a> of file <a class="el" href="_industry_8nut_source.html">Industry.nut</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a1c9a83d59a89d2cb425dff431d69e465"></a>
 <div class="memitem">
@@ -175,9 +175,9 @@ Private Attributes</h2></td></tr>
 <code>Constants.InvalidIndustry()</code> if no valid industries can be found. </dd></dl>
 <dl class="section note"><dt>Note</dt><dd><code>AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )</code> sometimes fails because <code>GetLocation()</code> returns the northmost tile of the industry which may be a dock, heliport, or not part of the industry at all. </dd>
 <dd>
-This function starts at the tile, and then searches a square out (up to <code>Constants.StationSize()</code> ) until it finds a tile with a valid <code>IndustryID</code>.  </dd></dl>
+This function starts at the northmost tile, and then searches a square out (up to <code>Constants.StationSize()</code> ) until it finds a tile with a valid <code>IndustryID</code>.  </dd></dl>
 
-<p>Definition at line <a class="el" href="_industry_8nut_source.html#l00059">59</a> of file <a class="el" href="_industry_8nut_source.html">Industry.nut</a>.</p>
+<p>Definition at line <a class="el" href="_industry_8nut_source.html#l00048">48</a> of file <a class="el" href="_industry_8nut_source.html">Industry.nut</a>.</p>
 
 </div>
 </div>
@@ -200,7 +200,7 @@ This function starts at the tile, and then searches a square out (up to <code>Co
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_industry_8nut_source.html#l00037">37</a> of file <a class="el" href="_industry_8nut_source.html">Industry.nut</a>.</p>
+<p>Definition at line <a class="el" href="_industry_8nut_source.html#l00026">26</a> of file <a class="el" href="_industry_8nut_source.html">Industry.nut</a>.</p>
 
 </div>
 </div>
@@ -213,7 +213,7 @@ This function starts at the tile, and then searches a square out (up to <code>Co
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class___minchin_web___industry__.html">_MinchinWeb_Industry_</a></li>
-    <li class="footer">Generated on Sat Feb 1 2014 18:53:09 for MinchinWeb&#39;s MetaLibrary by
+    <li class="footer">Generated on Sat Mar 1 2014 12:55:12 for MinchinWeb&#39;s MetaLibrary by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

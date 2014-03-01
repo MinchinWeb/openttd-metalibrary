@@ -1,6 +1,11 @@
 var class___minchin_web___w_b_c__ =
 [
     [ "Cost", "class___minchin_web___w_b_c___1_1_cost.html", "class___minchin_web___w_b_c___1_1_cost" ],
+    [ "_CheckDirection", "class___minchin_web___w_b_c__.html#a3b10f84da99cb9e787151f2251752c74", null ],
+    [ "_Cost", "class___minchin_web___w_b_c__.html#afd2c5c60f09de56c1e069c54f474db2e", null ],
+    [ "_Estimate", "class___minchin_web___w_b_c__.html#a02145a66ab6b2698d0b41873cc78e122", null ],
+    [ "_GetDirection", "class___minchin_web___w_b_c__.html#a0d1392d565dacc53ee5ba2578ce2f62c", null ],
+    [ "_Neighbours", "class___minchin_web___w_b_c__.html#a9107d8736bd747596bd4b781b180c4ea", null ],
     [ "constructor", "class___minchin_web___w_b_c__.html#a167ea445ac7d51ab53f7e4015936ff93", null ],
     [ "FindPath", "class___minchin_web___w_b_c__.html#afa48245c59f983cf76cdec40833e7925", null ],
     [ "GetPathLength", "class___minchin_web___w_b_c__.html#aaa903fdf88de49d75a2d834e0aedb287", null ],

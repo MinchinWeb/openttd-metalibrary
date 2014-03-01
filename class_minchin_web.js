@@ -10,6 +10,7 @@ var class_minchin_web =
     [ "DLS", "class_minchin_web.html#a61a7f3171289e8be138635c207f99320", null ],
     [ "Extras", "class_minchin_web.html#a0933ed320aab8c7c63bdab6b0b31993e", null ],
     [ "Industry", "class_minchin_web.html#ad040ec98fe8935f3e29f82dc27902cec", null ],
+    [ "Lakes", "class_minchin_web.html#a716b92177352a314dac5f01f58cf2c0f", null ],
     [ "LineWalker", "class_minchin_web.html#a925aca442ea5071481c5702077dfeeac", null ],
     [ "Log", "class_minchin_web.html#a855559e81eb15777fa096914bdac48b2", null ],
     [ "Marine", "class_minchin_web.html#af3d6d89f9c337f992cc90b5573948771", null ],

@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MinchinWeb&#39;s MetaLibrary
-   &#160;<span id="projectnumber">v.6</span>
+   &#160;<span id="projectnumber">v.7</span>
    </div>
    <div id="projectbrief">Library functions of OpenTTD AI writers.</div>
   </td>
@@ -129,57 +129,46 @@ $(document).ready(function(){initNavTree('_industry_8nut_source.html','');});
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> *  + You accept that this software is provided to you &quot;as is&quot;, without warranty.</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> */</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">/*  Functions provided:</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> *      MinchinWeb.Industry.GetIndustryID(Tile)</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *                              - AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> *                                  sometimes fails because GetLocation() returns the northmost</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> *                                  tile of the industry which may be a dock, heliport, or not</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> *                                  part of the industry at all.</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"> *                              - This function starts at the tile, and then searches a square out</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"> *                                  (up to Constants.StationSize) until it finds a tile with a</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"> *                                  valid TileID.</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="class___minchin_web___industry__.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="class___minchin_web___industry__.html">_MinchinWeb_Industry_</a> {</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="class___minchin_web___industry__.html#a606b4498d9a4f51045ef68d6acecb60a">   26</a></span>&#160;    <a class="code" href="class___minchin_web___industry__.html#a606b4498d9a4f51045ef68d6acecb60a">main</a> = null;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class___minchin_web___industry__.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="class___minchin_web___industry__.html">_MinchinWeb_Industry_</a> {</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="class___minchin_web___industry__.html#a606b4498d9a4f51045ef68d6acecb60a">   37</a></span>&#160;    <a class="code" href="class___minchin_web___industry__.html#a606b4498d9a4f51045ef68d6acecb60a">main</a> = null;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">function</span> <a class="code" href="class___minchin_web___industry__.html#a1c9a83d59a89d2cb425dff431d69e465">GetIndustryID</a>(Tile);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">//  == Function definitions ================================================</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="class___minchin_web___industry__.html#a1c9a83d59a89d2cb425dff431d69e465">   59</a></span>&#160;<span class="keyword">function</span> <a class="code" href="class___minchin_web___industry__.html#a1c9a83d59a89d2cb425dff431d69e465">_MinchinWeb_Industry_::GetIndustryID</a>(Tile) {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    local StartX = AIMap.GetTileX(Tile);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    local StartY = AIMap.GetTileY(Tile);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    local EndX = AIMap.GetTileX(Tile) + <a class="code" href="class___minchin_web___c__.html">_MinchinWeb_C_</a>.<a class="code" href="class___minchin_web___c__.html#a90e7d0f8b34e75932bd6b649398e8ced">IndustrySize</a>();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    local EndY = AIMap.GetTileY(Tile) + <a class="code" href="class___minchin_web___c__.html">_MinchinWeb_C_</a>.<a class="code" href="class___minchin_web___c__.html#a90e7d0f8b34e75932bd6b649398e8ced">IndustrySize</a>();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">for</span> (local i = StartX; i &lt; EndX; i++) {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">for</span> (local j = StartY; j &lt; EndY; j++) {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">if</span> (AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j)) != <a class="code" href="class___minchin_web___c__.html">_MinchinWeb_C_</a>.<a class="code" href="class___minchin_web___c__.html#af4f44c9cf48bff20e95374e2ce2ac13b">InvalidIndustry</a>()) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                <span class="keywordflow">return</span> AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j));</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    </div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="comment">//  if no valid industry is found...</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class___minchin_web___c__.html">_MinchinWeb_C_</a>.<a class="code" href="class___minchin_web___c__.html#af4f44c9cf48bff20e95374e2ce2ac13b">InvalidIndustry</a>();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">// EOF</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="ttc" id="class___minchin_web___industry___html"><div class="ttname"><a href="class___minchin_web___industry__.html">_MinchinWeb_Industry_</a></div><div class="ttdoc">Industries. </div><div class="ttdef"><b>Definition:</b> <a href="_industry_8nut_source.html#l00036">Industry.nut:36</a></div></div>
-<div class="ttc" id="class___minchin_web___industry___html_a606b4498d9a4f51045ef68d6acecb60a"><div class="ttname"><a href="class___minchin_web___industry__.html#a606b4498d9a4f51045ef68d6acecb60a">_MinchinWeb_Industry_::main</a></div><div class="ttdeci">main</div><div class="ttdef"><b>Definition:</b> <a href="_industry_8nut_source.html#l00037">Industry.nut:37</a></div></div>
-<div class="ttc" id="class___minchin_web___industry___html_a1c9a83d59a89d2cb425dff431d69e465"><div class="ttname"><a href="class___minchin_web___industry__.html#a1c9a83d59a89d2cb425dff431d69e465">_MinchinWeb_Industry_::GetIndustryID</a></div><div class="ttdeci">function GetIndustryID(Tile)</div><div class="ttdoc">Get the IndustryID of the industry at a given TileID. </div><div class="ttdef"><b>Definition:</b> <a href="_industry_8nut_source.html#l00059">Industry.nut:59</a></div></div>
-<div class="ttc" id="class___minchin_web___c___html_af4f44c9cf48bff20e95374e2ce2ac13b"><div class="ttname"><a href="class___minchin_web___c__.html#af4f44c9cf48bff20e95374e2ce2ac13b">_MinchinWeb_C_::InvalidIndustry</a></div><div class="ttdeci">function InvalidIndustry()</div><div class="ttdoc">Number returned by OpenTTD for an invalid industry (65535) </div><div class="ttdef"><b>Definition:</b> <a href="_constants_8nut_source.html#l00089">Constants.nut:89</a></div></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">function</span> <a class="code" href="class___minchin_web___industry__.html#a1c9a83d59a89d2cb425dff431d69e465">GetIndustryID</a>(Tile);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">//  == Function definitions ================================================</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="class___minchin_web___industry__.html#a1c9a83d59a89d2cb425dff431d69e465">   48</a></span>&#160;<span class="keyword">function</span> <a class="code" href="class___minchin_web___industry__.html#a1c9a83d59a89d2cb425dff431d69e465">_MinchinWeb_Industry_::GetIndustryID</a>(Tile) {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    local StartX = AIMap.GetTileX(Tile);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    local StartY = AIMap.GetTileY(Tile);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    local EndX = AIMap.GetTileX(Tile) + <a class="code" href="class___minchin_web___c__.html">_MinchinWeb_C_</a>.<a class="code" href="class___minchin_web___c__.html#a90e7d0f8b34e75932bd6b649398e8ced">IndustrySize</a>();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    local EndY = AIMap.GetTileY(Tile) + <a class="code" href="class___minchin_web___c__.html">_MinchinWeb_C_</a>.<a class="code" href="class___minchin_web___c__.html#a90e7d0f8b34e75932bd6b649398e8ced">IndustrySize</a>();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">for</span> (local i = StartX; i &lt; EndX; i++) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">for</span> (local j = StartY; j &lt; EndY; j++) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keywordflow">if</span> (AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j)) != <a class="code" href="class___minchin_web___c__.html">_MinchinWeb_C_</a>.<a class="code" href="class___minchin_web___c__.html#af4f44c9cf48bff20e95374e2ce2ac13b">InvalidIndustry</a>()) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                <span class="keywordflow">return</span> AIIndustry.GetIndustryID(AIMap.GetTileIndex(i,j));</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">//  if no valid industry is found...</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class___minchin_web___c__.html">_MinchinWeb_C_</a>.<a class="code" href="class___minchin_web___c__.html#af4f44c9cf48bff20e95374e2ce2ac13b">InvalidIndustry</a>();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">// EOF</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="ttc" id="class___minchin_web___industry___html"><div class="ttname"><a href="class___minchin_web___industry__.html">_MinchinWeb_Industry_</a></div><div class="ttdoc">Industries. </div><div class="ttdef"><b>Definition:</b> <a href="_industry_8nut_source.html#l00025">Industry.nut:25</a></div></div>
+<div class="ttc" id="class___minchin_web___industry___html_a606b4498d9a4f51045ef68d6acecb60a"><div class="ttname"><a href="class___minchin_web___industry__.html#a606b4498d9a4f51045ef68d6acecb60a">_MinchinWeb_Industry_::main</a></div><div class="ttdeci">main</div><div class="ttdef"><b>Definition:</b> <a href="_industry_8nut_source.html#l00026">Industry.nut:26</a></div></div>
+<div class="ttc" id="class___minchin_web___industry___html_a1c9a83d59a89d2cb425dff431d69e465"><div class="ttname"><a href="class___minchin_web___industry__.html#a1c9a83d59a89d2cb425dff431d69e465">_MinchinWeb_Industry_::GetIndustryID</a></div><div class="ttdeci">function GetIndustryID(Tile)</div><div class="ttdoc">Get the IndustryID of the industry at a given TileID. </div><div class="ttdef"><b>Definition:</b> <a href="_industry_8nut_source.html#l00048">Industry.nut:48</a></div></div>
+<div class="ttc" id="class___minchin_web___c___html_af4f44c9cf48bff20e95374e2ce2ac13b"><div class="ttname"><a href="class___minchin_web___c__.html#af4f44c9cf48bff20e95374e2ce2ac13b">_MinchinWeb_C_::InvalidIndustry</a></div><div class="ttdeci">function InvalidIndustry()</div><div class="ttdoc">Number returned by OpenTTD for an invalid industry (65535) </div><div class="ttdef"><b>Definition:</b> <a href="_constants_8nut_source.html#l00093">Constants.nut:93</a></div></div>
 <div class="ttc" id="class___minchin_web___c___html"><div class="ttname"><a href="class___minchin_web___c__.html">_MinchinWeb_C_</a></div><div class="ttdoc">Constants. </div><div class="ttdef"><b>Definition:</b> <a href="_constants_8nut_source.html#l00042">Constants.nut:42</a></div></div>
-<div class="ttc" id="class___minchin_web___c___html_a90e7d0f8b34e75932bd6b649398e8ced"><div class="ttname"><a href="class___minchin_web___c__.html#a90e7d0f8b34e75932bd6b649398e8ced">_MinchinWeb_C_::IndustrySize</a></div><div class="ttdeci">function IndustrySize()</div><div class="ttdoc">Industries are assumed to fit within a 4x4 box. </div><div class="ttdef"><b>Definition:</b> <a href="_constants_8nut_source.html#l00084">Constants.nut:84</a></div></div>
+<div class="ttc" id="class___minchin_web___c___html_a90e7d0f8b34e75932bd6b649398e8ced"><div class="ttname"><a href="class___minchin_web___c__.html#a90e7d0f8b34e75932bd6b649398e8ced">_MinchinWeb_C_::IndustrySize</a></div><div class="ttdeci">function IndustrySize()</div><div class="ttdoc">Industries are assumed to fit within a 4x4 box. </div><div class="ttdef"><b>Definition:</b> <a href="_constants_8nut_source.html#l00087">Constants.nut:87</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="dir_753355d56aa515adf509200ceb961abe.html">openttd-metalibrary</a></li><li class="navelem"><a class="el" href="_industry_8nut.html">Industry.nut</a></li>
-    <li class="footer">Generated on Sat Feb 1 2014 18:53:07 for MinchinWeb&#39;s MetaLibrary by
+    <li class="footer">Generated on Sat Mar 1 2014 12:55:10 for MinchinWeb&#39;s MetaLibrary by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

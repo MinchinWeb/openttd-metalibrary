@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MinchinWeb&#39;s MetaLibrary
-   &#160;<span id="projectnumber">v.6</span>
+   &#160;<span id="projectnumber">v.7</span>
    </div>
    <div id="projectbrief">Library functions of OpenTTD AI writers.</div>
   </td>
@@ -167,12 +167,12 @@ Private Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Logging Interface. </p>
-<dl class="section version"><dt>Version</dt><dd>v.3 (2012-01-28) </dd></dl>
+<dl class="section version"><dt>Version</dt><dd>v.4 (2014-02-14) </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>W. Minchin (MinchinWeb) </dd></dl>
 <dl class="section since"><dt>Since</dt><dd>MetaLibrary v.4</dd></dl>
 <p>To make use of this library, add this you the <code>info.nut</code> file of your AI:</p>
 <div class="fragment"><div class="line"><span class="keyword">function</span> GetSettings() {</div>
-<div class="line">   AddSetting({name = <span class="stringliteral">&quot;Debug_Level&quot;</span>, description = <span class="stringliteral">&quot;Debug Level &quot;</span>, min_value = 0, max_value = 7, easy_value = 3, medium_value = 3, hard_value = 3, custom_value = 3, flags = CONFIG_INGAME});</div>
+<div class="line">   AddSetting({name = <span class="stringliteral">&quot;Debug_Level&quot;</span>, description = <span class="stringliteral">&quot;Debug Level &quot;</span>, min_value = 0, max_value = 8, easy_value = 3, medium_value = 3, hard_value = 3, custom_value = 3, flags = CONFIG_INGAME});</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>This will add an option to your AI allowing users to control the debug output from your AI. You can allow this setting to be configured in-game, as it is read each time the class is called.</p>
 <dl class="section note"><dt>Note</dt><dd>There is no requirement that you use the Logging interface in your AI if you make use of MetaLibrary. You just will not see any debugging output from the library. </dd>
@@ -203,7 +203,7 @@ This class will work equally well as a static or a non-static class, as Debug Le
 </div><div class="memdoc">
 <p>Does nothing </p>
 
-<p>Definition at line <a class="el" href="_log_8nut_source.html#l00098">98</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
+<p>Definition at line <a class="el" href="_log_8nut_source.html#l00099">99</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
 
 </div>
 </div>
@@ -239,7 +239,7 @@ This class will work equally well as a static or a non-static class, as Debug Le
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_log_8nut_source.html#l00133">133</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
+<p>Definition at line <a class="el" href="_log_8nut_source.html#l00134">134</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
 
 </div>
 </div>
@@ -390,6 +390,8 @@ This class will work equally well as a static or a non-static class, as Debug Le
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="_log_8nut_source.html#l00175">175</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="a9cb3221e585a28bc38c608d28a3f320c"></a>
@@ -415,6 +417,8 @@ This class will work equally well as a static or a non-static class, as Debug Le
 
 <p>Prints the current debug level to the AI debug screen. </p>
 <dl class="section return"><dt>Returns</dt><dd>nothing  </dd></dl>
+
+<p>Definition at line <a class="el" href="_log_8nut_source.html#l00192">192</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
 
 </div>
 </div>
@@ -466,6 +470,8 @@ This class will work equally well as a static or a non-static class, as Debug Le
   </dd>
 </dl>
 
+<p>Definition at line <a class="el" href="_log_8nut_source.html#l00186">186</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
+
 </div>
 </div>
 <a class="anchor" id="ad77dc130254f578187407a8c2b6fbe2c"></a>
@@ -495,7 +501,7 @@ This class will work equally well as a static or a non-static class, as Debug Le
 <dl class="section return"><dt>Returns</dt><dd>current debug level, as per AI setting. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___log__.html#adff2d085b30344a4d5ce3a008c29a97b">_DebugLevel</a>  </dd></dl>
 
-<p>Definition at line <a class="el" href="_log_8nut_source.html#l00163">163</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
+<p>Definition at line <a class="el" href="_log_8nut_source.html#l00164">164</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
 
 </div>
 </div>
@@ -531,7 +537,7 @@ This class will work equally well as a static or a non-static class, as Debug Le
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_log_8nut_source.html#l00120">120</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
+<p>Definition at line <a class="el" href="_log_8nut_source.html#l00121">121</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
 
 </div>
 </div>
@@ -571,12 +577,13 @@ This class will work equally well as a static or a non-static class, as Debug Le
 <li>5 - basic</li>
 <li>6 - verbose</li>
 <li>7 - signs</li>
+<li>8 - signs for library subfunctions</li>
 </ul>
 </li>
 </ul>
 <p>Every level beyond 1 is indented 5 spaces per higher level. </p>
 
-<p>Definition at line <a class="el" href="_log_8nut_source.html#l00093">93</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
+<p>Definition at line <a class="el" href="_log_8nut_source.html#l00094">94</a> of file <a class="el" href="_log_8nut_source.html">Log.nut</a>.</p>
 
 </div>
 </div>
@@ -589,7 +596,7 @@ This class will work equally well as a static or a non-static class, as Debug Le
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class___minchin_web___log__.html">_MinchinWeb_Log_</a></li>
-    <li class="footer">Generated on Sat Feb 1 2014 18:53:09 for MinchinWeb&#39;s MetaLibrary by
+    <li class="footer">Generated on Sat Mar 1 2014 12:55:13 for MinchinWeb&#39;s MetaLibrary by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

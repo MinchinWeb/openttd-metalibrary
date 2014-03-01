@@ -15,9 +15,12 @@ var class___minchin_web___array__ =
     [ "Find3D", "class___minchin_web___array__.html#a5b83c9a105e82a77a3a7e0844c7d57ab", null ],
     [ "FindPairs", "class___minchin_web___array__.html#a4ab51da2e10454c396fef1bd30011b34", null ],
     [ "InsertValueAt", "class___minchin_web___array__.html#a7c64e361195a351670aceb25c268cc1f", null ],
+    [ "RemoveDuplicates", "class___minchin_web___array__.html#aec87901df4c084277dd43253b30f017c", null ],
     [ "RemoveValueAt", "class___minchin_web___array__.html#a9c3e8f46b227d576ab4bf91b846c5aff", null ],
-    [ "ToString1D", "class___minchin_web___array__.html#ac246558cb2bf08b850f7019245db57b3", null ],
-    [ "ToString2D", "class___minchin_web___array__.html#a1409dfd66f776698f460ecd3dfb2d1d3", null ],
+    [ "ToAIList", "class___minchin_web___array__.html#a9a2522d9da87a991f7f31bb51ef7babe", null ],
+    [ "ToString1D", "class___minchin_web___array__.html#aa3d8c0323a7fbecd8c73d29fade7fe46", null ],
+    [ "ToString2D", "class___minchin_web___array__.html#ad79fe445393dbc66de2f4a2f4f95754d", null ],
     [ "ToStringTiles1D", "class___minchin_web___array__.html#ab95c88952b6911f0b0d8b7910897c005", null ],
+    [ "ToStringTiles2D", "class___minchin_web___array__.html#a1d18a6554e49bab31ba343a12f1f78b6", null ],
     [ "main", "class___minchin_web___array__.html#a764ce165637fb57ea088305b906977ec", null ]
 ];

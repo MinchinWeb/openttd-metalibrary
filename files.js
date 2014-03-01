@@ -1,6 +1,6 @@
 var files =
 [
-    [ "Arrays.nut", "_arrays_8nut.html", [
+    [ "Array.nut", "_array_8nut.html", [
       [ "_MinchinWeb_Array_", "class___minchin_web___array__.html", "class___minchin_web___array__" ]
     ] ],
     [ "Atlas.nut", "_atlas_8nut.html", "_atlas_8nut" ],
@@ -17,9 +17,14 @@ var files =
     [ "Industry.nut", "_industry_8nut.html", [
       [ "_MinchinWeb_Industry_", "class___minchin_web___industry__.html", "class___minchin_web___industry__" ]
     ] ],
+    [ "Lakes.nut", "_lakes_8nut.html", [
+      [ "_MinchinWeb_Lakes_", "class___minchin_web___lakes__.html", "class___minchin_web___lakes__" ]
+    ] ],
     [ "library.nut", "library_8nut.html", "library_8nut" ],
     [ "Line.Walker.nut", "_line_8_walker_8nut.html", "_line_8_walker_8nut" ],
-    [ "Log.nut", "_log_8nut.html", "_log_8nut" ],
+    [ "Log.nut", "_log_8nut.html", [
+      [ "_MinchinWeb_Log_", "class___minchin_web___log__.html", "class___minchin_web___log__" ]
+    ] ],
     [ "main.nut", "main_8nut.html", "main_8nut" ],
     [ "Marine.nut", "_marine_8nut.html", [
       [ "_MinchinWeb_Marine_", "class___minchin_web___marine__.html", "class___minchin_web___marine__" ]

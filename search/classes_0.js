@@ -6,6 +6,7 @@ var searchData=
   ['_5fminchinweb_5fdls_5f',['_MinchinWeb_DLS_',['../class___minchin_web___d_l_s__.html',1,'']]],
   ['_5fminchinweb_5fextras_5f',['_MinchinWeb_Extras_',['../class___minchin_web___extras__.html',1,'']]],
   ['_5fminchinweb_5findustry_5f',['_MinchinWeb_Industry_',['../class___minchin_web___industry__.html',1,'']]],
+  ['_5fminchinweb_5flakes_5f',['_MinchinWeb_Lakes_',['../class___minchin_web___lakes__.html',1,'']]],
   ['_5fminchinweb_5flog_5f',['_MinchinWeb_Log_',['../class___minchin_web___log__.html',1,'']]],
   ['_5fminchinweb_5flw_5f',['_MinchinWeb_LW_',['../class___minchin_web___l_w__.html',1,'']]],
   ['_5fminchinweb_5fmarine_5f',['_MinchinWeb_Marine_',['../class___minchin_web___marine__.html',1,'']]],

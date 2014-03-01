@@ -14,6 +14,6 @@ var searchData=
   ['presetquickanddirty',['PresetQuickAndDirty',['../class___minchin_web___d_l_s__.html#ac8b17f2b4d366133b13e978780e96bd6',1,'_MinchinWeb_DLS_::PresetQuickAndDirty()'],['../class___minchin_web___road_pathfinder__.html#a26140567349f2f85a05db72a81ee76d2',1,'_MinchinWeb_RoadPathfinder_::PresetQuickAndDirty()']]],
   ['presetsafety',['PresetSafety',['../class___minchin_web___w_b_c__.html#a766245908abf3a85179075e4f4356beb',1,'_MinchinWeb_WBC_']]],
   ['presetstreetcar',['PresetStreetcar',['../class___minchin_web___road_pathfinder__.html#a89ec38b46171924ce00963de251d631e',1,'_MinchinWeb_RoadPathfinder_']]],
-  ['printdebuglevel',['PrintDebugLevel',['../class___minchin_web___log__.html#a9cb3221e585a28bc38c608d28a3f320c',1,'_MinchinWeb_Log_::PrintDebugLevel()'],['../_log_8nut.html#af5df43670e59738f42bd1346aac93519',1,'PrintDebugLevel():&#160;Log.nut']]],
+  ['printdebuglevel',['PrintDebugLevel',['../class___minchin_web___log__.html#a9cb3221e585a28bc38c608d28a3f320c',1,'_MinchinWeb_Log_']]],
   ['printmodeltype',['PrintModelType',['../class___minchin_web___atlas__.html#abf41d00f493669b0ca600eadaac0d59b',1,'_MinchinWeb_Atlas_']]]
 ];

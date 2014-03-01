@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MinchinWeb&#39;s MetaLibrary
-   &#160;<span id="projectnumber">v.6</span>
+   &#160;<span id="projectnumber">v.7</span>
    </div>
    <div id="projectbrief">Library functions of OpenTTD AI writers.</div>
   </td>
@@ -142,13 +142,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a3358951ec6cf94b02a97aa1cbaf32765"><td class="mdescLeft">&#160;</td><td class="mdescRight">The settings in the original (v3) pathfinder by NoAI Team.  <a href="#a3358951ec6cf94b02a97aa1cbaf32765">More...</a><br/></td></tr>
 <tr class="separator:a3358951ec6cf94b02a97aa1cbaf32765"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a935e7987904edd99bbbc697f5b904f96"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#a935e7987904edd99bbbc697f5b904f96">PresetPerfectPath</a> ()</td></tr>
-<tr class="memdesc:a935e7987904edd99bbbc697f5b904f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Good for reusing existing roads.  <a href="#a935e7987904edd99bbbc697f5b904f96">More...</a><br/></td></tr>
+<tr class="memdesc:a935e7987904edd99bbbc697f5b904f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Good preset for reusing existing roads.  <a href="#a935e7987904edd99bbbc697f5b904f96">More...</a><br/></td></tr>
 <tr class="separator:a935e7987904edd99bbbc697f5b904f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26140567349f2f85a05db72a81ee76d2"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#a26140567349f2f85a05db72a81ee76d2">PresetQuickAndDirty</a> ()</td></tr>
 <tr class="memdesc:a26140567349f2f85a05db72a81ee76d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Quick but messy preset.  <a href="#a26140567349f2f85a05db72a81ee76d2">More...</a><br/></td></tr>
 <tr class="separator:a26140567349f2f85a05db72a81ee76d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abb3a6dc276733d7789b103a325742da2"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#abb3a6dc276733d7789b103a325742da2">PresetCheckExisting</a> ()</td></tr>
-<tr class="memdesc:abb3a6dc276733d7789b103a325742da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Use only existing roads.  <a href="#abb3a6dc276733d7789b103a325742da2">More...</a><br/></td></tr>
+<tr class="memdesc:abb3a6dc276733d7789b103a325742da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Preset that only uses existing roads.  <a href="#abb3a6dc276733d7789b103a325742da2">More...</a><br/></td></tr>
 <tr class="separator:abb3a6dc276733d7789b103a325742da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a89ec38b46171924ce00963de251d631e"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#a89ec38b46171924ce00963de251d631e">PresetStreetcar</a> ()</td></tr>
 <tr class="memdesc:a89ec38b46171924ce00963de251d631e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reserved.  <a href="#a89ec38b46171924ce00963de251d631e">More...</a><br/></td></tr>
@@ -185,6 +185,24 @@ Public Member Functions</h2></td></tr>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a503855cdfb19b6bd18fe7b3c35567d8e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#a503855cdfb19b6bd18fe7b3c35567d8e">constructor</a> ()</td></tr>
 <tr class="separator:a503855cdfb19b6bd18fe7b3c35567d8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4d4033d6af8592820df02d372fb5d44"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#af4d4033d6af8592820df02d372fb5d44">_GetBridgeNumSlopes</a> (end_a, end_b)</td></tr>
+<tr class="separator:af4d4033d6af8592820df02d372fb5d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a213bdee72c45e4c709e24aac4fdc7b8d"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#a213bdee72c45e4c709e24aac4fdc7b8d">_Cost</a> (self, path, new_tile, new_direction)</td></tr>
+<tr class="separator:a213bdee72c45e4c709e24aac4fdc7b8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a309e3fb750b7c09ac999eadbc92fb7"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#a1a309e3fb750b7c09ac999eadbc92fb7">_Estimate</a> (self, cur_tile, cur_direction, goal_tiles)</td></tr>
+<tr class="separator:a1a309e3fb750b7c09ac999eadbc92fb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35d112c033d588246cf81a7d03683c45"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#a35d112c033d588246cf81a7d03683c45">_Neighbours</a> (self, path, cur_node)</td></tr>
+<tr class="separator:a35d112c033d588246cf81a7d03683c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac740e4dd64c8405fdda5fb0cb9be476e"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#ac740e4dd64c8405fdda5fb0cb9be476e">_CheckDirection</a> (self, tile, existing_direction, new_direction)</td></tr>
+<tr class="separator:ac740e4dd64c8405fdda5fb0cb9be476e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0370b341796f109ec17959966888954"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#af0370b341796f109ec17959966888954">_GetDirection</a> (from, to, is_bridge)</td></tr>
+<tr class="separator:af0370b341796f109ec17959966888954"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a081ac01a1c4964f1749012ee41d3480d"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#a081ac01a1c4964f1749012ee41d3480d">_GetTunnelsBridges</a> (last_node, cur_node, bridge_dir)</td></tr>
+<tr class="separator:a081ac01a1c4964f1749012ee41d3480d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a640c46cd97fae80d3f6d6ed900e58265"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#a640c46cd97fae80d3f6d6ed900e58265">_IsSlopedRoad</a> (start, middle, end)</td></tr>
+<tr class="separator:a640c46cd97fae80d3f6d6ed900e58265"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdc6d6138a086a6769f39eee5bc87d06"><td class="memItemLeft" align="right" valign="top">function&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class___minchin_web___road_pathfinder__.html#acdc6d6138a086a6769f39eee5bc87d06">_CheckTunnelBridge</a> (current_tile, new_tile)</td></tr>
+<tr class="separator:acdc6d6138a086a6769f39eee5bc87d06"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -262,16 +280,402 @@ W. Minchin (MinchinWeb) </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___d_l_s__.html" title="Dominion Land System (Road Pathfinder) ">_MinchinWeb_DLS_</a> </dd>
 <dd>
 <a class="el" href="class___minchin_web___ship_pathfinder__.html" title="A Ship Pathfinder. ">_MinchinWeb_ShipPathfinder_</a></dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000022">Todo:</a></b></dt><dd><p class="startdd">upgrade slow bridges along path </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000027">Todo:</a></b></dt><dd><p class="startdd">upgrade slow bridges along path </p>
 <p>convert existing level crossings (road/rail) to road bridge </p>
-<p class="enddd">do something about one-way roads - build a pair? route around?</p>
+<p>do something about one-way roads - build a pair? route around? </p>
+<p class="enddd">Add example usage code. </p>
 </dd></dl>
 <pre class="fragment">if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) &amp;&amp;
 !AIRoad.AreRoadTilesConnected(prev_tile, new_tile))
-</pre> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000023">Todo:</a></b></dt><dd>allow pre-building of tunnels and bridges </dd></dl>
+</pre> <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000028">Todo:</a></b></dt><dd>allow pre-building of tunnels and bridges </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00082">82</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00083">83</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="ac740e4dd64c8405fdda5fb0cb9be476e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function _MinchinWeb_RoadPathfinder_::_CheckDirection </td>
+          <td>(</td>
+          <td class="paramtype">self&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">tile&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">existing_direction&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">new_direction&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00517">517</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acdc6d6138a086a6769f39eee5bc87d06"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function _MinchinWeb_RoadPathfinder_::_CheckTunnelBridge </td>
+          <td>(</td>
+          <td class="paramtype">current_tile&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">new_tile&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00601">601</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a213bdee72c45e4c709e24aac4fdc7b8d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function _MinchinWeb_RoadPathfinder_::_Cost </td>
+          <td>(</td>
+          <td class="paramtype">self&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">path&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">new_tile&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">new_direction&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00360">360</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a1a309e3fb750b7c09ac999eadbc92fb7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function _MinchinWeb_RoadPathfinder_::_Estimate </td>
+          <td>(</td>
+          <td class="paramtype">self&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cur_tile&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cur_direction&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">goal_tiles&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00432">432</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af4d4033d6af8592820df02d372fb5d44"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function _MinchinWeb_RoadPathfinder_::_GetBridgeNumSlopes </td>
+          <td>(</td>
+          <td class="paramtype">end_a&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">end_b&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00340">340</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="af0370b341796f109ec17959966888954"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function _MinchinWeb_RoadPathfinder_::_GetDirection </td>
+          <td>(</td>
+          <td class="paramtype">from&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">to&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">is_bridge&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00521">521</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a081ac01a1c4964f1749012ee41d3480d"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function _MinchinWeb_RoadPathfinder_::_GetTunnelsBridges </td>
+          <td>(</td>
+          <td class="paramtype">last_node&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cur_node&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bridge_dir&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Get a list of all bridges and tunnels that can be build from the current tile. Bridges will only be build starting on non-flat tiles for performance reasons. Tunnels will only be build if no terraforming is needed on both ends. </p>
+
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00546">546</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a640c46cd97fae80d3f6d6ed900e58265"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function _MinchinWeb_RoadPathfinder_::_IsSlopedRoad </td>
+          <td>(</td>
+          <td class="paramtype">start&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">middle&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">end&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00573">573</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a35d112c033d588246cf81a7d03683c45"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">function _MinchinWeb_RoadPathfinder_::_Neighbours </td>
+          <td>(</td>
+          <td class="paramtype">self&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">path&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">cur_node&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00442">442</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a80426046f9931c5cefcdb6f9f1522d01"></a>
 <div class="memitem">
 <div class="memproto">
@@ -288,7 +692,7 @@ W. Minchin (MinchinWeb) </dd></dl>
 <p>Build the found path. </p>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___road_pathfinder__.html#a80426046f9931c5cefcdb6f9f1522d01" title="Build the found path. ">BuildPath()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00827">827</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00826">826</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -341,7 +745,7 @@ W. Minchin (MinchinWeb) </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>A route if one was found, or false if the amount of iterations was reached, or null if no path was found. You can call this function over and over as long as it returns false, which is an indication it is not yet done looking for a route. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd>AyStar::FindPath() </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00324">324</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00332">332</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -367,7 +771,7 @@ Due to inflation, this value can get stale </dd></dl>
 <dd>
 <code>False</code> if the test build fails somewhere </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00749">749</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00747">747</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -412,7 +816,7 @@ Due to inflation, this value can get stale </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The length of the path in tiles. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___road_pathfinder__.html#a593c14b013240caf9189e2f423a2b315" title="Load an existing path. ">LoadPath()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00928">928</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00927">927</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -460,7 +864,7 @@ Due to inflation, this value can get stale </dd></dl>
 <dd>
 <a class="el" href="class___minchin_web___road_pathfinder__.html#aa004f43d22f68bb5f156e01ec3227ae4" title="Initializes the pathfinder using two towns. ">InitializePathOnTowns()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00141">141</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00140">140</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -481,7 +885,7 @@ Due to inflation, this value can get stale </dd></dl>
 <dl class="section note"><dt>Note</dt><dd>Assumes that the town centres are road tiles. If this is not the case, the pathfinder will still run, but it will take a long time and eventually fail to return a path. This is generally not an issue because on map creation the centre of town will be a road tile. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___road_pathfinder__.html#a72444dc571c71bca198f4b50c61d5b06" title="Initialize a path search between sources and goals. ">InitializePath()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00943">943</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00941">941</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -504,7 +908,7 @@ Due to inflation, this value can get stale </dd></dl>
 <dd>
 <a class="el" href="class___minchin_web___road_pathfinder__.html#ac5dc1156bcc163fd694e9be7e2be61ed" title="Try to find the path as indicated with InitializePath with the lowest cost. ">FindPath()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00907">907</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00908">908</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -527,7 +931,7 @@ Due to inflation, this value can get stale </dd></dl>
 <dd>
 <a class="el" href="class___minchin_web___road_pathfinder__.html#a00e060a227e9cc997078de4bd69e4d4b" title="Get a list of all the tiles in the path. ">PathToTiles()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00952">952</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00949">949</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -548,7 +952,7 @@ Due to inflation, this value can get stale </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>1D array that has each pair of tiles that path covers. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___road_pathfinder__.html#a52650935ce7f31b74688b77016c8ab47" title="Get the found path as tile pairs. ">PathToTilePairs()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00979">979</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00975">975</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -565,10 +969,10 @@ Due to inflation, this value can get stale </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Use only existing roads. </p>
+<p>Preset that only uses existing roads. </p>
 <p>Based on PerfectPath, but uses only existing roads. Useful for checking if there an existing route and how long it is. </p>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00723">723</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00721">721</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -602,10 +1006,10 @@ Due to inflation, this value can get stale </dd></dl>
       </table>
 </div><div class="memdoc">
 
-<p>Good for reusing existing roads. </p>
+<p>Good preset for reusing existing roads. </p>
 <p>My slightly updated version of <a class="el" href="class___minchin_web___road_pathfinder__.html#a3358951ec6cf94b02a97aa1cbaf32765" title="The settings in the original (v3) pathfinder by NoAI Team. ">PresetOriginal()</a>. </p>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00679">679</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00677">677</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -623,9 +1027,9 @@ Due to inflation, this value can get stale </dd></dl>
 </div><div class="memdoc">
 
 <p>Quick but messy preset. </p>
-<p>Runs in as little as 5% of the time of <a class="el" href="class___minchin_web___road_pathfinder__.html#a935e7987904edd99bbbc697f5b904f96" title="Good for reusing existing roads. ">PresetPerfectPath()</a>, but builds odd bridges and loops. </p>
+<p>Runs in as little as 5% of the time of <a class="el" href="class___minchin_web___road_pathfinder__.html#a935e7987904edd99bbbc697f5b904f96" title="Good preset for reusing existing roads. ">PresetPerfectPath()</a>, but builds odd bridges and loops. </p>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00700">700</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00698">698</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -643,9 +1047,9 @@ Due to inflation, this value can get stale </dd></dl>
 </div><div class="memdoc">
 
 <p>Reserved. </p>
-<p>Reserved for future use for intraurban tram lines. </p>
+<p>Reserved preset for future use for intraurban tram lines. </p>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00744">744</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00742">742</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -667,7 +1071,7 @@ Due to inflation, this value can get stale </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>2D array that has each pair of tiles that path joins that are not currently joined by road. </dd></dl>
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___road_pathfinder__.html#a80426046f9931c5cefcdb6f9f1522d01" title="Build the found path. ">BuildPath()</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l01002">1002</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
+<p>Definition at line <a class="el" href="_pathfinder_8_road_8nut_source.html#l00997">997</a> of file <a class="el" href="_pathfinder_8_road_8nut_source.html">Pathfinder.Road.nut</a>.</p>
 
 </div>
 </div>
@@ -1177,7 +1581,7 @@ Due to inflation, this value can get stale </dd></dl>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class___minchin_web___road_pathfinder__.html">_MinchinWeb_RoadPathfinder_</a></li>
-    <li class="footer">Generated on Sat Feb 1 2014 18:53:09 for MinchinWeb&#39;s MetaLibrary by
+    <li class="footer">Generated on Sat Mar 1 2014 12:55:13 for MinchinWeb&#39;s MetaLibrary by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

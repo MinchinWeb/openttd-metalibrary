@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MinchinWeb&#39;s MetaLibrary
-   &#160;<span id="projectnumber">v.6</span>
+   &#160;<span id="projectnumber">v.7</span>
    </div>
    <div id="projectbrief">Library functions of OpenTTD AI writers.</div>
   </td>
@@ -238,7 +238,7 @@ Private Attributes</h2></td></tr>
 </dl>
 <dl class="section note"><dt>Note</dt><dd>This will fail if the <code>DockTile</code> given is a dock (or any tile that is not a water tile). </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>The location of the existing or built depot. </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000019">Todo:</a></b></dt><dd>Check documentation of parameters. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000024">Todo:</a></b></dt><dd>Check documentation of parameters. </dd></dl>
 
 <p>Definition at line <a class="el" href="_marine_8nut_source.html#l00328">328</a> of file <a class="el" href="_marine_8nut_source.html">Marine.nut</a>.</p>
 
@@ -386,7 +386,7 @@ If the industry has a built-in dock, that tile will be included in the tiles ret
 
 <p>Nearest ship depot. </p>
 <dl class="section return"><dt>Returns</dt><dd>The tile of the Ship Depot nearest to the given TileID </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000021">Todo:</a></b></dt><dd><p class="startdd">Add check that depot is connected to the given TileID. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000026">Todo:</a></b></dt><dd><p class="startdd">Add check that depot is connected to the given TileID. </p>
 <p class="enddd">Check that there is a depot to return. </p>
 </dd></dl>
 
@@ -434,15 +434,17 @@ If the industry has a built-in dock, that tile will be included in the tiles ret
 
 <p>Ship Scoring. </p>
 <p>Given an EngineID, the function will score them; higher is better. </p>
-<dl class="section note"><dt>Note</dt><dd>Designed to run as a validator on a AIList of EngineID's. </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000020">Todo:</a></b></dt><dd>Add example of validator code. <dl class="params"><dt>Parameters</dt><dd>
+<dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">Life</td><td>Desired lifespan of route, assumed to be in years. </td></tr>
     <tr><td class="paramname">Cargo</td><td>Doesn't work yet. Capacity is measured in the default cargo. </td></tr>
   </table>
   </dd>
 </dl>
-Implement ship capacity in given cargo. </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>Designed to run as a valuator on a AIList of EngineID's. </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000025">Todo:</a></b></dt><dd><p class="startdd">Add example of validator code. </p>
+<p class="enddd">Implement ship capacity in given cargo. </p>
+</dd></dl>
 
 <p>Definition at line <a class="el" href="_marine_8nut_source.html#l00436">436</a> of file <a class="el" href="_marine_8nut_source.html">Marine.nut</a>.</p>
 
@@ -480,7 +482,7 @@ Implement ship capacity in given cargo. </dd></dl>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class___minchin_web___marine__.html">_MinchinWeb_Marine_</a></li>
-    <li class="footer">Generated on Sat Feb 1 2014 18:53:09 for MinchinWeb&#39;s MetaLibrary by
+    <li class="footer">Generated on Sat Mar 1 2014 12:55:13 for MinchinWeb&#39;s MetaLibrary by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

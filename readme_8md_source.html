@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MinchinWeb&#39;s MetaLibrary
-   &#160;<span id="projectnumber">v.6</span>
+   &#160;<span id="projectnumber">v.7</span>
    </div>
    <div id="projectbrief">Library functions of OpenTTD AI writers.</div>
   </td>
@@ -131,175 +131,196 @@ $(document).ready(function(){initNavTree('readme_8md.html','');});
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="stringliteral">        and generate a list of pairs to connect.</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="stringliteral">- `%MinchinWeb.Array` ← \_MinchinWeb\_Array\_</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="stringliteral">    - Array functions</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="stringliteral">- `%MinchinWeb.Constants` &lt;- \_MinchinWeb\_C\_</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="stringliteral">- `%MinchinWeb.Constants` ← \_MinchinWeb\_C\_</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="stringliteral">- `%MinchinWeb.DLS` ← \_MinchinWeb\_DLS\_</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="stringliteral">    - **Dominion Land System** -- a wrapper on the road pathfinder to encourage</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">      roads to be built on a grid.</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">- `%MinchinWeb.Extras` ← \_MinchinWeb\_Extras\_</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">    - Extra functions, for things like math, map geometry, ship support, etc.</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral">- `%MinchinWeb.LineWalker` ← \_MinchinWeb\_LW\_</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">    - **Line Walker** -- walk the map between two points, or start at a given</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">      point and walk out at a given slope.</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">- `%MinchinWeb.Log` ← \_MinchinWeb\_Log\_</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">    - help (dynamically) control the amount of debugging output displayed.</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">- `%MinchinWeb.Industry` ← \_MinchinWeb\_Industry\_</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">- `%MinchinWeb.Marine` ← \_MinchinWeb\_Marine\_</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    - Marine and ship related functions.</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">- `%MinchinWeb.ShipPathfinder` ← \_MinchinWeb\_ShipPathfinder\_</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">    - A geometry based Ship Pathfinder.</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">- `%MinchinWeb.SpiralWalker` ← \_MinchinWeb\_SW\_</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">    - **Spiral Walker** -- allows you to define a starting point, and then</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">      &#39;</span>walk<span class="stringliteral">&#39; all the tiles in a spiral outward. It was originally used to find a</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral">      buildable spot for my HQ in WmDOT, but is useful for many other things as</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">      well.</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral">- `%MinchinWeb.Station` ← \_MinchinWeb\_Station\_</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="stringliteral">- `%MinchinWeb.RoadPathfinder` ← \_MinchinWeb\_RoadPathfinder\_</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">    - Based on NoAI Team&#39;</span>s pathfinder. The pathfinder uses the A* search pattern</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      and includes functions to find the path, determine its cost, and build it.</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      Can bridge over rivers, canals, and railroad tracks.</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;- `%<a class="code" href="class_minchin_web.html">MinchinWeb</a>.<a class="code" href="class_minchin_web.html#aa30681271394418b8644946d581c4976">WaterbodyCheck</a>` ← \_MinchinWeb\_WBC\_</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    - Waterbody Check - in effect a specialized pathfinder. It serves to check</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      whether two points are in the same waterbody (i.e. a ship could travel</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      between them). It is optimized to run extremely fast (I hope!). It can be</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      called seperately, but was originally designed as a pre-run check <span class="keywordflow">for</span> my</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      Ship Pathfinder.</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;Changelog</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;===============================================================================</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">### Version 6</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;Released 2012-12-31</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;- Added Dominion Land System (DLS) which allows for grid based pathfinding</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;- Update license statement</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;- Moved source code to</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    [GitHub](https:<span class="comment">//github.com/MinchinWeb/openttd-metalibrary/) and</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    updated URL&#39;s</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;- Road Pathfinder no longer chokes if a bridge doesn&#39;t have a parent path</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral">- `%MinchinWeb.Lakes` ← \_MinchinWeb\_Lakes\_</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">    - **Lakes** serves as a check to determine if two points are in the same</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">      waterbody. It was written as a replacement for Waterbody Check. Lakes</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">      remembers the work it has previously done, which makes subsequent requests</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">      much faster.</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">- `%MinchinWeb.LineWalker` ← \_MinchinWeb\_LW\_</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">    - **Line Walker** -- walk the map between two points, or start at a given</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">      point and walk out at a given slope.</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">- `%MinchinWeb.Log` ← \_MinchinWeb\_Log\_</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">    - help (dynamically) control the amount of debugging output displayed.</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">- `%MinchinWeb.Industry` ← \_MinchinWeb\_Industry\_</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">- `%MinchinWeb.Marine` ← \_MinchinWeb\_Marine\_</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">    - Marine and ship related functions.</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral">- `%MinchinWeb.ShipPathfinder` ← \_MinchinWeb\_ShipPathfinder\_</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">    - A geometry based Ship Pathfinder.</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral">- `%MinchinWeb.SpiralWalker` ← \_MinchinWeb\_SW\_</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="stringliteral">    - **Spiral Walker** -- allows you to define a starting point, and then</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">      &#39;</span>walk<span class="stringliteral">&#39; all the tiles in a spiral outward. It was originally used to find a</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">      buildable spot for my HQ in WmDOT, but is useful for many other things as</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">      well.</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">- `%MinchinWeb.Station` ← \_MinchinWeb\_Station\_</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">    - some station related functions</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">- `%MinchinWeb.RoadPathfinder` ← \_MinchinWeb\_RoadPathfinder\_</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral">    - Based on NoAI Team&#39;</span>s pathfinder. The pathfinder uses the A* search pattern</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      and includes functions to find the path, determine its cost, and build it.</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      Can bridge over rivers, canals, and railroad tracks.</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;- `%<a class="code" href="class_minchin_web.html">MinchinWeb</a>.<a class="code" href="class_minchin_web.html#aa30681271394418b8644946d581c4976">WaterbodyCheck</a>` ← \_MinchinWeb\_WBC\_</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    - **Note**: Waterbody Check has been deprecated in favour of Lakes</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    - Waterbody Check - in effect a specialized pathfinder. It serves to check</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      whether two points are in the same waterbody (i.e. a ship could travel</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      between them). It is optimized to run extremely fast (I hope!). It can be</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      called separately, but was originally designed as a pre-run check <span class="keywordflow">for</span> my</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      Ship Pathfinder.</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;Changelog</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;===============================================================================</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor">### Version 7</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;Released 2014-02-28</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;Read the complete [Changelog](md_openttd-metalibrary_changelog.html).</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;Installation                                                    {#installation}</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;===============================================================================</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;The easiest way install MetaLibrary is the use the in-game downloader in</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;OpenTTD.</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;If you want to manually install it, download the folder and place it in your</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;`..\OpenTTD\ai\library\` folder.</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;For you to use the library in your AI<span class="stringliteral">&#39;s you&#39;</span>ll need to <span class="keyword">import</span> it. Somewhere</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;outside of any other <span class="keyword">class </span>or function, add an import statement like:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    Import(&quot;util.MinchinWeb&quot;, &quot;MinchinWeb&quot;, 6);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;Requirements                                                    {#requirements}</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;===============================================================================</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;- Added Lakes as a replacement <span class="keywordflow">for</span> WaterBodyCheck</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;- Ship Pathfinder now uses Lakes rather than WaterBodyCheck</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;- Ship Pathfinder now makes sure every point is in the same waterbody before</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    adding it to the path</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;- WaterBodyCheck is now deprecated</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;- Documentation <span class="keywordflow">for</span> MetaLibrary is now online at</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    [Minchin.ca](http:<span class="comment">//minchin.ca/openttd-metalibrary)</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;- Fix array creation bugs in Array.Create2D(), Array.Create3D()</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;- Added Array.RemoveDuplicates(Array)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;- Added Array.ToAIList(Array)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;- Added Extras.MinDistance(TileID, TargetArray); can be used as a valuator</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;- Split Constants from Extras (file only, <span class="keyword">function</span> access remains the same)</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;- Split Industry from Extras (file only, <span class="keyword">function</span> access remains the same)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;- Split Station from Extras (file only, <span class="keyword">function</span> access remains the same)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;- Bumped maximum Log `Debug_Level` to 8</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;- Added separate Changelog file</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;- Rename `Readme.txt` to `Readme.md`</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;- Update requirement to Fibonacci Heap, v.3</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;If installed from the in-game downloader, the dependencies will</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;automatically be downloaded and installed. Otherwise, you<span class="stringliteral">&#39;ll need the</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="stringliteral">following libraries:</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="stringliteral">- [Binary Heap], v.1    (`Queue.BinaryHeap-1.tar`)  </span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="stringliteral">- Fibonacci Heap, v.2   (`Queue.FibonacciHeap-2.tar`)  (no link available)</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="stringliteral">- [Graph.AyStar], v.6   (`Graph.AyStar-6.tar`)</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="stringliteral">[Binary Heap]: http://binaries.openttd.org/bananas/ailibrary/Queue.BinaryHeap-1.tar.gz</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="stringliteral">[Graph.AyStar]: http://binaries.openttd.org/bananas/ailibrary/Graph.AyStar-6.tar.gz</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="stringliteral">OpenTTD is able to read uncompressed `tar` files without any problem.</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="stringliteral">FAQ                                                                      {#faq}</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="stringliteral">===============================================================================</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="stringliteral">**Q:**  How do I use the sub-libraries directly?</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="stringliteral">**A:**  Import the main library, and then create global points to the</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="stringliteral">        sub-libaries you want to use. Eg:</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="stringliteral">~~~ </span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="stringliteral">        Import(&quot;util.MinchinWeb&quot;, &quot;MinchinWeb&quot;, 6);</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="stringliteral">        Arrays &lt;- MinchinWeb.Arrays;</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="stringliteral">~~~</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="stringliteral">*Info:* See the sub-library files for the functions available and their</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="stringliteral">            implementation.</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;Read the complete [Changelog](md_openttd-metalibrary_changelog.html).</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;Installation                                                    {#installation}</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;===============================================================================</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;The easiest way install MetaLibrary is the use the in-game downloader in</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;OpenTTD.</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;If you want to manually install it, download the folder and place it in your</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;`..\OpenTTD\ai\library\` folder.</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;For you to use the library in your AI<span class="stringliteral">&#39;s you&#39;</span>ll need to <span class="keyword">import</span> it. Somewhere</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;outside of any other <span class="keyword">class </span>or function, add an import statement like:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    Import(&quot;util.MinchinWeb&quot;, &quot;MinchinWeb&quot;, 7);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;Requirements                                                    {#requirements}</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;===============================================================================</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;If installed from the in-game downloader, the dependencies will</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;automatically be downloaded and installed. Otherwise, you<span class="stringliteral">&#39;ll need the</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="stringliteral">following libraries:</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="stringliteral">- [Binary Heap], v.1    (`Queue.BinaryHeap-1.tar`)  </span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="stringliteral">- [Fibonacci Heap], v.3 (`Queue.FibonacciHeap-3.tar`)</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="stringliteral">- [Graph.AyStar], v.6   (`Graph.AyStar-6.tar`)</span></div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="stringliteral">**Q:**  What is the \_MinchinWeb\_ ... all over the place?</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="stringliteral">**A:**  I can&#39;</span>t answer it better than Zuu when he put together his SuperLib, so</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        I<span class="stringliteral">&#39;ll quote him.</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="stringliteral">&gt; &quot; Unfortunately due to constraints in OpenTTD and Squirrel, only the</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="stringliteral">&gt;   main class of a library will be renamed at import. For [MetaLib]</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="stringliteral">&gt;   that is the [MetaLib] class in this file. Every other class in this</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="stringliteral">&gt;   file or other .nut files that the library is built up by will end</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="stringliteral">&gt;   up at the global scope at the AI that imports the library. The</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="stringliteral">&gt;   global scope of the library will get merged with the global scope</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="stringliteral">&gt;   of your AI.</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="stringliteral">&gt;</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="stringliteral">&gt; &quot; To reduce the risk of causing you conflict problems this library</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="stringliteral">&gt;   prefixes everything that ends up at the global scope of AIs with</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="stringliteral">&gt;   [ \_MinchinWeb\_ ]. That is also why the library is not named Utils or</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="stringliteral">&gt;   something with higher risk of you already having at your global</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="stringliteral">&gt;   scope.</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="stringliteral">&gt;</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="stringliteral">&gt; &quot; You should however never need to use any of the [ \_MinchinWeb\_ ... ]</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="stringliteral">&gt;   names as a user of this library. It is not even recommended to do</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="stringliteral">&gt;   so as it is part of the implementation and could change without</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="stringliteral">&gt;   notice. &quot;</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="stringliteral">&gt;</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="stringliteral">&gt; -- Zuu, SuperLib v.7 documentation</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="stringliteral">A grand &#39;</span>Thank You<span class="stringliteral">&#39; to Zuu for his SuperLib that provided a very useful</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="stringliteral">    model, to all the NoAI team to their work on making the AI system work,</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="stringliteral">    and to everyone that has brought us the amazing game of OpenTTD.</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="stringliteral">License                                                              {#license}</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="stringliteral">===============================================================================</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="stringliteral">**Minchinweb&#39;</span>s MetaLibrary** v.6 [2012-12-31]</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;Copyright © 2011-14 by W. Minchin.</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;For more info,</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    please visit &lt;https:<span class="comment">//github.com/MinchinWeb/openttd-metalibrary&gt;</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;Permission is granted to you to use, copy, modify, merge, publish, </div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;distribute, sublincense, and/or sell <span class="keyword">this</span> software, and provide these </div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;rights to others, provided:</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;- The above copyright notice and <span class="keyword">this</span> permission notice shall be included</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    in all copies or substantial portions of the software.</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;- Attribution is provided in the normal place <span class="keywordflow">for</span> recognition of 3rd party</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    contributions.</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;- You accept that <span class="keyword">this</span> software is provided to you <span class="stringliteral">&quot;as is&quot;</span>, without warranty.</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;\note   \_MinchinWeb\_RoadPathfinder\_ is separately licensed under</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        LGPL v.2.1.</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;Links                                                                  {#links}</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;===============================================================================</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;-   Discussion thread <span class="keywordflow">for</span> MetaLibarary on TT-Forums -- </div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    &lt;http:<span class="comment">//www.tt-forums.net/viewtopic.php?f=65&amp;t=57903&gt;</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;-   MetaLibrary code, hosted on GitHub -- </div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    &lt;https:<span class="comment">//github.com/MinchinWeb/openttd-metalibrary/&gt;</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;-   MetaLibrary documentation -- </div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    &lt;http:<span class="comment">//minchin.ca/opettd-metalibrary/&gt;</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;Notes To Me                                                            {#notes}</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;===============================================================================</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;\todo       Notes about <span class="keyword">static</span> classes, what they are, and which classes</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            are <span class="stringliteral">&#39;static&#39;</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;\todo       Update to Fibonacci Heap, v.3</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;\todo       Consider Fibonacci Heap version in NoCAB</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;\todo       Add picture of in game downloader</div>
-<div class="ttc" id="class_minchin_web_html_aa30681271394418b8644946d581c4976"><div class="ttname"><a href="class_minchin_web.html#aa30681271394418b8644946d581c4976">MinchinWeb::WaterbodyCheck</a></div><div class="ttdeci">static WaterbodyCheck</div><div class="ttdef"><b>Definition:</b> <a href="main_8nut_source.html#l00086">main.nut:86</a></div></div>
-<div class="ttc" id="class_minchin_web_html"><div class="ttname"><a href="class_minchin_web.html">MinchinWeb</a></div><div class="ttdoc">Main Library Class. </div><div class="ttdef"><b>Definition:</b> <a href="main_8nut_source.html#l00066">main.nut:66</a></div></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="stringliteral">[Binary Heap]: http://binaries.openttd.org/bananas/ailibrary/Queue.BinaryHeap-1.tar.gz</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="stringliteral">[Graph.AyStar]: http://binaries.openttd.org/bananas/ailibrary/Graph.AyStar-6.tar.gz</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="stringliteral">[Fibonacci Heap]: http://binaries.openttd.org/bananas/ailibrary/Queue.FibonacciHeap-3.tar.gz</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="stringliteral">OpenTTD is able to read uncompressed `tar` files without any problem.</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="stringliteral">FAQ                                                                      {#faq}</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="stringliteral">===============================================================================</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="stringliteral">**Q:**  How do I use the sub-libraries directly?</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="stringliteral">**A:**  Import the main library, and then create global points to the</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="stringliteral">        sub-libaries you want to use. Eg:</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="stringliteral">~~~ </span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="stringliteral">        Import(&quot;util.MinchinWeb&quot;, &quot;MinchinWeb&quot;, 6);</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="stringliteral">        Arrays &lt;- MinchinWeb.Arrays;</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="stringliteral">~~~</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="stringliteral">*Info:* See the sub-library files for the functions available and their</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="stringliteral">            implementation.</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="stringliteral">**Q:**  What is the \_MinchinWeb\_ ... all over the place?</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="stringliteral">**A:**  I can&#39;</span>t answer it better than Zuu when he put together his SuperLib, so</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        I<span class="stringliteral">&#39;ll quote him.</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="stringliteral">&gt; &quot; Unfortunately due to constraints in OpenTTD and Squirrel, only the</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="stringliteral">&gt;   main class of a library will be renamed at import. For [MetaLib]</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="stringliteral">&gt;   that is the [MetaLib] class in this file. Every other class in this</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="stringliteral">&gt;   file or other .nut files that the library is built up by will end</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="stringliteral">&gt;   up at the global scope at the AI that imports the library. The</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="stringliteral">&gt;   global scope of the library will get merged with the global scope</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="stringliteral">&gt;   of your AI.</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="stringliteral">&gt;</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="stringliteral">&gt; &quot; To reduce the risk of causing you conflict problems this library</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="stringliteral">&gt;   prefixes everything that ends up at the global scope of AIs with</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="stringliteral">&gt;   [ \_MinchinWeb\_ ]. That is also why the library is not named Utils or</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="stringliteral">&gt;   something with higher risk of you already having at your global</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="stringliteral">&gt;   scope.</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="stringliteral">&gt;</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="stringliteral">&gt; &quot; You should however never need to use any of the [ \_MinchinWeb\_ ... ]</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="stringliteral">&gt;   names as a user of this library. It is not even recommended to do</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="stringliteral">&gt;   so as it is part of the implementation and could change without</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="stringliteral">&gt;   notice. &quot;</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="stringliteral">&gt;</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="stringliteral">&gt; -- Zuu, SuperLib v.7 documentation</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="stringliteral">A grand &#39;</span>Thank You<span class="stringliteral">&#39; to Zuu for his SuperLib that provided a very useful</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="stringliteral">    model, to all the NoAI team to their work on making the AI system work,</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="stringliteral">    and to everyone that has brought us the amazing game of OpenTTD.</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="stringliteral">License                                                              {#license}</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="stringliteral">===============================================================================</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="stringliteral">**Minchinweb&#39;</span>s MetaLibrary** v.7 [2017-02-28]</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;Copyright © 2011-14 by W. Minchin.</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;For more info,</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    please visit &lt;https:<span class="comment">//github.com/MinchinWeb/openttd-metalibrary&gt;</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;Permission is granted to you to use, copy, modify, merge, publish, </div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;distribute, sublicense, and/or sell <span class="keyword">this</span> software, and provide these </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;rights to others, provided:</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;- The above copyright notice and <span class="keyword">this</span> permission notice shall be included</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    in all copies or substantial portions of the software.</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;- Attribution is provided in the normal place <span class="keywordflow">for</span> recognition of 3rd party</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    contributions.</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;- You accept that <span class="keyword">this</span> software is provided to you <span class="stringliteral">&quot;as is&quot;</span>, without warranty.</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;\note   \_MinchinWeb\_RoadPathfinder\_ is separately licensed under</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        LGPL v.2.1.</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;Links                                                                  {#links}</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;===============================================================================</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;-   Discussion thread <span class="keywordflow">for</span> MetaLibarary on TT-Forums -- </div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    &lt;http:<span class="comment">//www.tt-forums.net/viewtopic.php?f=65&amp;t=57903&gt;</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;-   MetaLibrary code, hosted on GitHub -- </div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    &lt;https:<span class="comment">//github.com/MinchinWeb/openttd-metalibrary/&gt;</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;-   MetaLibrary documentation -- </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    &lt;http:<span class="comment">//minchin.ca/opettd-metalibrary/&gt;</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;Notes To Me                                                            {#notes}</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;===============================================================================</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;\todo       Notes about <span class="keyword">static</span> classes, what they are, and which classes</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            are <span class="stringliteral">&#39;static&#39;</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;\todo       Consider Fibonacci Heap version in NoCAB</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;\todo       Add picture of in game downloader</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;\todo       Look into theming dOxygen output</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;\todo       Add <span class="stringliteral">&#39;News&#39;</span> tab pointing back to my Blog updates on MetaLibrary</div>
+<div class="ttc" id="class_minchin_web_html_aa30681271394418b8644946d581c4976"><div class="ttname"><a href="class_minchin_web.html#aa30681271394418b8644946d581c4976">MinchinWeb::WaterbodyCheck</a></div><div class="ttdeci">static WaterbodyCheck</div><div class="ttdef"><b>Definition:</b> <a href="main_8nut_source.html#l00089">main.nut:89</a></div></div>
+<div class="ttc" id="class_minchin_web_html"><div class="ttname"><a href="class_minchin_web.html">MinchinWeb</a></div><div class="ttdoc">Main Library Class. </div><div class="ttdef"><b>Definition:</b> <a href="main_8nut_source.html#l00069">main.nut:69</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="readme_8md.html">readme.md</a></li>
-    <li class="footer">Generated on Sat Feb 1 2014 18:53:07 for MinchinWeb&#39;s MetaLibrary by
+    <li class="footer">Generated on Sat Mar 1 2014 12:55:11 for MinchinWeb&#39;s MetaLibrary by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

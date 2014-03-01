@@ -2,6 +2,9 @@ var class___minchin_web___ship_pathfinder__ =
 [
     [ "Cost", "class___minchin_web___ship_pathfinder___1_1_cost.html", "class___minchin_web___ship_pathfinder___1_1_cost" ],
     [ "Info", "class___minchin_web___ship_pathfinder___1_1_info.html", "class___minchin_web___ship_pathfinder___1_1_info" ],
+    [ "_InsertPoint", "class___minchin_web___ship_pathfinder__.html#a82946529dadb07c648622f26330cb615", null ],
+    [ "_PathLength", "class___minchin_web___ship_pathfinder__.html#a27cfd8fc211edfee87f347b8e2deb495", null ],
+    [ "_PathToTilesArray", "class___minchin_web___ship_pathfinder__.html#a420953e3b7aa63aa24f7490cf4cf57a7", null ],
     [ "BuildPathBuoys", "class___minchin_web___ship_pathfinder__.html#aa3a8b573b52d852f1d9b95bc7262d00e", null ],
     [ "constructor", "class___minchin_web___ship_pathfinder__.html#a7ace84f82d89aa2d5c6812bf66417ab1", null ],
     [ "CountPathBuoys", "class___minchin_web___ship_pathfinder__.html#adaf78109e4075eb7b85fd8475e934cc3", null ],
@@ -25,8 +28,10 @@ var class___minchin_web___ship_pathfinder__ =
     [ "_paths", "class___minchin_web___ship_pathfinder__.html#a6ace900602756f99f5f0301f92fa0ff6", null ],
     [ "_points", "class___minchin_web___ship_pathfinder__.html#a5734856dd51908d2b7930df1d7f1c332", null ],
     [ "_running", "class___minchin_web___ship_pathfinder__.html#a9c27139d36707bbe43dd8d7feb9ac075", null ],
+    [ "_testedpaths", "class___minchin_web___ship_pathfinder__.html#a8ee515604540d1867e3af532347cd3cd", null ],
     [ "_UnfinishedPaths", "class___minchin_web___ship_pathfinder__.html#a465be1360e7f9dd373f19bf61c86711d", null ],
     [ "_waterbody_check", "class___minchin_web___ship_pathfinder__.html#a3bcdc51cea67fdd99bcc51ba3e36c5a1", null ],
+    [ "_WBC", "class___minchin_web___ship_pathfinder__.html#a9c89a614ad614ed9dd15b385b16010bb", null ],
     [ "_WBC_class", "class___minchin_web___ship_pathfinder__.html#a77336e0daa84e60e31c9f6c84acbac8e", null ],
     [ "cost", "class___minchin_web___ship_pathfinder__.html#adbb6214d2d94f1e8e245094a8f3e0f17", null ],
     [ "info", "class___minchin_web___ship_pathfinder__.html#a5d05bf0fd817132a34f588f6f514cd35", null ]

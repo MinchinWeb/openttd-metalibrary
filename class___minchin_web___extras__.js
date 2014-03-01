@@ -9,6 +9,7 @@ var class___minchin_web___extras__ =
     [ "MidPoint", "class___minchin_web___extras__.html#a0101b6c2cb3be4d2de4cf565861b09d9", null ],
     [ "MinAbsFloat", "class___minchin_web___extras__.html#a3b16df212353042b0b92d9e35a50820f", null ],
     [ "MinAbsFloatKeepSign", "class___minchin_web___extras__.html#a80ae0133ef0581cd8babf8a398dca75e", null ],
+    [ "MinDistance", "class___minchin_web___extras__.html#a5ce4235358749f5ca3150067c1592e64", null ],
     [ "MinFloat", "class___minchin_web___extras__.html#a64eba7534a82630d881ef800f75e4d28", null ],
     [ "NextCardinalTile", "class___minchin_web___extras__.html#a0636476d9a4aeeadedb7af3346562b51", null ],
     [ "Perpendicular", "class___minchin_web___extras__.html#a3ae97abd78666e493ceea2af7ed06581", null ],

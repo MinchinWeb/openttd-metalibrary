@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MinchinWeb&#39;s MetaLibrary
-   &#160;<span id="projectnumber">v.6</span>
+   &#160;<span id="projectnumber">v.7</span>
    </div>
    <div id="projectbrief">Library functions of OpenTTD AI writers.</div>
   </td>
@@ -162,19 +162,22 @@ Static Public Attributes</h2></td></tr>
 <tr class="separator:a855559e81eb15777fa096914bdac48b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61a7f3171289e8be138635c207f99320"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minchin_web.html#a61a7f3171289e8be138635c207f99320">DLS</a> = <a class="el" href="class___minchin_web___d_l_s__.html">_MinchinWeb_DLS_</a></td></tr>
 <tr class="separator:a61a7f3171289e8be138635c207f99320"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a716b92177352a314dac5f01f58cf2c0f"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_minchin_web.html#a716b92177352a314dac5f01f58cf2c0f">Lakes</a> = <a class="el" href="class___minchin_web___lakes__.html">_MinchinWeb_Lakes_</a></td></tr>
+<tr class="separator:a716b92177352a314dac5f01f58cf2c0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Main Library Class. </p>
 <p>This is the main class of the Library. It will be renamed on importing the library into your AI. </p>
-<pre class="fragment">Import("util.MinchinWeb", "[your_access_name]", 6);
+<pre class="fragment">Import("util.MinchinWeb", "[your_access_name]", 7);
 </pre><p>(Don't really use <code>[your_access_name]</code>, use something that is easy enough to type and will remind you of where the functions are coming from. I like to use <code>MinchinWeb</code>.)</p>
 <p>Using imported name for the library, you can then access the various sublibraries. For example:</p>
 <ul>
 <li><code>MinchinWeb.Atlas</code> &lt;- <a class="el" href="class___minchin_web___atlas__.html" title="Keep track of the world – match sources and destinations. ">_MinchinWeb_Atlas_</a></li>
-<li><code>MinchinWeb.Array</code> &lt;- <a class="el" href="class___minchin_web___array__.html" title="Arrays. ">_MinchinWeb_Array_</a></li>
+<li><code>MinchinWeb.Array</code> &lt;- <a class="el" href="class___minchin_web___array__.html" title="Array. ">_MinchinWeb_Array_</a></li>
 <li><code>MinchinWeb.Constants</code> &lt;- <a class="el" href="class___minchin_web___c__.html" title="Constants. ">_MinchinWeb_C_</a></li>
 <li><code>MinchinWeb.DLS</code> &lt;- <a class="el" href="class___minchin_web___d_l_s__.html" title="Dominion Land System (Road Pathfinder) ">_MinchinWeb_DLS_</a></li>
 <li><code>MinchinWeb.Extras</code> &lt;- <a class="el" href="class___minchin_web___extras__.html" title="Extra functions. ">_MinchinWeb_Extras_</a></li>
+<li><code>MinchinWeb.Lakes</code> &lt;- <a class="el" href="class___minchin_web___lakes__.html" title="Lakes. ">_MinchinWeb_Lakes_</a></li>
 <li><code>MinchinWeb.LineWalker</code> &lt;- <a class="el" href="class___minchin_web___l_w__.html" title="Line Walker. ">_MinchinWeb_LW_</a></li>
 <li><code>MinchinWeb.Log</code> &lt;- <a class="el" href="class___minchin_web___log__.html" title="Logging Interface. ">_MinchinWeb_Log_</a></li>
 <li><code>MinchinWeb.Industry</code> &lt;- <a class="el" href="class___minchin_web___industry__.html" title="Industries. ">_MinchinWeb_Industry_</a></li>
@@ -183,10 +186,10 @@ Static Public Attributes</h2></td></tr>
 <li><code>MinchinWeb.SpiralWalker</code> &lt;- <a class="el" href="class___minchin_web___s_w__.html" title="Spiral Walker. ">_MinchinWeb_SW_</a></li>
 <li><code>MinchinWeb.Station</code> &lt;- <a class="el" href="class___minchin_web___station__.html" title="Station. ">_MinchinWeb_Station_</a></li>
 <li><code>MinchinWeb.RoadPathfinder</code> &lt;- <a class="el" href="class___minchin_web___road_pathfinder__.html" title="A Road Pathfinder (and extras) ">_MinchinWeb_RoadPathfinder_</a></li>
-<li><code>MinchinWeb.WaterbodyCheck</code> &lt;- <a class="el" href="class___minchin_web___w_b_c__.html" title="Waterbody Check. ">_MinchinWeb_WBC_</a> </li>
+<li><code>MinchinWeb.WaterbodyCheck</code> &lt;- <a class="el" href="class___minchin_web___w_b_c__.html" title="Waterbody Check (deprecated) ">_MinchinWeb_WBC_</a> </li>
 </ul>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00066">66</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00069">69</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="aff76f12f35068f011befa2e9d04937f4"></a>
 <div class="memitem">
@@ -209,7 +212,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00071">71</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00074">74</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -234,7 +237,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00072">72</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00075">75</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -259,7 +262,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00070">70</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00073">73</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -284,7 +287,7 @@ Static Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00069">69</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00072">72</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -306,9 +309,9 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___array__.html" title="Arrays. ">_MinchinWeb_Array_</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___array__.html" title="Array. ">_MinchinWeb_Array_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00080">80</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00083">83</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -331,7 +334,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___atlas__.html" title="Keep track of the world – match sources and destinations. ">_MinchinWeb_Atlas_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00099">99</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00102">102</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -354,7 +357,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___c__.html" title="Constants. ">_MinchinWeb_C_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00095">95</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00098">98</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -377,7 +380,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___d_l_s__.html" title="Dominion Land System (Road Pathfinder) ">_MinchinWeb_DLS_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00114">114</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00117">117</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -400,7 +403,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___extras__.html" title="Extra functions. ">_MinchinWeb_Extras_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00083">83</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00086">86</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -423,7 +426,30 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___industry__.html" title="Industries. ">_MinchinWeb_Industry_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00105">105</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00108">108</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a716b92177352a314dac5f01f58cf2c0f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">MinchinWeb::Lakes = <a class="el" href="class___minchin_web___lakes__.html">_MinchinWeb_Lakes_</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___lakes__.html" title="Lakes. ">_MinchinWeb_Lakes_</a> </dd></dl>
+
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00121">121</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -446,7 +472,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___l_w__.html" title="Line Walker. ">_MinchinWeb_LW_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00089">89</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00092">92</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -469,7 +495,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___log__.html" title="Logging Interface. ">_MinchinWeb_Log_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00111">111</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00114">114</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -492,7 +518,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___marine__.html" title="Water and Ship related functions. ">_MinchinWeb_Marine_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00102">102</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00105">105</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -515,7 +541,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___road_pathfinder__.html" title="A Road Pathfinder (and extras) ">_MinchinWeb_RoadPathfinder_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00074">74</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00077">77</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -538,7 +564,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___ship_pathfinder__.html" title="A Ship Pathfinder. ">_MinchinWeb_ShipPathfinder_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00077">77</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00080">80</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -561,7 +587,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___s_w__.html" title="Spiral Walker. ">_MinchinWeb_SW_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00092">92</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00095">95</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -584,7 +610,7 @@ Static Public Attributes</h2></td></tr>
 </div><div class="memdoc">
 <dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___station__.html" title="Station. ">_MinchinWeb_Station_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00108">108</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00111">111</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -605,9 +631,9 @@ Static Public Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___w_b_c__.html" title="Waterbody Check. ">_MinchinWeb_WBC_</a> </dd></dl>
+<dl class="section see"><dt>See Also</dt><dd><a class="el" href="class___minchin_web___w_b_c__.html" title="Waterbody Check (deprecated) ">_MinchinWeb_WBC_</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="main_8nut_source.html#l00086">86</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
+<p>Definition at line <a class="el" href="main_8nut_source.html#l00089">89</a> of file <a class="el" href="main_8nut_source.html">main.nut</a>.</p>
 
 </div>
 </div>
@@ -620,7 +646,7 @@ Static Public Attributes</h2></td></tr>
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="class_minchin_web.html">MinchinWeb</a></li>
-    <li class="footer">Generated on Sat Feb 1 2014 18:53:10 for MinchinWeb&#39;s MetaLibrary by
+    <li class="footer">Generated on Sat Mar 1 2014 12:55:14 for MinchinWeb&#39;s MetaLibrary by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

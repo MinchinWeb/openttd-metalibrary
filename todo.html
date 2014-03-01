@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MinchinWeb&#39;s MetaLibrary
-   &#160;<span id="projectnumber">v.6</span>
+   &#160;<span id="projectnumber">v.7</span>
    </div>
    <div id="projectbrief">Library functions of OpenTTD AI writers.</div>
   </td>
@@ -116,7 +116,7 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dd>Add error check that an array is provided  </dd>
 <dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="class___minchin_web___array__.html#aff29e1a0bbcdb013b3797f5b78c6dfe1">_MinchinWeb_Array_::ContainedIn3D</a>  (InArray, SearchValue)</dt>
 <dd>Add error check that an array is provided  </dd>
-<dt><a class="anchor" id="_todo000014"></a>Member <a class="el" href="class___minchin_web___array__.html#a492a651a61ff26f574a795a8c8dc6727">_MinchinWeb_Array_::ContainedInPairs</a>  (InArray2D, SearchValue1, SearchValue2)</dt>
+<dt><a class="anchor" id="_todo000015"></a>Member <a class="el" href="class___minchin_web___array__.html#a492a651a61ff26f574a795a8c8dc6727">_MinchinWeb_Array_::ContainedInPairs</a>  (InArray2D, SearchValue1, SearchValue2)</dt>
 <dd>Add error check that a 2D array is provided  </dd>
 <dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="class___minchin_web___array__.html#aa14fdf8d9d47a4a018246dfa7f6a8e3f">_MinchinWeb_Array_::Find1D</a>  (InArray, SearchValue)</dt>
 <dd>Add error check that an array is provided  </dd>
@@ -124,86 +124,97 @@ $(document).ready(function(){initNavTree('todo.html','');});
 <dd>Add error check that an array is provided  </dd>
 <dt><a class="anchor" id="_todo000009"></a>Member <a class="el" href="class___minchin_web___array__.html#a5b83c9a105e82a77a3a7e0844c7d57ab">_MinchinWeb_Array_::Find3D</a>  (InArray, SearchValue)</dt>
 <dd>Add error check that an array is provided  </dd>
-<dt><a class="anchor" id="_todo000013"></a>Member <a class="el" href="class___minchin_web___array__.html#a4ab51da2e10454c396fef1bd30011b34">_MinchinWeb_Array_::FindPairs</a>  (InArray2D, SearchValue1, SearchValue2)</dt>
+<dt><a class="anchor" id="_todo000014"></a>Member <a class="el" href="class___minchin_web___array__.html#a4ab51da2e10454c396fef1bd30011b34">_MinchinWeb_Array_::FindPairs</a>  (InArray2D, SearchValue1, SearchValue2)</dt>
 <dd>Add error check that a 2D array is provided  </dd>
 <dt><a class="anchor" id="_todo000011"></a>Member <a class="el" href="class___minchin_web___array__.html#a7c64e361195a351670aceb25c268cc1f">_MinchinWeb_Array_::InsertValueAt</a>  (InArray, Index, Value)</dt>
 <dd><p class="startdd">Add error check that an array is provided </p>
 <p class="enddd">Add error check that <code>Index</code> is reasonable  </p>
 </dd>
+<dt><a class="anchor" id="_todo000016"></a>Member <a class="el" href="class___minchin_web___array__.html#aec87901df4c084277dd43253b30f017c">_MinchinWeb_Array_::RemoveDuplicates</a>  (Array)</dt>
+<dd>Add error check that an array is provided.  </dd>
 <dt><a class="anchor" id="_todo000010"></a>Member <a class="el" href="class___minchin_web___array__.html#a9c3e8f46b227d576ab4bf91b846c5aff">_MinchinWeb_Array_::RemoveValueAt</a>  (InArray, Index)</dt>
 <dd>Add error check that an array is provided  </dd>
-<dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="class___minchin_web___array__.html#ac246558cb2bf08b850f7019245db57b3">_MinchinWeb_Array_::ToString1D</a>  (InArray)</dt>
+<dt><a class="anchor" id="_todo000017"></a>Member <a class="el" href="class___minchin_web___array__.html#a9a2522d9da87a991f7f31bb51ef7babe">_MinchinWeb_Array_::ToAIList</a>  (Array)</dt>
+<dd>Add error check that an array is provided.  </dd>
+<dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="class___minchin_web___array__.html#aa3d8c0323a7fbecd8c73d29fade7fe46">_MinchinWeb_Array_::ToString1D</a>  (InArray, DisplayLength=true, replaceNull=false)</dt>
 <dd>Add error check that an array is provided  </dd>
-<dt><a class="anchor" id="_todo000002"></a>Member <a class="el" href="class___minchin_web___array__.html#a1409dfd66f776698f460ecd3dfb2d1d3">_MinchinWeb_Array_::ToString2D</a>  (InArray)</dt>
+<dt><a class="anchor" id="_todo000002"></a>Member <a class="el" href="class___minchin_web___array__.html#ad79fe445393dbc66de2f4a2f4f95754d">_MinchinWeb_Array_::ToString2D</a>  (InArray, DisplayLength=true)</dt>
 <dd>Add error check that a 2D array is provided  </dd>
 <dt><a class="anchor" id="_todo000012"></a>Member <a class="el" href="class___minchin_web___array__.html#ab95c88952b6911f0b0d8b7910897c005">_MinchinWeb_Array_::ToStringTiles1D</a>  (InArrayOfTiles, ArrayLength=false)</dt>
-<dd>Add error check that an array is provided  </dd>
-<dt><a class="anchor" id="_todo000015"></a>Member <a class="el" href="class___minchin_web___c__.html#a30668a565b70eb66c50f71be8010ff7f">_MinchinWeb_C_::FloatOffset</a>  ()</dt>
+<dd><p class="startdd">Add error check that an array is provided </p>
+<p class="enddd">Add a better error message if you try and feed it not a 1-D array  </p>
+</dd>
+<dt><a class="anchor" id="_todo000013"></a>Member <a class="el" href="class___minchin_web___array__.html#a1d18a6554e49bab31ba343a12f1f78b6">_MinchinWeb_Array_::ToStringTiles2D</a>  (InArrayOfTiles, ArrayLength=false)</dt>
+<dd><p class="startdd">Add error check that an array is provided </p>
+<p class="enddd">Add a better error message if you try and feed it not a 2-D array  </p>
+</dd>
+<dt><a class="anchor" id="_todo000018"></a>Member <a class="el" href="class___minchin_web___c__.html#a30668a565b70eb66c50f71be8010ff7f">_MinchinWeb_C_::FloatOffset</a>  ()</dt>
 <dd>Convert from an absolute number to a percentage.  </dd>
-<dt><a class="anchor" id="_todo000017"></a>Member <a class="el" href="class___minchin_web___d_l_s__.html#a52e4dcae5961f823c9987a2c683fe3cf">_MinchinWeb_DLS_::FindPath</a>  (cycles=10000)</dt>
+<dt><a class="anchor" id="_todo000019"></a>Member <a class="el" href="class___minchin_web___c__.html#a7c56ba421ac8d994ef05c7d7b7744e41">_MinchinWeb_C_::InvalidTile</a>  ()</dt>
+<dd>Check that this is still valid on 4096x4096 maps.  </dd>
+<dt><a class="anchor" id="_todo000021"></a>Member <a class="el" href="class___minchin_web___d_l_s__.html#a52e4dcae5961f823c9987a2c683fe3cf">_MinchinWeb_DLS_::FindPath</a>  (cycles=10000)</dt>
 <dd>stop ignoring the passed parameter of <code>cycles</code>  </dd>
-<dt><a class="anchor" id="_todo000016"></a>Member <a class="el" href="class___minchin_web___d_l_s__.html#ab05075afb4435840c95c219f8925040c">_MinchinWeb_DLS_::SetDatum</a>  (NewDatum)</dt>
+<dt><a class="anchor" id="_todo000020"></a>Member <a class="el" href="class___minchin_web___d_l_s__.html#ab05075afb4435840c95c219f8925040c">_MinchinWeb_DLS_::SetDatum</a>  (NewDatum)</dt>
 <dd>Add error check  </dd>
-<dt><a class="anchor" id="_todo000018"></a>Member <a class="el" href="class___minchin_web___l_w__.html#a59d46ecd5b415c9398bdf014efd5271d">_MinchinWeb_LW_::Slope</a>  (Slope, ThirdQuadrant=false)</dt>
+<dt><a class="anchor" id="_todo000022"></a>Member <a class="el" href="class___minchin_web___extras__.html#a5ce4235358749f5ca3150067c1592e64">_MinchinWeb_Extras_::MinDistance</a>  (TileID, TargetArray)</dt>
+<dd>Remove invalid tiles from the TargetArray  </dd>
+<dt><a class="anchor" id="_todo000023"></a>Member <a class="el" href="class___minchin_web___l_w__.html#a59d46ecd5b415c9398bdf014efd5271d">_MinchinWeb_LW_::Slope</a>  (Slope, ThirdQuadrant=false)</dt>
 <dd>Add a picture of the four Cartesian quadrants  </dd>
-<dt><a class="anchor" id="_todo000019"></a>Member <a class="el" href="class___minchin_web___marine__.html#a8fdd1a2809a66640cb67c2891a2913aa">_MinchinWeb_Marine_::BuildDepot</a>  (DockTile, Front, NotNextToDock=true)</dt>
+<dt><a class="anchor" id="_todo000024"></a>Member <a class="el" href="class___minchin_web___marine__.html#a8fdd1a2809a66640cb67c2891a2913aa">_MinchinWeb_Marine_::BuildDepot</a>  (DockTile, Front, NotNextToDock=true)</dt>
 <dd>Check documentation of parameters.  </dd>
-<dt><a class="anchor" id="_todo000021"></a>Member <a class="el" href="class___minchin_web___marine__.html#aa94e8c5c4265de76c17b85768a4da5b5">_MinchinWeb_Marine_::NearestDepot</a>  (TileID)</dt>
+<dt><a class="anchor" id="_todo000026"></a>Member <a class="el" href="class___minchin_web___marine__.html#aa94e8c5c4265de76c17b85768a4da5b5">_MinchinWeb_Marine_::NearestDepot</a>  (TileID)</dt>
 <dd><p class="startdd">Add check that depot is connected to the given TileID. </p>
 <p class="enddd">Check that there is a depot to return.  </p>
 </dd>
-<dt><a class="anchor" id="_todo000020"></a>Member <a class="el" href="class___minchin_web___marine__.html#a0a931f626b1c74268a23ba08c906cf43">_MinchinWeb_Marine_::RateShips</a>  (EngineID, Life, Cargo)</dt>
-<dd>Add example of validator code. <dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">Life</td><td>Desired lifespan of route, assumed to be in years. </td></tr>
-    <tr><td class="paramname">Cargo</td><td>Doesn't work yet. Capacity is measured in the default cargo. </td></tr>
-  </table>
-  </dd>
-</dl>
-Implement ship capacity in given cargo.  </dd>
-<dt><a class="anchor" id="_todo000022"></a>Class <a class="el" href="class___minchin_web___road_pathfinder__.html">_MinchinWeb_RoadPathfinder_</a>  </dt>
+<dt><a class="anchor" id="_todo000025"></a>Member <a class="el" href="class___minchin_web___marine__.html#a0a931f626b1c74268a23ba08c906cf43">_MinchinWeb_Marine_::RateShips</a>  (EngineID, Life, Cargo)</dt>
+<dd><p class="startdd">Add example of validator code. </p>
+<p class="enddd">Implement ship capacity in given cargo.  </p>
+</dd>
+<dt><a class="anchor" id="_todo000027"></a>Class <a class="el" href="class___minchin_web___road_pathfinder__.html">_MinchinWeb_RoadPathfinder_</a>  </dt>
 <dd><p class="startdd">upgrade slow bridges along path </p>
 <p>convert existing level crossings (road/rail) to road bridge </p>
-<p>do something about one-way roads - build a pair? route around?</p>
+<p>do something about one-way roads - build a pair? route around? </p>
+<p>Add example usage code. </p>
 <p class="enddd">allow pre-building of tunnels and bridges  </p>
 </dd>
-<dt><a class="anchor" id="_todo000025"></a>Member <a class="el" href="class___minchin_web___ship_pathfinder__.html#a459e88e4d6e8df707479d073a7961bee">_MinchinWeb_ShipPathfinder_::WaterHo</a>  (StartTile, Slope, ThirdQuadrant=false)</dt>
-<dd>Add image showing the Cartesian quadrants. </dd>
-<dt><a class="anchor" id="_todo000031"></a>Member <a class="el" href="class___minchin_web___station__.html#a962ed5901b0efddd486c2680148a4c98">_MinchinWeb_Station_::DistanceFromStation</a>  (VehicleID, StationID)</dt>
+<dt><a class="anchor" id="_todo000030"></a>Member <a class="el" href="class___minchin_web___ship_pathfinder__.html#a459e88e4d6e8df707479d073a7961bee">_MinchinWeb_ShipPathfinder_::WaterHo</a>  (StartTile, Slope, ThirdQuadrant=false)</dt>
+<dd><p class="startdd">Add image showing the Cartesian quadrants. </p>
+<p class="enddd">Move to <a class="el" href="class___minchin_web___marine__.html" title="Water and Ship related functions. ">_MinchinWeb_Marine_</a> </p>
+</dd>
+<dt><a class="anchor" id="_todo000036"></a>Member <a class="el" href="class___minchin_web___station__.html#a962ed5901b0efddd486c2680148a4c98">_MinchinWeb_Station_::DistanceFromStation</a>  (VehicleID, StationID)</dt>
 <dd><p class="startdd">Add check that supplied VehicleID and StationID are valid </p>
 <p class="enddd">Add example of valuator code  </p>
 </dd>
-<dt><a class="anchor" id="_todo000030"></a>Member <a class="el" href="class___minchin_web___station__.html#a73dbd50268b8445da953bb4ca6841c74">_MinchinWeb_Station_::IsCargoAccepted</a>  (StationID, CargoID)</dt>
+<dt><a class="anchor" id="_todo000035"></a>Member <a class="el" href="class___minchin_web___station__.html#a73dbd50268b8445da953bb4ca6841c74">_MinchinWeb_Station_::IsCargoAccepted</a>  (StationID, CargoID)</dt>
 <dd>Add example of valuator code  </dd>
-<dt><a class="anchor" id="_todo000027"></a>Class <a class="el" href="class___minchin_web___s_w__.html">_MinchinWeb_SW_</a>  </dt>
+<dt><a class="anchor" id="_todo000032"></a>Class <a class="el" href="class___minchin_web___s_w__.html">_MinchinWeb_SW_</a>  </dt>
 <dd>add image showing the walk out pattern  </dd>
-<dt><a class="anchor" id="_todo000028"></a>Member <a class="el" href="class___minchin_web___s_w__.html#a6b497f377f390df5368b35163ee691da">_MinchinWeb_SW_::GetStage</a>  ()</dt>
+<dt><a class="anchor" id="_todo000033"></a>Member <a class="el" href="class___minchin_web___s_w__.html#a6b497f377f390df5368b35163ee691da">_MinchinWeb_SW_::GetStage</a>  ()</dt>
 <dd>Add an image showing how stages are counted  </dd>
-<dt><a class="anchor" id="_todo000029"></a>Member <a class="el" href="class___minchin_web___s_w__.html#a716c21d67fe76b53958d599005fd8580">_MinchinWeb_SW_::GetStep</a>  ()</dt>
+<dt><a class="anchor" id="_todo000034"></a>Member <a class="el" href="class___minchin_web___s_w__.html#a716c21d67fe76b53958d599005fd8580">_MinchinWeb_SW_::GetStep</a>  ()</dt>
 <dd>Add an image showing how steps are counted  </dd>
-<dt><a class="anchor" id="_todo000032"></a>Class <a class="el" href="class___minchin_web___w_b_c__.html">_MinchinWeb_WBC_</a>  </dt>
+<dt><a class="anchor" id="_todo000037"></a>Class <a class="el" href="class___minchin_web___w_b_c__.html">_MinchinWeb_WBC_</a>  </dt>
 <dd>Add a cost for turns that then this would function as a 'real' pathfinder (maybe...)  </dd>
-<dt><a class="anchor" id="_todo000026"></a>page <a class="el" href="index.html">About MetaLibrary</a>  </dt>
+<dt><a class="anchor" id="_todo000038"></a>Member <a class="el" href="class___minchin_web___w_b_c__.html#a9107d8736bd747596bd4b781b180c4ea">_MinchinWeb_WBC_::_Neighbours</a>  (self, path, cur_node)</dt>
+<dd>Add diagonals to possible neighbours  </dd>
+<dt><a class="anchor" id="_todo000031"></a>page <a class="el" href="index.html">About MetaLibrary</a>  </dt>
 <dd><p class="startdd">Notes about static classes, what they are, and which classes are 'static' </p>
-<p>Update to Fibonacci Heap, v.3 </p>
 <p>Consider Fibonacci Heap version in NoCAB </p>
-<p class="enddd">Add picture of in game downloader  </p>
+<p>Add picture of in game downloader </p>
+<p>Look into theming dOxygen output </p>
+<p class="enddd">Add 'News' tab pointing back to my Blog updates on MetaLibrary  </p>
 </dd>
-<dt><a class="anchor" id="_todo000024"></a>Member <a class="el" href="_pathfinder_8_ship_8nut.html#aba59c68056b24f2fd1bf2540927d76d0">PresetOriginal</a>  </dt>
-<dd><p class="startdd">Add image showing how the Ship Pathfinder works </p>
-<p class="enddd"><b>Inflection Point Check</b>: Run the pathfinder without WBC as long as the length of the paths keep going up. Once the length starts going down, if the length goes back up, either fail the pathfinder or invoke WBC.  </p>
-</dd>
-<dt><a class="anchor" id="_todo000024"></a>Member <a class="el" href="_pathfinder_8_ship_8nut.html#aba59c68056b24f2fd1bf2540927d76d0">PresetOriginal</a>  </dt>
-<dd><p class="startdd">Add image showing how the Ship Pathfinder works </p>
-<p class="enddd"><b>Inflection Point Check</b>: Run the pathfinder without WBC as long as the length of the paths keep going up. Once the length starts going down, if the length goes back up, either fail the pathfinder or invoke WBC. </p>
-</dd>
+<dt><a class="anchor" id="_todo000029"></a>Member <a class="el" href="_pathfinder_8_ship_8nut.html#aba59c68056b24f2fd1bf2540927d76d0">PresetOriginal</a>  </dt>
+<dd>Add image showing how the Ship Pathfinder works  </dd>
+<dt><a class="anchor" id="_todo000029"></a>Member <a class="el" href="_pathfinder_8_ship_8nut.html#aba59c68056b24f2fd1bf2540927d76d0">PresetOriginal</a>  </dt>
+<dd>Add image showing how the Ship Pathfinder works </dd>
 </dl>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Feb 1 2014 18:53:08 for MinchinWeb&#39;s MetaLibrary by
+    <li class="footer">Generated on Sat Mar 1 2014 12:55:12 for MinchinWeb&#39;s MetaLibrary by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
