@@ -51,18 +51,18 @@
  */
  
 class _MinchinWeb_LW_ {
-	_start = null;
-	_end = null;
-	_slope = null;
-	_startx = null;
-	_starty = null;
-	_endx = null;
-	_endy = null;
+	_start = null;				///<	start tile
+	_end = null;				///<	end tile
+	_slope = null;				///<	line slope
+	_startx = null;				///<	x value of start tile
+	_starty = null;				///<	y value of start tile
+	_endx = null;				///<	x value of end tile
+	_endy = null;				///<	y value of end tile
 	_past_end = null;
-	_x = null;
-	_y = null;
+	_x = null;					///<	x value of current tile
+	_y = null;					///<	y value of current tile
 	_dirx = null;
-	_current_tile = null;
+	_current_tile = null;		///<	current tile
 	
 	constructor() {
 		this._past_end = true;

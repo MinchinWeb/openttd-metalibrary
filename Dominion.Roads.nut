@@ -61,16 +61,16 @@
 */
 
 class _MinchinWeb_DLS_ {
-	_gridx = null;		///< Grid spacing in x direction
-	_gridy = null;		///< Grid spacing in y direction
-	_datum = null;		///< This is the 'center' of our survey system
+	_gridx = null;		///< Grid spacing in x direction (default is 8 tiles)
+	_gridy = null;		///< Grid spacing in y direction (default is 8 tiles)
+	_datum = null;		///< This is the 'centre' of our survey system
 	_basedatum = null;	///< this is the 'grid point' closest to 0,0
-	_pathfinder = null;
-	_starttile = null;
-	_endtile = null;
+	_pathfinder = null;	///< the pathfinder itself
+	_starttile = null;	///< starting tile
+	_endtile = null;	///< ending tile
 	_path = null;		///< used to store that path as a array of tile pairs
-	_running = null;
-	_road_type = null;
+	_running = null;	///< Is the pathfinder currently running?
+	_road_type = null;	///< See <http://noai.openttd.org/api/trunk/classAIRoad.html>
 	
 	constructor() {
 		this._gridx = 8;

@@ -151,6 +151,7 @@ class _MinchinWeb_Marine_ {
 	 *	Given an EngineID, the function will score them; higher is better.
 	 *	\note	Designed to run as a validator on a AIList of EngineID's.
 	 *	\todo	Add example of validator code.
+	 *
 	 *	\param	Life	Desired lifespan of route, assumed to be in years.
 	 *	\param	Cargo	Doesn't work yet. Capacity is measured in the default
 	 *					cargo.

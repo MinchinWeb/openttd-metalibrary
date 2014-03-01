@@ -9,7 +9,7 @@ Released 2014-02-28
 - Ship Pathfinder now uses Lakes rather than WaterBodyCheck
 - Ship Pathfinder now makes sure every point is in the same waterbody before
     adding it to the path
-- WaterBodyCheck is now deprecated
+- WaterBodyCheck is now deprecated in favour of Lakes
 - Documentation for MetaLibrary is now online at
     [Minchin.ca](http://minchin.ca/openttd-metalibrary)
 - Fix array creation bugs in Array.Create2D(), Array.Create3D()

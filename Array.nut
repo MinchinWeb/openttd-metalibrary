@@ -1,4 +1,4 @@
-﻿/*	Array SubLibrary, v.5 [2014-02-20],
+﻿/*	Array SubLibrary, v.5 [2014-02-28],
  *		part of Minchinweb's MetaLibrary v.7,
  *		originally part of WmDOT v.5  r.53d	[2011-04-09]
  *			and WmArray library v.1  r.1 [2011-02-13].
@@ -16,13 +16,14 @@
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
 
-/**	\brief		Arrays
- *	\version	v.5 (2014-02-20)
+/**	\brief		Array
+ *	\version	v.5 (2014-02-28)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.6
  *
  *	This is a collection of functions to make working with Arrays easier.
- *	\note	While Arrays are powerful, also consider using AIList.
+ *	\note	While Arrays are powerful, also consider using 
+ *			[AIList](http://noai.openttd.org/api/trunk/classAIList.html)'s.
  */
  
  
@@ -71,7 +72,7 @@ class _MinchinWeb_Array_ {
 	 *	debug screen.
 	 *	\param	InArray		one dimensional (1-D) array
 	 *	\return	string version of array. e.g. `The array is 3 long.  3  4  5`.
-	 *			`null` if `InArray` is `null`.
+	 *	\return	`null` if `InArray` is `null`.
 	 *	\see	ToString2D()
 	 *	\see	ToStringTiles1D()
 	 *	\todo	Add error check that an array is provided
@@ -83,12 +84,13 @@ class _MinchinWeb_Array_ {
 	 *
 	 *	This function was created to aid in the output of arrays to the AI
 	 *	debug screen.
-	 *	\param	InArray		two dimensional (2-D) array
+	 *	\param	InArray			two dimensional (2-D) array
 	 *	\paran	DisplayLength	whether to prefix the output with the length
 	 *							of the array
 	 *	\param	replaceNull		whether the replace 'null' values with '-'
 	 *	\return	string version of array.
-	 *			e.g. `The array is 2 long.  3  4  /  5  6`. `null` if `InArray`
+	 *			e.g. `The array is 2 long.  3  4  /  5  6`.
+	 *	\return	`null` if `InArray`
 	 *			is `null`.
 	 *	\see	ToString1D()
 	 *	\see	ToStringTiles2D()
@@ -242,8 +244,9 @@ class _MinchinWeb_Array_ {
 	 *	\param	InArrayOfTiles		one dimensional (1-D) array of Tiles
 	 *	\param	ArrayLength	(`true` or `false`) whether to print the prefix
 	 *						noting the length of the array. Default is `false`.
-	 *	\return	string version of array. e.g. `The array is 3 long.  12,45  62,52  59,10`.
-	 *			`null` if `InArrayOfTiles` is `null`.
+	 *	\return	string version of array. e.g. `The array is 3 long.  12,45
+	 *			62,52  59,10`.
+	 *	\return	`null` if `InArrayOfTiles` is `null`.
 	 *	\see	ToString1D()
 	 *	\see	ToStringTiles2D()
 	 *	\todo	Add error check that an array is provided
@@ -260,8 +263,9 @@ class _MinchinWeb_Array_ {
 	 *	\param	ArrayLength	(`true` or `false`) whether to print the prefix
 	 *						noting the length of the array. Default is `false`.
 
-	 *	\return	string version of array. e.g. `The array is 3 long.  12,45  62,52  59,10`.
-	 *			`null` if `InArrayOfTiles` is `null`.
+	 *	\return	string version of array. e.g. `The array is 2 long.  12,45  
+	 *			62,52  /  59,10  5,37`.
+	 *	\return	`null` if `InArrayOfTiles` is `null`.
 	 *	\see	ToString2D()
 	 *	\see	ToStringTiles1D()
 	 *	\todo	Add error check that an array is provided
@@ -332,7 +336,8 @@ class _MinchinWeb_Array_ {
 	
 	/**	\brief	Removes duplicates from an array.
 	 *
-	 *	The item is maintain at its first location and removed at all others.
+	 *	The item is maintain at its first location and removed at all subsequent
+	 *	locations.
 	 *	\param	Array	array to remove duplicates from
 	 *	\return	An array minus the duplicate items.
 	 *	\todo	Add error check that an array is provided.
@@ -341,8 +346,8 @@ class _MinchinWeb_Array_ {
 	function RemoveDuplicates(Array);
 	
 	/**	\brief	Turns an Array in an AIList
-	 *	\todo	Add error check that an array is provided.
 	 *	\return	An AIList with the contents of the Array
+	 *	\todo	Add error check that an array is provided.
 	 *	\static
 	 */
 	function ToAIList(Array);

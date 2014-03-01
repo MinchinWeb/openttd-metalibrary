@@ -26,6 +26,8 @@
  *		caching results. Like WaterBody Check, it will keep trying to find a
  *		connections until there is no possible connection left.
  *
+ *	Approximate program flow:
+ *
  *	\dot
 	digraph G {
 		Start -> {B; A};
@@ -93,17 +95,43 @@
  
 class _MinchinWeb_Lakes_
 {
-	_map = null;				///< AIList that tells which group each tile belongs in (`item` is TileIndex, `value` is Group; `value == -2` means the value remains unset, `value == -1` means the tile is land)
-	_connections = null;		///< array that shows the connections to each tile groups (index is [TileGroup])
-	_areas = null;				///< array of the defined tile groups (index is [TileGroup])
-	_open_neighbours = null;	///< array of tiles that are open from each tile group (index is [TileGroup]) (form is [Edge_Tile, Past_Edge_Tile])
-	_group_tiles = null;		///< array of AIList's of the tiles that are in each group (the index is [TileGroup]) (does not contain land tiles (i.e. group `-1`))
+	/**	\brief	AIList that tells which group each tile belongs in 
+	 *
+	 *	`item` is TileIndex, `value` is Group. `value == -2` means the value
+	 *	remains unset, `value == -1` means the tile is land.
+	 */
+	_map = null;
+	
+	/**	\brief	Array that shows the connections to each tile group 
+	 *
+	 *	`index` is TileGroup.
+	 */
+	_connections = null;
+	
+	/**	\brief	Array of the defined tile groups
+	 *
+	 *	`index` is TileGroup.
+	 */
+	_areas = null;
+	
+	/**	\brief	Array of tiles that are open from each tile group
+	 *
+	 *	`index` is TileGroup; form is [Edge_Tile, Past_Edge_Tile]
+	 */
+	_open_neighbours = null;
+	
+	/**	\brief	Array of AIList's of the tiles that are in each group
+	 *
+	 *	`index` is TileGroup
+	 *	\note	Does not contain land tiles (i.e. group `-1`)
+	 */
+	_group_tiles = null;
 	_AGroup = null;				///< array of groups containing source tiles
 	_BGroup = null;				///< array of groups containing goal tiles
 	_A = null;					///< array of source tiles
 	_B = null;					///< array of goal tiles
 
-	_running = null;
+	_running = null;			///< is Lakes currently running?
 	
 	constructor() {
 		this._map = AIList();
@@ -170,7 +198,7 @@ class _MinchinWeb_Lakes_
 	function AddPoint(myTileID);
 
 	/** \private
-	  *	\brief, given a starting group, return all groups attached to it
+	  *	\brief	Given a starting group, return all groups attached to it
 	  *	\param	StartGroupArray	assumed to be an array
 	  *	\return	An array listing all the attached tile groups
 	  */

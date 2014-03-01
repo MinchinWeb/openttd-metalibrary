@@ -14,17 +14,6 @@
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
  
-/*	Functions provided:
- *		MinchinWeb.Industry.GetIndustryID(Tile)
- *								- AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )
- *									sometimes fails because GetLocation() returns the northmost
- *									tile of the industry which may be a dock, heliport, or not
- *									part of the industry at all.
- *								- This function starts at the tile, and then searches a square out
- *									(up to Constants.StationSize) until it finds a tile with a
- *									valid TileID.
- */
-
 /**	\brief		Industries
  *	\version	v.1 (2012-01-12)
  *	\author		W. Minchin (%MinchinWeb)
@@ -46,9 +35,9 @@ class _MinchinWeb_Industry_ {
 	 *			sometimes fails because `GetLocation()` returns the northmost
 	 *			tile of the industry which may be a dock, heliport, or not part
 	 *			of the industry at all.
-	 *	\note	This function starts at the tile, and then searches a square out
-	 *			(up to `Constants.StationSize()` ) until it finds a tile with a
-	 *			valid `IndustryID`.
+	 *	\note	This function starts at the northmost tile, and then searches a
+	 *			square out (up to `Constants.StationSize()` ) until it finds a
+	 *			tile with a valid `IndustryID`.
 	 *	\static
 	 */
 	function GetIndustryID(Tile);

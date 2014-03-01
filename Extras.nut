@@ -32,7 +32,7 @@
  */
  
 class _MinchinWeb_Extras_ {
-	_infinity = null;
+	_infinity = null;	///< pointer to \_MinchinWeb\_C\_::Infinity()
 	
 	constructor() {
 		this._infinity = _MinchinWeb_C_.Infinity();	
@@ -98,8 +98,8 @@ class _MinchinWeb_Extras_ {
 	 *	\return	`True` is `Value` falls between the bounds, `False` otherwise.
 	 *	\note	This is helpful in that there is no requirement that `Bound1` be
 	 *			larger than `Bound2` or vis-versa.
-	 *	\note	This version explicitly converts all three parameters before
-	 *			comparing them.
+	 *	\note	This version explicitly converts all three parameters to
+	 *			floating point numbers before comparing them.
 	 *	\see	Within()
 	 *	\static
 	 */
@@ -171,9 +171,9 @@ class _MinchinWeb_Extras_ {
 	/**	\brief	The tile that is neighbouring `StartTile` that is closest to
 	 *			`TowardsTile`
 	 *
-	 *	Given a `StartTile` and a `TowardsTile`, will given the tile immediately
+	 *	Given a `StartTile` and a `TowardsTile`, will give the tile immediately
 	 *	next (Manhattan Distance == 1) to `StartTile` that is closest to
-	 *	`TowardsTile`
+	 *	`TowardsTile`.
 	 *	\return	a neighbouring tile to `StartTile`
 	 *	\static
 	 */
@@ -199,7 +199,10 @@ class _MinchinWeb_Extras_ {
 	 *						to. This can also be an AIList where the items are
 	 *						tiles.
 	 *	\return	the minimum distance between TileID and any of the TargetArray
-	 *	\note	Distance is measured using Manhattan Distances
+	 *	\note	Distances is measured using Manhattan Distance
+	 *	\note	Distances to invalid tiles is reported as `-1`; therefore
+	 *			invalid tiles are always 'closer' that valid tiles.
+	 *	\todo	Remove invalid tiles from the TargetArray
 	 */
 	function MinDistance(TileID, TargetArray);
 };

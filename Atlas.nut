@@ -109,16 +109,16 @@ class _MinchinWeb_Atlas_ {
 
 	_heap_class = import("Queue.Binary_Heap", "", 1);
 	
-	_sources = [];			///	'From' here... (array)
-	_attractions = [];		///		'To' here  (array)
-	_pairs = null;			///	Heap of paired sources and attractions
+	_sources = [];			///< 	'From' here... (array)
+	_attractions = [];		///<		'To' here  (array)
+	_pairs = null;			///<	Heap of paired sources and attractions
 	
-	_ignorepairs = [];		///	A list of pairs to ignore
-	_maxdistance = null;	///	This is the maximum distance between sources and attractions to include in the model
-	_maxdistancemodel = null;	///	This is how to measure distances between sources and attractions to determine weather they exceed "_maxdistance"
+	_ignorepairs = [];		///<	A list of pairs to ignore
+	_maxdistance = null;	///<	This is the maximum distance between sources and attractions to include in the model
+	_maxdistancemodel = null;	///<	This is how to measure distances between sources and attractions to determine weather they exceed "_maxdistance"
 		
 	
-	_model = null;			///	Stores models selected, see ::ModelType
+	_model = null;			///<	Stores models selected, see ::ModelType
 	
 	constructor() {
 		this._pairs = this._heap_class();
@@ -212,7 +212,7 @@ class _MinchinWeb_Atlas_ {
 	 *
 	 *	Given the start and end tiles, applies the traffic model and returns
 	 *	the weighting. Smaller weightings are considered better.
-	 *	\note	This function is independent of the model/class (i.e it is a
+	 *	\note	This function is independent of the model/class (i.e. it is a
 	 *			static function), so is useful if you want to apply the traffic
 	 *			model to a given set of tiles. It is what is called internally
 	 *			to apply the model.

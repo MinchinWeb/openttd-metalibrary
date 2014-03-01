@@ -81,28 +81,34 @@ class _MinchinWeb_C_ {
 	function e() { return 2.7182818284590452353602874713527; }
 	
 	/**	\brief	Industries are assumed to fit within a 4x4 box
+	 *	\return	4
 	 *	\static
 	 */
 	function IndustrySize() { return 4; }
 
 	/**	\brief	Number returned by OpenTTD for an invalid industry (65535)
+	 *	\return	0xFFFF
 	 *	\static
 	 */
 	function InvalidIndustry() { return 0xFFFF; }
 
 	/**	\brief	A number beyond the a valid TileIndex.
 	 *
-	 *	Valid (or invalid, if you prefer) for at least up to 2048x2048 maps
+	 *	Valid (or invalid, if you prefer) for at least up to 2048x2048 maps.
+	 *	\return	0xFFFFFF
+	 *	\todo	Check that this is still valid on 4096x4096 maps.
 	 *	\static
 	 */	
 	function InvalidTile() { return 0xFFFFFF; }
 
-	/**	\brief	This is the assumed minimum desired spacing between buoys
+	/**	\brief	This is the assumed minimum desired spacing between buoys.
+	 *	\return 3
 	 *	\static
 	 */
 	function BuoyOffset() { return 3; }
 
-	/**	\brief	This is the maximum desired spacing between docks and depots
+	/**	\brief	This is the maximum desired spacing between docks and depots.
+	 *	\return	4
 	 *	\static
 	 */	
 	function WaterDepotOffset() { return 4; }
@@ -116,13 +122,14 @@ class _MinchinWeb_C_ {
 //	== Function definitions =================================================
 
 function _MinchinWeb_C_::MaxStationSpread() {
-	if(AIGameSettings.IsValid("station_spread")) {
+	if (AIGameSettings.IsValid("station_spread")) {
 		return AIGameSettings.GetValue("station_spread");
 	} else {
 		try {
-		AILog.Error("'station_spread' is no longer valid! (MinchinWeb.Constants.MaxStationSpread(), v." + this.GetVersion() + " r." + this.GetRevision() + ")");
-		AILog.Error("Please report this problem to http://www.tt-forums.net/viewtopic.php?f=65&t=57903");
+			AILog.Error("'station_spread' is no longer valid! (MinchinWeb.Constants.MaxStationSpread(), v." + this.GetVersion() + " r." + this.GetRevision() + ")");
+			AILog.Error("Please report this problem to http://www.tt-forums.net/viewtopic.php?f=65&t=57903");
 		} catch (idx) {
+			// pass
 		}
 		return 16;
 	}
