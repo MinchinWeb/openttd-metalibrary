@@ -57,8 +57,7 @@
  *	See the function below for valid entries.
  */
 
-class _MinchinWeb_WBC_
-{
+class _MinchinWeb_WBC_ {
 	_aystar_class = import("graph.aystar", "", 6);
 	_cost_per_tile = null;
 	_max_cost = null;			///< The maximum cost for a route.
@@ -116,10 +115,17 @@ class _MinchinWeb_WBC_
 	 *			two tiles
 	 */
 	function PresetSafety(Start, End);
+	
+	/**	\privatesection
+	 */
+	function _Cost(self, path, new_tile, new_direction);
+	function _Estimate(self, cur_tile, cur_direction, goal_tiles);
+	function _Neighbours(self, path, cur_node);
+	function _CheckDirection(self, tile, existing_direction, new_direction);
+	function _GetDirection(from, to);
 };
 
-class _MinchinWeb_WBC_.Cost
-{
+class _MinchinWeb_WBC_.Cost {
 	/**	\brief	Used to set (and get) pathfinder parameters
 	 *
 	 *	Valid values are:
@@ -156,8 +162,7 @@ class _MinchinWeb_WBC_.Cost
 	}
 };
 
-function _MinchinWeb_WBC_::FindPath(iterations)
-{
+function _MinchinWeb_WBC_::FindPath(iterations) {
 	local ret = this._pathfinder.FindPath(iterations);
 	this._running = (ret == false) ? true : false;
 	if (this._running == false) { this._mypath = ret; }
@@ -165,8 +170,7 @@ function _MinchinWeb_WBC_::FindPath(iterations)
 }
 
 
-function _MinchinWeb_WBC_::_Cost(self, path, new_tile, new_direction)
-{
+function _MinchinWeb_WBC_::_Cost(self, path, new_tile, new_direction) {
 	/* path == null means this is the first node of a path, so the cost is 0. */
 	if (path == null) return 0;
 
@@ -183,8 +187,7 @@ function _MinchinWeb_WBC_::_Cost(self, path, new_tile, new_direction)
 	return path.GetCost() + self._cost_per_tile;
 }
 
-function _MinchinWeb_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
-{
+function _MinchinWeb_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles) {
 	local min_cost = self._max_cost;
 	/* As estimate we multiply the lowest possible cost for a single tile with
 	 * with the minimum number of tiles we need to traverse. */
@@ -194,8 +197,7 @@ function _MinchinWeb_WBC_::_Estimate(self, cur_tile, cur_direction, goal_tiles)
 	return min_cost;
 }
 
-function _MinchinWeb_WBC_::_Neighbours(self, path, cur_node)
-{
+function _MinchinWeb_WBC_::_Neighbours(self, path, cur_node) {
 	/* self._max_cost is the maximum path cost, if we go over it, the path isn't valid. */
 	if (path.GetCost() >= self._max_cost) return [];
 	local tiles = [];
@@ -216,13 +218,11 @@ function _MinchinWeb_WBC_::_Neighbours(self, path, cur_node)
 	return tiles;
 }
 
-function _MinchinWeb_WBC_::_CheckDirection(self, tile, existing_direction, new_direction)
-{
+function _MinchinWeb_WBC_::_CheckDirection(self, tile, existing_direction, new_direction) {
 	return false;
 }
 
-function _MinchinWeb_WBC_::_GetDirection(from, to)
-{
+function _MinchinWeb_WBC_::_GetDirection(from, to) {
 	if (AITile.GetSlope(to) == AITile.SLOPE_FLAT) return 0xFF;
 	if (from - to == 1) return 1;
 	if (from - to == -1) return 2;

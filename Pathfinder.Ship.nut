@@ -208,6 +208,26 @@ class _MinchinWeb_ShipPathfinder_
 	 *				path are very fast (in the order of 4 ticks).
 	 */
 	function OverrideWBC();
+	
+	/**	\privatesection
+	 *	\brief	Turns a path into an index to tiles.
+	 *
+	 *	Just the start, end, and turning points.
+	 */
+	function _PathToTilesArray(PathIndex);
+	
+	/**	\private
+	 *	\brief	Inserts a point into the point list.
+	 *
+	 *	Does a check to insure that the same point does not show up twice at
+	 *		different indexes.
+	 *	\return	The index of the (added) point.
+	 */
+	function _InsertPoint(TileIndex);
+	
+	/**	\privatesection
+	 */
+	function _PathLength(PathIndex);
 };
 
 class _MinchinWeb_ShipPathfinder_.Info {
@@ -422,7 +442,7 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations) {
 		}		// END  for (local i = 0; i < (this._paths[WorkingPath].len() - 1); i++)  i.e. stepping through path
 	
 		if (ReturnWP == true) {
-		//	If everything was water...
+			//	If everything was water...
 			_MinchinWeb_Log_.Note("     Inserting Path #" + WorkingPath + " (all water) on ReturnWP; l=" + _PathLength(WorkingPath), 5);
 			this._UnfinishedPaths.Insert(WorkingPath, _PathLength(WorkingPath));
 		}
@@ -441,11 +461,11 @@ function _MinchinWeb_ShipPathfinder_::FindPath(iterations) {
 			}
 		} else {
 			if (this._FinishedPaths.Count() !=0) {
-				//	If the Finished heap contains a path that is shorter than any of
-				//		the unfinished paths, return the finished path
+				//	If the Finished heap contains a path that is shorter than 
+				//		any of the unfinished paths, return the finished path
 				
-				//	Actaully, if the shortest finished path is within 10% of shortest
-				//		unfinished path, call it good enough!!
+				//	Actually, if the shortest finished path is within 10% of 
+				//		shortest unfinished path, call it good enough!!
 				local finished = this._PathLength(this._FinishedPaths.Peek());
 				local unfinished = this._PathLength(this._UnfinishedPaths.Peek());
 				if ((finished * 100) < (unfinished * 110)) {

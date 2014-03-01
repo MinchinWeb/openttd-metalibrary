@@ -216,9 +216,11 @@ class _MinchinWeb_Atlas_ {
 	 *			static function), so is useful if you want to apply the traffic
 	 *			model to a given set of tiles. It is what is called internally
 	 *			to apply the model.
-	 *	\param	StartTile	Assumed to be a TileID
-	 *	\param	EndTile		Assumed to be a TileId
-	 *	\param	Model		Assumed to be one of the enum ::ModelType
+	 *	\param	StartTile		Assumed to be a TileId
+	 *	\param	StartPriority	Priority (weighting) assigned to Start
+	 *	\param	EndTile			Assumed to be a TileId
+	 *	\param	EndPriotity		Priority (weighting) assigned to End
+	 *	\param	Model			Assumed to be one of the enum ::ModelType
 	 *	\static
 	 */
 	function ApplyTrafficModel(StartTile, StartPriority, EndTile, EndPriority, Model);

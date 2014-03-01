@@ -71,6 +71,9 @@ class _MinchinWeb_Array_ {
 	 *	This function was created to aid in the output of arrays to the AI
 	 *	debug screen.
 	 *	\param	InArray		one dimensional (1-D) array
+	 *	\param	DisplayLength	whether to prefix the output with the length
+	 *							of the array
+	 *	\param	replaceNull		whether the replace `null` values with '-'
 	 *	\return	string version of array. e.g. `The array is 3 long.  3  4  5`.
 	 *	\return	`null` if `InArray` is `null`.
 	 *	\see	ToString2D()
@@ -85,9 +88,8 @@ class _MinchinWeb_Array_ {
 	 *	This function was created to aid in the output of arrays to the AI
 	 *	debug screen.
 	 *	\param	InArray			two dimensional (2-D) array
-	 *	\paran	DisplayLength	whether to prefix the output with the length
+	 *	\param	DisplayLength	whether to prefix the output with the length
 	 *							of the array
-	 *	\param	replaceNull		whether the replace 'null' values with '-'
 	 *	\return	string version of array.
 	 *			e.g. `The array is 2 long.  3  4  /  5  6`.
 	 *	\return	`null` if `InArray`
@@ -160,9 +162,9 @@ class _MinchinWeb_Array_ {
 	function ContainedIn1DIn2D(InArray2D, SearchArray1D);
 
 	/**	\brief	Searches an array for a given value.
-	 *	\param	InArray2D		array to search
+	 *	\param	InArray			array to search
 	 *							(assumed to be two dimensional (2-D))
-	 *	\param	SearchArray1D	array to search for
+	 *	\param	SearchArray		array to search for
 	 *							(assumed to be one dimensional (1-D))
 	 *	\return	array index of the first time `SearchValue` is found (as an
 	 *			integer), `false` if not. `null` if `InArray` is `null`.
@@ -259,10 +261,10 @@ class _MinchinWeb_Array_ {
 	 *
 	 *	This function was created to aid in the output of arrays of tiles to the
 	 *	AI debug screen.
-	 *	\param	InArrayOfTiles		two dimensional (2-D) array of Tiles
-	 *	\param	ArrayLength	(`true` or `false`) whether to print the prefix
-	 *						noting the length of the array. Default is `false`.
-
+	 *	\param	InArrayOfTiles	two dimensional (2-D) array of Tiles
+	 *	\param	ArrayLength		(`true` or `false`) whether to print the prefix
+	 *							noting the length of the array. Default is
+	 *							`false`.
 	 *	\return	string version of array. e.g. `The array is 2 long.  12,45  
 	 *			62,52  /  59,10  5,37`.
 	 *	\return	`null` if `InArrayOfTiles` is `null`.

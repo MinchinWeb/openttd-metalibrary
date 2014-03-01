@@ -210,6 +210,10 @@ class _MinchinWeb_Lakes_
 	 *	\note	Distance is calculated as Manhattan Distance
 	 */
 	function GetPathLength();
+	
+	/**	\privatesection
+	 */
+	function _AddNeighbour(NextTile);
 };
 
 
