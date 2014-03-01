@@ -76,6 +76,7 @@
  *		if(AIRoad.AreRoadTilesConnected(new_tile, prev_tile) &&
  *		!AIRoad.AreRoadTilesConnected(prev_tile, new_tile))
  *	\todo	allow pre-building of tunnels and bridges
+ *	\todo	Add example usage code.
  */
 
 
@@ -166,7 +167,7 @@ class _MinchinWeb_RoadPathfinder_
 	 */
 	function PresetOriginal();
 
-	/** \brief	Good for reusing existing roads.
+	/** \brief	Good preset for reusing existing roads.
 	 *
 	 *	My slightly updated version of PresetOriginal().
 	 */
@@ -179,7 +180,7 @@ class _MinchinWeb_RoadPathfinder_
 	 */
 	function PresetQuickAndDirty();
 
-	/**	\brief	Use only existing roads.
+	/**	\brief	Preset that only uses existing roads.
 	 *
 	 *	Based on PerfectPath, but uses only existing roads. Useful for checking
 	 *	if there an existing route and how long it is.
@@ -188,7 +189,7 @@ class _MinchinWeb_RoadPathfinder_
 
 	/**	\brief	Reserved.
 	 *
-	 *	Reserved for future use for intraurban tram lines.
+	 *	Reserved preset for future use for intraurban tram lines.
 	 */
 	function PresetStreetcar();
 

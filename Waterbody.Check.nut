@@ -15,10 +15,13 @@
  *	+ You accept that this software is provided to you "as is", without warranty.
  */
 
-/**	\brief		Waterbody Check
+/**	\brief		Waterbody Check (deprecated)
  *	\version	v.1 (2012-01-05)
  *	\author		W. Minchin (MinchinWeb)
  *	\since		MetaLibrary v.1
+ *
+ *	\note	Waterbody Check has been deprecated in favour of
+ *			\_MinchinWeb\_Lakes\_ (Lakes).
  *
  *	Waterbody check is in effect a specialized pathfinder. It serves to check
  *		whether two points are in the same waterbody (i.e. a ship could travel
@@ -30,6 +33,7 @@
  *
  *	\requires	Graph.AyStar v6 library
  *	\see		\_MinchinWeb\_ShipPathfinder\_
+ *	\see		\_MinchinWeb\_Lakes\_
  *	\todo		Add a cost for turns that then this would function as a 'real'
  *				pathfinder (maybe...)
  */
@@ -53,17 +57,15 @@
  *	See the function below for valid entries.
  */
 
-
-
 class _MinchinWeb_WBC_
 {
 	_aystar_class = import("graph.aystar", "", 6);
 	_cost_per_tile = null;
-	_max_cost = null;              ///< The maximum cost for a route.
-	_distance_penalty = null;		///< Penalty to use to speed up pathfinder, 1 is no penalty
+	_max_cost = null;			///< The maximum cost for a route.
+	_distance_penalty = null;	///< Penalty to use to speed up pathfinder, 1 is no penalty
 	_pathfinder = null;
-	cost = null;                   ///< Used to change the costs.
-	_running = null;
+	cost = null;				///< Used to change the costs.
+	_running = null;			///< Is it running?
 	_mypath = null;
 	
 	constructor() {
@@ -97,10 +99,10 @@ class _MinchinWeb_WBC_
 	 * @param iterations After how many iterations it should abort for a moment.
 	 *  This value should either be -1 for infinite, or > 0. Any other value
 	 *  aborts immediately and will never find a path.
-	 * @return A route if one was found, or false if the amount of iterations was
-	 *  reached, or null if no path was found.
-	 *  You can call this function over and over as long as it returns false,
-	 *  which is an indication it is not yet done looking for a route.
+	 * @return A route if one was found, or `false` if the amount of iterations
+	 *  was reached, or `null` if no path was found.
+	 * @return You can call this function over and over as long as it returns 
+	 *  `false`, which is an indication it is not yet done looking for a route.
 	 * @see AyStar::FindPath()
 	 */
 	function FindPath(iterations);

@@ -42,7 +42,7 @@ require("Station.nut");
  *	This is the main class of the Library. It will be renamed on importing the
  *	library into your AI.
  *
- *		Import("util.MinchinWeb", "[your_access_name]", 6);
+ *		Import("util.MinchinWeb", "[your_access_name]", 7);
  *
  *	(Don't really use `[your_access_name]`, use something that is easy enough
  *	to type and will remind you of where the functions are coming from. I like
@@ -119,7 +119,7 @@ class MinchinWeb {
 	// in Dominion.Roads.nut
 	
 	static Lakes = _MinchinWeb_Lakes_;
-	///<	\see	\_MInchinWeb\_Lakes\_
+	///<	\see	\_MinchinWeb\_Lakes\_
 };
 // EOF
 

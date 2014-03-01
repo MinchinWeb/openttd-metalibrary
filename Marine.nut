@@ -149,12 +149,11 @@ class _MinchinWeb_Marine_ {
 	/**	\brief	Ship Scoring
 	 *
 	 *	Given an EngineID, the function will score them; higher is better.
-	 *	\note	Designed to run as a validator on a AIList of EngineID's.
-	 *	\todo	Add example of validator code.
-	 *
 	 *	\param	Life	Desired lifespan of route, assumed to be in years.
 	 *	\param	Cargo	Doesn't work yet. Capacity is measured in the default
 	 *					cargo.
+	 *	\note	Designed to run as a valuator on a AIList of EngineID's.
+	 *	\todo	Add example of validator code.
 	 *	\todo	Implement ship capacity in given cargo.
 	 *	\static
 	 */

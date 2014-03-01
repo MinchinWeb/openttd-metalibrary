@@ -49,10 +49,6 @@
  *	\see		\_MinchinWeb\_Lakes\_
  *	\see		\_MinchinWeb\_RoadPathfinder\_
  *	\todo		Add image showing how the Ship Pathfinder works
- *	\todo		**Inflection Point Check**: Run the pathfinder without WBC as
- *				long as the length of the paths keep going up. Once the length
- *				starts going down, if the length goes back up, either fail the
- *				pathfinder or invoke WBC.
  */
  
  
@@ -61,10 +57,10 @@ class _MinchinWeb_ShipPathfinder_
 	_heap_class = import("queue.fibonacci_heap", "", 3);
 	_WBC_class = _MinchinWeb_Lakes_;		///< Class used to check if the two points are within the same waterbody
 	_WBC = null;					///< actual instance of class used to check if the points are within the same waterbody
-	_max_cost = null;              ///< The maximum cost for a route.
-	_cost_tile = null;             ///< The cost for a single tile.
-	_cost_turn = null;             ///< The cost that is added to _cost_tile if the direction changes.
-	cost = null;                   ///< Used to change the costs.
+	_max_cost = null;              ///< The maximum (pathfinder) cost for a route.
+	_cost_tile = null;             ///< The (pathfinder) cost for a single tile.
+	_cost_turn = null;             ///< The (pathfinder) cost that is added to _cost_tile if the direction changes.
+	cost = null;                   ///< Used to change the (pathfinder) costs.
 	
 	_max_buoy_spacing = null;	   ///< The maximum spacing between buoys
 	
@@ -74,12 +70,12 @@ class _MinchinWeb_ShipPathfinder_
 	_waterbody_check = null;
 	_points = null;					///< Used to store points considered by the pathfinder. Stored as TileIndexes
 	_paths = null;					///< Used to store the paths the pathfinder is working with. Stored as indexes to _points
-	_clearedpaths = null;			///< Used to store points pairs that have already been cleared (all water)
+	_clearedpaths = null;			///< Used to store paths that have already been cleared (i.e. all water).
 	_UnfinishedPaths = null;		///< Used to sort in-progress paths
-	_FinishedPaths = null			///< Used to store finished paths
+	_FinishedPaths = null;			///< Used to store finished paths
 	_testedpaths = null;
 	_mypath = null;					///< Used to store the path after it's been found for Building functions
-	_running = null;
+	_running = null;				///< Is the pathfinder running?
 	info = null;
 
 	constructor()
@@ -136,9 +132,14 @@ class _MinchinWeb_ShipPathfinder_
 	 *	\param	iterations		Number of cycles to run the pathfinder before
 	 *							returning. If set to `-1`, will run until a path
 	 *							is found.
+	 *	\note	One of the first things the pathfinder will do is confirm the
+	 *			start and end points are in the same waterbody. If `iterations`
+	 *			is not set to `-1`, it will return after completing this.
+	 *			Therefore, if `iterations` is set to a finite amount, this
+	 *			function will need to be called at least twice to return a path.
 	 *	\return	`null` if a path cannot be found.
 	 *	\return	the path, if a path is found.
-	 *	\return	`False` if the pathfinder is unfinished.
+	 *	\return	`false` if the pathfinder is unfinished.
 	 */
 	function FindPath(iterations);
 	
@@ -164,10 +165,10 @@ class _MinchinWeb_ShipPathfinder_
 	 *	\param	Slope		The slope of the line to follow out.
 	 *	\param	ThirdQuadrant	Whether to follow the slope in the third or
 	 *							fourth quadrant.
+	 *	\return	The first water tile hit.
 	 *	\todo	Add image showing the Cartesian quadrants.
 	 *	\todo	Move to \_MinchinWeb\_Marine\_
 	 *
-	 *	\return	The first water tile hit.
 	 *	\static
 	 */
 	function WaterHo(StartTile, Slope, ThirdQuadrant = false);
@@ -201,6 +202,10 @@ class _MinchinWeb_ShipPathfinder_
 	 *	\warning	The Ship Pathfinder's behaviour without this check in place
 	 *				is not tested, as the Ship Pathfinder assumes the two points
 	 *				are in the same waterbody.... Use at your own risk.
+	 *	\note		This is less of an issue with the introduction of Lakes.
+	 *				While Lakes may take a long time on the first run,
+	 *				by reusing the pathfinder, subsequent checks of the same
+	 *				path are very fast (in the order of 4 ticks).
 	 */
 	function OverrideWBC();
 };

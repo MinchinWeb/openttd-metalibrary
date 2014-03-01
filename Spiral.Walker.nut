@@ -42,16 +42,16 @@
  */
  
 class _MinchinWeb_SW_ {
-	_start = null;
-	_startx = null;
-	_starty = null;
-	_x = null;
-	_y = null;
-	_current_tile = null;
+	_start = null;				///<	start tile
+	_startx = null;				///<	x value of start tile
+	_starty = null;				///<	y value of start tile
+	_x = null;					///<	x value of current tile
+	_y = null;					///<	y value of current tile
+	_current_tile = null;		///<	current tile
 	_dx = null;
 	_dy = null;
-	_Steps = null;
-	_Stage = null;
+	_Steps = null;				///< see GetStep()
+	_Stage = null;				///< see GetStage()
 	_StageMax = null;
 	_StageSteps = null;
 	
@@ -67,7 +67,6 @@ class _MinchinWeb_SW_ {
 	/**	\publicsection
 	 *	\brief	Sets the starting tile for SpiralWalker
 	 *	\see	Restart()
-	 *	\see	Slope()
 	 */
 	function Start(Tile);
 
@@ -96,8 +95,8 @@ class _MinchinWeb_SW_ {
 
 	/**	\brief	Returns the Stage the SpiralWalker is on.
 	 *
-	 *	Basically, the line segments its completed plus one; it takes four to
-	 *	complete a revolution.
+	 *	Basically, the line segments its completed plus one; it takes four
+	 *	stages to complete a revolution.
 	 *	\return	stage number
 	 *	\see	GetStep()
 	 *	\todo	Add an image showing how stages are counted
