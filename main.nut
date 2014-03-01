@@ -20,7 +20,7 @@
 require("Pathfinder.Road.nut");
 	//	Requires Graph.AyStar v6 library
 // require("AyStar.WM.nut");
-require("Arrays.nut");
+require("Array.nut");
 // require("Fibonacci.Heap.WM.nut");
 require("Extras.nut");
 require("Constants.nut");
