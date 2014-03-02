@@ -12,4 +12,4 @@ provided:
     + Attribution is provided in the normal place for recognition of 3rd party
         contributions.  
     + You accept that this software is provided to you "as is", without
-	    warranty. 
+        warranty. 

@@ -32,7 +32,7 @@ Released 2012-12-31
 - Update license statement
 - Moved source code to
     [GitHub](https://github.com/MinchinWeb/openttd-metalibrary/) and
-	updated URL's
+    updated URL's
 - Road Pathfinder no longer chokes if a bridge doesn't have a parent path
 
 Version 5                                                                 {#v5}

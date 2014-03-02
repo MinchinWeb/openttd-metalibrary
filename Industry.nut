@@ -31,7 +31,7 @@ class _MinchinWeb_Industry_ {
 	 *	\return	`IndustryID` of the industry at (or around) `TileID`.
 	 *	\return	`Constants.InvalidIndustry()` if no valid industries can be
 	 *			found.
-	 *	\note	`AIIndustty.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )`
+	 *	\note	`AIIndustry.GetIndustryID( AIIndustry.GetLocation( IndustryID ) )`
 	 *			sometimes fails because `GetLocation()` returns the northmost
 	 *			tile of the industry which may be a dock, heliport, or not part
 	 *			of the industry at all.
