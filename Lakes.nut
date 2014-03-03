@@ -401,7 +401,7 @@ function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 	
 	switch (this._map.GetValue(myTileID)) {
 		case -2:
-			//	unset tile
+			//	tile is unset (i.e. in no group)
 			if (AITile.IsWaterTile(myTileID) == true) {
 				//	add to _map if a water tile
 				local myArea = this._areas.len();
@@ -418,17 +418,19 @@ function _MinchinWeb_Lakes_::AddPoint(myTileID) {
 				foreach (offset in offsets) {
 					local next_tile = myTileID + offset;
 					if (AIMarine.AreWaterTilesConnected(myTileID, next_tile)) {
-						//	this._map.GetValue(next_tile) might be -1 if it's a
-						//		land time, but then we've failed the above if
-						//		statement and won't be here...
 						if (this._map.GetValue(next_tile) == -2) {
 							this._open_neighbours[myArea].append([myTileID, next_tile]);
+						} else if (this._map.GetValue(next_tile) == -1) {
+							//	the tile has ceased to be land (somehow...)
+							this._map.SetValue(next_tile, -2);
+							this._open_neighbours[myArea].append([myTileID, next_tile]);
 						} else {
-						//	register connection right now
+							//	register connection right now
 							local ConnectedArea = this._map.GetValue(next_tile);
+
 							this._connections[myArea].append(ConnectedArea);
 							this._connections[ConnectedArea].append(myArea);
-							
+						
 							local AllConnectedAreas = _AllGroups([ConnectedArea]);
 							
 							//	remove open neighbour from AllConnectedAreas to next_tile
@@ -527,11 +529,11 @@ function _MinchinWeb_Lakes_::_AddNeighbour(NextTile) {
 		}
 	
 	}
-	_MinchinWeb_Log_.Note("NextTile: " + _MinchinWeb_Array_.ToStringTiles1D([NextTile]) + "  //  Onward Tiles: " + _MinchinWeb_Array_.ToStringTiles1D(OnwardTiles), 7);
+	_MinchinWeb_Log_.Note("NextTile: " + _MinchinWeb_Array_.ToStringTiles1D([NextTile]) + "  //  Onward Tiles: " + _MinchinWeb_Array_.ToStringTiles1D(OnwardTiles), 8);
 	
 	if (OnwardTiles.len() == 0) {
 		//	if something broke, spit out useful debug information
-		_MinchinWeb_Log_.Warning("                        MinchinWeb.Lakes._AddNeighbour(): No source for " + _MinchinWeb_Array_.ToStringTiles1D([NextTile]));
+		_MinchinWeb_Log_.Note("     MinchinWeb.Lakes._AddNeighbour(): No source for " + _MinchinWeb_Array_.ToStringTiles1D([NextTile]), 8);
 		/*_MinchinWeb_Log_.Note("    this._open_neighbours");
 		for (local i = 0; i < this._open_neighbours.len(); i++) {
 			_MinchinWeb_Log_.Note("    [" + i + "] " + _MinchinWeb_Array_.ToString2D(this._open_neighbours[i]), 0);
