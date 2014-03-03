@@ -17,7 +17,7 @@
 #
 
 """This script is a Python script to generate a tar file of MetaLibrary for
-upload to BaNaNaS. v1 [2014-03-01]"""
+upload to BaNaNaS. v2 [2014-03-03]"""
 
 import os
 from os.path import join
@@ -50,6 +50,8 @@ mdReplacements =	('%MinchinWeb', 'MinchinWeb'), \
 					('←', '<-')
 					
 aiReplacements = \
+	('"queue.fibonacci_heap", "", 3);'	  ,'"queue.fibonacci_heap", "", 2' ), \
+	('Fibonacci Heap v.3'				  ,'Fibonacci Heap v.2'			   ), \
 	("AIAccounting"						  ,"GSAccounting"                  ), \
 	("AIAirport"                          ,"GSAirport"                     ), \
 	("AIBase"                             ,"GSBase"                        ), \
@@ -170,12 +172,13 @@ for File in os.listdir(SourceDir):
 				# replace the characters escaped for dOxygen
 				print multiple_replace(line, *mdReplacements),
 			MyTarFile.add(File, join(MetaLibVersion, File[:-3] + ".txt"))
-			winshell.delete_file(File, no_confirm=True)							
+			winshell.delete_file(File, no_confirm=True, allow_undo=False)							
 MyTarFile.close()
 
-print (MetaLibVersion + "-AI.tar created!")
+print ("    " + MetaLibVersion + "-AI.tar created!")
 
 # Create GameScript version
+LineCount = 0
 TarFileName = join(OutputDir, MetaLibVersion + "-GS.tar")
 MyTarFile = tarfile.open(name=TarFileName, mode='w')
 for File in os.listdir(SourceDir):
@@ -185,8 +188,9 @@ for File in os.listdir(SourceDir):
 			for line in fileinput.input(File, inplace=1):
 				# replace the AI API with GS API
 				print multiple_replace(line, *aiReplacements),
+				LineCount++
 			MyTarFile.add(File, join(MetaLibVersion, File))
-			winshell.delete_file(File, no_confirm=True)
+			winshell.delete_file(File, no_confirm=True, allow_undo=False)
 		elif File.endswith(".txt"):
 			MyTarFile.add(join(SourceDir, File), join(MetaLibVersion, File))
 		elif File.endswith(".md"):
@@ -195,13 +199,10 @@ for File in os.listdir(SourceDir):
 			for line in fileinput.input(File, inplace=1):
 				# replace the characters escaped for dOxygen
 				print multiple_replace(line, *mdReplacements),
+				LineCount++
 			MyTarFile.add(File, join(MetaLibVersion, File[:-3] + ".txt"))
-			winshell.delete_file(File, no_confirm=True)							
+			winshell.delete_file(File, no_confirm=True, allow_undo=False)
 MyTarFile.close()
 
-print (MetaLibVersion + "-GS.tar created!")
-
-
-	
-
-
+print ("    " + MetaLibVersion + "-GS.tar created!")
+print ("        " + LineCount + " lines of code")
