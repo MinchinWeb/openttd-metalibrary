@@ -1,8 +1,8 @@
-﻿/*	Array SubLibrary, v.5 [2014-02-28],
- *		part of Minchinweb's MetaLibrary v.7,
+﻿/*	Array SubLibrary, v.6 [2014-03-03],
+ *		part of Minchinweb's MetaLibrary v.8,
  *		originally part of WmDOT v.5  r.53d	[2011-04-09]
  *			and WmArray library v.1  r.1 [2011-02-13].
- *	Copyright © 2011-12 by W. Minchin. For more info,
+ *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
  *
  *	Permission is granted to you to use, copy, modify, merge, publish, 
@@ -595,7 +595,9 @@ function _MinchinWeb_Array_::ToStringTiles2D(InArrayOfTiles, ArrayLength = false
 			i++;
 		}
 		//	get rid of last slash
-		Temp = Temp.slice(0, Temp.len() - 3);
+		if (Temp.len() > 3) {
+			Temp = Temp.slice(0, Temp.len() - 3);
+		}
 		
 		if (ArrayLength == true) {
 			Temp = "The array is " + Length + " long.  " + Temp;
