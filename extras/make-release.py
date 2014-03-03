@@ -188,7 +188,7 @@ for File in os.listdir(SourceDir):
 			for line in fileinput.input(File, inplace=1):
 				# replace the AI API with GS API
 				print multiple_replace(line, *aiReplacements),
-				LineCount++
+				LineCount += 1
 			MyTarFile.add(File, join(MetaLibVersion, File))
 			winshell.delete_file(File, no_confirm=True, allow_undo=False)
 		elif File.endswith(".txt"):
@@ -199,10 +199,10 @@ for File in os.listdir(SourceDir):
 			for line in fileinput.input(File, inplace=1):
 				# replace the characters escaped for dOxygen
 				print multiple_replace(line, *mdReplacements),
-				LineCount++
+				LineCount += 1
 			MyTarFile.add(File, join(MetaLibVersion, File[:-3] + ".txt"))
 			winshell.delete_file(File, no_confirm=True, allow_undo=False)
 MyTarFile.close()
 
 print ("    " + MetaLibVersion + "-GS.tar created!")
-print ("        " + LineCount + " lines of code")
+print ("        " + str(LineCount) + " lines of code")
