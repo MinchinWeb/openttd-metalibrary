@@ -83,6 +83,7 @@
  *	\enddot
  *
  *	\requires	\_MinchinWeb\_DLS\_
+ *	\requires	Fibonacci Heap v.3
  *	\see		\_MinchinWeb\_ShipPathfinder\_
  *	\see		\_MinchinWeb\_WBC\_
  *	\note		Although _map and _group_tiles keep the same information (which
@@ -93,8 +94,9 @@
  *				loop was deemed too time demanding.
  */
  
-class _MinchinWeb_Lakes_
-{
+class _MinchinWeb_Lakes_ {
+	_heap_class = import("queue.fibonacci_heap", "", 3);
+	
 	/**	\brief	AIList that tells which group each tile belongs in 
 	 *
 	 *	`item` is TileIndex, `value` is Group. `value == -2` means the value
@@ -273,33 +275,28 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		
 		if (ANeighbours.len() > 0) {
 			//	Get the tile from AEdge that is closest to B's 
-			local AEdgeList = AIList();
-			foreach (edge in AEdge) {
-				AEdgeList.AddItem(edge, 0);
-			}
 			local BTileList = AIList();
 			foreach (group in BAllGroups) {
 				BTileList.AddList(this._group_tiles[group]);
 			}
+			local AEdgeHeap = this._heap_class();
+			foreach (edge in AEdge) {
+				AEdgeHeap.Insert(edge, _MinchinWeb_Extras_.MinDistance(edge, BTileList));
+			}
 			
 			//_MinchinWeb_Log_.Note("    B -- Tiles: " + _MinchinWeb_Array_.ToStringTiles1D(BTileArray), 7);
 			
-			AEdgeList.Valuate(_MinchinWeb_Extras_.MinDistance, BTileList);
-
 			//	Process the tile's 4 neighbours x12
-			local NeighbourLoops = 12;
-			AEdgeList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
-			AEdgeList.KeepTop(NeighbourLoops + 1);
-			for (local j=1; j <= min(AEdgeList.Count(), NeighbourLoops); j++) {
-				local NextNeighbour = AEdgeList.Begin();
-				AEdgeList.RemoveItem(NextNeighbour);
-				local AddedNeighbours = _AddNeighbour(NextNeighbour);
-				foreach (Tile in AddedNeighbours) {
-					if (Tile != null) {
-						AEdgeList.AddItem(Tile, _MinchinWeb_Extras_.MinDistance(Tile, BTileList));
+			for (local j=0; j < 12; j++) {
+				if (AEdgeHeap.Count() > 0) {
+					local NextNeighbour = AEdgeHeap.Pop();
+					local AddedNeighbours = _AddNeighbour(NextNeighbour);
+					foreach (Tile in AddedNeighbours) {
+						if (Tile != null) {
+							AEdgeHeap.Insert(Tile, _MinchinWeb_Extras_.MinDistance(Tile, BTileList));
+						}
 					}
 				}
-				AEdgeList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
 			}
 		} else {
 			//	With no 'open neighbours', there can be no more connections
@@ -336,34 +333,28 @@ function _MinchinWeb_Lakes_::FindPath(iterations) {
 		
 		if (BNeighbours.len() > 0) {
 			//	Get the tile from AEdge that is closest to BEdge
-			local BEdgeList = AIList();
-			foreach (neighbour in BNeighbours) {
-				BEdgeList.AddItem(neighbour[0], 0);
-			}
-			//local ATileArray = array(0);
 			local ATileList = AIList();
 			foreach (group in AAllGroups) {
 				ATileList.AddList(this._group_tiles[group]);
 			}
+			local BEdgeHeap = this._heap_class();
+			foreach (edge in BEdge) {
+				BEdgeHeap.Insert(edge, _MinchinWeb_Extras_.MinDistance(edge, ATileList));
+			}
 
 			//_MinchinWeb_Log_.Note("    A -- Tiles: " + _MinchinWeb_Array_.ToStringTiles1D(ATileArray), 7);
 			
-			BEdgeList.Valuate(_MinchinWeb_Extras_.MinDistance, ATileList);
-
 			//	Process the tile's 4 neighbours x12
-			local NeighbourLoops = 12;
-			BEdgeList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
-			BEdgeList.KeepTop(NeighbourLoops + 1);
-			for (local j=1; j <= min(BEdgeList.Count(), NeighbourLoops); j++) {
-				local NextNeighbour = BEdgeList.Begin();
-				BEdgeList.RemoveItem(NextNeighbour);
-				local AddedNeighbours = _AddNeighbour(NextNeighbour);
-				foreach (Tile in AddedNeighbours) {
-					if (Tile != null) {
-						BEdgeList.AddItem(Tile, _MinchinWeb_Extras_.MinDistance(Tile, ATileList));
+			for (local j=0; j < 12; j++) {
+				if (BEdgeHeap.Count() > 0) {
+					local NextNeighbour = BEdgeHeap.Pop();
+					local AddedNeighbours = _AddNeighbour(NextNeighbour);
+					foreach (Tile in AddedNeighbours) {
+						if (Tile != null) {
+							BEdgeHeap.Insert(Tile, _MinchinWeb_Extras_.MinDistance(Tile, ATileList));
+						}
 					}
 				}
-				BEdgeList.Sort(AIList.SORT_BY_VALUE, AIList.SORT_ASCENDING);
 			}
 		} else {
 			//	With no 'open neighbours', there can be no more connections
