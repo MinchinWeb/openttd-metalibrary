@@ -1,4 +1,4 @@
-﻿/*	Lakes Check v.3 [2014-03-02],
+﻿/*	Lakes Check v.3 [2014-03-05],
  *		part of Minchinweb's MetaLibrary v.7,
  *		replacement for WaterBody Check
  *	Copyright © 2011-14 by W. Minchin. For more info,
@@ -16,7 +16,7 @@
  */
 
 /**	\brief		Lakes
- *	\version	v.3 (2012-03-02)
+ *	\version	v.3 (2012-03-05)
  *	\author		W. Minchin (%MinchinWeb)
  *	\since		MetaLibrary v.7
  *
@@ -145,8 +145,6 @@ class _MinchinWeb_Lakes_ {
 		this._open_neighbours = array(0);
 		this._group_tiles = array(0);
 		this._running = false;
-		
-		_AddGridPoints();
 	};
 
 	/**	\publicsection
@@ -189,6 +187,7 @@ class _MinchinWeb_Lakes_ {
 	 *	\brief	Seeds the grid points to Lakes.
 	 *
 	 *	Called by the class initialization function.
+	 *	\see	PreSeed()
 	 */
 	function _AddGridPoints();
 	
@@ -220,6 +219,14 @@ class _MinchinWeb_Lakes_ {
 	 *	\return	An array of the neighbours added otherwise.
 	 */
 	function _AddNeighbour(NextTile);
+	
+	/**	\public
+	 *	\brief	Adds 'starter' tile groups across the map.
+	 *
+	 *	This inserts any tile that is water that falls on an 8x8 grid. This is
+	 *	not required to be run before using the class.
+	 */
+	function Preseed() {	this._AddGridPoints();	}
 };
 
 
