@@ -1,5 +1,7 @@
 var NAVTREEINDEX2 =
 {
+"main_8nut.html#a50b4dda1db35dab5d2c3cfa8dc92a211":[4,0,10,4],
+"main_8nut.html#a55989a67ccd0fb7046a6053f42d73abf":[4,0,10,10],
 "main_8nut.html#a8a82b23f37e9f1d35b0041668e5c02a0":[4,0,10,9],
 "main_8nut.html#a9cd288420f6916d6f80ef220806cd3ae":[4,0,10,2],
 "main_8nut.html#aa04defbef7742f7a640e7e4fc8d7dfc8":[4,0,10,11],
@@ -11,13 +13,14 @@ var NAVTREEINDEX2 =
 "main_8nut.html#af20c0ce9549502520f1ddc60cb4a8881":[4,0,10,12],
 "main_8nut_source.html":[4,0,10],
 "md_openttd-metalibrary_changelog.html":[1],
-"md_openttd-metalibrary_changelog.html#v1":[1,6],
-"md_openttd-metalibrary_changelog.html#v2":[1,5],
-"md_openttd-metalibrary_changelog.html#v3":[1,4],
-"md_openttd-metalibrary_changelog.html#v4":[1,3],
-"md_openttd-metalibrary_changelog.html#v5":[1,2],
-"md_openttd-metalibrary_changelog.html#v6":[1,1],
-"md_openttd-metalibrary_changelog.html#v7":[1,0],
+"md_openttd-metalibrary_changelog.html#v1":[1,7],
+"md_openttd-metalibrary_changelog.html#v2":[1,6],
+"md_openttd-metalibrary_changelog.html#v3":[1,5],
+"md_openttd-metalibrary_changelog.html#v4":[1,4],
+"md_openttd-metalibrary_changelog.html#v5":[1,3],
+"md_openttd-metalibrary_changelog.html#v6":[1,2],
+"md_openttd-metalibrary_changelog.html#v7":[1,1],
+"md_openttd-metalibrary_changelog.html#v8":[1,0],
 "pages.html":[],
 "todo.html":[2]
 };

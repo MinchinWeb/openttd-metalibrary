@@ -49,7 +49,7 @@ var searchData=
   ['_5fgridx',['_gridx',['../class___minchin_web___d_l_s__.html#a19c4032f4fb6ee8dab1fa2f1cd740bcd',1,'_MinchinWeb_DLS_']]],
   ['_5fgridy',['_gridy',['../class___minchin_web___d_l_s__.html#a093d7a19cf570dc8c7d9a0e6a7811204',1,'_MinchinWeb_DLS_']]],
   ['_5fgroup_5ftiles',['_group_tiles',['../class___minchin_web___lakes__.html#a30da830ab91f8b0f8d54c3c6a2629b59',1,'_MinchinWeb_Lakes_']]],
-  ['_5fheap_5fclass',['_heap_class',['../class___minchin_web___atlas__.html#a7ea29665124b7fc6639ba7393bff428e',1,'_MinchinWeb_Atlas_::_heap_class()'],['../class___minchin_web___ship_pathfinder__.html#aa5a19dca80132101e6636ac51caf97f1',1,'_MinchinWeb_ShipPathfinder_::_heap_class()']]],
+  ['_5fheap_5fclass',['_heap_class',['../class___minchin_web___atlas__.html#a7ea29665124b7fc6639ba7393bff428e',1,'_MinchinWeb_Atlas_::_heap_class()'],['../class___minchin_web___lakes__.html#aab40c96ce24cddcefec825e703abd88a',1,'_MinchinWeb_Lakes_::_heap_class()'],['../class___minchin_web___ship_pathfinder__.html#aa5a19dca80132101e6636ac51caf97f1',1,'_MinchinWeb_ShipPathfinder_::_heap_class()']]],
   ['_5fignorepairs',['_ignorepairs',['../class___minchin_web___atlas__.html#a16aae7265e29c4c8857de83ed676ba88',1,'_MinchinWeb_Atlas_']]],
   ['_5finfinity',['_infinity',['../class___minchin_web___extras__.html#a9110a9b6c85a5a5657df6fafa64e94fb',1,'_MinchinWeb_Extras_']]],
   ['_5finsertpoint',['_InsertPoint',['../class___minchin_web___ship_pathfinder__.html#a82946529dadb07c648622f26330cb615',1,'_MinchinWeb_ShipPathfinder_']]],

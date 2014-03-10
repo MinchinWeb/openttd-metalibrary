@@ -11,6 +11,7 @@ var NAVTREE =
       [ "Notes To Me                                                            ", "index.html#notes", null ]
     ] ],
     [ "Changelog", "md_openttd-metalibrary_changelog.html", [
+      [ "Version 8                                                                 ", "md_openttd-metalibrary_changelog.html#v8", null ],
       [ "Version 7                                                                 ", "md_openttd-metalibrary_changelog.html#v7", null ],
       [ "Version 6                                                                 ", "md_openttd-metalibrary_changelog.html#v6", null ],
       [ "Version 5                                                                 ", "md_openttd-metalibrary_changelog.html#v5", null ],
@@ -44,8 +45,8 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_array_8nut.html",
-"class___minchin_web___road_pathfinder__.html#a35d112c033d588246cf81a7d03683c45",
-"main_8nut.html#a8a82b23f37e9f1d35b0041668e5c02a0"
+"class___minchin_web___road_pathfinder__.html#a2b67b00be75e82cea634819a5cbe6230",
+"main_8nut.html#a50b4dda1db35dab5d2c3cfa8dc92a211"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

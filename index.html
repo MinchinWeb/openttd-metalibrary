@@ -36,7 +36,7 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">MinchinWeb&#39;s MetaLibrary
-   &#160;<span id="projectnumber">v.7</span>
+   &#160;<span id="projectnumber">v.8</span>
    </div>
    <div id="projectbrief">Library functions of OpenTTD AI writers.</div>
   </td>
@@ -170,25 +170,11 @@ Sub-Libraries Available                                         </h1>
 </li>
 </ul>
 <h1>Changelog </h1>
-<h3>Version 7</h3>
-<p>Released 2014-02-28</p>
+<h3>Version 8</h3>
+<p>Released 2014-03-10</p>
 <ul>
-<li>Added Lakes as a replacement for WaterBodyCheck</li>
-<li>Ship Pathfinder now uses Lakes rather than WaterBodyCheck</li>
-<li>Ship Pathfinder now makes sure every point is in the same waterbody before adding it to the path</li>
-<li>WaterBodyCheck is now deprecated</li>
-<li>Documentation for MetaLibrary is now online at <a href="http://minchin.ca/openttd-metalibrary">Minchin.ca</a></li>
-<li>Fix array creation bugs in Array.Create2D(), Array.Create3D()</li>
-<li>Added Array.RemoveDuplicates(Array)</li>
-<li>Added Array.ToAIList(Array)</li>
-<li>Added Extras.MinDistance(TileID, TargetArray); can be used as a valuator</li>
-<li>Split Constants from Extras (file only, function access remains the same)</li>
-<li>Split Industry from Extras (file only, function access remains the same)</li>
-<li>Split Station from Extras (file only, function access remains the same)</li>
-<li>Bumped maximum Log <code>Debug_Level</code> to 8</li>
-<li>Added separate Changelog file</li>
-<li>Rename <code>Readme.txt</code> to <code><a class="el" href="readme_8md.html">Readme.md</a></code></li>
-<li>Update requirement to Fibonacci Heap, v.3</li>
+<li>speed up Lakes by 9-30x</li>
+<li>Fix bug in Array.ToStringTiles2D()</li>
 </ul>
 <p>Read the complete <a href="md_openttd-metalibrary_changelog.html">Changelog</a>.</p>
 <h1><a class="anchor" id="installation"></a>
@@ -196,7 +182,7 @@ Installation                                                    </h1>
 <p>The easiest way install MetaLibrary is the use the in-game downloader in OpenTTD.</p>
 <p>If you want to manually install it, download the folder and place it in your <code>..\OpenTTD\ai\library\</code> folder.</p>
 <p>For you to use the library in your AI's you'll need to import it. Somewhere outside of any other class or function, add an import statement like: </p>
-<pre class="fragment">Import("util.MinchinWeb", "MinchinWeb", 7);
+<pre class="fragment">Import("util.MinchinWeb", "MinchinWeb", 8);
 </pre><h1><a class="anchor" id="requirements"></a>
 Requirements                                                    </h1>
 <p>If installed from the in-game downloader, the dependencies will automatically be downloaded and installed. Otherwise, you'll need the following libraries:</p>
@@ -225,7 +211,7 @@ FAQ                                                                      </h1>
 <p>A grand 'Thank You' to Zuu for his SuperLib that provided a very useful model, to all the NoAI team to their work on making the AI system work, and to everyone that has brought us the amazing game of OpenTTD.</p>
 <h1><a class="anchor" id="license"></a>
 License                                                              </h1>
-<p><b>Minchinweb's MetaLibrary</b> v.7 [2017-02-28]</p>
+<p><b>Minchinweb's MetaLibrary</b> v.8 [2017-03-10]</p>
 <p>Copyright © 2011-14 by W. Minchin. For more info, please visit <a href="https://github.com/MinchinWeb/openttd-metalibrary">https://github.com/MinchinWeb/openttd-metalibrary</a></p>
 <p>Permission is granted to you to use, copy, modify, merge, publish, distribute, sublicense, and/or sell this software, and provide these rights to others, provided:</p>
 <ul>
@@ -254,7 +240,7 @@ Notes To Me                                                            </h1>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Mar 1 2014 17:14:02 for MinchinWeb&#39;s MetaLibrary by
+    <li class="footer">Generated on Mon Mar 10 2014 14:57:53 for MinchinWeb&#39;s MetaLibrary by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
