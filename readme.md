@@ -63,28 +63,12 @@ Sub-Libraries Available                                         {#sublibraries}
 
 Changelog
 ===============================================================================
-### Version 7
+### Version 8
 
-Released 2014-02-28
+Released 2014-03-10
 
-- Added Lakes as a replacement for WaterBodyCheck
-- Ship Pathfinder now uses Lakes rather than WaterBodyCheck
-- Ship Pathfinder now makes sure every point is in the same waterbody before
-    adding it to the path
-- WaterBodyCheck is now deprecated
-- Documentation for MetaLibrary is now online at
-    [Minchin.ca](http://minchin.ca/openttd-metalibrary)
-- Fix array creation bugs in Array.Create2D(), Array.Create3D()
-- Added Array.RemoveDuplicates(Array)
-- Added Array.ToAIList(Array)
-- Added Extras.MinDistance(TileID, TargetArray); can be used as a valuator
-- Split Constants from Extras (file only, function access remains the same)
-- Split Industry from Extras (file only, function access remains the same)
-- Split Station from Extras (file only, function access remains the same)
-- Bumped maximum Log `Debug_Level` to 8
-- Added separate Changelog file
-- Rename `Readme.txt` to `Readme.md`
-- Update requirement to Fibonacci Heap, v.3
+- speed up Lakes by 9-30x
+- Fix bug in Array.ToStringTiles2D()
 
 Read the complete [Changelog](md_openttd-metalibrary_changelog.html).
 
@@ -100,7 +84,7 @@ If you want to manually install it, download the folder and place it in your
 For you to use the library in your AI's you'll need to import it. Somewhere
 outside of any other class or function, add an import statement like:
 
-    Import("util.MinchinWeb", "MinchinWeb", 7);
+    Import("util.MinchinWeb", "MinchinWeb", 8);
 
 Requirements                                                    {#requirements}
 ===============================================================================
@@ -166,7 +150,7 @@ A grand 'Thank You' to Zuu for his SuperLib that provided a very useful
 License                                                              {#license}
 ===============================================================================
 
-**Minchinweb's MetaLibrary** v.7 [2017-02-28]
+**Minchinweb's MetaLibrary** v.8 [2017-03-10]
 
 Copyright © 2011-14 by W. Minchin.
 For more info,

@@ -1,4 +1,4 @@
-﻿/*	Minchinweb's MetaLibrary v.7 [2014-02-28],  
+﻿/*	Minchinweb's MetaLibrary v.8 [2014-03-10],  
  *		originally part of, WmDOT v.10
  *	Copyright © 2011-14 by W. Minchin. For more info,
  *		please visit https://github.com/MinchinWeb/openttd-metalibrary
@@ -42,7 +42,7 @@ require("Station.nut");
  *	This is the main class of the Library. It will be renamed on importing the
  *	library into your AI.
  *
- *		Import("util.MinchinWeb", "[your_access_name]", 7);
+ *		Import("util.MinchinWeb", "[your_access_name]", 8);
  *
  *	(Don't really use `[your_access_name]`, use something that is easy enough
  *	to type and will remind you of where the functions are coming from. I like
