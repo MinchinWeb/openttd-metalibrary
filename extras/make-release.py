@@ -50,7 +50,7 @@ mdReplacements =	('%MinchinWeb', 'MinchinWeb'), \
 					('←', '<-')
 					
 aiReplacements = \
-	('"queue.fibonacci_heap", "", 3);'	  ,'"queue.fibonacci_heap", "", 2' ), \
+	('"queue.fibonacci_heap", "", 3);'	  ,'"queue.fibonacci_heap", "", 2);' ), \
 	('Fibonacci Heap v.3'				  ,'Fibonacci Heap v.2'			   ), \
 	("AIAccounting"						  ,"GSAccounting"                  ), \
 	("AIAirport"                          ,"GSAirport"                     ), \
