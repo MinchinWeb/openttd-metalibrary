@@ -63,12 +63,11 @@ Sub-Libraries Available                                         {#sublibraries}
 
 Changelog
 ===============================================================================
-### Version 8
+### Version 9
 
-Released 2014-03-10
+Released 2015-01-04
 
-- speed up Lakes by 9-30x
-- Fix bug in Array.ToStringTiles2D()
+- bug fix to Python build script (specifially, fix NoGo library version)
 
 Read the complete [Changelog](md_openttd-metalibrary_changelog.html).
 
@@ -84,7 +83,7 @@ If you want to manually install it, download the folder and place it in your
 For you to use the library in your AI's you'll need to import it. Somewhere
 outside of any other class or function, add an import statement like:
 
-    Import("util.MinchinWeb", "MinchinWeb", 8);
+    Import("util.MinchinWeb", "MinchinWeb", 9);
 
 Requirements                                                    {#requirements}
 ===============================================================================
@@ -150,9 +149,9 @@ A grand 'Thank You' to Zuu for his SuperLib that provided a very useful
 License                                                              {#license}
 ===============================================================================
 
-**Minchinweb's MetaLibrary** v.8 [2017-03-10]
+**Minchinweb's MetaLibrary** v.9 [2015-01-04]
 
-Copyright © 2011-14 by W. Minchin.
+Copyright © 2011-15 by W. Minchin.
 For more info,
     please visit <https://github.com/MinchinWeb/openttd-metalibrary>
 
@@ -181,8 +180,8 @@ Links                                                                  {#links}
 Notes To Me                                                            {#notes}
 ===============================================================================
 \todo       Notes about static classes, what they are, and which classes
-            are 'static'
-\todo       Consider Fibonacci Heap version in NoCAB
-\todo       Add picture of in game downloader
-\todo       Look into theming dOxygen output
-\todo       Add 'News' tab pointing back to my Blog updates on MetaLibrary
+            are 'static'  
+\todo       Consider Fibonacci Heap version in NoCAB  
+\todo       Add picture of in game downloader  
+\todo       Look into theming dOxygen output  
+\todo       Add 'News' tab pointing back to my Blog updates on MetaLibrary  
