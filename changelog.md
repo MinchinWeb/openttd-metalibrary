@@ -3,9 +3,10 @@ Changelog
 
 Version 9                                                                 {#v9}
 ===============================================================================
-Released 2015-01-04
+Released 2015-01-10
 
-- bug fix to Python build script (specifially, fix NoGo library version)
+- bug fix to Python build script (specifically, fix NoGo library version)
+- update build script to work with Python 3000
 
 Version 8                                                                 {#v8}
 ===============================================================================

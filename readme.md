@@ -65,9 +65,10 @@ Changelog
 ===============================================================================
 ### Version 9
 
-Released 2015-01-04
+Released 2015-01-10
 
-- bug fix to Python build script (specifially, fix NoGo library version)
+- bug fix to Python build script (specifically, fix NoGo library version)
+- update build script to work with Python 3000
 
 Read the complete [Changelog](md_openttd-metalibrary_changelog.html).
 
@@ -78,7 +79,7 @@ The easiest way install MetaLibrary is the use the in-game downloader in
 OpenTTD.
 
 If you want to manually install it, download the folder and place it in your
-`..\OpenTTD\ai\library\` folder.
+`../OpenTTD/ai/library/` folder.
 
 For you to use the library in your AI's you'll need to import it. Somewhere
 outside of any other class or function, add an import statement like:
@@ -96,8 +97,8 @@ following libraries:
 - [Fibonacci Heap], v.3 (`Queue.FibonacciHeap-3.tar`)
 - [Graph.AyStar], v.6   (`Graph.AyStar-6.tar`)
 
-[Binary Heap]: http://binaries.openttd.org/bananas/ailibrary/Queue.BinaryHeap-1.tar.gz
-[Graph.AyStar]: http://binaries.openttd.org/bananas/ailibrary/Graph.AyStar-6.tar.gz
+[Binary Heap]: http://binaries.openttd.org/bananas/ailibrary/Queue.BinaryHeap-1-1.tar.gz
+[Graph.AyStar]: http://binaries.openttd.org/bananas/ailibrary/Graph.AyStar-6-1.tar.gz
 [Fibonacci Heap]: http://binaries.openttd.org/bananas/ailibrary/Queue.FibonacciHeap-3.tar.gz
 
 OpenTTD is able to read uncompressed `tar` files without any problem.
@@ -110,7 +111,7 @@ FAQ                                                                      {#faq}
 **A:**  Import the main library, and then create global points to the
         sub-libaries you want to use. Eg:
 ~~~ 
-        Import("util.MinchinWeb", "MinchinWeb", 7);
+        Import("util.MinchinWeb", "MinchinWeb", 9);
         Arrays <- MinchinWeb.Arrays;
 ~~~
 *Info:* See the sub-library files for the functions available and their
@@ -149,7 +150,7 @@ A grand 'Thank You' to Zuu for his SuperLib that provided a very useful
 License                                                              {#license}
 ===============================================================================
 
-**Minchinweb's MetaLibrary** v.9 [2015-01-04]
+**Minchinweb's MetaLibrary** v.9 [2015-01-10]
 
 Copyright © 2011-15 by W. Minchin.
 For more info,

@@ -48,7 +48,7 @@ def multiple_replacer(*key_values):
     # Do you love tea? No, I prefer café.
     replace_dict = dict(key_values)
     replacement_function = lambda match: replace_dict[match.group(0)]
-    pattern = re.compile("|".join([re.escape(k) for k, v in key_values]), re.M | re.I)
+    pattern = re.compile("|".join([re.escape(k) for k, v in key_values]), re.M)
     return lambda string: pattern.sub(replacement_function, string)
 
 
@@ -59,6 +59,13 @@ mdReplacements = ('%MinchinWeb', 'MinchinWeb'), \
                  ('\_', '_'), \
                  ('←', '<-')
 
+aimdReplacements = \
+    ('v.3 (`Queue.FibonacciHeap-3.tar`)', 'v.2 (`Queue.FibonacciHeap-2.tar`)'), \
+    (' http://binaries.openttd.org/bananas/ailibrary/Queue.BinaryHeap-1-1.tar.gz', 'http://binaries.openttd.org/bananas/gslibrary/Queue.BinaryHeap-1-2.tar.gz'), \
+    ('http://binaries.openttd.org/bananas/ailibrary/Graph.AyStar-6-1.tar.gz','http://binaries.openttd.org/bananas/gslibrary/Graph.AyStar-6-2.tar.gz'), \
+    ('http://binaries.openttd.org/bananas/ailibrary/Queue.FibonacciHeap-3.tar.gz', 'http://binaries.openttd.org/bananas/gslibrary/Queue.FibonacciHeap-2-2.tar.gz'), \
+    ('`../OpenTTD/ai/library/`'           , '`../OpenTTD/gs/library/`'     )
+                 
 aiReplacements = \
     ('"queue.fibonacci_heap", "", 3);'    ,'"queue.fibonacci_heap", "", 2);' ), \
     ('Fibonacci Heap v.3'                 ,'Fibonacci Heap v.2'            ), \
@@ -215,7 +222,9 @@ with tarfile.open(name=TarFileName, mode='w') as MyTarFile:
                     FileData = FileOpen.read()
                 FileDataFixed = ''
                 for line in str(FileData).replace('\r','').split('\n'):
-                    FileDataFixed = FileDataFixed + multiple_replace(line, *mdReplacements) + '\r\n'
+                    line2 = multiple_replace(line, *mdReplacements)
+                    line3 = multiple_replace(line2, *aimdReplacements)
+                    FileDataFixed = FileDataFixed + line3 + '\r\n'
                     LineCount += 1
                 FileDataFixed = FileDataFixed.encode('utf-8')
                 with codecs.open(join(TempDir, File2), mode='wb') as TempFile:
