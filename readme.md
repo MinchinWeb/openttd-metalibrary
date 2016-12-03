@@ -176,7 +176,7 @@ Links                                                                  {#links}
 -   MetaLibrary code, hosted on GitHub -- 
     <https://github.com/MinchinWeb/openttd-metalibrary/>
 -   MetaLibrary documentation -- 
-    <http://minchin.ca/opettd-metalibrary/>
+    <http://minchin.ca/openttd-metalibrary/>
 
 Notes To Me                                                            {#notes}
 ===============================================================================
